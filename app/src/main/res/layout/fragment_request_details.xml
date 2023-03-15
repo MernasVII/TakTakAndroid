@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/yellowToBG"
+    tools:context=".uis.common.RequestDetailsFragment">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Request Form"
+            android:textColor="@color/orangeToYellow"
+            android:textSize="28dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Date and Time"
+            android:textColor="@color/BGToLB"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_datetime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:gravity="center"
+            android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/BGToLB"
+            android:fontFamily="@font/poppins_regular"
+            android:text="19/11/2022 at 10:00"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Location"
+            android:textColor="@color/BGToLB"
+            android:textSize="14sp" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:gravity="center"
+            android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/BGToLB"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Av. Fethi Zouhir, Ariana 2083"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Type of service"
+            android:textColor="@color/BGToLB"
+            android:textSize="14sp" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_tos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:gravity="center"
+            android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/BGToLB"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Repair"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Description of request"
+            android:textColor="@color/BGToLB"
+            android:textSize="14sp" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:maxLines="5"
+            android:gravity="center"
+            android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/orangeToLB"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ipsum dolor sit amet, consectetur ipsum dolor sit amet, consectetur ut labore et dolore magna aliqua.."
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:paddingTop="10dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_makeBid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Make a Bid"
+            android:textColor="@color/white"
+            android:fontFamily="@font/poppins_semibold"
+            android:textSize="16sp"
+            android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/LBToOrange"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="30dp"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</ScrollView>
