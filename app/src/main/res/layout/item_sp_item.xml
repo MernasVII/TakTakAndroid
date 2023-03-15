@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="15dp"
+    android:background="@drawable/list_item_bg"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="7dp"
+    android:layout_marginEnd="7dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:scaleType="centerCrop"
+        android:layout_gravity="center"
+        android:src="@drawable/defpdp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_spInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="vertical"
+        android:layout_weight="0.5">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="0.5"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Foulen El Fouleni"
+            android:textColor="@color/darkGrey"
+            android:textSize="14dp" />
+        <TextView
+            android:id="@+id/tv_tos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_weight="0.6"
+            android:fontFamily="@font/poppins_regular"
+            android:text="Plumber"
+            android:textColor="@color/grey"
+            android:textSize="14dp" />
+        <TextView
+            android:id="@+id/tv_timeLoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="0.5"
+            android:fontFamily="@font/poppins_regular"
+            android:text="20/11/2022 in Ariana"
+            android:textColor="@color/grey"
+            android:textSize="12dp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <TextView
+        android:id="@+id/tv_bidCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_gravity="center"
+        android:background="@drawable/round_item_bg"
+        android:fontFamily="@font/poppins_regular"
+        android:padding="10dp"
+        android:text="Bids: 13"
+        android:textColor="@color/white"
+        android:textSize="12dp" />
+</androidx.appcompat.widget.LinearLayoutCompat>
