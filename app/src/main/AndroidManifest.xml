@@ -14,26 +14,27 @@
         android:theme="@style/Theme.TakTakAndroid"
         tools:targetApi="31">
         <activity
-            android:name=".ResetPwdActivity"
+            android:name=".uis.common.ResetPwdActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterTwoActivity"
+            android:name=".uis.common.RegisterTwoActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterOneActivity"
+            android:name=".uis.common.RegisterOneActivity"
             android:exported="false" />
         <activity
-            android:name=".OTPActivity"
+            android:name=".uis.common.OTPActivity"
             android:exported="false" />
         <activity
-            android:name=".EmailForgotPwdActivity"
+            android:name=".uis.common.EmailForgotPwdActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".uis.common.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".uis.SplashActivity"
-            android:exported="true">
+            android:theme="@style/SplashTheme"
+        android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
