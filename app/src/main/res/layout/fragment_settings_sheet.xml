@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sheet_background"
+    android:gravity="center_horizontal"
+
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".uis.common.sheets.SettingsSheet">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center"
+        android:text="@string/settings"
+        android:textColor="@color/orangeToLB"
+        android:textSize="35dp" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnNotif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:fontFamily="@font/poppins_medium"
+        android:insetTop="0dp"
+
+        android:insetBottom="0dp"
+        android:letterSpacing="0"
+        android:text="@string/notifications"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:backgroundTint="@color/orangeToLB"
+        app:cornerRadius="24dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/rounded_corners_white_bg"
+        android:orientation="horizontal"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center|start"
+            android:text="Theme"
+            android:textColor="@color/darkBlue"
+            android:textSize="17dp" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            style="@style/Widget.App.Switch"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="false"
+            android:gravity="end|center"
+            app:showText="false"
+            app:thumbTint="@color/white"
+            app:trackTint="@color/orangeToLB" />
+
+    </LinearLayout>
+
+
+    <androidx.appcompat.widget.AppCompatSpinner
+        android:id="@+id/spLang"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/rounded_corners_white_bg"
+        android:fontFamily="@font/poppins_medium"
+        android:spinnerMode="dropdown"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:backgroundTint="@color/orangeToLB" />
+
+
+</LinearLayout>

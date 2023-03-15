@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sheet_background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".uis.common.sheets.RequestDetailsSheet">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center"
+        android:text="@string/request_from"
+        android:textColor="@color/orangeToLB"
+        android:textSize="35dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/date_and_time"
+        android:textColor="@color/orangeToLB"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tl_DateTime"
+        style="@style/OutlinedBoxOrangeLB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:autoSizeTextType="uniform"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="24dp"
+        app:boxCornerRadiusBottomStart="24dp"
+        app:boxCornerRadiusTopEnd="24dp"
+        app:boxCornerRadiusTopStart="24dp"
+        app:boxStrokeWidth="1dp"
+        app:hintEnabled="true"
+        app:startIconDrawable="@drawable/ic_calendar"
+        app:startIconTint="@color/orangeToLB">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_DateTime"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="false"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/poppins_medium"
+            android:inputType="textPersonName"
+            android:text="3/30/2023 5:00 PM"
+            android:textColor="@color/grey"
+            android:textSize="16dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/address"
+        android:textColor="@color/orangeToLB"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tl_Address"
+        style="@style/OutlinedBoxOrangeLB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="24dp"
+        app:boxCornerRadiusBottomStart="24dp"
+        app:boxCornerRadiusTopEnd="24dp"
+        app:boxCornerRadiusTopStart="24dp"
+        app:boxStrokeWidth="1dp"
+        app:hintEnabled="true"
+        app:startIconDrawable="@drawable/ic_location"
+        app:startIconTint="@color/orangeToLB">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_Address"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusable="false"
+
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/poppins_medium"
+            android:inputType="textMultiLine"
+            android:text="Ariana, Cebbalet Ammar 8060"
+            android:textColor="@color/grey"
+            android:textSize="16dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/type_of_service"
+        android:textColor="@color/orangeToLB"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/OutlinedBoxOrangeLB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="24dp"
+        app:boxCornerRadiusBottomStart="24dp"
+        app:boxCornerRadiusTopEnd="24dp"
+        app:boxCornerRadiusTopStart="24dp"
+        app:boxStrokeWidth="1dp"
+        app:hintEnabled="true"
+        app:startIconDrawable="@drawable/ic_speciality"
+        app:startIconTint="@color/orangeToLB">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_tos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoSizeTextType="uniform"
+            android:focusable="false"
+
+            android:fontFamily="@font/poppins_medium"
+            android:text="Maintenance"
+            android:textColor="@color/grey"
+            android:textSize="16dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:autoSizeTextType="uniform"
+
+        android:fontFamily="@font/poppins_medium"
+        android:text="@string/description_of_request"
+        android:textColor="@color/orangeToLB"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/OutlinedBoxOrangeLB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="40dp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="24dp"
+        app:boxCornerRadiusBottomStart="24dp"
+        app:boxCornerRadiusTopEnd="24dp"
+        app:boxCornerRadiusTopStart="24dp"
+        app:boxStrokeWidth="1dp"
+        app:hintEnabled="true"
+        app:startIconDrawable="@drawable/ic_description"
+        app:startIconTint="@color/orangeToLB">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:autoSizeTextType="uniform"
+            android:focusable="false"
+
+            android:fontFamily="@font/poppins_medium"
+            android:inputType="textMultiLine"
+            android:text="Thsi is lorem a descrip of this request book today for ma yfriend ali"
+            android:textColor="@color/grey"
+            android:textSize="16dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/poppins_medium"
+    android:textSize="16dp"
+    android:paddingStart="40dp"
+    android:gravity="center"
+    android:paddingEnd="20dp"
+    android:textColor="@color/orangeToLB"
+    app:drawableTint="@color/orangeToLB"
+    app:drawableEndCompat="@drawable/ic_arrow_down" />
