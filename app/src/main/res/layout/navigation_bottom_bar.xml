@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:layout_margin="0dp"
+    android:background="@drawable/navigation_bottom_bar_corners"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/tv_providers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_people_outline"
+        android:gravity="center_horizontal"
+        android:padding="4dp"
+        android:textColor="@android:color/white"
+        android:onClick="showSPsFragment"/>
+    <!--android:text="Providers"-->
+
+    <TextView
+        android:id="@+id/tv_apts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_calendar_outline"
+        android:drawableTint="@color/white"
+        android:gravity="center_horizontal"
+        android:padding="4dp"
+        android:textColor="@android:color/white"
+        android:onClick="showAptsFragment"/>
+    <!--android:text="Appointments"-->
+    <TextView
+        android:id="@+id/tv_reqs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_work_outline"
+        android:gravity="center_horizontal"
+        android:padding="4dp"
+        android:textColor="@android:color/white" />
+    <!--android:text="Requests"-->
+    <TextView
+        android:id="@+id/tv_notifs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_bell_outline"
+        android:gravity="center_horizontal"
+        android:padding="4dp"
+        android:textColor="@android:color/white" />
+    <!--android:text="Notifications"-->
+
+    <TextView
+        android:id="@+id/tv_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:drawableTop="@drawable/ic_person_outline"
+        android:gravity="center_horizontal"
+        android:padding="4dp"
+        android:textColor="@android:color/white" />
+    <!--android:text="Profile"-->
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -2,59 +2,56 @@ package tn.esprit.taktakandroid.uis.common
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.ImageView
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.uis.sp.PendingAptsFragment
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class AptsFragment : Fragment(R.layout.fragment_apts) {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AptsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AptsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private val pendingAptsFragment = PendingAptsFragment()
+    private val archivedAptsFragment = ArchivedAptsFragment()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var ivPending: ImageView
+    private lateinit var ivArchive: ImageView
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        ivPending = view.findViewById(R.id.iv_pending)
+        ivArchive = view.findViewById(R.id.iv_archive)
+
+        /*val lytSearch = view.findViewById<TextInputLayout>(R.id.lyt_search)
+        val etSearch = view.findViewById<TextInputEditText>(R.id.et_search)
+
+        etSearch.onFocusChangeListener = View.OnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                lytSearch.hint = null
+            } else {
+                lytSearch.hint = "Search"
+            }
+        }*/
+
+        ivPending.setOnClickListener{
+            navigateToPendingApts()
+        }
+        ivArchive.setOnClickListener{
+            navigateToArchivedApts()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_apts, container, false)
+    private fun navigateToArchivedApts() {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.fragment_container, pendingAptsFragment)
+        transaction?.addToBackStack(null)
+        transaction?.commit()
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AptsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AptsFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun navigateToPendingApts() {
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.fragment_container, archivedAptsFragment)
+        transaction?.addToBackStack(null)
+        transaction?.commit()
     }
 }

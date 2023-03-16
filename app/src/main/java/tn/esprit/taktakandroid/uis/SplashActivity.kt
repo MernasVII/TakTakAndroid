@@ -3,7 +3,6 @@ package tn.esprit.taktakandroid.uis
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.uis.common.LoginActivity
 
 class SplashActivity : AppCompatActivity() {
