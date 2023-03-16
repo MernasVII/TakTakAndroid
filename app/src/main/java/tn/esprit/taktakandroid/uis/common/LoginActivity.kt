@@ -17,9 +17,13 @@ class LoginActivity : AppCompatActivity() {
         btnLogin=findViewById(R.id.btn_login)
 
         btnLogin.setOnClickListener{
-            var intent= Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
+            doLogin()
         }
+    }
+
+    private fun doLogin() {
+        var intent= Intent(this, HomeActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

@@ -16,9 +16,13 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
         ivLogout = view.findViewById(R.id.iv_logout)
 
         ivLogout.setOnClickListener{
-            var intent= Intent(requireActivity(), LoginActivity::class.java)
-            startActivity(intent)
-            requireActivity().finish()
+            doLogout()
         }
+    }
+
+    private fun doLogout() {
+        var intent= Intent(requireActivity(), LoginActivity::class.java)
+        startActivity(intent)
+        requireActivity().finish()
     }
 }
