@@ -8,26 +8,27 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentAddRequestBinding
 
 class AddRequestFragment : Fragment() {
 
-
+    private lateinit var mainView: FragmentAddRequestBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view=inflater.inflate(R.layout.fragment_add_request, container, false)
-        setupTosSpinner(view)
-        return view
+        mainView = FragmentAddRequestBinding.inflate(layoutInflater, container, false)
+        setupTosSpinner()
+        return mainView.root
     }
 
-    private fun setupTosSpinner(view:View) {
+    private fun setupTosSpinner() {
         val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
             R.layout.spinner_item_tos,
-            listOf("Installation", "Repair","Maintenance")
+            listOf("Installation", "Repair", "Maintenance")
         )
         adapter.setDropDownViewResource(R.layout.spinner_custom_dropdown)
-        view.findViewById<Spinner>(R.id.spService).adapter = adapter
+        mainView.spService.adapter = adapter
     }
 }

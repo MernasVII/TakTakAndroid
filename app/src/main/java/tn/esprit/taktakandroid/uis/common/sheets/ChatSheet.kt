@@ -27,24 +27,31 @@ class ChatSheet : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (dialog as? BottomSheetDialog)?.behavior!!.state = BottomSheetBehavior.STATE_EXPANDED
-        (dialog as? BottomSheetDialog)?.behavior!!.skipCollapsed=true
         mainView = FragmentChatSheetBinding.inflate(layoutInflater, container, false)
 
+        dialogBehavior()
         scrollToBottomWhenTyping()
         isKeyboardDisplayed()
         setupRecycler()
         return mainView.root
     }
 
-    private fun scrollToBottomWhenTyping(){
+    private fun dialogBehavior() {
+        (dialog as? BottomSheetDialog)?.behavior!!.apply {
+            state = BottomSheetBehavior.STATE_EXPANDED
+            skipCollapsed = true
+        }
+    }
+
+    private fun scrollToBottomWhenTyping() {
         mainView.etMsgContent.doOnTextChanged { _, _, _, _ ->
             mainView.rvChat.scrollToPosition(
                 getMessages().size - 1
             )
         }
     }
-    private fun isKeyboardDisplayed(){
+
+    private fun isKeyboardDisplayed() {
         mainView.root.viewTreeObserver
             .addOnGlobalLayoutListener {
 
@@ -54,7 +61,7 @@ class ChatSheet : BottomSheetDialogFragment() {
                 val heightDiff = mainView.root.rootView.height - r.height();
                 if (heightDiff > 0.25 * mainView.root.rootView.height
                 ) {
-                    mainView.tlContent.hint=""
+                    mainView.tlContent.hint = ""
                     mainView.rvChat.scrollToPosition(
                         getMessages().size - 1
                     )
@@ -64,8 +71,10 @@ class ChatSheet : BottomSheetDialogFragment() {
     }
 
     private fun setupRecycler() {
-        mainView.rvChat.adapter = chatAdapter
-        mainView.rvChat.layoutManager = LinearLayoutManager(this.context)
+        mainView.rvChat.apply {
+            adapter = chatAdapter
+            layoutManager = LinearLayoutManager(this.context)
+        }
         chatAdapter.diff.submitList(getMessages())
         mainView.rvChat.scrollToPosition(getMessages().size - 1)
     }

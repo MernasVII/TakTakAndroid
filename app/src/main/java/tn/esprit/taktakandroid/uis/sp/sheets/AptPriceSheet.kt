@@ -11,24 +11,23 @@ import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.shawnlin.numberpicker.NumberPicker
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentAptPriceSheetBinding
 
 
 class AptPriceSheet : BottomSheetDialogFragment() {
-
+    private lateinit var mainView: FragmentAptPriceSheetBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_apt_price_sheet, container, false)
+        mainView = FragmentAptPriceSheetBinding.inflate(layoutInflater, container, false)
 
-        view.findViewById<Button>(R.id.btnProceed).setOnClickListener {
+        mainView.btnProceed.setOnClickListener {
             dismiss()
         }
 
-        return view
+        return mainView.root
     }
-
-
 
 
     override fun onDismiss(dialog: DialogInterface) {

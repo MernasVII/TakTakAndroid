@@ -9,19 +9,21 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentUpdatePasswordSheetBinding
 
 
 class UpdatePasswordSheet : BottomSheetDialogFragment() {
 
-
+    private lateinit var mainView: FragmentUpdatePasswordSheetBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =inflater.inflate(R.layout.fragment_update_password_sheet, container, false)
-        view.findViewById<Button>(R.id.btnSaveChanges).setOnClickListener { dismiss() }
-        return view
+        mainView = FragmentUpdatePasswordSheetBinding.inflate(layoutInflater, container, false)
+        mainView.btnSaveChanges.setOnClickListener { dismiss() }
+        return mainView.root
     }
+
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         Log.d("Debug", "dissmised onDismiss")
@@ -31,7 +33,6 @@ class UpdatePasswordSheet : BottomSheetDialogFragment() {
         super.onDestroy()
         Log.d("Debug", "dissmised onDestroy")
     }
-
 
 
 }
