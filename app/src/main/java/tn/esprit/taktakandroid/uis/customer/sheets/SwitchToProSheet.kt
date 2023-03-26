@@ -12,22 +12,31 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentSwitchToProSheetBinding
 
 
 class SwitchToProSheet : BottomSheetDialogFragment() {
-
+    private lateinit var mainView: FragmentSwitchToProSheetBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (dialog as? BottomSheetDialog)?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
-        (dialog as? BottomSheetDialog)?.behavior?.isDraggable = false
-        val view =inflater.inflate(R.layout.fragment_switch_to_pro_sheet, container, false)
-        view.findViewById<Button>(R.id.btnSaveChanges).setOnClickListener { dismiss() }
 
-        return view
+        mainView = FragmentSwitchToProSheetBinding.inflate(layoutInflater, container, false)
+        setupSheetBehaivor()
+        mainView.btnSaveChanges.setOnClickListener { dismiss() }
+
+        return mainView.root
     }
+
+    private fun setupSheetBehaivor() {
+        (dialog as? BottomSheetDialog)?.behavior?.apply {
+            state = BottomSheetBehavior.STATE_EXPANDED
+            isDraggable = false
+        }
+    }
+
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         Log.d("Debug", "dissmised onDismiss")
@@ -37,7 +46,6 @@ class SwitchToProSheet : BottomSheetDialogFragment() {
         super.onDestroy()
         Log.d("Debug", "dissmised onDestroy")
     }
-
 
 
 }

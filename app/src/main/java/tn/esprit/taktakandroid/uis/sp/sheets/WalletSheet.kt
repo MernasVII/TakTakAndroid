@@ -9,18 +9,19 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentWalletSheetBinding
 
 
 class WalletSheet : BottomSheetDialogFragment() {
 
-
+private lateinit var mainView:FragmentWalletSheetBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =inflater.inflate(R.layout.fragment_wallet_sheet, container, false)
-        view.findViewById<Button>(R.id.btnWithdraw).setOnClickListener { dismiss() }
-        return view
+        mainView =FragmentWalletSheetBinding.inflate(layoutInflater, container, false)
+        mainView.btnWithdraw.setOnClickListener { dismiss() }
+        return mainView.root
     }
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)

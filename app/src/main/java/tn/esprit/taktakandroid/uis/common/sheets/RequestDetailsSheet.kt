@@ -12,19 +12,25 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentRequestDetailsBinding
 
 class RequestDetailsSheet : BottomSheetDialogFragment() {
-
+    private lateinit var mainView: FragmentRequestDetailsBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (dialog as? BottomSheetDialog)?.behavior?.state = BottomSheetBehavior.STATE_EXPANDED
-        (dialog as? BottomSheetDialog)?.behavior?.isDraggable = false
-        val view = inflater.inflate(R.layout.fragment_request_details_sheet, container, false)
+        setupDialogBehaivor()
+        mainView = FragmentRequestDetailsBinding.inflate(layoutInflater, container, false)
+        return mainView.root
+    }
 
-        return view
+    private fun setupDialogBehaivor() {
+        (dialog as? BottomSheetDialog)?.behavior?.apply {
+            state = BottomSheetBehavior.STATE_EXPANDED
+            isDraggable = false
+        }
     }
 
     override fun onDismiss(dialog: DialogInterface) {

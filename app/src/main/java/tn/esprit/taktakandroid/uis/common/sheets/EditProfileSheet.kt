@@ -9,17 +9,20 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentChatSheetBinding
+import tn.esprit.taktakandroid.databinding.FragmentEditProfileSheetBinding
 
 
 class EditProfileSheet : BottomSheetDialogFragment() {
+    private lateinit var mainView: FragmentEditProfileSheetBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =inflater.inflate(R.layout.fragment_edit_profile_sheet, container, false)
-        view.findViewById<Button>(R.id.btnSaveChanges).setOnClickListener { dismiss() }
-        return view
+        mainView = FragmentEditProfileSheetBinding.inflate(layoutInflater, container, false)
+        mainView.btnSaveChanges.setOnClickListener { dismiss() }
+        return mainView.root
     }
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)

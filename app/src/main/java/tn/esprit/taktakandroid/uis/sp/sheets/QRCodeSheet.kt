@@ -13,18 +13,19 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentQRCodeSheetBinding
 
 
 class QRCodeSheet : BottomSheetDialogFragment() {
-
+    private lateinit var mainView: FragmentQRCodeSheetBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_q_r_code_sheet, container, false)
+        mainView = FragmentQRCodeSheetBinding.inflate(layoutInflater, container, false)
 
-        generateQrCode("content",view)
-        return view
+        generateQrCode("content")
+        return mainView.root
     }
 
     private fun getScreenMetrics(): Pair<Int, Int> {
@@ -51,7 +52,7 @@ class QRCodeSheet : BottomSheetDialogFragment() {
         return Pair(height, width)
     }
 
-    private fun generateQrCode(qrcodeString: String, view :View) {
+    private fun generateQrCode(qrcodeString: String) {
         val barcodeEncoder = BarcodeEncoder()
         val bitmap =
             barcodeEncoder.encodeBitmap(
@@ -60,8 +61,7 @@ class QRCodeSheet : BottomSheetDialogFragment() {
                 getScreenMetrics().second,
                 getScreenMetrics().first / 2
             )
-        val imageViewQrCode: ImageView = view.findViewById(R.id.idIVQrcode) as ImageView
-        imageViewQrCode.setImageBitmap(bitmap)
+        mainView.idIVQrcode.setImageBitmap(bitmap)
     }
 
 

@@ -11,33 +11,37 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.shawnlin.numberpicker.NumberPicker
 
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentPostponeAptSheetBinding
 
 
 class PostponeAptSheet : BottomSheetDialogFragment() {
-    private lateinit var numberPicker: NumberPicker
+
+    private lateinit var mainView: FragmentPostponeAptSheetBinding
     private val data = arrayOf("5", "10", "15", "20", "25", "30")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_postpone_apt_sheet, container, false)
-        setupPicker(view)
-        view.findViewById<Button>(R.id.btnPostpone).setOnClickListener {
-            Log.v("PostponeAptSheet", data[numberPicker.value - 1])
+        mainView = FragmentPostponeAptSheetBinding.inflate(layoutInflater, container, false)
+        setupPicker()
+        mainView.btnPostpone.setOnClickListener {
+            Log.v("PostponeAptSheet", data[mainView.npMinutes.value - 1])
             dismiss()
         }
 
-        return view
+        return mainView.root
     }
 
 
-    fun setupPicker(v: View) {
-        numberPicker = v.findViewById(R.id.npMinutes)
+    fun setupPicker() {
 
-        numberPicker.minValue = 1
-        numberPicker.maxValue = data.size
-        numberPicker.displayedValues = data
-        numberPicker.value = 1
+        mainView.npMinutes.apply {
+            minValue = 1
+            maxValue = data.size
+            displayedValues = data
+            value = 1
+        }
+
     }
 
     override fun onDismiss(dialog: DialogInterface) {

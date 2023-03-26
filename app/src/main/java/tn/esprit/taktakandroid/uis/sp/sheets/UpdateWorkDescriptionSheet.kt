@@ -11,22 +11,32 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentUpdateWorkDescriptionSheetBinding
 
 
 class UpdateWorkDescriptionSheet : BottomSheetDialogFragment() {
 
-
+    private lateinit var mainView: FragmentUpdateWorkDescriptionSheetBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        (dialog as? BottomSheetDialog)?.behavior?.state = STATE_EXPANDED
-        (dialog as? BottomSheetDialog)?.behavior?.isDraggable = false
-        val view =inflater.inflate(R.layout.fragment_update_work_description_sheet, container, false)
-        view.findViewById<Button>(R.id.btnSaveChanges).setOnClickListener { dismiss() }
 
-        return view
+        mainView =
+            FragmentUpdateWorkDescriptionSheetBinding.inflate(layoutInflater, container, false)
+        setupSheetBehaivor()
+        mainView.btnSaveChanges.setOnClickListener { dismiss() }
+
+        return mainView.root
     }
+
+    fun setupSheetBehaivor() {
+        (dialog as? BottomSheetDialog)?.behavior?.apply {
+            state = STATE_EXPANDED
+            isDraggable = false
+        }
+    }
+
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         Log.d("Debug", "dissmised onDismiss")
@@ -36,7 +46,6 @@ class UpdateWorkDescriptionSheet : BottomSheetDialogFragment() {
         super.onDestroy()
         Log.d("Debug", "dissmised onDestroy")
     }
-
 
 
 }

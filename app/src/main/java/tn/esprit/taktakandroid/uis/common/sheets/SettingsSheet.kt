@@ -10,29 +10,29 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentSettingsSheetBinding
 
 
 class SettingsSheet : BottomSheetDialogFragment() {
-
+    private lateinit var mainView:FragmentSettingsSheetBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_settings_sheet, container, false)
-
-        setupLangSpinner(view)
-        return view
+        mainView=FragmentSettingsSheetBinding.inflate(layoutInflater,container,false)
+        setupLangSpinner()
+        return mainView.root
     }
 
 
-    fun setupLangSpinner(view: View) {
+    fun setupLangSpinner() {
         val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
             R.layout.spinner_item_lang,
             listOf("English", "French")
         )
         adapter.setDropDownViewResource(R.layout.spinner_custom_dropdown)
-        view.findViewById<Spinner>(R.id.spLang).adapter = adapter
+        mainView.spLang.adapter = adapter
     }
 
     override fun onDismiss(dialog: DialogInterface) {
