@@ -49,6 +49,7 @@ class LoginActivity : AppCompatActivity() {
         mainView.etEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 viewModel.setEmail(s.toString().trim())
+                viewModel.removeEmailError()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -58,6 +59,7 @@ class LoginActivity : AppCompatActivity() {
         mainView.etPassword.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 viewModel.setPassword(s.toString())
+                viewModel.removePwdError()
             }
 
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -66,19 +68,29 @@ class LoginActivity : AppCompatActivity() {
         })
 
         viewModel.emailError.observe(this) { _errorTxt ->
-            if (!_errorTxt.isEmpty()) {
+            if (_errorTxt.isNotEmpty()) {
                 mainView.tlEmail.apply {
                     error = viewModel.emailError.value
                     isErrorEnabled = true
                 }
             }
+            else{
+                mainView.tlEmail.apply {
+                    isErrorEnabled = false
+                }
+            }
         }
 
         viewModel.passwordError.observe(this) { _errorTxt ->
-            if (!_errorTxt.isEmpty()) {
+            if (_errorTxt.isNotEmpty()) {
                 mainView.tlPassword.apply {
                     error = viewModel.passwordError.value
                     isErrorEnabled = true
+                }
+            }
+            else{
+                mainView.tlPassword.apply {
+                    isErrorEnabled = false
                 }
             }
         }

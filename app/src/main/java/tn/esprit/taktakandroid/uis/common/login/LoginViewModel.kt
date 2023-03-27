@@ -43,6 +43,12 @@ class LoginViewModel(val repository: LoginRepository) : ViewModel() {
     fun setPassword(password: String) {
         _password.value = password
     }
+    fun removePwdError() {
+        _passwordError.value = ""
+    }
+    fun removeEmailError() {
+        _emailError.value = ""
+    }
 
     fun login() {
         val email = email.value
@@ -78,7 +84,7 @@ class LoginViewModel(val repository: LoginRepository) : ViewModel() {
 
     private fun isPwdValid(pwd: String?): Boolean {
         if (pwd == null || pwd.isEmpty() || pwd.length < 8) {
-            _passwordError.postValue("Your password must be alphanum and at least 8 characters long")
+            _passwordError.postValue("Password needs 8+ characters and a mix of letters and numbers for security")
             return false
         }
         return true
