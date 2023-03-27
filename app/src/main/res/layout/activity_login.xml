@@ -8,7 +8,7 @@
     android:overScrollMode="never"
     android:scrollbars="none"
     android:orientation="vertical"
-    tools:context=".uis.common.LoginActivity">
+    tools:context=".uis.common.login.LoginActivity">
 
 
     <LinearLayout
@@ -59,6 +59,9 @@
             app:boxCornerRadiusBottomEnd="24dp"
             app:boxCornerRadiusBottomStart="24dp"
             app:boxCornerRadiusTopEnd="24dp"
+            app:errorIconTint="@color/red"
+            app:errorTextColor="@color/red"
+            app:boxStrokeErrorColor="@color/red"
             app:boxCornerRadiusTopStart="24dp"
             app:boxStrokeWidth="1dp"
             app:hintEnabled="true"
@@ -72,7 +75,7 @@
                 android:autoSizeTextType="uniform"
                 android:fontFamily="@font/poppins_medium"
                 android:hint="@string/email"
-                android:inputType="textPersonName"
+                android:inputType="textEmailAddress"
                 android:textColor="@color/grey"
                 android:textSize="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -91,6 +94,9 @@
             app:boxCornerRadiusTopEnd="24dp"
             app:boxCornerRadiusTopStart="24dp"
             app:boxStrokeWidth="1dp"
+            app:errorIconTint="@color/red"
+            app:errorTextColor="@color/red"
+            app:boxStrokeErrorColor="@color/red"
             app:hintEnabled="true"
             app:passwordToggleEnabled="true"
             app:passwordToggleTint="@color/grey"

@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.ReceivedMsgLayoutBinding
+import tn.esprit.taktakandroid.databinding.SentMsgLayoutBinding
 import tn.esprit.taktakandroid.models.ChatMessage
 
 class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -25,52 +27,40 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
     val diff = AsyncListDiffer(this, diffCallback)
 
-    private class ReceivedMessageViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
-        var messageTV: TextView
-        var dateTV: TextView
+    private class ReceivedMessageViewHolder(val mainView: ReceivedMsgLayoutBinding) :
+        RecyclerView.ViewHolder(mainView.root) {
 
-        init {
-            messageTV = itemView.findViewById<TextView>(R.id.tvMsgReceived)
-            dateTV = itemView.findViewById<TextView>(R.id.tvTimeReceived)
-        }
 
         fun bind(message: ChatMessage) {
-            messageTV.text = message.content
-            dateTV.text = message.time
+            mainView.tvMsgReceived.text = message.content
+            mainView.tvTimeReceived.text = message.time
 
-            messageTV.setOnClickListener {
-                if (dateTV.visibility == View.VISIBLE) {
-                    dateTV.visibility = View.GONE
+            mainView.tvMsgReceived.setOnClickListener {
+                if (mainView.tvTimeReceived.visibility == View.VISIBLE) {
+                    mainView.tvTimeReceived.visibility = View.GONE
                     return@setOnClickListener
                 }
-                dateTV.visibility = View.VISIBLE
+                mainView.tvTimeReceived.visibility = View.VISIBLE
             }
         }
     }
 
-    private class SentMessageViewHolder(itemView: View) :
-        RecyclerView.ViewHolder(itemView) {
-        var messageTV: TextView
-        var dateTV: TextView
+    private class SentMessageViewHolder(val mainView: SentMsgLayoutBinding) :
+        RecyclerView.ViewHolder(mainView.root) {
 
-        init {
-            messageTV = itemView.findViewById<TextView>(R.id.tvMsgSent)
-            dateTV = itemView.findViewById<TextView>(R.id.tvTimeSent)
-        }
 
         fun bind(
             message: ChatMessage
         ) {
-            messageTV.text = message.content
-            dateTV.text = message.time
+            mainView.tvMsgSent.text = message.content
+            mainView.tvTimeSent.text = message.time
 
-            messageTV.setOnClickListener {
-                if (dateTV.visibility == View.VISIBLE) {
-                    dateTV.visibility = View.GONE
+            mainView.tvMsgSent.setOnClickListener {
+                if (mainView.tvTimeSent.visibility == View.VISIBLE) {
+                    mainView.tvTimeSent.visibility = View.GONE
                     return@setOnClickListener
                 }
-                dateTV.visibility = View.VISIBLE
+                mainView.tvTimeSent.visibility = View.VISIBLE
 
             }
         }
@@ -79,11 +69,13 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == MESSAGE_SENT) {
             return SentMessageViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.sent_msg_layout, parent, false)
+                SentMsgLayoutBinding
+                    .inflate(LayoutInflater.from(parent.context), parent, false)
             );
         }
         return ReceivedMessageViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.received_msg_layout, parent, false)
+            ReceivedMsgLayoutBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false)
         );
 
     }
