@@ -47,10 +47,16 @@ class EmailForgotPwdViewModel(private val repository: UserRepository, applicatio
         if (isEmailValid) {
             _sendOtpResult.postValue(Resource.Loading())
             viewModelScope.launch {
-                val generatedOtp = repository.generateOTP()
-                val sendOtpRequest = SendOtpRequest(email!!, generatedOtp)
-                val result = repository.sendOtp(sendOtpRequest)
-                _sendOtpResult.postValue(handleResponse(generatedOtp,result))
+                try {
+                    val generatedOtp = repository.generateOTP()
+                    val sendOtpRequest = SendOtpRequest(email!!, generatedOtp)
+                    val result = repository.sendOtp(sendOtpRequest)
+                    _sendOtpResult.postValue(handleResponse(generatedOtp,result))
+
+                }
+                catch (e :java.lang.Exception){
+                    _sendOtpResult.postValue(Resource.Error("Failed to connect"))
+                }
 
             }
         }

@@ -45,7 +45,7 @@ class LoginActivity : AppCompatActivity() {
 
         mainView.etEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                viewModel.setEmail(s.toString().trim())
+                viewModel.setEmail(s.toString().trim().lowercase())
                 viewModel.removeEmailError()
             }
 

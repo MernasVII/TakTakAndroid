@@ -9,15 +9,17 @@ import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.login.LoginRequest
 import tn.esprit.taktakandroid.models.login.LoginResponse
+import tn.esprit.taktakandroid.models.sendOtp.SendOtpRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 
-class LoginViewModel(private val repository: UserRepository, application: Application) : AndroidViewModel(
-    application
-) {
+class LoginViewModel(private val repository: UserRepository, application: Application) :
+    AndroidViewModel(
+        application
+    ) {
     private val _test = MutableLiveData<String>()
     val test: LiveData<String>
         get() = _test
@@ -58,7 +60,8 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
     fun removeEmailError() {
         _emailError.value = ""
     }
-    fun setTest(msg:String) {
+
+    fun setTest(msg: String) {
         _test.value = msg
     }
 
@@ -68,12 +71,19 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
         val isEmailValid = isEmailValid(email)
         val isPwdValid = isPwdValid(password)
         if (isEmailValid && isPwdValid) {
-            _loginResult.postValue(Resource.Loading())
-            viewModelScope.launch {
-                val result = repository.login(LoginRequest(email, password))
-                _loginResult.postValue(handleResponse(result))
+            try {
+                _loginResult.postValue(Resource.Loading())
+                viewModelScope.launch {
+                    val result = repository.login(LoginRequest(email, password))
+                    _loginResult.postValue(handleResponse(result))
+                }
+
+            } catch (e: java.lang.Exception) {
+                _loginResult.postValue(Resource.Error("Failed to connect"))
             }
+
         }
+
 
     }
 
@@ -81,7 +91,7 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
         if (response.isSuccessful) {
 
             response.body()?.let { resultResponse ->
-              //  AppDataStore.init(getApplication<Application>().applicationContext)
+                //  AppDataStore.init(getApplication<Application>().applicationContext)
                 viewModelScope.launch(Dispatchers.IO) {
                     AppDataStore.writeString(Constants.AUTH_TOKEN, resultResponse.token!!)
                 }
@@ -110,5 +120,5 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
         return true
     }
 
-    }
+}
 

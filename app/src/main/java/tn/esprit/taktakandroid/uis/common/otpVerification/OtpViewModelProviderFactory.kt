@@ -1,4 +1,4 @@
-package tn.esprit.taktakandroid.uis.common.emailForgotPwd
+package tn.esprit.taktakandroid.uis.common.otpVerification
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
@@ -6,12 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import tn.esprit.taktakandroid.repositories.UserRepository
 
 @Suppress("UNCHECKED_CAST")
-class EmailForgotPwdViewModelProviderFactory(
+class OtpViewModelProviderFactory(
     private val userRepository: UserRepository,
     val application: Application
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return EmailForgotPwdViewModel(userRepository,application) as T
+        return OtpViewModel(userRepository,application) as T
     }
 }

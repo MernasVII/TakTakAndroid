@@ -14,10 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import tn.esprit.taktakandroid.databinding.ActivityEmailForgotPwdBinding
 import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.common.HomeActivity
-import tn.esprit.taktakandroid.uis.common.OTPActivity
-import tn.esprit.taktakandroid.uis.common.login.LoginViewModel
-import tn.esprit.taktakandroid.uis.common.login.LoginViewModelProviderFactory
+import tn.esprit.taktakandroid.uis.common.otpVerification.OTPActivity
 import tn.esprit.taktakandroid.utils.Resource
 
 const val TAG = "EmailForgotPwdActivity"
@@ -38,7 +35,7 @@ class EmailForgotPwdActivity : AppCompatActivity() {
 
         mainView.etEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                viewModel.setEmail(s.toString().trim())
+                viewModel.setEmail(s.toString().trim().lowercase())
                 viewModel.removeEmailError()
             }
 
@@ -64,6 +61,7 @@ class EmailForgotPwdActivity : AppCompatActivity() {
                     progressBarVisibility(false)
                     result.data?.let {
                         Intent(this, OTPActivity::class.java).also {
+                            it.putExtra("email",viewModel.email.value.toString())
                             startActivity(it)
                             finish()
                         }

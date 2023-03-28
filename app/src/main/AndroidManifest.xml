@@ -30,7 +30,7 @@
             android:name=".uis.common.RegisterOneActivity"
             android:exported="false" />
         <activity
-            android:name=".uis.common.OTPActivity"
+            android:name=".uis.common.otpVerification.OTPActivity"
             android:exported="false" />
         <activity
             android:name=".uis.common.emailForgotPwd.EmailForgotPwdActivity"
