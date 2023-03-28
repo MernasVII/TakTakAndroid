@@ -10,13 +10,12 @@ import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import tn.esprit.taktakandroid.databinding.ActivityOtpactivityBinding
 import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.common.ResetPwdActivity
+import tn.esprit.taktakandroid.uis.common.resetPwd.ResetPwdActivity
 import tn.esprit.taktakandroid.utils.OtpOnKeyListener
 import tn.esprit.taktakandroid.utils.OtpTextWatcher
 import tn.esprit.taktakandroid.utils.Resource

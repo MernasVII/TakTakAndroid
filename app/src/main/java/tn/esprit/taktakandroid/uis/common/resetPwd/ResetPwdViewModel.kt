@@ -1,27 +1,25 @@
-package tn.esprit.taktakandroid.uis.common.login
+package tn.esprit.taktakandroid.uis.common.resetPwd
 
 import android.app.Application
 import android.util.Patterns
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.login.LoginRequest
-import tn.esprit.taktakandroid.models.login.LoginResponse
+import tn.esprit.taktakandroid.models.resetPwd.ResetPwdRequest
+import tn.esprit.taktakandroid.models.resetPwd.ResetPwdResponse
 import tn.esprit.taktakandroid.models.sendOtp.SendOtpRequest
+import tn.esprit.taktakandroid.models.sendOtp.SendOtpResponse
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 
-class LoginViewModel(private val repository: UserRepository, application: Application) :
+class ResetPwdViewModel(private val repository: UserRepository, application: Application) :
     AndroidViewModel(
         application
     ) {
-
-
 
     private val _email = MutableLiveData<String>()
     val email: LiveData<String>
@@ -31,6 +29,10 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
     val emailError: LiveData<String>
         get() = _emailError
 
+    private val _resetPwdResult = MutableLiveData<Resource<ResetPwdResponse>>()
+    val resetPwdResult: LiveData<Resource<ResetPwdResponse>>
+        get() = _resetPwdResult
+
     private val _password = MutableLiveData<String>()
     val password: LiveData<String>
         get() = _password
@@ -39,58 +41,41 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
     val passwordError: LiveData<String>
         get() = _passwordError
 
-    private val _loginResult = MutableLiveData<Resource<LoginResponse>>()
-    val loginResult: LiveData<Resource<LoginResponse>>
-        get() = _loginResult
-
     fun setEmail(email: String) {
         _email.value = email
     }
-
     fun setPassword(password: String) {
         _password.value = password
     }
-
     fun removePwdError() {
         _passwordError.value = ""
     }
 
-    fun removeEmailError() {
-        _emailError.value = ""
-    }
 
+    fun resetPwd() {
+        val pwd = _password.value
+        val isPwdValid = isPwdValid(pwd)
+        if (isPwdValid) {
+            _resetPwdResult.postValue(Resource.Loading())
+            viewModelScope.launch {
+                try {
+                    val resetPwdRequest = ResetPwdRequest(_email.value, pwd)
+                    val result = repository.resetPwd(resetPwdRequest)
+                    _resetPwdResult.postValue(handleResponse(result))
 
-
-    fun login() {
-        val email = email.value
-        val password = password.value
-        val isEmailValid = isEmailValid(email)
-        val isPwdValid = isPwdValid(password)
-        if (isEmailValid && isPwdValid) {
-            try {
-                _loginResult.postValue(Resource.Loading())
-                viewModelScope.launch {
-                    val result = repository.login(LoginRequest(email, password))
-                    _loginResult.postValue(handleResponse(result))
+                }
+                catch (e :java.lang.Exception){
+                    _resetPwdResult.postValue(Resource.Error("Failed to connect"))
                 }
 
-            } catch (e: java.lang.Exception) {
-                _loginResult.postValue(Resource.Error("Failed to connect"))
             }
-
         }
 
-
     }
 
-    private fun handleResponse(response: Response<LoginResponse>): Resource<LoginResponse> {
+    private fun handleResponse(response: Response<ResetPwdResponse>): Resource<ResetPwdResponse> {
         if (response.isSuccessful) {
-
             response.body()?.let { resultResponse ->
-                //  AppDataStore.init(getApplication<Application>().applicationContext)
-                viewModelScope.launch(Dispatchers.IO) {
-                    AppDataStore.writeString(Constants.AUTH_TOKEN, resultResponse.token!!)
-                }
                 return Resource.Success(resultResponse)
             }
         }
@@ -98,14 +83,6 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
         return Resource.Error(errorBody.getString("message"))
 
 
-    }
-
-    private fun isEmailValid(email: String?): Boolean {
-        if (email == null || !email.matches(Patterns.EMAIL_ADDRESS.toRegex())) {
-            _emailError.postValue("Invalid Email")
-            return false
-        }
-        return true
     }
 
     private fun isPwdValid(pwd: String?): Boolean {
@@ -116,5 +93,8 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
         return true
     }
 
-}
 
+
+
+
+}

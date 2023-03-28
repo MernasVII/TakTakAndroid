@@ -21,7 +21,8 @@
             android:name=".uis.common.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".uis.common.ResetPwdActivity"
+            android:name=".uis.common.resetPwd.ResetPwdActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".uis.common.RegisterTwoActivity"
