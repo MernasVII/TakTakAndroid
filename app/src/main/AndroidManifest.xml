@@ -33,7 +33,7 @@
             android:name=".uis.common.OTPActivity"
             android:exported="false" />
         <activity
-            android:name=".uis.common.EmailForgotPwdActivity"
+            android:name=".uis.common.emailForgotPwd.EmailForgotPwdActivity"
             android:exported="false" />
         <activity
             android:name=".uis.common.login.LoginActivity"

@@ -1,4 +1,4 @@
-package tn.esprit.taktakandroid.models.Login
+package tn.esprit.taktakandroid.models.login
 
 data class LoginRequest(
     val email: String?,

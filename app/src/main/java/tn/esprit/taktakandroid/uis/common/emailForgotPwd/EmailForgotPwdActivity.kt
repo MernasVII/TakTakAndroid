@@ -1,47 +1,40 @@
-package tn.esprit.taktakandroid.uis.common.login
+package tn.esprit.taktakandroid.uis.common.emailForgotPwd
 
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import tn.esprit.taktakandroid.databinding.ActivityLoginBinding
+import tn.esprit.taktakandroid.databinding.ActivityEmailForgotPwdBinding
 import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.common.emailForgotPwd.EmailForgotPwdActivity
 import tn.esprit.taktakandroid.uis.common.HomeActivity
-
+import tn.esprit.taktakandroid.uis.common.OTPActivity
+import tn.esprit.taktakandroid.uis.common.login.LoginViewModel
+import tn.esprit.taktakandroid.uis.common.login.LoginViewModelProviderFactory
 import tn.esprit.taktakandroid.utils.Resource
 
-
-const val TAG = "LoginActivity"
-
-class LoginActivity : AppCompatActivity() {
-
-    private lateinit var mainView: ActivityLoginBinding
-    private lateinit var viewModel: LoginViewModel
-
-
+const val TAG = "EmailForgotPwdActivity"
+class EmailForgotPwdActivity : AppCompatActivity() {
+    private lateinit var mainView:ActivityEmailForgotPwdBinding
+    private lateinit var viewModel: EmailForgotPwdViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mainView = ActivityLoginBinding.inflate(layoutInflater)
+        mainView=ActivityEmailForgotPwdBinding.inflate(layoutInflater)
         setContentView(mainView.root)
 
-
         val userRepository = UserRepository()
-        val viewModelProviderFactory = LoginViewModelProviderFactory(userRepository,application)
+        val viewModelProviderFactory = EmailForgotPwdViewModelProviderFactory(userRepository,application)
 
         viewModel =
-            ViewModelProvider(this, viewModelProviderFactory)[LoginViewModel::class.java]
-
+            ViewModelProvider(this, viewModelProviderFactory)[EmailForgotPwdViewModel::class.java]
 
         mainView.etEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -52,18 +45,6 @@ class LoginActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-
-        mainView.etPassword.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.setPassword(s.toString())
-                viewModel.removePwdError()
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-        })
-
         viewModel.emailError.observe(this) { _errorTxt ->
             if (_errorTxt.isNotEmpty()) {
                 mainView.tlEmail.apply {
@@ -77,25 +58,12 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.passwordError.observe(this) { _errorTxt ->
-            if (_errorTxt.isNotEmpty()) {
-                mainView.tlPassword.apply {
-                    error = viewModel.passwordError.value
-                    isErrorEnabled = true
-                }
-            } else {
-                mainView.tlPassword.apply {
-                    isErrorEnabled = false
-                }
-            }
-        }
-
-        viewModel.loginResult.observe(this@LoginActivity, Observer { result ->
+        viewModel.sendOtpResult.observe(this@EmailForgotPwdActivity, Observer { result ->
             when (result) {
                 is Resource.Success -> {
                     progressBarVisibility(false)
                     result.data?.let {
-                        Intent(this, HomeActivity::class.java).also {
+                        Intent(this, OTPActivity::class.java).also {
                             startActivity(it)
                             finish()
                         }
@@ -104,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
                 is Resource.Error -> {
                     progressBarVisibility(false)
                     result.message?.let { msg ->
-                            showDialog(msg)
+                        showDialog(msg)
                     }
                 }
                 is Resource.Loading -> {
@@ -113,19 +81,11 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
-        mainView.btnLogin.setOnClickListener {
-            viewModel.login()
+        mainView.btnSendEmail.setOnClickListener {
+            viewModel.sendOtp()
         }
-
-        mainView.tvForgotPwd.setOnClickListener{
-            startActivity(Intent(this, EmailForgotPwdActivity::class.java))
-        }
-
-
 
     }
-
-
 
     private fun progressBarVisibility(visible: Boolean) {
         if (visible) {
@@ -134,7 +94,6 @@ class LoginActivity : AppCompatActivity() {
             mainView.progressBar.visibility = View.GONE
         }
     }
-
     private fun showDialog(message: String) {
         val builder = AlertDialog.Builder(this)
         val binding = LayoutDialogBinding.inflate(layoutInflater)
@@ -153,6 +112,5 @@ class LoginActivity : AppCompatActivity() {
         dialog.show()
         dialog.setCanceledOnTouchOutside(false)
     }
-
 
 }

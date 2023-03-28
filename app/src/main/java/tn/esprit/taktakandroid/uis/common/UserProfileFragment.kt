@@ -17,12 +17,10 @@ import tn.esprit.taktakandroid.utils.Constants.AUTH_TOKEN
 class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
 
     private lateinit var ivLogout:ImageView
-    private lateinit var appDataStore: AppDataStore
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        appDataStore= AppDataStore(requireContext())
         ivLogout = view.findViewById(R.id.iv_logout)
 
         ivLogout.setOnClickListener{
@@ -32,7 +30,7 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
 
     private fun doLogout() {
         lifecycleScope.launch(Dispatchers.IO) {
-            appDataStore.deleteString(AUTH_TOKEN)
+            AppDataStore.deleteString(AUTH_TOKEN)
             withContext(Dispatchers.Main){
                 Intent(requireActivity(), LoginActivity::class.java).also {
                     startActivity(it)

@@ -1,20 +1,27 @@
 package tn.esprit.taktakandroid.uis.common.login
 
+import android.app.Application
 import android.util.Patterns
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.Login.LoginRequest
-import tn.esprit.taktakandroid.models.Login.LoginResponse
-import tn.esprit.taktakandroid.repositories.LoginRepository
+import tn.esprit.taktakandroid.models.login.LoginRequest
+import tn.esprit.taktakandroid.models.login.LoginResponse
+import tn.esprit.taktakandroid.repositories.UserRepository
+import tn.esprit.taktakandroid.utils.AppDataStore
+import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class LoginViewModel(val repository: LoginRepository) : ViewModel() {
+
+class LoginViewModel(private val repository: UserRepository, application: Application) : AndroidViewModel(
+    application
+) {
+    private val _test = MutableLiveData<String>()
+    val test: LiveData<String>
+        get() = _test
+
 
     private val _email = MutableLiveData<String>()
     val email: LiveData<String>
@@ -43,11 +50,16 @@ class LoginViewModel(val repository: LoginRepository) : ViewModel() {
     fun setPassword(password: String) {
         _password.value = password
     }
+
     fun removePwdError() {
         _passwordError.value = ""
     }
+
     fun removeEmailError() {
         _emailError.value = ""
+    }
+    fun setTest(msg:String) {
+        _test.value = msg
     }
 
     fun login() {
@@ -56,7 +68,7 @@ class LoginViewModel(val repository: LoginRepository) : ViewModel() {
         val isEmailValid = isEmailValid(email)
         val isPwdValid = isPwdValid(password)
         if (isEmailValid && isPwdValid) {
-
+            _loginResult.postValue(Resource.Loading())
             viewModelScope.launch {
                 val result = repository.login(LoginRequest(email, password))
                 _loginResult.postValue(handleResponse(result))
@@ -67,11 +79,19 @@ class LoginViewModel(val repository: LoginRepository) : ViewModel() {
 
     private fun handleResponse(response: Response<LoginResponse>): Resource<LoginResponse> {
         if (response.isSuccessful) {
+
             response.body()?.let { resultResponse ->
+              //  AppDataStore.init(getApplication<Application>().applicationContext)
+                viewModelScope.launch(Dispatchers.IO) {
+                    AppDataStore.writeString(Constants.AUTH_TOKEN, resultResponse.token!!)
+                }
                 return Resource.Success(resultResponse)
             }
         }
-        return Resource.Error(response.message())
+        val errorBody = JSONObject(response.errorBody()!!.string())
+        return Resource.Error(errorBody.getString("message"))
+
+
     }
 
     private fun isEmailValid(email: String?): Boolean {
@@ -89,4 +109,6 @@ class LoginViewModel(val repository: LoginRepository) : ViewModel() {
         }
         return true
     }
-}
+
+    }
+

@@ -1,16 +1,17 @@
-package tn.esprit.taktakandroid.uis.common.login
+package tn.esprit.taktakandroid.uis.common.emailForgotPwd
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import tn.esprit.taktakandroid.repositories.UserRepository
+
 @Suppress("UNCHECKED_CAST")
-class LoginViewModelProviderFactory(
+class EmailForgotPwdViewModelProviderFactory(
     val userRepository: UserRepository,
-    val application :Application
+    val application: Application
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return LoginViewModel(userRepository,application) as T
+        return EmailForgotPwdViewModel(userRepository,application) as T
     }
 }
