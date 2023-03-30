@@ -68,4 +68,14 @@ dependencies {
     //spinkit
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
 
+    //OCR
+    implementation 'com.google.android.gms:play-services-vision:19.0.0'
+
+    //PermissionX
+    implementation 'com.guolindev.permissionx:permissionx:1.7.1'
+
+    //ImagePicker
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
 }

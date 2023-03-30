@@ -7,10 +7,9 @@ import tn.esprit.taktakandroid.repositories.UserRepository
 @Suppress("UNCHECKED_CAST")
 class LoginViewModelProviderFactory(
     val userRepository: UserRepository,
-    val application :Application
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return LoginViewModel(userRepository,application) as T
+        return LoginViewModel(userRepository) as T
     }
 }

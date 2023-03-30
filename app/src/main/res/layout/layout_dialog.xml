@@ -19,7 +19,8 @@
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/red"
+            android:backgroundTint="@color/red"
+            android:background="@drawable/rounded_top_corners_white_bg"
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/error"
@@ -44,12 +45,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginBottom="40dp"
             android:layout_marginTop="18sp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="40dp"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintBottom_toTopOf="@id/iv"
+
             app:layout_constraintTop_toBottomOf="@id/tvTitle" />
+
+        <ImageView
+            android:visibility="gone"
+            android:id="@+id/iv"
+            android:layout_width="wrap_content"
+            android:layout_height="300dp"
+            android:layout_marginBottom="40dp"
+            android:src="@drawable/cin_guide"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

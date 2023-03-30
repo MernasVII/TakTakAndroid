@@ -3,18 +3,12 @@ package tn.esprit.taktakandroid.uis.common.otpVerification
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.View
 import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.snackbar.Snackbar
 import tn.esprit.taktakandroid.databinding.ActivityOtpactivityBinding
-import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
+import tn.esprit.taktakandroid.uis.common.BaseActivity
 import tn.esprit.taktakandroid.uis.common.resetPwd.ResetPwdActivity
 import tn.esprit.taktakandroid.utils.OtpOnKeyListener
 import tn.esprit.taktakandroid.utils.OtpTextWatcher
@@ -23,7 +17,7 @@ import tn.esprit.taktakandroid.utils.Resource
 
 const val TAG = "OTPActivity"
 
-class OTPActivity : AppCompatActivity() {
+class OTPActivity : BaseActivity() {
     private lateinit var mainView:ActivityOtpactivityBinding
     private lateinit var editTexts: List<EditText>
     private lateinit var viewModel: OtpViewModel
@@ -39,7 +33,7 @@ class OTPActivity : AppCompatActivity() {
         initOTPFields()
 
         val userRepository = UserRepository()
-        val viewModelProviderFactory = OtpViewModelProviderFactory(userRepository,application)
+        val viewModelProviderFactory = OtpViewModelProviderFactory(userRepository)
 
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[OtpViewModel::class.java]
@@ -67,19 +61,19 @@ class OTPActivity : AppCompatActivity() {
         viewModel.sendOtpResult.observe(this@OTPActivity) { result ->
             when (result) {
                 is Resource.Success -> {
-                    progressBarVisibility(false)
+                    progressBarVisibility(false,mainView.progressBar)
                     result.data?.let {
-                        showSnackbar(it.message)
+                        showSnackbar(it.message,mainView.cl)
                     }
                 }
                 is Resource.Error -> {
-                    progressBarVisibility(false)
+                    progressBarVisibility(false,mainView.progressBar)
                     result.message?.let { msg ->
-                        showSnackbar(msg)
+                        showSnackbar(msg,mainView.cl)
                     }
                 }
                 is Resource.Loading -> {
-                    progressBarVisibility(true)
+                    progressBarVisibility(true,mainView.progressBar)
                 }
             }
         }
@@ -87,22 +81,21 @@ class OTPActivity : AppCompatActivity() {
         viewModel.verifyOtpResult.observe(this@OTPActivity){result->
             when (result) {
                 is Resource.Success -> {
-                    progressBarVisibility(false)
+                    progressBarVisibility(false,mainView.progressBar)
                     Intent(this, ResetPwdActivity::class.java).also {
                         it.putExtra("email",viewModel.email.value.toString())
-                        startActivity(it)
-                        finish()
+                        finishTwoActivitesCallback2.launch(it)
                     }
 
                 }
                 is Resource.Error -> {
-                    progressBarVisibility(false)
+                    progressBarVisibility(false,mainView.progressBar)
                     result.message?.let {
                         showDialog(it)
                     }
                 }
                 is Resource.Loading -> {
-                    progressBarVisibility(true)
+                    progressBarVisibility(true,mainView.progressBar)
                 }
             }
 
@@ -110,30 +103,8 @@ class OTPActivity : AppCompatActivity() {
 
 
     }
-    private fun showDialog(message: String) {
-        val builder = AlertDialog.Builder(this)
-        val binding = LayoutDialogBinding.inflate(layoutInflater)
 
-        builder.setView(binding.root)
 
-        val dialog = builder.create()
-
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        binding.tvMessage.text = message
-
-        binding.tvBtn.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.show()
-        dialog.setCanceledOnTouchOutside(false)
-    }
-
-    private fun showSnackbar(message: String){
-        val snackbar = Snackbar
-            .make(mainView.cl, message, Snackbar.LENGTH_LONG)
-        snackbar.show()
-    }
     private fun initOTPFields(){
         editTexts.forEachIndexed { index, editText ->
             editText.addTextChangedListener(OtpTextWatcher(index, editTexts))
@@ -154,14 +125,6 @@ class OTPActivity : AppCompatActivity() {
                 et.setText(text[index].toString())
             }
             editText.clearFocus()
-        }
-    }
-
-    private fun progressBarVisibility(visible: Boolean) {
-        if (visible) {
-            mainView.progressBar.visibility = View.VISIBLE
-        } else {
-            mainView.progressBar.visibility = View.GONE
         }
     }
     private fun getOtpEntred():String{

@@ -3,6 +3,7 @@ package tn.esprit.taktakandroid.uis.common.resetPwd
 import android.app.Application
 import android.util.Patterns
 import androidx.lifecycle.*
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
@@ -16,9 +17,9 @@ import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 
-class ResetPwdViewModel(private val repository: UserRepository, application: Application) :
-    AndroidViewModel(
-        application
+class ResetPwdViewModel(private val repository: UserRepository) :
+   ViewModel(
+
     ) {
 
     private val _email = MutableLiveData<String>()
@@ -51,13 +52,15 @@ class ResetPwdViewModel(private val repository: UserRepository, application: App
         _passwordError.value = ""
     }
 
-
+    private val handler = CoroutineExceptionHandler { _, _ ->
+        _resetPwdResult.postValue(Resource.Error("Failed to connect"))
+    }
     fun resetPwd() {
         val pwd = _password.value
         val isPwdValid = isPwdValid(pwd)
         if (isPwdValid) {
             _resetPwdResult.postValue(Resource.Loading())
-            viewModelScope.launch {
+            viewModelScope.launch(handler) {
                 try {
                     val resetPwdRequest = ResetPwdRequest(_email.value, pwd)
                     val result = repository.resetPwd(resetPwdRequest)

@@ -3,6 +3,7 @@ package tn.esprit.taktakandroid.uis.common.emailForgotPwd
 import android.app.Application
 import android.util.Patterns
 import androidx.lifecycle.*
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -16,9 +17,9 @@ import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 
-class EmailForgotPwdViewModel(private val repository: UserRepository, application: Application) :
-    AndroidViewModel(
-        application
+class EmailForgotPwdViewModel(private val repository: UserRepository) :
+    ViewModel(
+
     ) {
 
     private val _email = MutableLiveData<String>()
@@ -41,12 +42,15 @@ class EmailForgotPwdViewModel(private val repository: UserRepository, applicatio
         _emailError.value = ""
     }
 
+    private val handler = CoroutineExceptionHandler { _, _ ->
+        _sendOtpResult.postValue(Resource.Error("Failed to connect"))
+    }
     fun sendOtp() {
-        val email = email.value
+        val email = _email.value
         val isEmailValid = isEmailValid(email)
         if (isEmailValid) {
             _sendOtpResult.postValue(Resource.Loading())
-            viewModelScope.launch {
+            viewModelScope.launch(handler) {
                 try {
                     val generatedOtp = repository.generateOTP()
                     val sendOtpRequest = SendOtpRequest(email!!, generatedOtp)

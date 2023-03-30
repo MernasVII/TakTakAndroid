@@ -10,6 +10,8 @@ import tn.esprit.taktakandroid.models.resetPwd.ResetPwdRequest
 import tn.esprit.taktakandroid.models.resetPwd.ResetPwdResponse
 import tn.esprit.taktakandroid.models.sendOtp.SendOtpRequest
 import tn.esprit.taktakandroid.models.sendOtp.SendOtpResponse
+import tn.esprit.taktakandroid.models.signUp.SignUpRequest
+import tn.esprit.taktakandroid.models.signUp.SignUpResponse
 
 interface UserEndpoints {
 
@@ -27,4 +29,8 @@ interface UserEndpoints {
     suspend fun resetPwd(
         @Body request: ResetPwdRequest
     ): Response<ResetPwdResponse>
+    @POST("user/signup")
+    suspend fun signUp(
+        @Body request: SignUpRequest
+    ): Response<SignUpResponse>
 }

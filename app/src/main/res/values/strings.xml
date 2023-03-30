@@ -4,7 +4,7 @@
     <string name="login_to_your_account">Login to your account</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="forgot_password">Forgot Password?</string>
+    <string name="forgot_password"><u>Forgot Password?</u></string>
     <string name="login">Login</string>
     <string name="sign_in_with_google">Sign in with google</string>
     <string name="or">Or</string>
@@ -36,7 +36,6 @@
     <string name="if_you_didn_t_receive_a_code">If you didn\'t receive a code!</string>
     <string name="resend">Resend</string>
     <string name="send">Send</string>
-
     <string name="old_password">Old password</string>
     <string name="save_changes">Save changes</string>
     <string name="change_password">Change password</string>
@@ -63,5 +62,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="discard">Discard</string>
     <string name="error">Error</string>
+    <string name="terms_and_conditions"><u>Terms and conditions</u></string>
 
 </resources>

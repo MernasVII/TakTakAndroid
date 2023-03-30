@@ -3,10 +3,8 @@ package tn.esprit.taktakandroid.uis.common.otpVerification
 import android.app.Application
 import android.util.Log
 import android.util.Patterns
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -18,8 +16,8 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class OtpViewModel(private val repository: UserRepository, application: Application) :
-    AndroidViewModel(application) {
+class OtpViewModel(private val repository: UserRepository) :
+  ViewModel() {
 
 
     private val _email = MutableLiveData<String>()
@@ -64,14 +62,17 @@ class OtpViewModel(private val repository: UserRepository, application: Applicat
         }
 
     }
+    private val handler = CoroutineExceptionHandler { _, _ ->
+        _sendOtpResult.postValue(Resource.Error("Failed to connect"))
+    }
 
     fun sendOtp() {
 
         _sendOtpResult.postValue(Resource.Loading())
-        viewModelScope.launch {
+        viewModelScope.launch(handler) {
             try {
                 val generatedOtp = repository.generateOTP()
-                val sendOtpRequest = SendOtpRequest(email.value!!, generatedOtp)
+                val sendOtpRequest = SendOtpRequest(_email.value!!, generatedOtp)
                 val result = repository.sendOtp(sendOtpRequest)
                 _sendOtpResult.postValue(handleResponse(generatedOtp, result))
 

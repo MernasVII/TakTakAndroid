@@ -1,0 +1,13 @@
+package tn.esprit.taktakandroid.models.signUp
+
+class SignUpRequest(
+    val firstname: String,
+    val lastname: String,
+    val hash: String,
+    val address: String,
+    val email: String,
+    val cin: String? ="",
+    val speciality: String? ="",
+    val tos: Array<String>? = arrayOf(),
+    val workDays: Array<String>? =arrayOf(),
+)

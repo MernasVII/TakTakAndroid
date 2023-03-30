@@ -3,6 +3,7 @@ package tn.esprit.taktakandroid.uis.common.login
 import android.app.Application
 import android.util.Patterns
 import androidx.lifecycle.*
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -14,12 +15,11 @@ import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
+import java.net.SocketTimeoutException
 
 
-class LoginViewModel(private val repository: UserRepository, application: Application) :
-    AndroidViewModel(
-        application
-    ) {
+class LoginViewModel(private val repository: UserRepository) :
+    ViewModel() {
 
 
 
@@ -59,22 +59,24 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
         _emailError.value = ""
     }
 
-
+    private val handler = CoroutineExceptionHandler { _, _ ->
+        _loginResult.postValue(Resource.Error("Failed to connect"))
+    }
 
     fun login() {
-        val email = email.value
-        val password = password.value
+        val email = _email.value
+        val password = _password.value
         val isEmailValid = isEmailValid(email)
         val isPwdValid = isPwdValid(password)
         if (isEmailValid && isPwdValid) {
             try {
                 _loginResult.postValue(Resource.Loading())
-                viewModelScope.launch {
+                viewModelScope.launch(handler) {
                     val result = repository.login(LoginRequest(email, password))
                     _loginResult.postValue(handleResponse(result))
                 }
 
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 _loginResult.postValue(Resource.Error("Failed to connect"))
             }
 
@@ -87,7 +89,6 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
         if (response.isSuccessful) {
 
             response.body()?.let { resultResponse ->
-                //  AppDataStore.init(getApplication<Application>().applicationContext)
                 viewModelScope.launch(Dispatchers.IO) {
                     AppDataStore.writeString(Constants.AUTH_TOKEN, resultResponse.token!!)
                 }
