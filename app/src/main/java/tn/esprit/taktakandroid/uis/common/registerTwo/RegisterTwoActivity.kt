@@ -3,16 +3,20 @@ package tn.esprit.taktakandroid.uis.common.registerTwo
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.ImageDecoder
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.util.SparseArray
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.vision.Frame
@@ -23,13 +27,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tn.esprit.taktakandroid.databinding.ActivityRegisterTwoBinding
+import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.uis.common.BaseActivity
 
 class RegisterTwoActivity : BaseActivity() {
     private lateinit var mainView: ActivityRegisterTwoBinding
     private var imageBitmap: Bitmap? = null
     private lateinit var recognizer: TextRecognizer
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,21 +49,7 @@ class RegisterTwoActivity : BaseActivity() {
         }
 
         mainView.etCin.setOnClickListener {
-            PermissionX.init(this)
-                .permissions(
-                    android.Manifest.permission.CAMERA,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-                .request { allGranted, _, _ ->
-                    if (allGranted) {
-                        ImagePicker.with(this)
-                            .compress(1024)
-                            .crop()
-                         .createIntent {
-                             startForImageResult.launch(it)
-                         }
-                    }
-                }
+            showGuideDialog()
         }
 
 
@@ -104,6 +94,36 @@ class RegisterTwoActivity : BaseActivity() {
         }
         mainView.etCin.setText(s.toString())
 
+    }
+
+    fun showGuideDialog() {
+        val builder = AlertDialog.Builder(this)
+        val binding = LayoutDialogBinding.inflate(layoutInflater)
+        builder.setView(binding.root)
+        val dialog = builder.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        binding.tvMessage.text = "Scan your CIN correctly by following this guide."
+        binding.iv.visibility= View.VISIBLE
+        binding.tvBtn.setOnClickListener {
+            dialog.dismiss()
+            PermissionX.init(this)
+                .permissions(
+                    android.Manifest.permission.CAMERA,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+                .request { allGranted, _, _ ->
+                    if (allGranted) {
+                        ImagePicker.with(this)
+                            .compress(1024)
+                            .crop()
+                            .createIntent {
+                                startForImageResult.launch(it)
+                            }
+                    }
+                }
+        }
+        dialog.show()
+        dialog.setCanceledOnTouchOutside(false)
     }
 
 }
