@@ -22,6 +22,14 @@
     <style name="Widget.App.Switch" parent="Widget.Material3.CompoundButton.MaterialSwitch">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
     </style>
+    <style name="MyFabStyle" parent="Widget.Material3.FloatingActionButton.Small.Primary">
+        <item name="shapeAppearanceOverlay">@style/MyFabShapeAppearance</item>
+    </style>
+
+    <style name="MyFabShapeAppearance">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 
     <style name="ThemeOverlay.App.Switch" parent="">
         <item name="colorPrimary">@color/orange</item>

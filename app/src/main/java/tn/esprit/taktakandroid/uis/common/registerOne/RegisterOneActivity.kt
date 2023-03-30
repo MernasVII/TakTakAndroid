@@ -1,18 +1,29 @@
 package tn.esprit.taktakandroid.uis.common.registerOne
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import tn.esprit.taktakandroid.databinding.ActivityRegisterOneBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.common.BaseActivity
+import tn.esprit.taktakandroid.uis.common.mapView.MapActivity
 import tn.esprit.taktakandroid.uis.common.registerTwo.RegisterTwoActivity
 import tn.esprit.taktakandroid.utils.Resource
+
 const val TAG = "RegisterOneActivity"
 
 class RegisterOneActivity : BaseActivity() {
@@ -29,6 +40,8 @@ class RegisterOneActivity : BaseActivity() {
 
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[RegisterOneViewModel::class.java]
+
+
 
         setUpEditTexts()
         errorHandling()
@@ -62,8 +75,30 @@ class RegisterOneActivity : BaseActivity() {
             viewModel.signUp()
         }
         mainView.etAddress.setOnClickListener {
-            mainView.etAddress.setText("address")
-            viewModel.setAddress("address")
+            PermissionX.init(this).permissions(
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            ).request { allGranted, _, _ ->
+                if (allGranted) {
+                    if (isLocationEnabled()) {
+                        startForLocationResult.launch(
+                            Intent(
+                                this@RegisterOneActivity,
+                                MapActivity::class.java
+                            )
+                        )
+                    }else {
+                        Toast.makeText(this, "Please turn on location", Toast.LENGTH_LONG).show()
+                        runBlocking {
+                            delay(500L)
+                        }
+                        val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                        startActivity(intent)
+                    }
+
+                }
+            }
+
 
         }
         mainView.btnRegSp.setOnClickListener {
@@ -75,11 +110,11 @@ class RegisterOneActivity : BaseActivity() {
                     viewModel.email.value,
                 )
             ) Intent(this, RegisterTwoActivity::class.java).apply {
-                putExtra("firstname",viewModel.firstname.value)
-                putExtra("lastname",viewModel.lastname.value)
-                putExtra("password",viewModel.password.value)
-                putExtra("address",viewModel.address.value)
-                putExtra("email",viewModel.email.value)
+                putExtra("firstname", viewModel.firstname.value)
+                putExtra("lastname", viewModel.lastname.value)
+                putExtra("password", viewModel.password.value)
+                putExtra("address", viewModel.address.value)
+                putExtra("email", viewModel.email.value)
                 finishOneActivityCallback.launch(this)
 
             }
@@ -87,6 +122,20 @@ class RegisterOneActivity : BaseActivity() {
         }
     }
 
+    private val startForLocationResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+            val location: String
+
+            if (resultCode == Activity.RESULT_OK) {
+                location = data!!.getStringExtra("location")!!.replace("null","")
+
+                mainView.etAddress.setText(location)
+                viewModel.setAddress(location)
+
+            }
+        }
 
     private fun setUpEditTexts() {
         mainView.etEmail.addTextChangedListener(object : TextWatcher {
@@ -203,5 +252,11 @@ class RegisterOneActivity : BaseActivity() {
 
     }
 
-
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager =
+            getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
 }
