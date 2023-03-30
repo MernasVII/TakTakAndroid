@@ -8,6 +8,6 @@ class SignUpRequest(
     val email: String,
     val cin: String? ="",
     val speciality: String? ="",
-    val tos: Array<String>? = arrayOf(),
-    val workDays: Array<String>? =arrayOf(),
+    val tos: ArrayList<String>? = arrayListOf(),
+    val workDays: ArrayList<String>? =arrayListOf(),
 )

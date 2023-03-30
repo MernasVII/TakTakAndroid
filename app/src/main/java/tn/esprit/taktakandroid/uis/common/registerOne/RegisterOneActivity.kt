@@ -74,13 +74,13 @@ class RegisterOneActivity : BaseActivity() {
                     viewModel.address.value,
                     viewModel.email.value,
                 )
-            ) Intent(this, RegisterTwoActivity::class.java).also {
-                it.putExtra("firstname",viewModel.firstname.value)
-                it.putExtra("lastname",viewModel.lastname.value)
-                it.putExtra("password",viewModel.password.value)
-                it.putExtra("address",viewModel.address.value)
-                it.putExtra("email",viewModel.email.value)
-                finishOneActivityCallback.launch(it)
+            ) Intent(this, RegisterTwoActivity::class.java).apply {
+                putExtra("firstname",viewModel.firstname.value)
+                putExtra("lastname",viewModel.lastname.value)
+                putExtra("password",viewModel.password.value)
+                putExtra("address",viewModel.address.value)
+                putExtra("email",viewModel.email.value)
+                finishOneActivityCallback.launch(this)
 
             }
 
