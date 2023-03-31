@@ -1,22 +1,17 @@
 package tn.esprit.taktakandroid.uis.common.registerTwo
 
 import android.app.Activity
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.ImageDecoder
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.SparseArray
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,17 +24,13 @@ import com.google.android.gms.vision.text.TextBlock
 import com.google.android.gms.vision.text.TextRecognizer
 import com.google.android.material.button.MaterialButton
 import com.permissionx.guolindev.PermissionX
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ActivityRegisterTwoBinding
 import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.common.BaseActivity
-import tn.esprit.taktakandroid.uis.common.registerOne.RegisterOneViewModel
-import tn.esprit.taktakandroid.uis.common.registerOne.RegisterOneViewModelProviderFactory
+import tn.esprit.taktakandroid.uis.BaseActivity
 import tn.esprit.taktakandroid.utils.Resource
 
 const val TAG = "RegisterTwoActivity"

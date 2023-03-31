@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import tn.esprit.taktakandroid.databinding.ActivityRegisterOneBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.common.BaseActivity
+import tn.esprit.taktakandroid.uis.BaseActivity
 import tn.esprit.taktakandroid.uis.common.mapView.MapActivity
 import tn.esprit.taktakandroid.uis.common.registerTwo.RegisterTwoActivity
 import tn.esprit.taktakandroid.utils.Resource

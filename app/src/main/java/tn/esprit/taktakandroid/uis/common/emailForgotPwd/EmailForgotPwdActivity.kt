@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import tn.esprit.taktakandroid.databinding.ActivityEmailForgotPwdBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.common.BaseActivity
+import tn.esprit.taktakandroid.uis.BaseActivity
 import tn.esprit.taktakandroid.uis.common.otpVerification.OTPActivity
 import tn.esprit.taktakandroid.utils.Resource
 

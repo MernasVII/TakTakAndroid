@@ -1,4 +1,4 @@
-package tn.esprit.taktakandroid.uis.common
+package tn.esprit.taktakandroid.uis
 
 import android.app.Activity
 import android.graphics.Color

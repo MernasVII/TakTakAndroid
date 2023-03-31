@@ -8,7 +8,7 @@ import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import tn.esprit.taktakandroid.databinding.ActivityOtpactivityBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.common.BaseActivity
+import tn.esprit.taktakandroid.uis.BaseActivity
 import tn.esprit.taktakandroid.uis.common.resetPwd.ResetPwdActivity
 import tn.esprit.taktakandroid.utils.OtpOnKeyListener
 import tn.esprit.taktakandroid.utils.OtpTextWatcher

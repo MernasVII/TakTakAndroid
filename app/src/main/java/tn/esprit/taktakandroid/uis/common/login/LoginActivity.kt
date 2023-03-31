@@ -1,20 +1,19 @@
 package tn.esprit.taktakandroid.uis.common.login
 
+import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.tasks.Task
 import tn.esprit.taktakandroid.databinding.ActivityLoginBinding
-import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.common.BaseActivity
+import tn.esprit.taktakandroid.uis.BaseActivity
 import tn.esprit.taktakandroid.uis.common.emailForgotPwd.EmailForgotPwdActivity
 import tn.esprit.taktakandroid.uis.common.HomeActivity
 import tn.esprit.taktakandroid.uis.common.registerOne.RegisterOneActivity
@@ -38,7 +37,7 @@ class LoginActivity : BaseActivity() {
 
 
         val userRepository = UserRepository()
-        val viewModelProviderFactory = LoginViewModelProviderFactory(userRepository)
+        val viewModelProviderFactory = LoginViewModelProviderFactory(userRepository,application)
 
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[LoginViewModel::class.java]
@@ -81,6 +80,10 @@ class LoginActivity : BaseActivity() {
 
         mainView.btnCreateAccount.setOnClickListener{
             startActivity(Intent(this, RegisterOneActivity::class.java))
+        }
+
+        mainView.btnGoogleLogin.setOnClickListener {
+            startActivityResult.launch(viewModel.googleSignIn())
         }
 
 
@@ -137,6 +140,14 @@ class LoginActivity : BaseActivity() {
 
     }
 
+    private var startActivityResult=registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()){ result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            viewModel.handleSignInResult(task)
+        }
+    }
 
 
 }

@@ -1,27 +1,15 @@
 package tn.esprit.taktakandroid.uis.common.resetPwd
 
-import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ActivityResetPwdBinding
-import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.common.BaseActivity
-import tn.esprit.taktakandroid.uis.common.HomeActivity
-import tn.esprit.taktakandroid.uis.common.otpVerification.OtpViewModel
-import tn.esprit.taktakandroid.uis.common.otpVerification.OtpViewModelProviderFactory
+import tn.esprit.taktakandroid.uis.BaseActivity
 import tn.esprit.taktakandroid.utils.Resource
 
 const val TAG = "ResetPwdActivity"

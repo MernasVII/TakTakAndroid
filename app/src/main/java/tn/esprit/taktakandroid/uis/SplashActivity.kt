@@ -6,6 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
         AppDataStore.init(applicationContext)
         lifecycleScope.launch(Dispatchers.IO) {
             val token = AppDataStore.readString(AUTH_TOKEN) ?: ""
-            if(token.isEmpty()){
+            if(token.isEmpty() && getLastSignedInAccount() == null){
                 withContext(Dispatchers.Main){
                     Intent(applicationContext, LoginActivity::class.java).also {
                         startActivity(it)
@@ -43,5 +46,8 @@ class SplashActivity : AppCompatActivity() {
         }
 
 
+    }
+    private fun getLastSignedInAccount():GoogleSignInAccount?{
+        return GoogleSignIn.getLastSignedInAccount(this)
     }
 }
