@@ -1,20 +1,14 @@
 package tn.esprit.taktakandroid.uis.common.registerOne
 
-import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.login.LoginRequest
-import tn.esprit.taktakandroid.models.login.LoginResponse
-import tn.esprit.taktakandroid.models.signUp.SignUpRequest
-import tn.esprit.taktakandroid.models.signUp.SignUpResponse
+import tn.esprit.taktakandroid.models.MessageResponse
+import tn.esprit.taktakandroid.models.SignUpRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.utils.AppDataStore
-import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 
@@ -64,8 +58,8 @@ class RegisterOneViewModel(private val repository: UserRepository) :
     val addressError: LiveData<String>
         get() = _addressError
 
-    private val _signUpResult = MutableLiveData<Resource<SignUpResponse>>()
-    val signUpResult: LiveData<Resource<SignUpResponse>>
+    private val _signUpResult = MutableLiveData<Resource<MessageResponse>>()
+    val signUpResult: LiveData<Resource<MessageResponse>>
         get() = _signUpResult
 
     fun setEmail(email: String) {
@@ -146,7 +140,7 @@ class RegisterOneViewModel(private val repository: UserRepository) :
 
     }
 
-    private fun handleResponse(response: Response<SignUpResponse>): Resource<SignUpResponse> {
+    private fun handleResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)

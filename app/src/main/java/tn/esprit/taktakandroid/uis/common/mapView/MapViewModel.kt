@@ -2,20 +2,11 @@ package tn.esprit.taktakandroid.uis.common.mapView
 
 import android.app.Application
 import android.location.Geocoder
-import android.util.Log
-import android.util.Patterns
 import android.widget.Toast
 import androidx.lifecycle.*
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import org.osmdroid.util.GeoPoint
-import retrofit2.Response
-import tn.esprit.taktakandroid.models.signUp.SignUpRequest
-import tn.esprit.taktakandroid.models.signUp.SignUpResponse
-import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.utils.Resource
 import java.io.IOException
 import java.util.*
 

@@ -45,6 +45,7 @@ open class BaseActivity : AppCompatActivity() {
                 finish()
             }
         }
+
     var finishTwoActivitesCallback2 =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {

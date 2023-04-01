@@ -2,9 +2,9 @@ package tn.esprit.taktakandroid.repositories
 
 import tn.esprit.taktakandroid.api.RetrofitInstance
 import tn.esprit.taktakandroid.models.login.LoginRequest
-import tn.esprit.taktakandroid.models.resetPwd.ResetPwdRequest
-import tn.esprit.taktakandroid.models.sendOtp.SendOtpRequest
-import tn.esprit.taktakandroid.models.signUp.SignUpRequest
+import tn.esprit.taktakandroid.models.ResetPwdRequest
+import tn.esprit.taktakandroid.models.SendOtpRequest
+import tn.esprit.taktakandroid.models.SignUpRequest
 import java.util.*
 
 class UserRepository {
@@ -14,6 +14,7 @@ class UserRepository {
     suspend fun resetPwd( resetPwdRequest: ResetPwdRequest) =RetrofitInstance.userApi.resetPwd(resetPwdRequest)
     suspend fun signUp( signUpRequest: SignUpRequest) =RetrofitInstance.userApi.signUp(signUpRequest)
 
+    suspend fun loginWithGoogle(request: SignUpRequest) = RetrofitInstance.userApi.loginWithGoogle(request)
 
 
 

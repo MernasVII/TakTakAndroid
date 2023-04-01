@@ -4,14 +4,12 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import tn.esprit.taktakandroid.models.MessageResponse
 import tn.esprit.taktakandroid.models.login.LoginRequest
 import tn.esprit.taktakandroid.models.login.LoginResponse
-import tn.esprit.taktakandroid.models.resetPwd.ResetPwdRequest
-import tn.esprit.taktakandroid.models.resetPwd.ResetPwdResponse
-import tn.esprit.taktakandroid.models.sendOtp.SendOtpRequest
-import tn.esprit.taktakandroid.models.sendOtp.SendOtpResponse
-import tn.esprit.taktakandroid.models.signUp.SignUpRequest
-import tn.esprit.taktakandroid.models.signUp.SignUpResponse
+import tn.esprit.taktakandroid.models.ResetPwdRequest
+import tn.esprit.taktakandroid.models.SendOtpRequest
+import tn.esprit.taktakandroid.models.SignUpRequest
 
 interface UserEndpoints {
 
@@ -23,14 +21,19 @@ interface UserEndpoints {
     @POST("user/sendOTP")
     suspend fun sendOtp(
         @Body request: SendOtpRequest
-    ): Response<SendOtpResponse>
+    ): Response<MessageResponse>
 
     @PUT("user/resetpwd")
     suspend fun resetPwd(
         @Body request: ResetPwdRequest
-    ): Response<ResetPwdResponse>
+    ): Response<MessageResponse>
     @POST("user/signup")
     suspend fun signUp(
         @Body request: SignUpRequest
-    ): Response<SignUpResponse>
+    ): Response<MessageResponse>
+    @POST("user/loginWithGoogle")
+    suspend fun loginWithGoogle(
+        @Body request: SignUpRequest
+    ): Response<LoginResponse>
+
 }

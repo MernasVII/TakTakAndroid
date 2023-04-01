@@ -145,7 +145,7 @@ class LoginActivity : BaseActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
 
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            viewModel.handleSignInResult(task)
+            viewModel.handleGoogleSignInResult(task)
         }
     }
 

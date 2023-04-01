@@ -1,19 +1,13 @@
 package tn.esprit.taktakandroid.uis.common.resetPwd
 
-import android.app.Application
-import android.util.Patterns
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.resetPwd.ResetPwdRequest
-import tn.esprit.taktakandroid.models.resetPwd.ResetPwdResponse
-import tn.esprit.taktakandroid.models.sendOtp.SendOtpRequest
-import tn.esprit.taktakandroid.models.sendOtp.SendOtpResponse
+import tn.esprit.taktakandroid.models.MessageResponse
+import tn.esprit.taktakandroid.models.ResetPwdRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.utils.AppDataStore
-import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 
@@ -30,8 +24,8 @@ class ResetPwdViewModel(private val repository: UserRepository) :
     val emailError: LiveData<String>
         get() = _emailError
 
-    private val _resetPwdResult = MutableLiveData<Resource<ResetPwdResponse>>()
-    val resetPwdResult: LiveData<Resource<ResetPwdResponse>>
+    private val _resetPwdResult = MutableLiveData<Resource<MessageResponse>>()
+    val resetPwdResult: LiveData<Resource<MessageResponse>>
         get() = _resetPwdResult
 
     private val _password = MutableLiveData<String>()
@@ -76,7 +70,7 @@ class ResetPwdViewModel(private val repository: UserRepository) :
 
     }
 
-    private fun handleResponse(response: Response<ResetPwdResponse>): Resource<ResetPwdResponse> {
+    private fun handleResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)

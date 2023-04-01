@@ -1,11 +1,9 @@
 package tn.esprit.taktakandroid.uis.common.login
 
-import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import android.util.Patterns
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -17,15 +15,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.models.SignUpRequest
 import tn.esprit.taktakandroid.models.login.LoginRequest
 import tn.esprit.taktakandroid.models.login.LoginResponse
-import tn.esprit.taktakandroid.models.sendOtp.SendOtpRequest
-import tn.esprit.taktakandroid.models.signUp.SignUpRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
-import java.net.SocketTimeoutException
 
 
 class LoginViewModel(private val repository: UserRepository, private val application: Application) :
@@ -136,13 +132,24 @@ class LoginViewModel(private val repository: UserRepository, private val applica
 
     }
 
-     fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+     fun handleGoogleSignInResult(completedTask: Task<GoogleSignInAccount>) {
         try {
             val account = completedTask.getResult(ApiException::class.java)
             val email = account.email
-        } catch (e: ApiException) {
+            val firstName = account.givenName
+            val lastname = account.familyName
+            val signUpRequest = SignUpRequest(firstname = firstName!!,lastname =lastname!!,email =email!!)
+            try {
+                _loginResult.postValue(Resource.Loading())
+                viewModelScope.launch(handler) {
+                    val result = repository.loginWithGoogle(signUpRequest)
+                    _loginResult.postValue(handleResponse(result))
+                }
+            } catch (e: Exception) {
+                _loginResult.postValue(Resource.Error("Failed to connect"))
+            }
+        } catch (e: Exception) {
             Toast.makeText(application.applicationContext, "Couldn't sign in!", Toast.LENGTH_SHORT).show()
-
         }
     }
 

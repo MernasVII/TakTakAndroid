@@ -1,14 +1,12 @@
 package tn.esprit.taktakandroid.uis.common.registerTwo
 
-import android.util.Log
-import android.util.Patterns
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.signUp.SignUpRequest
-import tn.esprit.taktakandroid.models.signUp.SignUpResponse
+import tn.esprit.taktakandroid.models.MessageResponse
+import tn.esprit.taktakandroid.models.SignUpRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.Resource
 
@@ -74,8 +72,8 @@ class RegisterTwoViewModel(private val repository: UserRepository) : ViewModel(
         get() = _workDaysError
 
 
-    private val _signUpResult = MutableLiveData<Resource<SignUpResponse>>()
-    val signUpResult: LiveData<Resource<SignUpResponse>>
+    private val _signUpResult = MutableLiveData<Resource<MessageResponse>>()
+    val signUpResult: LiveData<Resource<MessageResponse>>
         get() = _signUpResult
 
     init {
@@ -180,7 +178,7 @@ class RegisterTwoViewModel(private val repository: UserRepository) : ViewModel(
         }
     }
 
-    private fun handleResponse(response: Response<SignUpResponse>): Resource<SignUpResponse> {
+    private fun handleResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)

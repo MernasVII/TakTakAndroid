@@ -1,16 +1,13 @@
 package tn.esprit.taktakandroid.uis.common.emailForgotPwd
 
-import android.app.Application
 import android.util.Patterns
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.sendOtp.SendOtpRequest
-import tn.esprit.taktakandroid.models.sendOtp.SendOtpResponse
+import tn.esprit.taktakandroid.models.MessageResponse
+import tn.esprit.taktakandroid.models.SendOtpRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
@@ -30,8 +27,8 @@ class EmailForgotPwdViewModel(private val repository: UserRepository) :
     val emailError: LiveData<String>
         get() = _emailError
 
-    private val _sendOtpResult = MutableLiveData<Resource<SendOtpResponse>>()
-    val sendOtpResult: LiveData<Resource<SendOtpResponse>>
+    private val _sendOtpResult = MutableLiveData<Resource<MessageResponse>>()
+    val sendOtpResult: LiveData<Resource<MessageResponse>>
         get() = _sendOtpResult
 
     fun setEmail(email: String) {
@@ -67,7 +64,7 @@ class EmailForgotPwdViewModel(private val repository: UserRepository) :
 
     }
 
-    private fun handleResponse(otp :String,response: Response<SendOtpResponse>): Resource<SendOtpResponse> {
+    private fun handleResponse(otp :String,response: Response<MessageResponse>): Resource<MessageResponse> {
         if (response.isSuccessful) {
             viewModelScope.launch {
                 AppDataStore.writeString(Constants.OTP, otp)
