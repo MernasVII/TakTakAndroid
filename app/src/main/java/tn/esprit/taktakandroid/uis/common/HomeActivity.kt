@@ -5,10 +5,13 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.customer.CustomerReqsFragment
-import tn.esprit.taktakandroid.uis.customer.SPsFragment
+import tn.esprit.taktakandroid.uis.HomeViewModel
 import tn.esprit.taktakandroid.uis.sp.SPReqsFragment
-import androidx.fragment.app.FragmentManager
+import androidx.activity.viewModels
+import tn.esprit.taktakandroid.uis.HomeViewModelProviderFactory
+import tn.esprit.taktakandroid.uis.customer.SPsFragment
 
 class HomeActivity : AppCompatActivity() {
     private val spsFragment = SPsFragment()
@@ -17,6 +20,10 @@ class HomeActivity : AppCompatActivity() {
     private val spReqsFragment = SPReqsFragment()
     private val notifsFragment = NotifsFragment()
     private val profileFragment = UserProfileFragment()
+
+    val viewModel: HomeViewModel by viewModels {
+        HomeViewModelProviderFactory(UserRepository())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -7,19 +7,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.databinding.FragmentSettingsSheetBinding
+import tn.esprit.taktakandroid.databinding.SheetFragmentSettingsBinding
 
 
 class SettingsSheet : BottomSheetDialogFragment() {
-    private lateinit var mainView:FragmentSettingsSheetBinding
+    private lateinit var mainView:SheetFragmentSettingsBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mainView=FragmentSettingsSheetBinding.inflate(layoutInflater,container,false)
+        mainView=SheetFragmentSettingsBinding.inflate(layoutInflater,container,false)
         setupLangSpinner()
         return mainView.root
     }
@@ -37,7 +36,7 @@ class SettingsSheet : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        Log.d("Debug", "dissmised onDismiss")
+        Log.d("Debug", "Dismissed onDismiss")
     }
 
 

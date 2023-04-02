@@ -6,31 +6,29 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.databinding.FragmentWalletSheetBinding
+import tn.esprit.taktakandroid.databinding.SheetFragmentWalletBinding
 
 
 class WalletSheet : BottomSheetDialogFragment() {
 
-private lateinit var mainView:FragmentWalletSheetBinding
+private lateinit var mainView:SheetFragmentWalletBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mainView =FragmentWalletSheetBinding.inflate(layoutInflater, container, false)
+        mainView =SheetFragmentWalletBinding.inflate(layoutInflater, container, false)
         mainView.btnWithdraw.setOnClickListener { dismiss() }
         return mainView.root
     }
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        Log.d("Debug", "dissmised onDismiss")
+        Log.d("Debug", "Dismissed onDismiss")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("Debug", "dissmised onDestroy")
+        Log.d("Debug", "Dismissed onDestroy")
     }
 
 

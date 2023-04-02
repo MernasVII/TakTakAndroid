@@ -34,6 +34,8 @@
     <color name="whiteToBG">#FFFFFFFF</color>
     <color name="greyToWhite">#808080</color>
     <color name="redToYellow">#fc7963</color>
+    <color name="whiteToYellow">#FFFFFFFF</color>
+    <color name="navcolor">#CCFFB14A</color>
 
 
 </resources>

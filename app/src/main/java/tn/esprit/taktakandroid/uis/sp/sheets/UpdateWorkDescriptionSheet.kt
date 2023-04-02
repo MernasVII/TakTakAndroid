@@ -6,28 +6,35 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.databinding.FragmentUpdateWorkDescriptionSheetBinding
+import tn.esprit.taktakandroid.databinding.SheetFragmentUpdateWorkDescriptionBinding
+import tn.esprit.taktakandroid.models.User
 
 
-class UpdateWorkDescriptionSheet : BottomSheetDialogFragment() {
+class UpdateWorkDescriptionSheet (private val user: User) : BottomSheetDialogFragment() {
+    private val TAG="UpdateWorkDescriptionSheet"
 
-    private lateinit var mainView: FragmentUpdateWorkDescriptionSheetBinding
+    private lateinit var mainView: SheetFragmentUpdateWorkDescriptionBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
         mainView =
-            FragmentUpdateWorkDescriptionSheetBinding.inflate(layoutInflater, container, false)
+            SheetFragmentUpdateWorkDescriptionBinding.inflate(layoutInflater, container, false)
         setupSheetBehaivor()
+
+        setData()
+
         mainView.btnSaveChanges.setOnClickListener { dismiss() }
 
         return mainView.root
+    }
+
+    private fun setData() {
+        mainView.etSpeciality.setText(user.speciality)
     }
 
     fun setupSheetBehaivor() {
@@ -39,12 +46,12 @@ class UpdateWorkDescriptionSheet : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        Log.d("Debug", "dissmised onDismiss")
+        Log.d(TAG, "Dismissed onDismiss")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("Debug", "dissmised onDestroy")
+        Log.d(TAG, "Dismissed onDestroy")
     }
 
 

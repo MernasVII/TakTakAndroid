@@ -6,32 +6,43 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.databinding.FragmentChatSheetBinding
-import tn.esprit.taktakandroid.databinding.FragmentEditProfileSheetBinding
+import tn.esprit.taktakandroid.databinding.SheetFragmentEditProfileBinding
+import tn.esprit.taktakandroid.models.User
 
 
-class EditProfileSheet : BottomSheetDialogFragment() {
-    private lateinit var mainView: FragmentEditProfileSheetBinding
+class EditProfileSheet (private val user: User) : BottomSheetDialogFragment() {
+    private val TAG="EditProfileSheet"
 
+    private lateinit var mainView: SheetFragmentEditProfileBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mainView = FragmentEditProfileSheetBinding.inflate(layoutInflater, container, false)
+        mainView = SheetFragmentEditProfileBinding.inflate(layoutInflater, container, false)
+
+        setData()
+
         mainView.btnSaveChanges.setOnClickListener { dismiss() }
+
         return mainView.root
     }
+
+    private fun setData() {
+        mainView.etFirstname.setText(user.firstname)
+        mainView.etLastname.setText(user.lastname)
+        mainView.etEmail.setText(user.email)
+        mainView.etAddress.setText(user.address)
+    }
+
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        Log.d("Debug", "dissmised onDismiss")
+        Log.d(TAG, "Dismissed onDismiss")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("Debug", "dissmised onDestroy")
+        Log.d(TAG, "Dismissed onDestroy")
     }
 
 

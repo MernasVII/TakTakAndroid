@@ -35,11 +35,11 @@ class RequestDetailsSheet : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        Log.d("Debug", "dissmised onDismiss")
+        Log.d("Debug", "Dismissed onDismiss")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("Debug", "dissmised onDestroy")
+        Log.d("Debug", "Dismissed onDestroy")
     }
 }

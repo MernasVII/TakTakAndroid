@@ -2,36 +2,119 @@ package tn.esprit.taktakandroid.uis.common
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import tn.esprit.miniprojetinterfaces.Sheets.EditProfileSheet
+import tn.esprit.miniprojetinterfaces.Sheets.SettingsSheet
+import tn.esprit.miniprojetinterfaces.Sheets.UpdatePasswordSheet
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.FragmentUserProfileBinding
+import tn.esprit.taktakandroid.models.User
+import tn.esprit.taktakandroid.uis.HomeViewModel
 import tn.esprit.taktakandroid.uis.common.login.LoginActivity
+import tn.esprit.taktakandroid.uis.sp.sheets.UpdateWorkDescriptionSheet
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants.AUTH_TOKEN
+import tn.esprit.taktakandroid.utils.Resource
+
+const val TAG = "UserProfileFragment"
 
 class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
 
-    private lateinit var ivLogout:ImageView
+    lateinit var viewModel: HomeViewModel
+    lateinit var mainView: FragmentUserProfileBinding
+    lateinit var user: User
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        ivLogout = view.findViewById(R.id.iv_logout)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        mainView = FragmentUserProfileBinding.inflate(layoutInflater)
+        viewModel = (activity as HomeActivity).viewModel
 
-        ivLogout.setOnClickListener{
+        //logout
+        mainView.ivLogout.setOnClickListener {
             doLogout()
         }
+
+        //get user from request getProfile
+        getUser()
+
+        sheetsOnClicks()
+
+        return mainView.root
+    }
+
+    private fun sheetsOnClicks() {
+        //open settings sheet
+        mainView.flSettings.setOnClickListener {
+            displaySheet(SettingsSheet())
+        }
+
+        //open update profile sheet
+        mainView.flEdit.setOnClickListener {
+            displaySheet(EditProfileSheet(user))
+        }
+
+        //open update work desc sheet
+        mainView.flWork.setOnClickListener {
+            displaySheet(UpdateWorkDescriptionSheet(user))
+        }
+
+        //open update pwd sheet
+        mainView.flPwd.setOnClickListener {
+            displaySheet(UpdatePasswordSheet(user))
+        }
+    }
+
+    private fun getUser() {
+        viewModel.userProfile.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    // hideProgressBar()
+                    response.data?.let { userProfileResponse ->
+                        user = userProfileResponse.user
+                        //set username and address
+                        mainView.tvFullname.text = user.firstname + " " + user.lastname
+                        mainView.tvAddress.text = user.address
+                        if(user.cin?.isEmpty() == true){
+                            mainView.flWork.visibility=View.GONE
+                        }
+                    }
+                }
+                is Resource.Error -> {
+                    // hideProgressBar()
+                    response.message?.let { message ->
+                        Log.e(TAG, "An error occurred: $message")
+                    }
+                }
+                is Resource.Loading -> {
+                    // showProgressBar()
+                }
+            }
+        })
+    }
+
+    private fun displaySheet(bottomSheet: BottomSheetDialogFragment) {
+        //bottomSheet.isCancelable = false;
+        bottomSheet.show(parentFragmentManager, "exampleBottomSheet")
     }
 
     private fun doLogout() {
         lifecycleScope.launch(Dispatchers.IO) {
             AppDataStore.deleteString(AUTH_TOKEN)
-            withContext(Dispatchers.Main){
+            withContext(Dispatchers.Main) {
                 Intent(requireActivity(), LoginActivity::class.java).also {
                     startActivity(it)
                     requireActivity().finish()
@@ -39,6 +122,6 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
 
             }
         }
-
     }
+
 }

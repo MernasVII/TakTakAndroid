@@ -5,29 +5,25 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnFocusChangeListener
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.adapters.ChatAdapter
-import tn.esprit.taktakandroid.databinding.FragmentChatSheetBinding
+import tn.esprit.taktakandroid.databinding.SheetFragmentChatBinding
 import tn.esprit.taktakandroid.models.ChatMessage
 
 
 class ChatSheet : BottomSheetDialogFragment() {
-    private lateinit var mainView: FragmentChatSheetBinding
+    private lateinit var mainView: SheetFragmentChatBinding
     private val chatAdapter = ChatAdapter()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mainView = FragmentChatSheetBinding.inflate(layoutInflater, container, false)
+        mainView = SheetFragmentChatBinding.inflate(layoutInflater, container, false)
 
         dialogBehavior()
         scrollToBottomWhenTyping()
@@ -129,7 +125,7 @@ class ChatSheet : BottomSheetDialogFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("Debug", "dissmised onDestroy")
+        Log.d("Debug", "Dismissed onDestroy")
     }
 
 

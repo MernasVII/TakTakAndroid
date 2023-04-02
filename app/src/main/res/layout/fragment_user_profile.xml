@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yellowToBG"
+    android:background="@color/whiteToBG"
     tools:context=".uis.common.UserProfileFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -49,6 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mohamed Ali"
+            android:gravity="center"
             android:layout_marginTop="20dp"
             android:textColor="@color/orangeToYellow"
             android:textSize="24sp"
@@ -57,6 +58,7 @@
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Kalaat El Andalous Tunis, Tunisie"
             android:textColor="@color/orangeToWhite"
             android:textSize="14sp"

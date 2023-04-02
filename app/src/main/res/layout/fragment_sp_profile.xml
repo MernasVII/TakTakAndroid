@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -12,7 +13,9 @@
         android:orientation="vertical">
 
         <!-- TOP LAYOUT -->
-        <include layout="@layout/profile_layout"/>
+        <include
+            android:id="@+id/profile_layout"
+            layout="@layout/profile_layout"/>
         <!-- BOTTOM LAYOUT -->
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -23,7 +26,67 @@
             android:text="Types of services"
             android:textColor="@color/BGToLB"
             android:textSize="14sp" />
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:columnCount="3"
+            android:orientation="horizontal"
+            android:rowCount="1"
+            android:useDefaultMargins="true">
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnInstallation"
+                android:layout_height="60dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/installation"
+                android:textAllCaps="false"
+                android:textColor="@color/orangeToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orangeToLB"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRepair"
+                android:layout_height="60dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/repair"
+                android:textAllCaps="false"
+                android:textColor="@color/orangeToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orangeToLB"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMaintenance"
+                android:layout_height="60dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/maintenance"
+                android:textAllCaps="false"
+                android:textColor="@color/orangeToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orangeToLB"
+                app:strokeWidth="1dp" />
+
+        </GridLayout>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -35,13 +98,128 @@
             android:textColor="@color/BGToLB"
             android:textSize="14sp" />
 
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:columnCount="3"
+            android:orientation="horizontal"
+            android:rowCount="2"
+            android:useDefaultMargins="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMonday"
+                android:layout_height="60dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/monday"
+                android:textAllCaps="false"
+                android:textColor="@color/orangeToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orangeToLB"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTuesday"
+                android:layout_height="60dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/tuesday"
+                android:textAllCaps="false"
+                android:textColor="@color/orangeToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orangeToLB"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnWednesday"
+                android:layout_height="60dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/wednesday"
+                android:textAllCaps="false"
+                android:textColor="@color/orangeToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orangeToLB"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnThursday"
+                android:layout_height="60dp"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/thursday"
+                android:textAllCaps="false"
+                android:textColor="@color/orangeToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orangeToLB"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFriday"
+                android:layout_height="60dp"
+                android:layout_row="1"
+
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/friday"
+                android:textAllCaps="false"
+                android:textColor="@color/orangeToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orangeToLB"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaturday"
+                android:layout_height="60dp"
+                android:layout_row="1"
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/saturday"
+                android:textAllCaps="false"
+                android:textColor="@color/orangeToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orangeToLB"
+                app:strokeWidth="1dp" />
+
+        </GridLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Book an Appointment"
             android:textColor="@color/white"
             android:fontFamily="@font/poppins_semibold"
-            android:textSize="16sp"
+            android:textSize="18dp"
             android:background="@drawable/btn_bg"
             android:backgroundTint="@color/orangeToLB"
             android:layout_marginStart="30dp"

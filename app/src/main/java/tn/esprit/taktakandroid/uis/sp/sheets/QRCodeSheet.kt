@@ -7,22 +7,19 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
-import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
-import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.databinding.FragmentQRCodeSheetBinding
+import tn.esprit.taktakandroid.databinding.SheetFragmentQrCodeBinding
 
 
 class QRCodeSheet : BottomSheetDialogFragment() {
-    private lateinit var mainView: FragmentQRCodeSheetBinding
+    private lateinit var mainView: SheetFragmentQrCodeBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mainView = FragmentQRCodeSheetBinding.inflate(layoutInflater, container, false)
+        mainView = SheetFragmentQrCodeBinding.inflate(layoutInflater, container, false)
 
         generateQrCode("content")
         return mainView.root
@@ -67,7 +64,7 @@ class QRCodeSheet : BottomSheetDialogFragment() {
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
-        Log.d("Debug", "dissmised onDismiss")
+        Log.d("Debug", "Dismissed onDismiss")
     }
 
 

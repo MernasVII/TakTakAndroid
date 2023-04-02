@@ -80,7 +80,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_bidsCustomer"
-        tools:listitem="@layout/item_sp_item"
+        tools:listitem="@layout/item_req_sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@color/transparent"
