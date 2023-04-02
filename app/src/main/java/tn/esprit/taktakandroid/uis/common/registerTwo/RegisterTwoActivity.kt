@@ -63,7 +63,7 @@ class RegisterTwoActivity : BaseActivity() {
 
 
         mainView.btnRegSp.setOnClickListener {
-            //tochange
+            //TODO remove this line because cin value will be set from ocr
             viewModel.setCin(mainView.etCin.text.toString())
             viewModel.signUp()
 
@@ -73,7 +73,7 @@ class RegisterTwoActivity : BaseActivity() {
             setOnClickListener {
                 showGuideDialog()
             }
-         //  isLongClickable=false //to change
+         //  isLongClickable=false //TODO remove this
         }
 
         viewModel.signUpResult.observe(this){ result ->
@@ -226,6 +226,7 @@ class RegisterTwoActivity : BaseActivity() {
             }
         }
         mainView.etCin.setText(result.toString())
+        viewModel.setCin(result.toString())
 
     }
 

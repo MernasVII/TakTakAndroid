@@ -17,6 +17,7 @@ import tn.esprit.taktakandroid.uis.BaseActivity
 import tn.esprit.taktakandroid.uis.common.emailForgotPwd.EmailForgotPwdActivity
 import tn.esprit.taktakandroid.uis.common.HomeActivity
 import tn.esprit.taktakandroid.uis.common.registerOne.RegisterOneActivity
+import tn.esprit.taktakandroid.uis.common.sheets.TermsAndConditionsSheet
 
 import tn.esprit.taktakandroid.utils.Resource
 
@@ -84,6 +85,9 @@ class LoginActivity : BaseActivity() {
 
         mainView.btnGoogleLogin.setOnClickListener {
             startActivityResult.launch(viewModel.googleSignIn())
+        }
+        mainView.tvTermsConditions.setOnClickListener {
+            displaySheet(TermsAndConditionsSheet())
         }
 
 

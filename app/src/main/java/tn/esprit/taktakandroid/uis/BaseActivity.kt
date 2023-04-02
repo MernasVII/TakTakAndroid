@@ -7,6 +7,7 @@ import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 
@@ -53,5 +54,10 @@ open class BaseActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+
+    fun displaySheet(bottomSheet: BottomSheetDialogFragment) {
+        bottomSheet.show(supportFragmentManager,"")
+    }
 
 }
