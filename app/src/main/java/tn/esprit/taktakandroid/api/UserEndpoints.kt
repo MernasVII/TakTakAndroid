@@ -1,5 +1,6 @@
 package tn.esprit.taktakandroid.api
 
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 import tn.esprit.taktakandroid.models.splist.SPsResponse
@@ -15,6 +16,7 @@ import tn.esprit.taktakandroid.models.SendOtpRequest
 import tn.esprit.taktakandroid.models.SignUpRequest
 import tn.esprit.taktakandroid.models.updateprofile.UpdateProfileRequest
 import tn.esprit.taktakandroid.models.updatepwd.UpdatePwdRequest
+import tn.esprit.taktakandroid.models.updateworkdesc.UpdateWorkDescRequest
 
 interface UserEndpoints {
 
@@ -58,11 +60,25 @@ interface UserEndpoints {
         @Body request: UpdateProfileRequest
     ): Response<MessageResponse>
 
+    @Multipart
+    @PUT("user/updateprofilepic")
+    suspend fun updatePic(
+        @Header("Authorization") token: String,
+        @Part image:MultipartBody.Part
+    ): Response<MessageResponse>
+
+    @PUT("user/updateworkdesc")
+    suspend fun updateWorkDesc(
+        @Header("Authorization") token: String,
+        @Body request: UpdateWorkDescRequest
+    ): Response<MessageResponse>
+
     @PUT("user/changepwd")
     suspend fun changePwd(
         @Header("Authorization") token: String,
         @Body request: UpdatePwdRequest
     ): Response<MessageResponse>
+
 
     @DELETE("user/delete")
     suspend fun deleteUser(

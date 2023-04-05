@@ -73,7 +73,8 @@
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="wrap_content"
+
         android:columnCount="3"
         android:orientation="horizontal"
         android:rowCount="1"
@@ -81,6 +82,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnInstallation"
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_row="0"
             android:layout_rowWeight="1"
@@ -90,15 +92,17 @@
             android:letterSpacing="0"
             android:text="@string/installation"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/orange"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/orange"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRepair"
+            android:layout_width="0dp"
             android:layout_height="60dp"
+
             android:layout_row="0"
             android:layout_rowWeight="1"
             android:layout_column="1"
@@ -107,14 +111,15 @@
             android:letterSpacing="0"
             android:text="@string/repair"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/orange"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/orange"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnMaintenance"
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_row="0"
             android:layout_rowWeight="1"
@@ -122,12 +127,13 @@
             android:layout_columnWeight="1"
             android:backgroundTint="@color/white"
             android:letterSpacing="0"
+            android:singleLine="true"
             android:text="@string/maintenance"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/orange"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/orange"
             app:strokeWidth="1dp" />
 
     </GridLayout>
@@ -149,7 +155,7 @@
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         android:columnCount="3"
         android:orientation="horizontal"
         android:rowCount="2"
@@ -157,7 +163,9 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnMonday"
+            android:layout_width="0dp"
             android:layout_height="60dp"
+
             android:layout_row="0"
             android:layout_rowWeight="1"
             android:layout_column="0"
@@ -166,14 +174,16 @@
             android:letterSpacing="0"
             android:text="@string/monday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/orange"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/orange"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnTuesday"
+            android:layout_width="0dp"
+
             android:layout_height="60dp"
             android:layout_row="0"
             android:layout_rowWeight="1"
@@ -183,14 +193,15 @@
             android:letterSpacing="0"
             android:text="@string/tuesday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/orange"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/orange"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnWednesday"
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_row="0"
             android:layout_rowWeight="1"
@@ -201,16 +212,18 @@
             android:letterSpacing="0"
             android:text="@string/wednesday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/orange"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/orange"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnThursday"
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_row="1"
+
             android:layout_rowWeight="1"
             android:layout_column="0"
             android:layout_columnWeight="1"
@@ -218,14 +231,15 @@
             android:letterSpacing="0"
             android:text="@string/thursday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/orange"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/orange"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnFriday"
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_row="1"
 
@@ -236,16 +250,18 @@
             android:letterSpacing="0"
             android:text="@string/friday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/orange"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/orange"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSaturday"
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_row="1"
+
             android:layout_rowWeight="1"
             android:layout_column="2"
             android:layout_columnWeight="1"
@@ -253,10 +269,10 @@
             android:letterSpacing="0"
             android:text="@string/saturday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/orange"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/orange"
             app:strokeWidth="1dp" />
 
     </GridLayout>

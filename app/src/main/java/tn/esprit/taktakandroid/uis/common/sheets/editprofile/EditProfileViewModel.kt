@@ -8,9 +8,7 @@ import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.MessageResponse
 import tn.esprit.taktakandroid.models.updateprofile.UpdateProfileRequest
-import tn.esprit.taktakandroid.models.userprofile.UserProfileResponse
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.common.userprofile.TAG
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
@@ -18,7 +16,7 @@ import tn.esprit.taktakandroid.utils.Resource
 class EditProfileViewModel (private val repository: UserRepository) :
     ViewModel(){
 
-    val updateProfile: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+    val updateProfileRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
 
     private val _firstname = MutableLiveData<String>()
     val firstname: LiveData<String>
@@ -52,10 +50,6 @@ class EditProfileViewModel (private val repository: UserRepository) :
     val addressError: LiveData<String>
         get() = _addressError
 
-    private val _updateResult = MutableLiveData<Resource<MessageResponse>>()
-    val updateResult: LiveData<Resource<MessageResponse>>
-        get() = _updateResult
-
     fun setFirstname(firstname: String) {
         _firstname.value = firstname
     }
@@ -81,7 +75,7 @@ class EditProfileViewModel (private val repository: UserRepository) :
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        _updateResult.postValue(Resource.Error("Failed to connect"))
+        updateProfileRes.postValue(Resource.Error("Failed to connect"))
     }
 
     fun updateProfile() = viewModelScope.launch {
@@ -90,7 +84,7 @@ class EditProfileViewModel (private val repository: UserRepository) :
         val address = _address.value
         if (fieldsValidation(firstname, lastname, address)) {
             try {
-                updateProfile.postValue(Resource.Loading())
+                updateProfileRes.postValue(Resource.Loading())
                 val token = AppDataStore.readString(Constants.AUTH_TOKEN)
                 viewModelScope.launch(handler) {
                     Log.d("afterTextChanged", "updateProfile: $firstname")
@@ -99,11 +93,11 @@ class EditProfileViewModel (private val repository: UserRepository) :
                         lastname!!,
                         address!!
                     ))
-                    updateProfile.postValue(handleResponse(response))
+                    updateProfileRes.postValue(handleResponse(response))
                 }
 
             } catch (e: Exception) {
-                updateProfile.postValue(Resource.Error("Failed to connect"))
+                updateProfileRes.postValue(Resource.Error("Failed to connect"))
             }
 
         }

@@ -141,8 +141,6 @@ class RegisterTwoViewModel(private val repository: UserRepository) : ViewModel(
 
 
     fun signUp() {
-
-
         val email = _email.value
         val password = _password.value
         val firstname = _firstname.value

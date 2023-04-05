@@ -1,19 +1,26 @@
 package tn.esprit.taktakandroid.uis.common.userprofile
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -30,6 +37,7 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Constants.AUTH_TOKEN
 import tn.esprit.taktakandroid.utils.Resource
+import java.io.File
 
 const val TAG = "UserProfileFragment"
 
@@ -56,6 +64,19 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
 
         mainView.flDeleteAcc.setOnClickListener{
             deleteAccountAndLogout()
+        }
+
+        mainView.ivAddPic.setOnClickListener{
+            PermissionX.init(this).permissions(
+                android.Manifest.permission.CAMERA,
+                android.Manifest.permission.READ_EXTERNAL_STORAGE
+            ).request { allGranted, _, _ ->
+                if (allGranted) {
+                    ImagePicker.with(this).compress(1024).crop().createIntent {
+                        startForImageResult.launch(it)
+                    }
+                }
+            }
         }
 
         //get user from request getProfile
@@ -96,7 +117,7 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
     }
 
     private fun getUser() {
-        viewModel.userProfile.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.userProfileRes.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
                     // hideProgressBar()
@@ -151,4 +172,20 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
         val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
         mGoogleSignInClient.signOut()
     }
+
+    private val startForImageResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+
+            if (resultCode == Activity.RESULT_OK) {
+                val uri: Uri = data?.data!!
+                val file= uri.path?.let { File(it) }
+                viewModel.updatePic(file)
+                //TODO
+                mainView.ivPic.setImageURI(uri)
+            } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+            }
+        }
 }

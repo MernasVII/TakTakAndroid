@@ -1,6 +1,5 @@
 package tn.esprit.taktakandroid.uis.common.userprofile
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,10 +12,12 @@ import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
+import java.io.File
 
 class UserProfileViewModel(private val userRepository: UserRepository
 ) : ViewModel() {
-    val userProfile: MutableLiveData<Resource<UserProfileResponse>> = MutableLiveData()
+    val userProfileRes: MutableLiveData<Resource<UserProfileResponse>> = MutableLiveData()
+    val updatePicRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
     private val _deleteUserStatus = MutableLiveData<DeleteUserStatus>()
     val deleteUserStatus: LiveData<DeleteUserStatus> = _deleteUserStatus
 
@@ -26,12 +27,12 @@ class UserProfileViewModel(private val userRepository: UserRepository
 
     private fun getUserProfile() = viewModelScope.launch {
         try {
-            userProfile.postValue(Resource.Loading())
+            userProfileRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             val response = userRepository.getUserProfile("Bearer $token")
-            userProfile.postValue(handleUserProfileResponse(response))
+            userProfileRes.postValue(handleUserProfileResponse(response))
         } catch (exception: Exception) {
-            userProfile.postValue(Resource.Error("Failed to connect"))
+            userProfileRes.postValue(Resource.Error("Failed to connect"))
         }
     }
 
@@ -63,4 +64,26 @@ class UserProfileViewModel(private val userRepository: UserRepository
         object Success : DeleteUserStatus()
         data class Failure(val errorMessage: String?) : DeleteUserStatus()
     }
+
+    fun updatePic(file: File?) = viewModelScope.launch {
+        try {
+            updatePicRes.postValue(Resource.Loading())
+            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+            val response = file?.let { userRepository.updatePic("Bearer $token", it) }
+            updatePicRes.postValue(response?.let { handleUpdatePicResponse(it) })
+        } catch (exception: Exception) {
+            updatePicRes.postValue(Resource.Error("Failed to connect"))
+        }
+    }
+
+    private fun handleUpdatePicResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Resource.Success(resultResponse)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+
 }

@@ -37,9 +37,6 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
     val newPwdError: LiveData<String>
         get() = _newPwdError
 
-    private val _updateResult = MutableLiveData<Resource<MessageResponse>>()
-    val updateResult: LiveData<Resource<MessageResponse>>
-        get() = _updateResult
 
     fun setOldPwd(oldPwd: String) {
         _oldPwd.value = oldPwd
@@ -58,7 +55,7 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        _updateResult.postValue(Resource.Error("Failed to connect"))
+        updatePwd.postValue(Resource.Error("Failed to connect"))
     }
 
     fun updatePwd() = viewModelScope.launch {
