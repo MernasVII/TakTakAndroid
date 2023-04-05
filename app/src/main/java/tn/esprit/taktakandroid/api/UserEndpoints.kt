@@ -63,4 +63,9 @@ interface UserEndpoints {
         @Header("Authorization") token: String,
         @Body request: UpdatePwdRequest
     ): Response<MessageResponse>
+
+    @DELETE("user/delete")
+    suspend fun deleteUser(
+        @Header("Authorization") token: String
+    ): Response<MessageResponse>
 }

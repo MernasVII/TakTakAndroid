@@ -54,12 +54,23 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
             doLogout()
         }
 
+        mainView.flDeleteAcc.setOnClickListener{
+            deleteAccountAndLogout()
+        }
+
         //get user from request getProfile
         getUser()
 
         sheetsOnClicks()
 
         return mainView.root
+    }
+
+    private fun deleteAccountAndLogout() {
+        lifecycleScope.launch {
+            viewModel.deleteUser()
+            doLogout()
+        }
     }
 
     private fun sheetsOnClicks() {
@@ -98,8 +109,6 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
                             mainView.flWork.visibility=View.GONE
                         }
                         Glide.with(this).load(Constants.IMG_URL +user.pic).into(mainView.ivPic)
-
-
                     }
                 }
                 is Resource.Error -> {

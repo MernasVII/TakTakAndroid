@@ -34,4 +34,7 @@ class UserRepository {
 
     suspend fun changepwd(token:String, updatePwdRequest: UpdatePwdRequest)=
         RetrofitInstance.userApi.changePwd(token,updatePwdRequest)
+
+    suspend fun deleteUser(token:String)=
+        RetrofitInstance.userApi.deleteUser(token)
 }
