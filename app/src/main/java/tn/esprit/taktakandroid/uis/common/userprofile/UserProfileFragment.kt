@@ -1,4 +1,4 @@
-package tn.esprit.taktakandroid.uis.common
+package tn.esprit.taktakandroid.uis.common.userprofile
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -23,7 +24,9 @@ import tn.esprit.miniprojetinterfaces.Sheets.UpdatePasswordSheet
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.FragmentUserProfileBinding
 import tn.esprit.taktakandroid.models.entities.User
+import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.HomeViewModel
+import tn.esprit.taktakandroid.uis.common.HomeActivity
 import tn.esprit.taktakandroid.uis.common.login.LoginActivity
 import tn.esprit.taktakandroid.uis.sp.sheets.UpdateWorkDescriptionSheet
 import tn.esprit.taktakandroid.utils.AppDataStore
@@ -35,7 +38,7 @@ const val TAG = "UserProfileFragment"
 
 class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
 
-    lateinit var viewModel: HomeViewModel
+    lateinit var viewModel: UserProfileViewModel
     lateinit var mainView: FragmentUserProfileBinding
     lateinit var user: User
 
@@ -46,7 +49,8 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
         savedInstanceState: Bundle?
     ): View? {
         mainView = FragmentUserProfileBinding.inflate(layoutInflater)
-        viewModel = (activity as HomeActivity).viewModel
+        val userRepository = UserRepository()
+        viewModel = ViewModelProvider(this, UserProfileViewModelFactory(userRepository)).get(UserProfileViewModel::class.java)
 
         //logout
         mainView.ivLogout.setOnClickListener {

@@ -11,6 +11,7 @@ import tn.esprit.taktakandroid.uis.HomeViewModel
 import tn.esprit.taktakandroid.uis.sp.SPReqsFragment
 import androidx.activity.viewModels
 import tn.esprit.taktakandroid.uis.HomeViewModelProviderFactory
+import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileFragment
 import tn.esprit.taktakandroid.uis.customer.SPsFragment
 
 class HomeActivity : AppCompatActivity() {
