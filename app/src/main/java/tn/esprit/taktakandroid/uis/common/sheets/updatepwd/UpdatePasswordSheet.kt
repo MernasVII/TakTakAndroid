@@ -1,4 +1,4 @@
-package tn.esprit.miniprojetinterfaces.Sheets
+package tn.esprit.taktakandroid.uis.common.sheets.updatepwd
 
 import android.content.DialogInterface
 import android.os.Bundle

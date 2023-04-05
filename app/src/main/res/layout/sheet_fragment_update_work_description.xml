@@ -9,7 +9,7 @@
     android:background="@drawable/sheet_background"
 
     android:padding="16dp"
-    tools:context=".uis.sp.sheets.UpdateWorkDescriptionSheet">
+    tools:context=".uis.sp.sheets.updatework.UpdateWorkDescriptionSheet">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"
