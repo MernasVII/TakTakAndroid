@@ -9,7 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -18,11 +22,12 @@ import tn.esprit.miniprojetinterfaces.Sheets.SettingsSheet
 import tn.esprit.miniprojetinterfaces.Sheets.UpdatePasswordSheet
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.FragmentUserProfileBinding
-import tn.esprit.taktakandroid.models.User
+import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.uis.HomeViewModel
 import tn.esprit.taktakandroid.uis.common.login.LoginActivity
 import tn.esprit.taktakandroid.uis.sp.sheets.UpdateWorkDescriptionSheet
 import tn.esprit.taktakandroid.utils.AppDataStore
+import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Constants.AUTH_TOKEN
 import tn.esprit.taktakandroid.utils.Resource
 
@@ -91,6 +96,9 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
                         if(user.cin?.isEmpty() == true){
                             mainView.flWork.visibility=View.GONE
                         }
+                        Glide.with(this).load(Constants.IMG_URL +user.pic).into(mainView.ivPic)
+
+
                     }
                 }
                 is Resource.Error -> {
@@ -114,14 +122,23 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
     private fun doLogout() {
         lifecycleScope.launch(Dispatchers.IO) {
             AppDataStore.deleteString(AUTH_TOKEN)
-            withContext(Dispatchers.Main) {
+            googleSignOut()
+            withContext(Dispatchers.Main){
                 Intent(requireActivity(), LoginActivity::class.java).also {
                     startActivity(it)
                     requireActivity().finish()
                 }
-
             }
         }
     }
 
+    private fun googleSignOut(){
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestProfile()
+            .requestId()
+            .build()
+        val mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        mGoogleSignInClient.signOut()
+    }
 }

@@ -2,24 +2,31 @@ package tn.esprit.miniprojetinterfaces.Sheets
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.databinding.SheetFragmentEditProfileBinding
-import tn.esprit.taktakandroid.models.User
+import tn.esprit.taktakandroid.models.entities.User
+import tn.esprit.taktakandroid.uis.HomeViewModel
+import tn.esprit.taktakandroid.uis.common.HomeActivity
 
 
 class EditProfileSheet (private val user: User) : BottomSheetDialogFragment() {
     private val TAG="EditProfileSheet"
 
+    lateinit var viewModel: HomeViewModel
     private lateinit var mainView: SheetFragmentEditProfileBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         mainView = SheetFragmentEditProfileBinding.inflate(layoutInflater, container, false)
+        viewModel = (activity as HomeActivity).viewModel
 
         setData()
 

@@ -212,7 +212,6 @@
                 android:id="@+id/btn_createAccount"
                 android:layout_width="match_parent"
                 android:backgroundTint="@color/orange"
-
                 android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="20dp"
@@ -225,6 +224,18 @@
                 android:textAllCaps="false"
                 android:textSize="20dp"
                 app:cornerRadius="24dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvTermsConditions"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/poppins_regular"
+                android:gravity="center"
+                android:text="@string/terms_and_conditions"
+                android:textColor="@color/greyToWhite"
+                android:textSize="15dp" />
         </LinearLayout>
         <LinearLayout
             android:visibility="gone"

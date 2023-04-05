@@ -1,25 +1,20 @@
 package tn.esprit.taktakandroid.uis.common.otpVerification
 
-import android.app.Application
-import android.util.Log
-import android.util.Patterns
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.sendOtp.SendOtpRequest
-import tn.esprit.taktakandroid.models.sendOtp.SendOtpResponse
+import tn.esprit.taktakandroid.models.MessageResponse
+import tn.esprit.taktakandroid.models.SendOtpRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class OtpViewModel(private val repository: UserRepository, application: Application) :
-    AndroidViewModel(application) {
+class OtpViewModel(private val repository: UserRepository) :
+  ViewModel() {
 
 
     private val _email = MutableLiveData<String>()
@@ -46,8 +41,8 @@ class OtpViewModel(private val repository: UserRepository, application: Applicat
     val verifyOtpResult: LiveData<Resource<String>>
         get() = _verifyOtpResult
 
-    private val _sendOtpResult = MutableLiveData<Resource<SendOtpResponse>>()
-    val sendOtpResult: LiveData<Resource<SendOtpResponse>>
+    private val _sendOtpResult = MutableLiveData<Resource<MessageResponse>>()
+    val sendOtpResult: LiveData<Resource<MessageResponse>>
         get() = _sendOtpResult
 
     fun verifyOtp() {
@@ -64,14 +59,17 @@ class OtpViewModel(private val repository: UserRepository, application: Applicat
         }
 
     }
+    private val handler = CoroutineExceptionHandler { _, _ ->
+        _sendOtpResult.postValue(Resource.Error("Failed to connect"))
+    }
 
     fun sendOtp() {
 
         _sendOtpResult.postValue(Resource.Loading())
-        viewModelScope.launch {
+        viewModelScope.launch(handler) {
             try {
                 val generatedOtp = repository.generateOTP()
-                val sendOtpRequest = SendOtpRequest(email.value!!, generatedOtp)
+                val sendOtpRequest = SendOtpRequest(_email.value!!, generatedOtp)
                 val result = repository.sendOtp(sendOtpRequest)
                 _sendOtpResult.postValue(handleResponse(generatedOtp, result))
 
@@ -85,8 +83,8 @@ class OtpViewModel(private val repository: UserRepository, application: Applicat
 
     private fun handleResponse(
         otp: String,
-        response: Response<SendOtpResponse>
-    ): Resource<SendOtpResponse> {
+        response: Response<MessageResponse>
+    ): Resource<MessageResponse> {
         if (response.isSuccessful) {
             viewModelScope.launch {
                 AppDataStore.writeString(Constants.OTP, otp)

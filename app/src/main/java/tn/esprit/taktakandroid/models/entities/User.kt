@@ -1,4 +1,4 @@
-package tn.esprit.taktakandroid.models
+package tn.esprit.taktakandroid.models.entities
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

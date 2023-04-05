@@ -10,7 +10,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.databinding.SheetFragmentUpdateWorkDescriptionBinding
-import tn.esprit.taktakandroid.models.User
+import tn.esprit.taktakandroid.models.entities.User
 
 
 class UpdateWorkDescriptionSheet (private val user: User) : BottomSheetDialogFragment() {

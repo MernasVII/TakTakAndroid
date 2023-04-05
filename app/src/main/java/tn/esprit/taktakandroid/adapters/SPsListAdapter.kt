@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import de.hdodenhof.circleimageview.CircleImageView
 import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.models.User
+import tn.esprit.taktakandroid.models.entities.User
 import com.bumptech.glide.Glide
 import tn.esprit.taktakandroid.uis.customer.SPProfileFragment
 import tn.esprit.taktakandroid.utils.Constants.IMG_URL

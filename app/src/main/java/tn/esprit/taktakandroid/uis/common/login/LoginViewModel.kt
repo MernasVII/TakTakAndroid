@@ -1,25 +1,31 @@
 package tn.esprit.taktakandroid.uis.common.login
 
 import android.app.Application
+import android.content.Intent
 import android.util.Patterns
+import android.widget.Toast
 import androidx.lifecycle.*
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.models.SignUpRequest
 import tn.esprit.taktakandroid.models.login.LoginRequest
 import tn.esprit.taktakandroid.models.login.LoginResponse
-import tn.esprit.taktakandroid.models.sendOtp.SendOtpRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 
-class LoginViewModel(private val repository: UserRepository, application: Application) :
-    AndroidViewModel(
-        application
-    ) {
+class LoginViewModel(private val repository: UserRepository, private val application: Application) :
+    AndroidViewModel(application) {
 
 
 
@@ -59,35 +65,32 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
         _emailError.value = ""
     }
 
-
+    private val handler = CoroutineExceptionHandler { _, _ ->
+        _loginResult.postValue(Resource.Error("Failed to connect"))
+    }
 
     fun login() {
-        val email = email.value
-        val password = password.value
+        val email = _email.value
+        val password = _password.value
         val isEmailValid = isEmailValid(email)
         val isPwdValid = isPwdValid(password)
         if (isEmailValid && isPwdValid) {
             try {
                 _loginResult.postValue(Resource.Loading())
-                viewModelScope.launch {
+                viewModelScope.launch(handler) {
                     val result = repository.login(LoginRequest(email, password))
                     _loginResult.postValue(handleResponse(result))
                 }
-
-            } catch (e: java.lang.Exception) {
+            } catch (e: Exception) {
                 _loginResult.postValue(Resource.Error("Failed to connect"))
             }
-
         }
-
-
     }
 
     private fun handleResponse(response: Response<LoginResponse>): Resource<LoginResponse> {
         if (response.isSuccessful) {
 
             response.body()?.let { resultResponse ->
-                //  AppDataStore.init(getApplication<Application>().applicationContext)
                 viewModelScope.launch(Dispatchers.IO) {
                     AppDataStore.writeString(Constants.AUTH_TOKEN, resultResponse.token!!)
                 }
@@ -115,6 +118,43 @@ class LoginViewModel(private val repository: UserRepository, application: Applic
         }
         return true
     }
+
+
+    fun googleSignIn():Intent{
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestProfile()
+            .requestId()
+            .build()
+
+        val mGoogleSignInClient = GoogleSignIn.getClient(application.applicationContext, gso)
+        return mGoogleSignInClient.signInIntent
+
+    }
+
+     fun handleGoogleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            val email = account.email
+            val firstName = account.givenName
+            val lastname = account.familyName
+            val signUpRequest = SignUpRequest(firstname = firstName!!,lastname =lastname!!,email =email!!)
+            try {
+                _loginResult.postValue(Resource.Loading())
+                viewModelScope.launch(handler) {
+                    val result = repository.loginWithGoogle(signUpRequest)
+                    _loginResult.postValue(handleResponse(result))
+                }
+            } catch (e: Exception) {
+                _loginResult.postValue(Resource.Error("Failed to connect"))
+            }
+        } catch (e: Exception) {
+            Toast.makeText(application.applicationContext, "Couldn't sign in!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
 
 }
 

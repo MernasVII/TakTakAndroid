@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.FragmentSpProfileBinding
-import tn.esprit.taktakandroid.models.User
+import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.uis.HomeViewModel
 import tn.esprit.taktakandroid.uis.common.HomeActivity
+import tn.esprit.taktakandroid.utils.Constants
 
 class SPProfileFragment : Fragment(R.layout.fragment_sp_profile) {
     private val TAG="SPProfileFragment"
@@ -32,6 +34,8 @@ class SPProfileFragment : Fragment(R.layout.fragment_sp_profile) {
             mainView.profileLayout.tvFullname.text=user.firstname+" "+user.lastname
             mainView.profileLayout.tvAddress.text=user.address
             mainView.profileLayout.tvRate.text= String.format("%.1f", user.rate)
+            Glide.with(this).load(Constants.IMG_URL +user.pic).into(mainView.profileLayout.ivPic)
+
         } else {
             // Handle error
         }
