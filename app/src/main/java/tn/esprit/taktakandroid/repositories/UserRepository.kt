@@ -6,6 +6,7 @@ import tn.esprit.taktakandroid.models.ResetPwdRequest
 import tn.esprit.taktakandroid.models.SendOtpRequest
 import tn.esprit.taktakandroid.models.SignUpRequest
 import tn.esprit.taktakandroid.models.updateprofile.UpdateProfileRequest
+import tn.esprit.taktakandroid.models.updatepwd.UpdatePwdRequest
 import java.util.*
 
 class UserRepository {
@@ -30,4 +31,7 @@ class UserRepository {
 
     suspend fun updateProfile(token:String, updateProfileRequest: UpdateProfileRequest)=
         RetrofitInstance.userApi.updateProfile(token,updateProfileRequest)
+
+    suspend fun changepwd(token:String, updatePwdRequest: UpdatePwdRequest)=
+        RetrofitInstance.userApi.changePwd(token,updatePwdRequest)
 }

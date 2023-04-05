@@ -14,6 +14,7 @@ import tn.esprit.taktakandroid.models.ResetPwdRequest
 import tn.esprit.taktakandroid.models.SendOtpRequest
 import tn.esprit.taktakandroid.models.SignUpRequest
 import tn.esprit.taktakandroid.models.updateprofile.UpdateProfileRequest
+import tn.esprit.taktakandroid.models.updatepwd.UpdatePwdRequest
 
 interface UserEndpoints {
 
@@ -55,5 +56,11 @@ interface UserEndpoints {
     suspend fun updateProfile(
         @Header("Authorization") token: String,
         @Body request: UpdateProfileRequest
+    ): Response<MessageResponse>
+
+    @PUT("user/changepwd")
+    suspend fun changePwd(
+        @Header("Authorization") token: String,
+        @Body request: UpdatePwdRequest
     ): Response<MessageResponse>
 }

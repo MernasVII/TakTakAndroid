@@ -27,7 +27,7 @@ class UserProfileViewModel(private val userRepository: UserRepository
             val response = userRepository.getUserProfile("Bearer $token")
             userProfile.postValue(handleUserProfileResponse(response))
         } catch (exception: Exception) {
-            Log.d(TAG, "getUserProfile: $exception")
+            userProfile.postValue(Resource.Error("Failed to connect"))
         }
     }
 

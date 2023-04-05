@@ -24,8 +24,8 @@ import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 
-class LoginViewModel(private val repository: UserRepository, private val application: Application) :
-    AndroidViewModel(application) {
+class LoginViewModel(private val repository: UserRepository, private val app: Application) :
+    AndroidViewModel(app) {
 
 
 
@@ -127,7 +127,7 @@ class LoginViewModel(private val repository: UserRepository, private val applica
             .requestId()
             .build()
 
-        val mGoogleSignInClient = GoogleSignIn.getClient(application.applicationContext, gso)
+        val mGoogleSignInClient = GoogleSignIn.getClient(app.applicationContext, gso)
         return mGoogleSignInClient.signInIntent
 
     }
@@ -149,7 +149,7 @@ class LoginViewModel(private val repository: UserRepository, private val applica
                 _loginResult.postValue(Resource.Error("Failed to connect"))
             }
         } catch (e: Exception) {
-            Toast.makeText(application.applicationContext, "Couldn't sign in!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext, "Couldn't sign in!", Toast.LENGTH_SHORT).show()
         }
     }
 
