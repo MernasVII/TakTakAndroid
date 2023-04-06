@@ -15,7 +15,7 @@ import tn.esprit.taktakandroid.databinding.ActivityLoginBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.BaseActivity
 import tn.esprit.taktakandroid.uis.common.emailForgotPwd.EmailForgotPwdActivity
-import tn.esprit.taktakandroid.uis.common.HomeActivity
+import tn.esprit.taktakandroid.uis.home.HomeActivity
 import tn.esprit.taktakandroid.uis.common.registerOne.RegisterOneActivity
 
 import tn.esprit.taktakandroid.utils.Resource

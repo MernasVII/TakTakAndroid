@@ -1,298 +1,313 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
     android:background="@drawable/sheet_background"
-
-    android:padding="16dp"
     tools:context=".uis.sp.sheets.updatework.UpdateWorkDescriptionSheet">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:autoSizeTextType="uniform"
-        android:fontFamily="@font/poppins_semibold"
-        android:gravity="center"
-        android:text="@string/work_description"
-        android:textColor="@color/orangeToLB"
-        android:textSize="35dp" />
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tl_Speciality"
-        style="@style/OutlinedBoxOrangeLB"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        app:boxBackgroundColor="@color/white"
-        app:boxCornerRadiusBottomEnd="24dp"
-        app:boxCornerRadiusBottomStart="24dp"
-        app:boxCornerRadiusTopEnd="24dp"
-        app:boxCornerRadiusTopStart="24dp"
-        app:boxStrokeWidth="1dp"
-        app:hintEnabled="true"
-        app:startIconDrawable="@drawable/ic_speciality"
-        app:startIconTint="@color/orangeToLB">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_Speciality"
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:text="@string/work_description"
+            android:textColor="@color/orangeToLB"
+            android:textSize="35dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_Speciality"
+            style="@style/OutlinedBoxOrangeLB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="25dp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxStrokeErrorColor="@color/red"
+            app:errorIconTint="@color/red"
+            app:errorTextColor="@color/red"
+            app:boxStrokeWidth="1dp"
+            app:hintEnabled="true"
+            app:startIconDrawable="@drawable/ic_speciality"
+            app:startIconTint="@color/orangeToLB">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_Speciality"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="@string/speciality"
+                android:inputType="textPersonName"
+                android:textColor="@color/grey"
+                android:textSize="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"
             android:autoSizeTextType="uniform"
             android:fontFamily="@font/poppins_medium"
-            android:hint="@string/speciality"
-            android:inputType="textPersonName"
-            android:textColor="@color/grey"
-            android:textSize="16dp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:text="@string/types_of_services"
+            android:textColor="@color/orangeToLB"
+            android:textSize="16dp"
+            android:textStyle="bold" />
 
 
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-    <TextView
-        android:layout_width="match_parent"
+            android:columnCount="3"
+            android:orientation="horizontal"
+            android:rowCount="1"
+            android:useDefaultMargins="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnInstallation"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/installation"
+                android:textAllCaps="false"
+                android:textColor="@color/orange"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRepair"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/repair"
+                android:textAllCaps="false"
+                android:textColor="@color/orange"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMaintenance"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:singleLine="true"
+                android:text="@string/maintenance"
+                android:textAllCaps="false"
+                android:textColor="@color/orange"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
+
+        </GridLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="5dp"
+            android:autoSizeTextType="uniform"
+
+            android:fontFamily="@font/poppins_medium"
+            android:text="@string/availability_per_week"
+            android:textColor="@color/orangeToLB"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:orientation="horizontal"
+            android:rowCount="2"
+            android:useDefaultMargins="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMonday"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/monday"
+                android:textAllCaps="false"
+                android:textColor="@color/orange"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnTuesday"
+                android:layout_width="0dp"
+
+                android:layout_height="60dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/tuesday"
+                android:textAllCaps="false"
+                android:textColor="@color/orange"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnWednesday"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/wednesday"
+                android:textAllCaps="false"
+                android:textColor="@color/orange"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnThursday"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_row="1"
+
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/thursday"
+                android:textAllCaps="false"
+                android:textColor="@color/orange"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnFriday"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_row="1"
+
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/friday"
+                android:textAllCaps="false"
+                android:textColor="@color/orange"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaturday"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_row="1"
+
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/saturday"
+                android:textAllCaps="false"
+                android:textColor="@color/orange"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/orange"
+                app:strokeWidth="1dp" />
+
+        </GridLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSaveChanges"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="40dp"
+            android:fontFamily="@font/poppins_medium"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:letterSpacing="0"
+            android:text="@string/save_changes"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:backgroundTint="@color/orangeToLB"
+            app:cornerRadius="24dp" />
+    </LinearLayout>
+
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spinkit_view"
+        style="@style/SpinKitView.Large.Circle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="5dp"
-        android:autoSizeTextType="uniform"
-        android:fontFamily="@font/poppins_medium"
-        android:text="@string/types_of_services"
-        android:textColor="@color/orangeToLB"
-        android:textSize="16dp"
-        android:textStyle="bold" />
-
-
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:columnCount="3"
-        android:orientation="horizontal"
-        android:rowCount="1"
-        android:useDefaultMargins="true">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnInstallation"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_row="0"
-            android:layout_rowWeight="1"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:backgroundTint="@color/white"
-            android:letterSpacing="0"
-            android:text="@string/installation"
-            android:textAllCaps="false"
-            android:textColor="@color/orange"
-            android:textSize="16dp"
-            app:cornerRadius="24dp"
-            app:strokeColor="@color/orange"
-            app:strokeWidth="1dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnRepair"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-
-            android:layout_row="0"
-            android:layout_rowWeight="1"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:backgroundTint="@color/white"
-            android:letterSpacing="0"
-            android:text="@string/repair"
-            android:textAllCaps="false"
-            android:textColor="@color/orange"
-            android:textSize="16dp"
-            app:cornerRadius="24dp"
-            app:strokeColor="@color/orange"
-            app:strokeWidth="1dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnMaintenance"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_row="0"
-            android:layout_rowWeight="1"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:backgroundTint="@color/white"
-            android:letterSpacing="0"
-            android:singleLine="true"
-            android:text="@string/maintenance"
-            android:textAllCaps="false"
-            android:textColor="@color/orange"
-            android:textSize="16dp"
-            app:cornerRadius="24dp"
-            app:strokeColor="@color/orange"
-            app:strokeWidth="1dp" />
-
-    </GridLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="5dp"
-        android:autoSizeTextType="uniform"
-
-        android:fontFamily="@font/poppins_medium"
-        android:text="@string/availability_per_week"
-        android:textColor="@color/orangeToLB"
-        android:textSize="16dp"
-        android:textStyle="bold" />
-
-
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="3"
-        android:orientation="horizontal"
-        android:rowCount="2"
-        android:useDefaultMargins="true">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnMonday"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-
-            android:layout_row="0"
-            android:layout_rowWeight="1"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:backgroundTint="@color/white"
-            android:letterSpacing="0"
-            android:text="@string/monday"
-            android:textAllCaps="false"
-            android:textColor="@color/orange"
-            android:textSize="16dp"
-            app:cornerRadius="24dp"
-            app:strokeColor="@color/orange"
-            app:strokeWidth="1dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnTuesday"
-            android:layout_width="0dp"
-
-            android:layout_height="60dp"
-            android:layout_row="0"
-            android:layout_rowWeight="1"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:backgroundTint="@color/white"
-            android:letterSpacing="0"
-            android:text="@string/tuesday"
-            android:textAllCaps="false"
-            android:textColor="@color/orange"
-            android:textSize="16dp"
-            app:cornerRadius="24dp"
-            app:strokeColor="@color/orange"
-            app:strokeWidth="1dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnWednesday"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_row="0"
-            android:layout_rowWeight="1"
-
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:backgroundTint="@color/white"
-            android:letterSpacing="0"
-            android:text="@string/wednesday"
-            android:textAllCaps="false"
-            android:textColor="@color/orange"
-            android:textSize="16dp"
-            app:cornerRadius="24dp"
-            app:strokeColor="@color/orange"
-            app:strokeWidth="1dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnThursday"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_row="1"
-
-            android:layout_rowWeight="1"
-            android:layout_column="0"
-            android:layout_columnWeight="1"
-            android:backgroundTint="@color/white"
-            android:letterSpacing="0"
-            android:text="@string/thursday"
-            android:textAllCaps="false"
-            android:textColor="@color/orange"
-            android:textSize="16dp"
-            app:cornerRadius="24dp"
-            app:strokeColor="@color/orange"
-            app:strokeWidth="1dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnFriday"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_row="1"
-
-            android:layout_rowWeight="1"
-            android:layout_column="1"
-            android:layout_columnWeight="1"
-            android:backgroundTint="@color/white"
-            android:letterSpacing="0"
-            android:text="@string/friday"
-            android:textAllCaps="false"
-            android:textColor="@color/orange"
-            android:textSize="16dp"
-            app:cornerRadius="24dp"
-            app:strokeColor="@color/orange"
-            app:strokeWidth="1dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSaturday"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_row="1"
-
-            android:layout_rowWeight="1"
-            android:layout_column="2"
-            android:layout_columnWeight="1"
-            android:backgroundTint="@color/white"
-            android:letterSpacing="0"
-            android:text="@string/saturday"
-            android:textAllCaps="false"
-            android:textColor="@color/orange"
-            android:textSize="16dp"
-            app:cornerRadius="24dp"
-            app:strokeColor="@color/orange"
-            app:strokeWidth="1dp" />
-
-    </GridLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnSaveChanges"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="40dp"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:fontFamily="@font/poppins_medium"
-        android:letterSpacing="0"
-        android:text="@string/save_changes"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        app:backgroundTint="@color/orangeToLB"
-        app:cornerRadius="24dp" />
-</LinearLayout>
+        android:visibility="gone"
+        app:SpinKit_Color="@color/orangeToYellow" />
+</FrameLayout>

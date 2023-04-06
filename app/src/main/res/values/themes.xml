@@ -91,4 +91,10 @@
         <item name="android:statusBarColor">@color/yellowToBG</item>
     </style>
 
+    <style name="CustomSearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="android:fontFamily">@font/poppins_medium</item>
+        <item name="android:textColor">@color/darkGrey</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+
 </resources>

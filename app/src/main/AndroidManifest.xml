@@ -25,7 +25,7 @@
             android:name=".uis.common.mapView.MapActivity"
             android:exported="false" />
         <activity
-            android:name=".uis.common.HomeActivity"
+            android:name=".uis.home.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".uis.common.resetPwd.ResetPwdActivity"

@@ -32,7 +32,7 @@ class UserProfileViewModel(private val userRepository: UserRepository
             val response = userRepository.getUserProfile("Bearer $token")
             userProfileRes.postValue(handleUserProfileResponse(response))
         } catch (exception: Exception) {
-            userProfileRes.postValue(Resource.Error("Failed to connect"))
+            userProfileRes.postValue(Resource.Error("Server connection failed!"))
         }
     }
 
@@ -72,7 +72,7 @@ class UserProfileViewModel(private val userRepository: UserRepository
             val response = file?.let { userRepository.updatePic("Bearer $token", it) }
             updatePicRes.postValue(response?.let { handleUpdatePicResponse(it) })
         } catch (exception: Exception) {
-            updatePicRes.postValue(Resource.Error("Failed to connect"))
+            updatePicRes.postValue(Resource.Error("Server connection failed!"))
         }
     }
 

@@ -1,4 +1,4 @@
-package tn.esprit.taktakandroid.uis
+package tn.esprit.taktakandroid.uis.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

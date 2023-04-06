@@ -31,9 +31,8 @@
                 android:layout_marginEnd="3dp"
                 android:fontFamily="@font/poppins_regular"
                 android:paddingTop="3dp"
-                android:text="4.8"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:layout_width="20dp"
@@ -66,9 +65,8 @@
         android:gravity="center"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_semibold"
-        android:text="Mohamed Salah"
         android:textColor="@color/orangeToYellow"
-        android:textSize="24sp" />
+        android:textSize="24dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_speciality"
@@ -76,9 +74,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:fontFamily="@font/poppins_medium"
-        android:text="Electrician"
         android:textColor="@color/darkGrey"
-        android:textSize="14sp" />
+        android:textSize="14dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_address"
@@ -86,9 +83,8 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:fontFamily="@font/poppins_medium"
-        android:text="Avenue Abderrahmen Mami Soukra Tunisie"
         android:textColor="@color/onlyBlueGray"
-        android:textSize="12sp" />
+        android:textSize="12dp" />
 
     <!-- VISIBLE WHEN APT IS ACCEPTED (APT PRICE) -->
     <androidx.appcompat.widget.AppCompatTextView

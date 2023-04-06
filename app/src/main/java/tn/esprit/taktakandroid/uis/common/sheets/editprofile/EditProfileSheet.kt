@@ -1,6 +1,7 @@
 package tn.esprit.taktakandroid.uis.common.sheets.editprofile
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,20 +11,26 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.databinding.SheetFragmentEditProfileBinding
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.repositories.UserRepository
+import tn.esprit.taktakandroid.uis.BaseFragment
+import tn.esprit.taktakandroid.uis.SheetBaseFragment
+import tn.esprit.taktakandroid.uis.home.HomeActivity
 import tn.esprit.taktakandroid.utils.Resource
 
 
-class EditProfileSheet(private val user: User) : BottomSheetDialogFragment() {
+class EditProfileSheet(private val user: User) : SheetBaseFragment() {
     private val TAG = "EditProfileSheet"
 
     lateinit var viewModel: EditProfileViewModel
@@ -35,13 +42,13 @@ class EditProfileSheet(private val user: User) : BottomSheetDialogFragment() {
     ): View? {
         mainView = SheetFragmentEditProfileBinding.inflate(layoutInflater, container, false)
         val userRepository = UserRepository()
-        viewModel = ViewModelProvider(
-            this,
-            EditProfileViewModelProviderFactory(userRepository)
-        )[EditProfileViewModel::class.java]
+        viewModel = ViewModelProvider(this, EditProfileViewModelProviderFactory(userRepository))[EditProfileViewModel::class.java]
+
         setData()
         setUpEditTexts()
         errorHandling()
+
+        observeViewModel()
         mainView.btnSaveChanges.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.updateProfile()
@@ -49,6 +56,29 @@ class EditProfileSheet(private val user: User) : BottomSheetDialogFragment() {
         }
 
         return mainView.root
+    }
+
+    private fun observeViewModel() {
+        viewModel.updateProfileRes.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is Resource.Success -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    result.data?.let {
+                        Toast.makeText(requireContext(), getString(R.string.profile_updated), Toast.LENGTH_SHORT).show()
+                        dismiss()
+                    }
+                }
+                is Resource.Error -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    result.message?.let { msg ->
+                        showDialog(msg)
+                    }
+                }
+                is Resource.Loading -> {
+                    progressBarVisibility(true,mainView.spinkitView)
+                }
+            }
+        })
     }
 
     private fun setData() {

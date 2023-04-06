@@ -1,4 +1,4 @@
-package tn.esprit.taktakandroid.uis.common
+package tn.esprit.taktakandroid.uis.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,12 +7,15 @@ import androidx.fragment.app.Fragment
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.customer.CustomerReqsFragment
-import tn.esprit.taktakandroid.uis.HomeViewModel
 import tn.esprit.taktakandroid.uis.sp.SPReqsFragment
 import androidx.activity.viewModels
-import tn.esprit.taktakandroid.uis.HomeViewModelProviderFactory
+import androidx.fragment.app.FragmentManager
+import tn.esprit.taktakandroid.uis.common.AptsFragment
+import tn.esprit.taktakandroid.uis.common.NotifsFragment
 import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileFragment
-import tn.esprit.taktakandroid.uis.customer.SPsFragment
+import tn.esprit.taktakandroid.uis.customer.spslist.SPsFragment
+import tn.esprit.taktakandroid.utils.AppDataStore
+import tn.esprit.taktakandroid.utils.Constants
 
 class HomeActivity : AppCompatActivity() {
     private val spsFragment = SPsFragment()
@@ -39,7 +42,6 @@ class HomeActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.tv_apts).setOnClickListener {
             replaceFragment(aptsFragment)
         }
-
         //TODO condition if sp=>sp reqs else =>customer reqs
         /*if(isSP){
         replaceFragment(spReqsFragment)
@@ -58,6 +60,7 @@ class HomeActivity : AppCompatActivity() {
 
     }
     private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)
             .commit()

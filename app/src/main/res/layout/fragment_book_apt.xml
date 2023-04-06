@@ -20,9 +20,9 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="25dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="Location"
+            android:text="@string/location"
             android:textColor="@color/BGToLB"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -30,9 +30,9 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="25dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="Type of service"
+            android:text="@string/type_of_service"
             android:textColor="@color/BGToLB"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -41,18 +41,18 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="25dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="Description of request"
+            android:text="@string/description_of_request"
             android:textColor="@color/BGToLB"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Book an Appointment"
+            android:text="@string/book_an_appointment"
             android:textColor="@color/white"
             android:fontFamily="@font/poppins_semibold"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:background="@drawable/btn_bg"
             android:backgroundTint="@color/orangeToLB"
             android:layout_marginStart="30dp"

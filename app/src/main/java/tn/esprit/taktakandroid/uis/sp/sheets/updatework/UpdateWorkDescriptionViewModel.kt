@@ -77,7 +77,7 @@ class UpdateWorkDescriptionViewModel (private val repository: UserRepository) : 
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        updateWorkDescRes.postValue(Resource.Error("Failed to connect"))
+        updateWorkDescRes.postValue(Resource.Error("Server connection failed!"))
     }
 
     fun updateWorkDesc() = viewModelScope.launch {
@@ -99,7 +99,7 @@ class UpdateWorkDescriptionViewModel (private val repository: UserRepository) : 
                 }
 
             } catch (e: Exception) {
-                updateWorkDescRes.postValue(Resource.Error("Failed to connect"))
+                updateWorkDescRes.postValue(Resource.Error("Server connection failed!"))
             }
 
         }

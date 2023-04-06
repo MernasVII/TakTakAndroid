@@ -1,6 +1,5 @@
 package tn.esprit.taktakandroid.uis.common.sheets.updatepwd
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,7 +9,6 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.MessageResponse
-import tn.esprit.taktakandroid.models.updateprofile.UpdateProfileRequest
 import tn.esprit.taktakandroid.models.updatepwd.UpdatePwdRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
@@ -19,7 +17,7 @@ import tn.esprit.taktakandroid.utils.Resource
 
 class UpdatePasswordViewModel  (private val repository: UserRepository) :
     ViewModel(){
-    val updatePwd: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+    val updatePwdRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
 
     private val _oldPwd = MutableLiveData<String>()
     val oldPwd: LiveData<String>
@@ -55,7 +53,7 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        updatePwd.postValue(Resource.Error("Failed to connect"))
+        updatePwdRes.postValue(Resource.Error("Server connection failed!"))
     }
 
     fun updatePwd() = viewModelScope.launch {
@@ -63,7 +61,7 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
         val newPwd = _newPwd.value
         if (oldPwd!=null && oldPwd.isNotEmpty() && isPwdValid(newPwd,_newPwd)) {
             try {
-                updatePwd.postValue(Resource.Loading())
+                updatePwdRes.postValue(Resource.Loading())
                 val token = AppDataStore.readString(Constants.AUTH_TOKEN)
                 viewModelScope.launch(handler) {
                     val response = repository.changepwd("Bearer $token", UpdatePwdRequest(
@@ -71,11 +69,11 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
                         newPwd!!,
                     )
                     )
-                    updatePwd.postValue(handleResponse(response))
+                    updatePwdRes.postValue(handleResponse(response))
                 }
 
             } catch (e: Exception) {
-                updatePwd.postValue(Resource.Error("Failed to connect"))
+                updatePwdRes.postValue(Resource.Error("Server connection failed!"))
             }
 
         }

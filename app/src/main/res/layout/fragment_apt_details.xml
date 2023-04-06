@@ -21,9 +21,9 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="Date and Time"
+            android:text="@string/date_and_time"
             android:textColor="@color/BGToLB"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
 
         <!-- DATETIME -->
         <androidx.appcompat.widget.AppCompatTextView
@@ -37,9 +37,8 @@
             android:background="@drawable/btn_bg"
             android:backgroundTint="@color/BGToLB"
             android:fontFamily="@font/poppins_regular"
-            android:text="19/11/2022 at 10:00"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"/>
 
@@ -50,9 +49,9 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="Location"
+            android:text="@string/location"
             android:textColor="@color/BGToLB"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_location"
             android:layout_width="match_parent"
@@ -64,9 +63,8 @@
             android:background="@drawable/btn_bg"
             android:backgroundTint="@color/BGToLB"
             android:fontFamily="@font/poppins_regular"
-            android:text="Av. Fethi Zouhir, Ariana 2083"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"/>
 
@@ -77,9 +75,9 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="Type of service"
+            android:text="@string/type_of_service"
             android:textColor="@color/BGToLB"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_tos"
             android:layout_width="match_parent"
@@ -91,9 +89,8 @@
             android:background="@drawable/btn_bg"
             android:backgroundTint="@color/BGToLB"
             android:fontFamily="@font/poppins_regular"
-            android:text="Repair"
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"/>
 
@@ -104,9 +101,9 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/poppins_bold"
-            android:text="Description of request"
+            android:text="@string/description_of_request"
             android:textColor="@color/BGToLB"
-            android:textSize="14sp" />
+            android:textSize="14dp" />
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_desc"
             android:layout_width="match_parent"
@@ -119,9 +116,8 @@
             android:background="@drawable/btn_bg"
             android:backgroundTint="@color/orangeToLB"
             android:fontFamily="@font/poppins_regular"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ipsum dolor sit amet, consectetur ipsum dolor sit amet, consectetur ut labore et dolore magna aliqua.."
             android:textColor="@color/white"
-            android:textSize="16sp"
+            android:textSize="16dp"
             android:paddingTop="10dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
@@ -141,9 +137,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/poppins_bold"
-                android:text="12 hours left"
                 android:textColor="@color/red"
-                android:textSize="14sp" />
+                android:textSize="14dp" />
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -154,10 +149,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Accept"
+                    android:text="@string/accept"
                     android:textColor="@color/white"
                     android:fontFamily="@font/poppins_semibold"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:background="@drawable/btn_bg"
                     android:backgroundTint="@color/green"
                     android:layout_marginStart="30dp"
@@ -167,10 +162,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
-                    android:text="Decline"
+                    android:text="@string/decline"
                     android:textColor="@color/white"
                     android:fontFamily="@font/poppins_semibold"
-                    android:textSize="16sp"
+                    android:textSize="16dp"
                     android:background="@drawable/btn_bg"
                     android:backgroundTint="@color/red"
                     android:layout_marginStart="3dp"
@@ -191,10 +186,10 @@
                 android:id="@+id/btn_here"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="I'm here"
+                android:text="@string/here"
                 android:textColor="@color/white"
                 android:fontFamily="@font/poppins_semibold"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:background="@drawable/btn_bg"
                 android:backgroundTint="@color/LBToOrange"/>
 
@@ -202,11 +197,11 @@
                 android:id="@+id/btn_done"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Work is done"
+                android:text="@string/work_is_done"
                 android:visibility="gone"
                 android:textColor="@color/white"
                 android:fontFamily="@font/poppins_semibold"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:background="@drawable/btn_bg"
                 android:backgroundTint="@color/LBToOrange"/>
         </androidx.appcompat.widget.LinearLayoutCompat>

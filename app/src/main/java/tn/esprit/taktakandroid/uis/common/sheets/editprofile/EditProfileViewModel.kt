@@ -75,7 +75,7 @@ class EditProfileViewModel (private val repository: UserRepository) :
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        updateProfileRes.postValue(Resource.Error("Failed to connect"))
+        updateProfileRes.postValue(Resource.Error("Server connection failed!"))
     }
 
     fun updateProfile() = viewModelScope.launch {
@@ -87,7 +87,6 @@ class EditProfileViewModel (private val repository: UserRepository) :
                 updateProfileRes.postValue(Resource.Loading())
                 val token = AppDataStore.readString(Constants.AUTH_TOKEN)
                 viewModelScope.launch(handler) {
-                    Log.d("afterTextChanged", "updateProfile: $firstname")
                     val response = repository.updateProfile("Bearer $token",UpdateProfileRequest(
                         firstname!!,
                         lastname!!,
@@ -97,7 +96,7 @@ class EditProfileViewModel (private val repository: UserRepository) :
                 }
 
             } catch (e: Exception) {
-                updateProfileRes.postValue(Resource.Error("Failed to connect"))
+                updateProfileRes.postValue(Resource.Error("Server connection failed!"))
             }
 
         }

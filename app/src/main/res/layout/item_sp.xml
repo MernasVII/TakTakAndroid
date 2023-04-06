@@ -33,7 +33,6 @@
             android:layout_marginEnd="5dp"
             android:layout_weight="0.5"
             android:fontFamily="@font/poppins_semibold"
-            android:text="Meriam Ben Ida"
             android:textColor="@color/darkGrey"
             android:textSize="14dp" />
         <TextView
@@ -45,7 +44,6 @@
             android:layout_marginTop="3dp"
             android:layout_weight="0.5"
             android:fontFamily="@font/poppins_regular"
-            android:text="Plumber"
             android:textColor="@color/grey"
             android:textSize="14dp" />
         <TextView
@@ -57,7 +55,6 @@
             android:layout_marginTop="3dp"
             android:layout_weight="0.5"
             android:fontFamily="@font/poppins_regular"
-            android:text="3, Av. Fethi Zouhir, Cebalat Ben Ammar 2083"
             android:textColor="@color/grey"
             android:textSize="12dp" />
 
@@ -80,7 +77,6 @@
             android:fontFamily="@font/poppins_regular"
             android:gravity="center"
             android:padding="10dp"
-            android:text="4.8"
             android:textColor="@color/white"
             android:textSize="12dp" />
         <androidx.appcompat.widget.AppCompatImageView

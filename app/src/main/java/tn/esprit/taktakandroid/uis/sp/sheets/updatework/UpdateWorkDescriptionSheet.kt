@@ -11,18 +11,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
+import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.SheetFragmentUpdateWorkDescriptionBinding
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.repositories.UserRepository
+import tn.esprit.taktakandroid.uis.SheetBaseFragment
+import tn.esprit.taktakandroid.utils.Resource
 
 
-class UpdateWorkDescriptionSheet (private val user: User) : BottomSheetDialogFragment() {
+class UpdateWorkDescriptionSheet (private val user: User) : SheetBaseFragment() {
     private val TAG="UpdateWorkDescriptionSheet"
 
     lateinit var viewModel: UpdateWorkDescriptionViewModel
@@ -39,25 +44,50 @@ class UpdateWorkDescriptionSheet (private val user: User) : BottomSheetDialogFra
         mainView =
             SheetFragmentUpdateWorkDescriptionBinding.inflate(layoutInflater, container, false)
         val userRepository = UserRepository()
-        viewModel = ViewModelProvider(
-            this,
-            UpdateWorkDescriptionViewModelFactory(userRepository)
-        )[UpdateWorkDescriptionViewModel::class.java]
-        setupSheetBehavior()
+        viewModel = ViewModelProvider(this,UpdateWorkDescriptionViewModelFactory(userRepository))[UpdateWorkDescriptionViewModel::class.java]
 
+        setupSheetBehavior()
         buttonsSetup()
         initGridButtons()
-        setData()
-
         editTextsSetup()
         inputsErrorHandling()
 
+        setData()
+
+
+        observeViewModel()
         mainView.btnSaveChanges.setOnClickListener {
-            viewModel.updateWorkDesc()
+            lifecycleScope.launch {
+                viewModel.updateWorkDesc()
+            }
         }
 
         return mainView.root
     }
+
+    private fun observeViewModel() {
+        viewModel.updateWorkDescRes.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is Resource.Success -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    result.data?.let {
+                        Toast.makeText(requireContext(), getString(R.string.work_desc_updated), Toast.LENGTH_SHORT).show()
+                        dismiss()
+                    }
+                }
+                is Resource.Error -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    result.message?.let { msg ->
+                        showDialog(msg)
+                    }
+                }
+                is Resource.Loading -> {
+                    progressBarVisibility(true,mainView.spinkitView)
+                }
+            }
+        })
+    }
+
 
     private fun setData() {
         mainView.etSpeciality.setText(user.speciality)

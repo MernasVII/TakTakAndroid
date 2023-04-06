@@ -1,219 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_refresh_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whiteToBG"
-    tools:context=".uis.common.UserProfileFragment">
+    tools:context=".uis.common.userprofile.UserProfileFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spinkit_view"
+        style="@style/SpinKitView.Large.Circle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:visibility="gone"
+        app:SpinKit_Color="@color/orangeToYellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"/>
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/whiteToBG">
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            android:gravity="end">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_logout"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="25dp"
-                android:src="@drawable/ic_logout"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/iv_pic"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:src="@drawable/defpdp"
-                android:scaleType="centerCrop" />
-            <ImageView
-                android:id="@+id/iv_addPic"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/ic_plus"
-                android:layout_gravity="bottom|end"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="5dp"/>
-        </FrameLayout>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_fullname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mohamed Ali"
-            android:gravity="center"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/orangeToYellow"
-            android:textSize="24sp"
-            android:fontFamily="@font/poppins_semibold"/>
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Kalaat El Andalous Tunis, Tunisie"
-            android:textColor="@color/orangeToWhite"
-            android:textSize="14sp"
-            android:fontFamily="@font/poppins_medium"/>
-        <!-- SETTINGS -->
-        <FrameLayout
-            android:id="@+id/fl_settings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_bg_stroke"
-            android:padding="13dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="30dp">
+                android:gravity="end"
+                android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_settings"
-                android:layout_marginStart="30dp"
-                android:layout_gravity="start|center_vertical"
-                app:tint="@color/orangeToLB" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_logout"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="25dp"
+                    android:src="@drawable/ic_logout" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/iv_pic"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/defpdp" />
+
+                <ImageView
+                    android:id="@+id/iv_addPic"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/ic_plus" />
+            </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_fullname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings"
-                android:textColor="@color/orangeToLG"
-                android:textSize="16sp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/poppins_semibold"
-                android:layout_gravity="center" />
-
-        </FrameLayout>
-        <!-- EDIT PROFILE -->
-        <FrameLayout
-            android:id="@+id/fl_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_bg"
-            android:padding="13dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="20dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_person"
-                android:layout_marginStart="30dp"
-                android:layout_gravity="start|center_vertical"
-                app:tint="@color/white" />
+                android:gravity="center"
+                android:textColor="@color/orangeToYellow"
+                android:textSize="24dp" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit Profile"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:layout_gravity="center" />
-
-        </FrameLayout>
-
-        <!-- UPDATE WORK DESC -->
-        <FrameLayout
-            android:id="@+id/fl_work"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_bg"
-            android:padding="13dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="20dp">
-
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_work"
-                android:layout_marginStart="30dp"
-                android:layout_gravity="start|center_vertical"
-                app:tint="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:textColor="@color/orangeToWhite"
+                android:textSize="14dp" />
+            <!-- SETTINGS -->
+            <FrameLayout
+                android:id="@+id/fl_settings"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Work Description"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:layout_gravity="center" />
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/btn_bg_stroke"
+                android:padding="13dp">
 
-        </FrameLayout>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_settings"
+                    app:tint="@color/orangeToLB" />
 
-        <!-- UPDATE PASSWORD -->
-        <FrameLayout
-            android:id="@+id/fl_pwd"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_bg"
-            android:padding="13dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="20dp">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/settings"
+                    android:textColor="@color/orangeToLG"
+                    android:textSize="16dp" />
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_key"
-                android:layout_marginStart="30dp"
-                android:layout_gravity="start|center_vertical"
-                app:tint="@color/white" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+            </FrameLayout>
+            <!-- EDIT PROFILE -->
+            <FrameLayout
+                android:id="@+id/fl_edit"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Update Password"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:layout_gravity="center" />
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/btn_bg"
+                android:padding="13dp">
 
-        </FrameLayout>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_person"
+                    app:tint="@color/white" />
 
-        <!-- DELETE ACCOUNT -->
-        <FrameLayout
-            android:id="@+id/fl_deleteAcc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/btn_bg"
-            android:backgroundTint="@color/red"
-            android:padding="13dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginEnd="25dp"
-            android:layout_marginTop="50dp"
-            android:layout_marginBottom="30dp">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/edit_profile"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
 
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_delete"
-                android:layout_marginStart="30dp"
-                android:layout_gravity="start|center_vertical"
-                app:tint="@color/white" />
+            </FrameLayout>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
+            <!-- UPDATE WORK DESC -->
+            <FrameLayout
+                android:id="@+id/fl_work"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Delete Account"
-                android:textColor="@color/white"
-                android:textSize="16sp"
-                android:fontFamily="@font/poppins_semibold"
-                android:layout_gravity="center" />
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/btn_bg"
+                android:padding="13dp">
 
-        </FrameLayout>
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_work"
+                    app:tint="@color/white" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/work_description"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
+            </FrameLayout>
+
+            <!-- UPDATE PASSWORD -->
+            <FrameLayout
+                android:id="@+id/fl_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="25dp"
+                android:background="@drawable/btn_bg"
+                android:padding="13dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_key"
+                    app:tint="@color/white" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/update_password"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
+            </FrameLayout>
+
+            <!-- DELETE ACCOUNT -->
+            <FrameLayout
+                android:id="@+id/fl_deleteAcc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="25dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/btn_bg"
+                android:backgroundTint="@color/red"
+                android:padding="13dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="30dp"
+                    android:src="@drawable/ic_delete"
+                    app:tint="@color/white" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/delete_account"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
+            </FrameLayout>
 
 
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
     </androidx.appcompat.widget.LinearLayoutCompat>
-</ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

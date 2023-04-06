@@ -2,6 +2,8 @@ package tn.esprit.taktakandroid.uis.common.userprofile
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -29,8 +32,11 @@ import tn.esprit.miniprojetinterfaces.Sheets.SettingsSheet
 import tn.esprit.taktakandroid.uis.common.sheets.updatepwd.UpdatePasswordSheet
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.FragmentUserProfileBinding
+import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
+import tn.esprit.taktakandroid.databinding.LayoutDialogOptionsBinding
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.repositories.UserRepository
+import tn.esprit.taktakandroid.uis.BaseFragment
 import tn.esprit.taktakandroid.uis.common.login.LoginActivity
 import tn.esprit.taktakandroid.uis.sp.sheets.updatework.UpdateWorkDescriptionSheet
 import tn.esprit.taktakandroid.utils.AppDataStore
@@ -41,7 +47,7 @@ import java.io.File
 
 const val TAG = "UserProfileFragment"
 
-class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
+class UserProfileFragment : BaseFragment() {
 
     lateinit var viewModel: UserProfileViewModel
     lateinit var mainView: FragmentUserProfileBinding
@@ -63,7 +69,7 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
         }
 
         mainView.flDeleteAcc.setOnClickListener{
-            deleteAccountAndLogout()
+            showDeletionDialog()
         }
 
         mainView.ivAddPic.setOnClickListener{
@@ -120,7 +126,8 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
         viewModel.userProfileRes.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
-                    // hideProgressBar()
+                    progressBarVisibility(false,mainView.spinkitView)
+                    mainView.scrollView.visibility=View.VISIBLE
                     response.data?.let { userProfileResponse ->
                         user = userProfileResponse.user
                         //set username and address
@@ -133,13 +140,15 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
                     }
                 }
                 is Resource.Error -> {
-                    // hideProgressBar()
+                    progressBarVisibility(false,mainView.spinkitView)
                     response.message?.let { message ->
-                        Log.e(TAG, "An error occurred: $message")
+                        showDialog(message)
+                        mainView.scrollView.visibility=View.GONE
                     }
                 }
                 is Resource.Loading -> {
-                    // showProgressBar()
+                    progressBarVisibility(true,mainView.spinkitView)
+                    mainView.scrollView.visibility=View.GONE
                 }
             }
         })
@@ -188,4 +197,21 @@ class UserProfileFragment : Fragment(R.layout.fragment_user_profile) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
             }
         }
+
+    private fun showDeletionDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        val binding = LayoutDialogOptionsBinding.inflate(layoutInflater)
+        builder.setView(binding.root)
+        val dialog = builder.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        binding.tvContent.text = "Are you sure you want to delete your account permanently?"
+        binding.btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
+        binding.btnYes.setOnClickListener {
+            deleteAccountAndLogout()
+        }
+        dialog.show()
+        dialog.setCanceledOnTouchOutside(false)
+    }
 }

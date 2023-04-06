@@ -47,7 +47,7 @@ class SPsListAdapter (private val fragmentManager: FragmentManager) :RecyclerVie
     }
 
     override fun onBindViewHolder(holder: SPViewHolder, position: Int) {
-        val sp=differ.currentList[position]
+        var sp=differ.currentList[position]
         holder.itemView.apply {
             Glide.with(this).load(IMG_URL+sp.pic).into(holder.itemView.findViewById<CircleImageView>(R.id.iv_pic))
             holder.itemView.findViewById<TextView>(R.id.tv_name).text = sp.firstname+" "+sp.lastname
@@ -66,8 +66,10 @@ class SPsListAdapter (private val fragmentManager: FragmentManager) :RecyclerVie
         }
         val spProfileFragment = SPProfileFragment()
         spProfileFragment.arguments = bundle
-        fragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, spProfileFragment)
-            .commit()
+        fragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, spProfileFragment)
+            addToBackStack(null)
+            commit()
+        }
     }
 }

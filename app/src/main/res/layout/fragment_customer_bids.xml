@@ -7,67 +7,22 @@
     android:background="@color/whiteToBG"
     tools:context=".uis.customer.CustomerBidsFragment">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/ll_title"
+    <TextView
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/poppins_semibold"
         android:gravity="center"
+        android:text="@string/bids"
+        android:textColor="@color/orangeToYellow"
+        android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_marginStart="5dp" />
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:gravity="center"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Bids"
-            android:textColor="@color/orangeToYellow"
-            android:textSize="24dp" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_info"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginEnd="10dp"
-            android:src="@drawable/ic_info"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/lyt_search"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:boxCornerRadiusBottomEnd="24dp"
-        app:boxCornerRadiusTopEnd="24dp"
-        app:boxCornerRadiusBottomStart="24dp"
-        app:boxCornerRadiusTopStart="24dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="15dp"
-        app:boxBackgroundColor="@color/lightGrey"
-        app:boxStrokeWidth="0dp"
-        app:boxStrokeWidthFocused="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_title">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Search"
-            android:textColor="@color/darkGrey"
-            android:textSize="16sp" />
-    </com.google.android.material.textfield.TextInputLayout>
     <ProgressBar
-        android:id="@+id/pb"
+        android:id="@+id/spinkit_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -75,11 +30,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_title" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_bidsCustomer"
-        tools:listitem="@layout/item_customer_bid"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="15dp"
+        android:theme="@style/CustomSearchViewStyle"
+        android:background="@drawable/search_bg"
+        android:queryHint="Search by name or speciality"
+        android:queryBackground="@null"
+        android:iconifiedByDefault="false"
+        app:defaultQueryHint="@null"
+        app:closeIcon="@null"
+        app:iconifiedByDefault="false"
+        app:queryBackground="@null"
+        app:queryHint="Search by name or speciality"
+        app:searchHintIcon="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_title"/>    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_bidsSP"
+        tools:listitem="@layout/item_sp_bid"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:divider="@color/transparent"
@@ -87,6 +61,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lyt_search"
+        app:layout_constraintTop_toBottomOf="@+id/search_view"
         app:layout_constraintVertical_bias="0.0"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
