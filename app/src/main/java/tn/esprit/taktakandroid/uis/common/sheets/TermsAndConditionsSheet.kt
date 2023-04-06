@@ -12,7 +12,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_HALF_EX
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.databinding.FragmentSettingsSheetBinding
 import tn.esprit.taktakandroid.databinding.FragmentTermsAndConditionsSheetBinding
 import tn.esprit.taktakandroid.utils.Constants.TERMS_URL
 
