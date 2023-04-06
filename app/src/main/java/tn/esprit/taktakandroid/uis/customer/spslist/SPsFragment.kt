@@ -1,15 +1,13 @@
 package tn.esprit.taktakandroid.uis.customer.spslist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.adapters.SPsListAdapter
 import tn.esprit.taktakandroid.databinding.FragmentSpsBinding
@@ -66,6 +64,9 @@ class SPsFragment : BaseFragment() {
                     response.message?.let { message ->
                         showDialog(message)
                         mainView.rvSps.visibility=View.GONE
+                        mainView.tvInfo.setText(R.string.server_failure)
+                        mainView.tvInfo.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+                        mainView.tvInfo.visibility=View.VISIBLE
                     }
                 }
                 is Resource.Loading -> {

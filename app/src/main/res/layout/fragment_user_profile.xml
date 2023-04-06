@@ -50,6 +50,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <FrameLayout
+                android:id="@+id/fl_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
