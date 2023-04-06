@@ -59,6 +59,7 @@ class MapActivity : AppCompatActivity() {
         viewModel.guideOn.observe(this){isVisible->
             if(isVisible){
                 mainView.tlGuide.visibility=View.VISIBLE
+                //TODO add guide phrases
             }
             else{
                 mainView.tlGuide.visibility=View.GONE
