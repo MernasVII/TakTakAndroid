@@ -67,6 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginTop="5dp"
             android:autoSizeTextType="uniform"
             android:fontFamily="@font/poppins_medium"
@@ -75,11 +76,14 @@
             android:textSize="16dp"
             android:textStyle="bold" />
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:columnCount="3"
             android:orientation="horizontal"
             android:rowCount="1"
@@ -87,8 +91,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnInstallation"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:layout_column="0"
@@ -105,9 +113,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRepair"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:layout_column="1"
@@ -124,8 +135,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMaintenance"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:layout_column="2"
@@ -142,13 +157,36 @@
                 app:strokeWidth="1dp" />
 
         </GridLayout>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_tosError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_error"
+                    android:tint="@color/red"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/types_of_services_cannot_be_empty"
+                    android:textColor="@color/red"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textSize="12dp"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="25dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginTop="7dp"
             android:autoSizeTextType="uniform"
 
             android:fontFamily="@font/poppins_medium"
@@ -157,7 +195,10 @@
             android:textSize="16dp"
             android:textStyle="bold" />
 
-
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -168,9 +209,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMonday"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:layout_column="0"
@@ -187,9 +231,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnTuesday"
-                android:layout_width="0dp"
-
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:layout_column="1"
@@ -206,8 +253,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnWednesday"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
 
@@ -225,10 +276,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnThursday"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="1"
-
                 android:layout_rowWeight="1"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
@@ -244,10 +298,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFriday"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="1"
-
                 android:layout_rowWeight="1"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
@@ -263,10 +320,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSaturday"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="1"
-
                 android:layout_rowWeight="1"
                 android:layout_column="2"
                 android:layout_columnWeight="1"
@@ -281,7 +341,29 @@
                 app:strokeWidth="1dp" />
 
         </GridLayout>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_workError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:src="@drawable/ic_error"
+                    android:tint="@color/red"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/work_days_cannot_be_empty"
+                    android:textColor="@color/red"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:textSize="12dp"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
+        </androidx.appcompat.widget.LinearLayoutCompat>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSaveChanges"
             android:layout_width="match_parent"

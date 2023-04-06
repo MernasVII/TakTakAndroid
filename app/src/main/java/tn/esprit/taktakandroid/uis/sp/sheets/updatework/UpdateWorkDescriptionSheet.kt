@@ -9,14 +9,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDED
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
@@ -212,14 +210,16 @@ class UpdateWorkDescriptionSheet (private val user: User) : SheetBaseFragment() 
         }
         viewModel.tosError.observe(this) { _errorTxt ->
             if (_errorTxt.isNotEmpty()) {
-                Toast.makeText(requireContext(), "tosError", Toast.LENGTH_SHORT).show()
-                //showSnackbar(_errorTxt, mainView.cl)
+                mainView.llTosError.visibility=View.VISIBLE
+            }else{
+                mainView.llTosError.visibility=View.GONE
             }
         }
         viewModel.workDaysError.observe(this) { _errorTxt ->
             if (_errorTxt.isNotEmpty()) {
-                Toast.makeText(requireContext(), "wrokDaysError", Toast.LENGTH_SHORT).show()
-                //showSnackbar(_errorTxt, mainView.cl)
+                mainView.llWorkError.visibility=View.VISIBLE
+            }else{
+                mainView.llWorkError.visibility=View.GONE
             }
         }
 

@@ -93,5 +93,7 @@
     <string name="lastname_empty">Lastname cannot be empty!</string>
     <string name="address_empty">Address should contain at least 3 characters!</string>
     <string name="no_sps">No service providers found!</string>
+    <string name="work_days_cannot_be_empty">Work days cannot be empty!</string>
+    <string name="types_of_services_cannot_be_empty">Types of services cannot be empty!</string>
 
 </resources>
