@@ -29,7 +29,8 @@
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
             android:columnCount="3"
             android:orientation="horizontal"
             android:rowCount="1"
@@ -37,8 +38,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnInstallation"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:layout_column="0"
@@ -55,9 +60,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRepair"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:layout_column="1"
@@ -74,8 +82,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMaintenance"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:layout_column="2"
@@ -106,6 +118,8 @@
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
             android:columnCount="3"
             android:orientation="horizontal"
             android:rowCount="2"
@@ -113,9 +127,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnMonday"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:layout_column="0"
@@ -132,9 +149,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnTuesday"
-                android:layout_width="0dp"
-
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
                 android:layout_column="1"
@@ -151,8 +171,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnWednesday"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="0"
                 android:layout_rowWeight="1"
 
@@ -170,10 +194,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnThursday"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="1"
-
                 android:layout_rowWeight="1"
                 android:layout_column="0"
                 android:layout_columnWeight="1"
@@ -189,10 +216,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFriday"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="1"
-
                 android:layout_rowWeight="1"
                 android:layout_column="1"
                 android:layout_columnWeight="1"
@@ -208,10 +238,13 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSaturday"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
                 android:layout_row="1"
-
                 android:layout_rowWeight="1"
                 android:layout_column="2"
                 android:layout_columnWeight="1"
