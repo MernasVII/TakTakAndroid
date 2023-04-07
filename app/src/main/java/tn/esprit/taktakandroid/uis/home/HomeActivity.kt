@@ -2,6 +2,7 @@ package tn.esprit.taktakandroid.uis.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import tn.esprit.taktakandroid.R
@@ -10,6 +11,10 @@ import tn.esprit.taktakandroid.uis.customer.CustomerReqsFragment
 import tn.esprit.taktakandroid.uis.sp.SPReqsFragment
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import tn.esprit.taktakandroid.databinding.ActivityHomeBinding
 import tn.esprit.taktakandroid.uis.common.AptsFragment
 import tn.esprit.taktakandroid.uis.common.NotifsFragment
 import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileFragment
@@ -18,6 +23,9 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 
 class HomeActivity : AppCompatActivity() {
+    private lateinit var mainView : ActivityHomeBinding
+    private val TAG="HomeActivity"
+
     private val spsFragment = SPsFragment()
     private val aptsFragment = AptsFragment()
     private val customerReqsFragment = CustomerReqsFragment()
@@ -31,26 +39,33 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        mainView=ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(mainView.root)
+
         val initialFragment = SPsFragment()
         replaceFragment(initialFragment)
 
-        findViewById<TextView>(R.id.tv_providers).setOnClickListener {
+        mainView.bottomNavigation.tvProviders.setOnClickListener {
             replaceFragment(spsFragment)
         }
 
-        findViewById<TextView>(R.id.tv_apts).setOnClickListener {
+        mainView.bottomNavigation.tvApts.setOnClickListener {
             replaceFragment(aptsFragment)
         }
-        //TODO condition if sp=>sp reqs else =>customer reqs
-        /*if(isSP){
-        replaceFragment(spReqsFragment)
-        }else{*/
-        findViewById<TextView>(R.id.tv_reqs).setOnClickListener {
-            replaceFragment(spReqsFragment)
+
+        lifecycleScope.launch (Dispatchers.IO) {
+            val cin = AppDataStore.readString(Constants.CIN)
+            Log.d(TAG, "onCreate: $cin")
+            mainView.bottomNavigation.tvReqs.setOnClickListener {
+                if(cin.isNullOrEmpty()){
+                    replaceFragment(customerReqsFragment)
+                }else{
+                replaceFragment(spReqsFragment)
+                }
+            }
         }
-        //}
-        findViewById<TextView>(R.id.tv_notifs).setOnClickListener {
+
+        mainView.bottomNavigation.tvNotifs.setOnClickListener {
             replaceFragment(notifsFragment)
         }
 
@@ -66,4 +81,3 @@ class HomeActivity : AppCompatActivity() {
             .commit()
     }
 }
-

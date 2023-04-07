@@ -203,7 +203,7 @@ class UserProfileFragment : BaseFragment() {
                 val uri: Uri = data?.data!!
                 val file= uri.path?.let { File(it) }
                 viewModel.updatePic(file)
-                //TODO
+                //TODO change next line right way
                 mainView.ivPic.setImageURI(uri)
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
