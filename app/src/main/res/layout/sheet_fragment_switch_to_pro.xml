@@ -19,12 +19,12 @@
         android:fontFamily="@font/poppins_semibold"
         android:gravity="center"
         android:text="@string/switch_to_pro"
-        android:textColor="@color/orangeToLB"
+        android:textColor="@color/BGToLB"
         android:textSize="35dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_Speciality"
-        style="@style/OutlinedBoxOrangeLB"
+        style="@style/OutlinedBoxBGLB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -41,7 +41,7 @@
         app:boxStrokeWidth="1dp"
         app:hintEnabled="true"
         app:startIconDrawable="@drawable/ic_speciality"
-        app:startIconTint="@color/orangeToLB">
+        app:startIconTint="@color/BGToLB">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_Speciality"
@@ -56,7 +56,7 @@
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_cin"
-        style="@style/OutlinedBoxOrangeLB"
+        style="@style/OutlinedBoxBGLB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -73,7 +73,7 @@
         app:boxStrokeWidth="1dp"
         app:hintEnabled="true"
         app:startIconDrawable="@drawable/ic_camera"
-        app:startIconTint="@color/orangeToLB">
+        app:startIconTint="@color/BGToLB">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_cin"
@@ -97,7 +97,7 @@
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/poppins_medium"
         android:text="@string/types_of_services"
-        android:textColor="@color/orangeToLB"
+        android:textColor="@color/BGToLB"
         android:textSize="16dp"
         android:textStyle="bold" />
 
@@ -121,10 +121,10 @@
             android:letterSpacing="0"
             android:text="@string/installation"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/BGToLB"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/BGToLB"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -138,10 +138,10 @@
             android:letterSpacing="0"
             android:text="@string/repair"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/BGToLB"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/BGToLB"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -155,10 +155,10 @@
             android:letterSpacing="0"
             android:text="@string/maintenance"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/BGToLB"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/BGToLB"
             app:strokeWidth="1dp" />
 
     </GridLayout>
@@ -173,7 +173,7 @@
 
         android:fontFamily="@font/poppins_medium"
         android:text="@string/availability_per_week"
-        android:textColor="@color/orangeToLB"
+        android:textColor="@color/BGToLB"
         android:textSize="16dp"
         android:textStyle="bold" />
 
@@ -197,10 +197,10 @@
             android:letterSpacing="0"
             android:text="@string/monday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/BGToLB"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/BGToLB"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -214,10 +214,10 @@
             android:letterSpacing="0"
             android:text="@string/tuesday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/BGToLB"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/BGToLB"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -232,10 +232,10 @@
             android:letterSpacing="0"
             android:text="@string/wednesday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/BGToLB"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/BGToLB"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -249,10 +249,10 @@
             android:letterSpacing="0"
             android:text="@string/thursday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/BGToLB"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/BGToLB"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -267,10 +267,10 @@
             android:letterSpacing="0"
             android:text="@string/friday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/BGToLB"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/BGToLB"
             app:strokeWidth="1dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -284,10 +284,10 @@
             android:letterSpacing="0"
             android:text="@string/saturday"
             android:textAllCaps="false"
-            android:textColor="@color/orangeToLB"
+            android:textColor="@color/BGToLB"
             android:textSize="16dp"
             app:cornerRadius="24dp"
-            app:strokeColor="@color/orangeToLB"
+            app:strokeColor="@color/BGToLB"
             app:strokeWidth="1dp" />
 
     </GridLayout>
@@ -302,7 +302,7 @@
         android:layout_marginBottom="40dp"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:backgroundTint="@color/orangeToLB"
+        android:backgroundTint="@color/BGToLB"
         android:fontFamily="@font/poppins_medium"
         android:letterSpacing="0"
         android:text="@string/save_changes"

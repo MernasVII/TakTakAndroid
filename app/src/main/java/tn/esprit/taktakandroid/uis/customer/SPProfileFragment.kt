@@ -71,7 +71,7 @@ class SPProfileFragment : Fragment(R.layout.fragment_sp_profile) {
     }
 
     private fun selectBtn(btn: MaterialButton) {
-        btn.setBackgroundColor(requireActivity().getColor(R.color.orange))
+        btn.setBackgroundColor(requireActivity().getColor(R.color.BGToLB))
         btn.setTextColor(requireActivity().getColor(R.color.white))
     }
 }

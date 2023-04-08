@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
     android:text="Français"
-    android:background="@color/orangeToLB"
+    android:background="@color/BGToLB"
     android:singleLine="true"
     android:fontFamily="@font/poppins_medium"
     android:textSize="18dp"

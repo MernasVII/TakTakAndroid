@@ -28,12 +28,12 @@
             android:fontFamily="@font/poppins_semibold"
             android:gravity="center"
             android:text="@string/request_from"
-            android:textColor="@color/orangeToYellow"
+            android:textColor="@color/BGToLB"
             android:textSize="35dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tl_DateTime"
-            style="@style/OutlinedBoxOrangeLB"
+            style="@style/OutlinedBoxBGLB"
             android:layout_width="match_parent"
             android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             app:boxStrokeWidth="1dp"
             app:hintEnabled="true"
             app:startIconDrawable="@drawable/ic_calendar"
-            app:startIconTint="@color/orangeToLB">
+            app:startIconTint="@color/BGToLB">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_DateTime"
@@ -65,7 +65,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tl_Location"
-            style="@style/OutlinedBoxOrangeLB"
+            style="@style/OutlinedBoxBGLB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -82,7 +82,7 @@
             app:boxStrokeWidth="1dp"
             app:hintEnabled="true"
             app:startIconDrawable="@drawable/ic_location"
-            app:startIconTint="@color/orangeToLB">
+            app:startIconTint="@color/BGToLB">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_Location"
@@ -104,7 +104,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
-            android:background="@drawable/rounded_corners_white_bg_orange_stroke"
+            android:background="@drawable/rounded_corners_white_bg_stroke"
             android:fontFamily="@font/poppins_medium"
             android:spinnerMode="dropdown"
             android:textAlignment="center"
@@ -112,7 +112,7 @@
             android:textSize="20dp"/>
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/OutlinedBoxOrangeLB"
+            style="@style/OutlinedBoxBGLB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -129,7 +129,7 @@
             app:boxStrokeWidth="1dp"
             app:hintEnabled="true"
             app:startIconDrawable="@drawable/ic_description"
-            app:startIconTint="@color/orangeToLB">
+            app:startIconTint="@color/BGToLB">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_description"
@@ -153,7 +153,7 @@
             android:layout_marginEnd="25dp"
             android:fontFamily="@font/poppins_medium"
             android:insetTop="0dp"
-            android:backgroundTint="@color/orangeToLB"
+            android:backgroundTint="@color/BGToLB"
             android:insetBottom="0dp"
             android:letterSpacing="0"
             android:text="@string/add_request"

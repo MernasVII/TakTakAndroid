@@ -28,7 +28,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tlNewPassword"
-            style="@style/OutlinedBoxOrange"
+            style="@style/OutlinedBoxBGOrange"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -46,7 +46,7 @@
             app:hintEnabled="true"
             app:passwordToggleEnabled="true"
             app:startIconDrawable="@drawable/ic_key"
-            app:startIconTint="@color/orange">
+            app:startIconTint="@color/BGToOrange">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_Password"
@@ -60,6 +60,7 @@
         </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnConfirm"
+            android:backgroundTint="@color/BGToOrange"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="25dp"

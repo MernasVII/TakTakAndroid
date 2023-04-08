@@ -15,7 +15,7 @@
         <!-- TOP LAYOUT -->
         <include
             android:id="@+id/profile_layout"
-            layout="@layout/profile_layout"/>
+            layout="@layout/layout_profile"/>
         <!-- BOTTOM LAYOUT -->
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -52,10 +52,10 @@
                 android:letterSpacing="0"
                 android:text="@string/installation"
                 android:textAllCaps="false"
-                android:textColor="@color/orange"
+                android:textColor="@color/BGToLB"
                 android:textSize="16dp"
                 app:cornerRadius="24dp"
-                app:strokeColor="@color/orange"
+                app:strokeColor="@color/BGToLB"
                 app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -74,10 +74,10 @@
                 android:letterSpacing="0"
                 android:text="@string/repair"
                 android:textAllCaps="false"
-                android:textColor="@color/orange"
+                android:textColor="@color/BGToLB"
                 android:textSize="16dp"
                 app:cornerRadius="24dp"
-                app:strokeColor="@color/orange"
+                app:strokeColor="@color/BGToLB"
                 app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -97,10 +97,10 @@
                 android:singleLine="true"
                 android:text="@string/maintenance"
                 android:textAllCaps="false"
-                android:textColor="@color/orange"
+                android:textColor="@color/BGToLB"
                 android:textSize="16dp"
                 app:cornerRadius="24dp"
-                app:strokeColor="@color/orange"
+                app:strokeColor="@color/BGToLB"
                 app:strokeWidth="1dp" />
 
         </GridLayout>
@@ -141,10 +141,10 @@
                 android:letterSpacing="0"
                 android:text="@string/monday"
                 android:textAllCaps="false"
-                android:textColor="@color/orange"
+                android:textColor="@color/BGToLB"
                 android:textSize="16dp"
                 app:cornerRadius="24dp"
-                app:strokeColor="@color/orange"
+                app:strokeColor="@color/BGToLB"
                 app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -163,10 +163,10 @@
                 android:letterSpacing="0"
                 android:text="@string/tuesday"
                 android:textAllCaps="false"
-                android:textColor="@color/orange"
+                android:textColor="@color/BGToLB"
                 android:textSize="16dp"
                 app:cornerRadius="24dp"
-                app:strokeColor="@color/orange"
+                app:strokeColor="@color/BGToLB"
                 app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -186,10 +186,10 @@
                 android:letterSpacing="0"
                 android:text="@string/wednesday"
                 android:textAllCaps="false"
-                android:textColor="@color/orange"
+                android:textColor="@color/BGToLB"
                 android:textSize="16dp"
                 app:cornerRadius="24dp"
-                app:strokeColor="@color/orange"
+                app:strokeColor="@color/BGToLB"
                 app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -208,10 +208,10 @@
                 android:letterSpacing="0"
                 android:text="@string/thursday"
                 android:textAllCaps="false"
-                android:textColor="@color/orange"
+                android:textColor="@color/BGToLB"
                 android:textSize="16dp"
                 app:cornerRadius="24dp"
-                app:strokeColor="@color/orange"
+                app:strokeColor="@color/BGToLB"
                 app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -230,10 +230,10 @@
                 android:letterSpacing="0"
                 android:text="@string/friday"
                 android:textAllCaps="false"
-                android:textColor="@color/orange"
+                android:textColor="@color/BGToLB"
                 android:textSize="16dp"
                 app:cornerRadius="24dp"
-                app:strokeColor="@color/orange"
+                app:strokeColor="@color/BGToLB"
                 app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
@@ -252,10 +252,10 @@
                 android:letterSpacing="0"
                 android:text="@string/saturday"
                 android:textAllCaps="false"
-                android:textColor="@color/orange"
+                android:textColor="@color/BGToLB"
                 android:textSize="16dp"
                 app:cornerRadius="24dp"
-                app:strokeColor="@color/orange"
+                app:strokeColor="@color/BGToLB"
                 app:strokeWidth="1dp" />
 
         </GridLayout>
@@ -268,7 +268,7 @@
             android:fontFamily="@font/poppins_semibold"
             android:textSize="18dp"
             android:background="@drawable/btn_bg"
-            android:backgroundTint="@color/orangeToLB"
+            android:backgroundTint="@color/BGToLB"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginTop="20dp"

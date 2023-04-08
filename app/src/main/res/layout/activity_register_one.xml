@@ -42,7 +42,7 @@
                     android:fontFamily="@font/poppins_semibold"
                     android:gravity="center"
                     android:text="@string/joinUS"
-                    android:textColor="@color/orange"
+                    android:textColor="@color/BGToOrange"
                     android:textSize="32dp" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -53,13 +53,13 @@
                     android:fontFamily="@font/poppins_medium"
                     android:gravity="center"
                     android:text="@string/create_an_account"
-                    android:textColor="@color/orange"
+                    android:textColor="@color/BGToOrange"
                     android:textSize="18dp" />
 
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tl_Firstname"
-                    style="@style/OutlinedBoxOrange"
+                    style="@style/OutlinedBoxBGOrange"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -79,7 +79,7 @@
                     app:boxStrokeErrorColor="@color/red"
                     app:hintEnabled="true"
                     app:startIconDrawable="@drawable/ic_person"
-                    app:startIconTint="@color/orange">
+                    app:startIconTint="@color/BGToOrange">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_Firstname"
@@ -95,7 +95,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tl_Lastname"
-                    style="@style/OutlinedBoxOrange"
+                    style="@style/OutlinedBoxBGOrange"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -115,7 +115,7 @@
                     app:boxStrokeWidth="1dp"
                     app:hintEnabled="true"
                     app:startIconDrawable="@drawable/ic_person"
-                    app:startIconTint="@color/orange">
+                    app:startIconTint="@color/BGToOrange">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_Lastname"
@@ -132,7 +132,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tl_Email"
-                    style="@style/OutlinedBoxOrange"
+                    style="@style/OutlinedBoxBGOrange"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -152,7 +152,7 @@
                     app:boxStrokeErrorColor="@color/red"
                     app:hintEnabled="true"
                     app:startIconDrawable="@drawable/ic_email"
-                    app:startIconTint="@color/orange">
+                    app:startIconTint="@color/BGToOrange">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_Email"
@@ -168,7 +168,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tl_Password"
-                    style="@style/OutlinedBoxOrange"
+                    style="@style/OutlinedBoxBGOrange"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -187,7 +187,7 @@
                     app:boxStrokeErrorColor="@color/red"
                     app:passwordToggleEnabled="true"
                     app:startIconDrawable="@drawable/ic_key"
-                    app:startIconTint="@color/orange">
+                    app:startIconTint="@color/BGToOrange">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_Password"
@@ -202,7 +202,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/tl_Address"
-                    style="@style/OutlinedBoxOrange"
+                    style="@style/OutlinedBoxBGOrange"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -223,7 +223,7 @@
                     app:errorTextColor="@color/red"
                     app:boxStrokeErrorColor="@color/red"
                     app:startIconDrawable="@drawable/ic_location"
-                    app:startIconTint="@color/orange"
+                    app:startIconTint="@color/BGToOrange"
                     android:focusable="false">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -247,7 +247,7 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="50dp"
                     android:layout_marginEnd="25dp"
-                    android:backgroundTint="@color/lightBlue"
+                    android:backgroundTint="@color/BGToLB"
                     android:fontFamily="@font/poppins_medium"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
@@ -265,6 +265,7 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="25dp"
                     android:layout_marginBottom="40dp"
+                    android:backgroundTint="@color/orange"
                     android:fontFamily="@font/poppins_medium"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"

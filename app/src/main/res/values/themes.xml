@@ -8,11 +8,11 @@
         <item name="colorSurfaceVariant">@color/white</item>
 
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">@color/grey</item>
+        <item name="colorSecondaryVariant">@color/darkGrey</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/navcolor</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/statusColor</item>
         <!-- Customize your theme here. -->
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
         <item name="materialSwitchStyle">@style/Widget.App.Switch</item>
@@ -43,10 +43,16 @@
         <item name="hintTextColor">@color/red</item>
     </style>
 
-    <style name="OutlinedBoxOrange" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-        <item name="boxStrokeColor">@color/orange_stroke</item>
-        <item name="android:textColorHint">@color/orange_stroke</item>
-        <item name="hintTextColor">@color/orange</item>
+    <style name="OutlinedBoxBGOrange" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/bg_orange_stroke</item>
+        <item name="android:textColorHint">@color/bg_orange_stroke</item>
+        <item name="hintTextColor">@color/BGToOrange</item>
+    </style>
+
+    <style name="OutlinedBoxBGLB" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">@color/bg_lb_stroke</item>
+        <item name="android:textColorHint">@color/bg_lb_stroke</item>
+        <item name="hintTextColor">@color/BGToLB</item>
     </style>
 
     <style name="OutlinedBoxOrangeLB" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
@@ -95,6 +101,10 @@
         <item name="android:fontFamily">@font/poppins_medium</item>
         <item name="android:textColor">@color/darkGrey</item>
         <item name="android:textSize">15dp</item>
+    </style>
+
+    <style name="ActivityStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/orange</item>
     </style>
 
 </resources>

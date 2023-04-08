@@ -29,7 +29,7 @@ import tn.esprit.taktakandroid.uis.common.sheets.editprofile.EditProfileSheet
 import tn.esprit.miniprojetinterfaces.Sheets.SettingsSheet
 import tn.esprit.taktakandroid.uis.common.sheets.updatepwd.UpdatePasswordSheet
 import tn.esprit.taktakandroid.databinding.FragmentUserProfileBinding
-import tn.esprit.taktakandroid.databinding.LayoutDialogOptionsBinding
+import tn.esprit.taktakandroid.databinding.LayoutDialogYesNoBinding
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
@@ -212,7 +212,7 @@ class UserProfileFragment : BaseFragment() {
 
     private fun showDeletionDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        val binding = LayoutDialogOptionsBinding.inflate(layoutInflater)
+        val binding = LayoutDialogYesNoBinding.inflate(layoutInflater)
         builder.setView(binding.root)
         val dialog = builder.create()
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

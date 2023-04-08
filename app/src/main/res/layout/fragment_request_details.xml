@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/poppins_bold"
             android:text="@string/request_form"
-            android:textColor="@color/orangeToYellow"
+            android:textColor="@color/BGToYellow"
             android:textSize="28dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -117,7 +117,7 @@
             android:maxLines="5"
             android:gravity="center"
             android:background="@drawable/btn_bg"
-            android:backgroundTint="@color/orangeToLB"
+            android:backgroundTint="@color/BGToLB"
             android:fontFamily="@font/poppins_regular"
             android:textColor="@color/white"
             android:textSize="16dp"

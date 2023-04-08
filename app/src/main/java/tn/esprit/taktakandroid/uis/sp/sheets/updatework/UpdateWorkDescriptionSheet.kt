@@ -175,14 +175,14 @@ class UpdateWorkDescriptionSheet (private val user: User) : SheetBaseFragment() 
     }
 
     private fun selectBtn(btn: MaterialButton) {
-        btn.setBackgroundColor(requireActivity().getColor(R.color.orange))
+        btn.setBackgroundColor(requireActivity().getColor(R.color.BGToLB))
         btn.setTextColor(requireActivity().getColor(R.color.white))
     }
 
     private fun unselectBtn(btn:MaterialButton) {
         btn.setBackgroundColor(requireActivity().getColor(R.color.white))
-        btn.strokeColor = ColorStateList.valueOf(requireActivity().getColor(R.color.orange))
-        btn.setTextColor(requireActivity().getColor(R.color.orange))
+        btn.strokeColor = ColorStateList.valueOf(requireActivity().getColor(R.color.BGToLB))
+        btn.setTextColor(requireActivity().getColor(R.color.BGToLB))
     }
 
     private fun colorWorkDaysBtns(btn: MaterialButton) {

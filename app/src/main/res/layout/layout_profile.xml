@@ -29,6 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="3dp"
+                android:text="4.5"
                 android:fontFamily="@font/poppins_regular"
                 android:paddingTop="3dp"
                 android:textColor="@color/white"
@@ -62,28 +63,31 @@
         android:id="@+id/tv_fullname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="test name"
         android:gravity="center"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/poppins_semibold"
-        android:textColor="@color/orangeToYellow"
+        android:textColor="@color/orangeToWhite"
         android:textSize="24dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_speciality"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="test speciality"
         android:gravity="center"
         android:fontFamily="@font/poppins_medium"
-        android:textColor="@color/darkGrey"
+        android:textColor="@color/darkGreyToYellow"
         android:textSize="14dp" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="test address"
         android:gravity="center"
         android:fontFamily="@font/poppins_medium"
-        android:textColor="@color/onlyBlueGray"
+        android:textColor="@color/BGToYellow"
         android:textSize="12dp" />
 
     <!-- VISIBLE WHEN APT IS ACCEPTED (APT PRICE) -->
