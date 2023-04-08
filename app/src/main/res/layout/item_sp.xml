@@ -33,7 +33,7 @@
             android:layout_marginEnd="5dp"
             android:layout_weight="0.5"
             android:fontFamily="@font/poppins_semibold"
-            android:textColor="@color/darkGrey"
+            android:textColor="@color/darkGreyToWhite"
             android:textSize="14dp" />
         <TextView
             android:id="@+id/tv_speciality"
@@ -44,7 +44,7 @@
             android:layout_marginTop="3dp"
             android:layout_weight="0.5"
             android:fontFamily="@font/poppins_regular"
-            android:textColor="@color/grey"
+            android:textColor="@color/greyToYellow"
             android:textSize="14dp" />
         <TextView
             android:id="@+id/tv_address"
@@ -55,7 +55,7 @@
             android:layout_marginTop="3dp"
             android:layout_weight="0.5"
             android:fontFamily="@font/poppins_regular"
-            android:textColor="@color/grey"
+            android:textColor="@color/greyToYellow"
             android:textSize="12dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -84,7 +84,8 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/star"/>
+            android:src="@drawable/ic_star"
+            android:tint="@color/orangeToYellow" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
