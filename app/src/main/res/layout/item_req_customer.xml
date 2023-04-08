@@ -16,7 +16,7 @@
         android:layout_marginStart="16dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Installation"
-        android:textColor="@color/darkGrey"
+        android:textColor="@color/darkGreyToWhite"
         android:textSize="16dp" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -35,7 +35,7 @@
             android:layout_weight="0.6"
             android:fontFamily="@font/poppins_regular"
             android:text="Installation of an air conditioner"
-            android:textColor="@color/grey"
+            android:textColor="@color/greyToYellow"
             android:textSize="14dp" />
 
         <TextView
@@ -44,10 +44,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:background="@drawable/round_item_bg"
-            android:fontFamily="@font/poppins_regular"
+            android:fontFamily="@font/poppins_medium"
             android:padding="10dp"
             android:text="Bids: 13"
-            android:textColor="@color/white"
+            android:textColor="@color/whiteToBG"
             android:textSize="12dp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -60,6 +60,6 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/poppins_regular"
         android:text="20/11/2022 in Ariana"
-        android:textColor="@color/grey"
+        android:textColor="@color/greyToYellow"
         android:textSize="12dp" />
 </androidx.appcompat.widget.LinearLayoutCompat>

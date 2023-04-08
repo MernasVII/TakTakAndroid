@@ -17,7 +17,7 @@
         android:layout_marginStart="8dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="Appointment"
-        android:textColor="@color/darkGrey"
+        android:textColor="@color/orangeToYellow"
         android:textSize="16dp" />
 
     <TextView
@@ -29,7 +29,7 @@
         android:layout_marginEnd="10dp"
         android:fontFamily="@font/poppins_regular"
         android:text="Meriam Ben Ida made a bid on your request"
-        android:textColor="@color/grey"
+        android:textColor="@color/darkGreyToWhite"
         android:textSize="14dp" />
     <TextView
         android:id="@+id/tv_time"
@@ -38,7 +38,7 @@
         android:layout_marginTop="3dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/poppins_regular"
-        android:textColor="@color/grey"
+        android:textColor="@color/orangeToYellow"
         android:text="18:20"
         android:textSize="12dp"
         android:layout_gravity="end"/>

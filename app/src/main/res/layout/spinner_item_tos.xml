@@ -9,6 +9,6 @@
     android:paddingStart="40dp"
     android:gravity="center"
     android:paddingEnd="20dp"
-    android:textColor="@color/orangeToLB"
-    app:drawableTint="@color/orangeToLB"
+    android:textColor="@color/BGToLB"
+    app:drawableTint="@color/BGToLB"
     app:drawableEndCompat="@drawable/ic_arrow_down" />

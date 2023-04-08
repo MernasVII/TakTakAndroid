@@ -21,12 +21,12 @@
         android:fontFamily="@font/poppins_semibold"
         android:gravity="center"
         android:text="@string/edit_profile"
-        android:textColor="@color/orangeToLB"
+        android:textColor="@color/BGToLB"
         android:textSize="35dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_Firstname"
-        style="@style/OutlinedBoxOrangeLB"
+        style="@style/OutlinedBoxBGLB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -46,7 +46,7 @@
         app:boxStrokeWidth="1dp"
         app:hintEnabled="true"
         app:startIconDrawable="@drawable/ic_person"
-        app:startIconTint="@color/orangeToLB">
+        app:startIconTint="@color/BGToLB">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_Firstname"
@@ -62,7 +62,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_Lastname"
-        style="@style/OutlinedBoxOrangeLB"
+        style="@style/OutlinedBoxBGLB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -82,7 +82,7 @@
         app:boxStrokeWidth="1dp"
         app:hintEnabled="true"
         app:startIconDrawable="@drawable/ic_person"
-        app:startIconTint="@color/orangeToLB">
+        app:startIconTint="@color/BGToLB">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_Lastname"
@@ -100,7 +100,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_Email"
         android:enabled="false"
-        style="@style/OutlinedBoxOrangeLB"
+        style="@style/OutlinedBoxBGLB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -117,7 +117,7 @@
         app:boxStrokeWidth="1dp"
         app:hintEnabled="true"
         app:startIconDrawable="@drawable/ic_email"
-        app:startIconTint="@color/orangeToLB">
+        app:startIconTint="@color/BGToLB">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_Email"
@@ -135,7 +135,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_Address"
-        style="@style/OutlinedBoxOrangeLB"
+        style="@style/OutlinedBoxBGLB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -155,7 +155,7 @@
         app:boxStrokeWidth="1dp"
         app:hintEnabled="true"
         app:startIconDrawable="@drawable/ic_location"
-        app:startIconTint="@color/orangeToLB">
+        app:startIconTint="@color/BGToLB">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_Address"
@@ -185,7 +185,7 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="20dp"
-        app:backgroundTint="@color/orangeToLB"
+        app:backgroundTint="@color/BGToLB"
         app:cornerRadius="24dp" />
 </LinearLayout>
     <com.github.ybq.android.spinkit.SpinKitView

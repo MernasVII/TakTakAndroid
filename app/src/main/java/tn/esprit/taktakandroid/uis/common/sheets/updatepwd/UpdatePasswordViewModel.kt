@@ -59,13 +59,13 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
     fun updatePwd() = viewModelScope.launch {
         val oldPwd = _oldPwd.value
         val newPwd = _newPwd.value
-        if (oldPwd!=null && oldPwd.isNotEmpty() && isPwdValid(newPwd,_newPwd)) {
+        if (fieldsValidation(oldPwd,newPwd)) {
             try {
                 updatePwdRes.postValue(Resource.Loading())
                 val token = AppDataStore.readString(Constants.AUTH_TOKEN)
                 viewModelScope.launch(handler) {
                     val response = repository.changepwd("Bearer $token", UpdatePwdRequest(
-                        oldPwd,
+                        oldPwd!!,
                         newPwd!!,
                     )
                     )
@@ -79,7 +79,6 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
         }
     }
 
-
     private fun handleResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
@@ -92,11 +91,29 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
 
     }
 
-    private fun isPwdValid(pwd: String?,_pwd: MutableLiveData<String>): Boolean {
-        if (pwd == null || pwd.isEmpty() || pwd.length < 8) {
-            _pwd.postValue("Password should be alphanumeric and contain 8 characters at least")
+
+    private fun isValidOldPwd(oldPwd: String?): Boolean {
+        if (oldPwd.isNullOrEmpty()) {
+            _oldPwdError.postValue("Old password cannot be empty!")
             return false
         }
         return true
+    }
+
+    private fun isValidNewPwd(newPwd: String?): Boolean {
+        if (newPwd == null || newPwd.isEmpty() || newPwd.length < 8) {
+            _newPwdError.postValue("Password should contain 8 characters at least!")
+            return false
+        }
+        return true
+    }
+
+    private fun fieldsValidation(
+        oldPwd: String?,
+        newPwd: String?
+    ): Boolean {
+        val isOldPwdValid = isValidOldPwd(oldPwd)
+        val isNewPwdValid = isValidNewPwd(newPwd)
+        return isOldPwdValid && isNewPwdValid
     }
 }

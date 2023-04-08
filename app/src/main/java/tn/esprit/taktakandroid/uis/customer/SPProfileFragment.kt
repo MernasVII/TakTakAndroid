@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
@@ -38,6 +37,7 @@ class SPProfileFragment : Fragment(R.layout.fragment_sp_profile) {
     private fun setData(user:User) {
         mainView.profileLayout.tvFullname.text=user.firstname+" "+user.lastname
         mainView.profileLayout.tvAddress.text=user.address
+        mainView.profileLayout.tvSpeciality.text=user.speciality
         mainView.profileLayout.tvRate.text= String.format("%.1f", user.rate)
         Glide.with(this).load(Constants.IMG_URL +user.pic).into(mainView.profileLayout.ivPic)
         initGridButtons(user)
@@ -71,7 +71,7 @@ class SPProfileFragment : Fragment(R.layout.fragment_sp_profile) {
     }
 
     private fun selectBtn(btn: MaterialButton) {
-        btn.setBackgroundColor(requireActivity().getColor(R.color.orange))
+        btn.setBackgroundColor(requireActivity().getColor(R.color.BGToLB))
         btn.setTextColor(requireActivity().getColor(R.color.white))
     }
 }

@@ -98,7 +98,7 @@ class UpdatePasswordSheet (user: User) : SheetBaseFragment() {
         viewModel.oldPwdError.observe(this) { _errorTxt ->
             if (_errorTxt.isNotEmpty()) {
                 mainView.tlOldPassword.apply {
-                    error = viewModel.oldPwd.value
+                    error = viewModel.oldPwdError.value
                     isErrorEnabled = true
                 }
             } else {
@@ -110,7 +110,7 @@ class UpdatePasswordSheet (user: User) : SheetBaseFragment() {
         viewModel.newPwdError.observe(this) { _errorTxt ->
             if (_errorTxt.isNotEmpty()) {
                 mainView.tlNewPassword.apply {
-                    error = viewModel.newPwd.value
+                    error = viewModel.newPwdError.value
                     isErrorEnabled = true
                 }
             } else {

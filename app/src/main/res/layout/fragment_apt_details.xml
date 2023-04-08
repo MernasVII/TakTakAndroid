@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <!-- TOP LAYOUT -->
-        <include layout="@layout/profile_layout"/>
+        <include layout="@layout/layout_profile"/>
 
         <!-- BOTTOM LAYOUT -->
         <androidx.appcompat.widget.AppCompatTextView
@@ -114,7 +114,7 @@
             android:maxLines="5"
             android:gravity="center"
             android:background="@drawable/btn_bg"
-            android:backgroundTint="@color/orangeToLB"
+            android:backgroundTint="@color/BGToLB"
             android:fontFamily="@font/poppins_regular"
             android:textColor="@color/white"
             android:textSize="16dp"

@@ -26,7 +26,7 @@
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/whiteToBG">
+        android:background="@color/yellowToBG">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -46,10 +46,12 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="25dp"
-                    android:src="@drawable/ic_logout" />
+                    android:src="@drawable/ic_logout"
+                    app:tint="@color/orangeToYellow"/>
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <FrameLayout
+                android:id="@+id/fl_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -67,7 +69,7 @@
                     android:layout_gravity="bottom|end"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="5dp"
-                    android:src="@drawable/ic_plus" />
+                    android:src="@drawable/ic_plus"/>
             </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -105,7 +107,7 @@
                     android:layout_gravity="start|center_vertical"
                     android:layout_marginStart="30dp"
                     android:src="@drawable/ic_settings"
-                    app:tint="@color/orangeToLB" />
+                    app:tint="@color/BGToLB" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
@@ -113,7 +115,7 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="@string/settings"
-                    android:textColor="@color/orangeToLG"
+                    android:textColor="@color/BGToLB"
                     android:textSize="16dp" />
 
             </FrameLayout>

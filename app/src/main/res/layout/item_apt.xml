@@ -30,11 +30,12 @@
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="test name"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_weight="0.5"
             android:fontFamily="@font/poppins_semibold"
-            android:textColor="@color/darkGrey"
+            android:textColor="@color/darkGreyToWhite"
             android:textSize="14dp" />
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -47,9 +48,10 @@
                 android:id="@+id/tv_speciality"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="test speciality"
                 android:layout_weight="0.6"
                 android:fontFamily="@font/poppins_regular"
-                android:textColor="@color/grey"
+                android:textColor="@color/greyToYellow"
                 android:textSize="14dp" />
             <!-- ic_accepted or ic_pending--> <!--hide for archived-->
             <androidx.appcompat.widget.AppCompatImageView
@@ -63,12 +65,13 @@
             android:id="@+id/tv_timeLoc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="test location and time"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="3dp"
             android:layout_weight="0.5"
             android:fontFamily="@font/poppins_regular"
-            android:textColor="@color/grey"
+            android:textColor="@color/greyToYellow"
             android:textSize="12dp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 

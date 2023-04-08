@@ -162,12 +162,12 @@ class RegisterTwoActivity : BaseActivity() {
             if (viewModel.tos.value!!.contains(btn.text.toString())) {
                 viewModel.deleteTos(btn.text.toString())
                 btn.setBackgroundColor(getColor(R.color.white))
-                btn.strokeColor = ColorStateList.valueOf(getColor(R.color.orange))
-                btn.setTextColor(getColor(R.color.orange))
+                btn.strokeColor = ColorStateList.valueOf(getColor(R.color.BGToOrange))
+                btn.setTextColor(getColor(R.color.BGToOrange))
 
             } else {
                 viewModel.addTos(btn.text.toString())
-                btn.setBackgroundColor(getColor(R.color.orange))
+                btn.setBackgroundColor(getColor(R.color.BGToOrange))
                 btn.setTextColor(getColor(R.color.white))
             }
         }
@@ -179,12 +179,12 @@ class RegisterTwoActivity : BaseActivity() {
             if (viewModel.workDays.value!!.contains(btn.text.toString())) {
                 viewModel.deleteDay(btn.text.toString())
                 btn.setBackgroundColor(getColor(R.color.white))
-                btn.strokeColor = ColorStateList.valueOf(getColor(R.color.orange))
-                btn.setTextColor(getColor(R.color.orange))
+                btn.strokeColor = ColorStateList.valueOf(getColor(R.color.BGToOrange))
+                btn.setTextColor(getColor(R.color.BGToOrange))
 
             } else {
                 viewModel.addDay(btn.text.toString())
-                btn.setBackgroundColor(getColor(R.color.orange))
+                btn.setBackgroundColor(getColor(R.color.BGToOrange))
                 btn.setTextColor(getColor(R.color.white))
             }
         }
@@ -236,6 +236,7 @@ class RegisterTwoActivity : BaseActivity() {
         builder.setView(binding.root)
         val dialog = builder.create()
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        binding.tvTitle.text = "Scan Guide"
         binding.tvMessage.text = "Scan your CIN correctly by following this guide."
         binding.iv.visibility = View.VISIBLE
         binding.tvBtn.setOnClickListener {

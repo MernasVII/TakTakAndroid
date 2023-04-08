@@ -19,10 +19,12 @@
 
     <color name="BGToLB">#a3bed8</color>
     <color name="BGToWhite">#FFFFFFFF</color>
+    <color name="BGToOrange">#FFB14A</color>
     <color name="BGToYellow">#ffeccc</color>
     <color name="yellowToBG">#425968</color>
     <color name="yellowToLB">#a3bed8</color>
     <color name="LBToOrange">#FFB14A</color>
+    <color name="LBToYellow">#ffeccc</color>
     <color name="onlyBlueGray">#425968</color>
     <color name="onlyYellow">#ffeccc</color>
     <color name="orangeToBG">#425968</color>
@@ -31,8 +33,18 @@
     <color name="orangeToWhite">#FFFFFFFF</color>
     <color name="orangeToYellow">#ffeccc</color>
     <color name="whiteToBG">#425968</color>
+    <color name="whiteToDarkGrey">#68767C</color>
     <color name="greyToWhite">#FFFFFFFF</color>
     <color name="redToYellow">#ffeccc</color>
     <color name="whiteToYellow">#ffeccc</color>
-    <color name="navcolor">#425968</color>
+    <color name="navcolor">#4Da3bed8</color>
+    <color name="statusColor">#B3a3bed8</color>
+
+    <color name="yellowToStatus">#80a3bed8</color>
+
+
+    <color name="lightGreyToDarkGrey">#4Da3bed8</color>
+    <color name="darkGreyToWhite">#FFFFFFFF</color>
+    <color name="greyToYellow">#ffeccc</color>
+    <color name="darkGreyToYellow">#ffeccc</color>
 </resources>

@@ -19,16 +19,18 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/red"
             android:background="@drawable/rounded_top_corners_white_bg"
+            android:backgroundTint="@color/red"
+            android:fontFamily="@font/poppins_medium"
             android:paddingStart="25dp"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:text="@string/error"
-            android:fontFamily="@font/poppins_medium"
+            android:text="@string/warning"
             android:textColor="@color/white"
             android:textSize="18dp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -43,15 +45,15 @@
             app:tint="@color/white" />
 
         <TextView
-            android:id="@+id/tvMessage"
+            android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="this is an error message"
             android:textColor="@color/grey"
             android:layout_marginStart="20dp"
             android:layout_marginTop="18sp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="40dp"
-            android:text="this is an error message"
             android:textSize="16dp"
             android:fontFamily="@font/poppins_regular"
             app:layout_constraintBottom_toTopOf="@id/iv"
@@ -73,19 +75,52 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/tvBtn"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginEnd="40dp"
-        android:background="@drawable/rounded_corners_white_bg"
-        android:backgroundTint="@color/red"
-        android:gravity="center"
-        android:text="@string/discard"
-        android:fontFamily="@font/poppins_medium"
-        android:textSize="14dp"
-        android:textColor="@color/white"
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@id/layoutDialogError"
-        app:layout_constraintTop_toBottomOf="@id/layoutDialogError" />
+        app:layout_constraintEnd_toEndOf="@+id/layoutDialogError"
+        app:layout_constraintStart_toStartOf="@+id/layoutDialogError"
+        app:layout_constraintTop_toBottomOf="@id/layoutDialogError">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_yes"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corners_white_bg"
+            android:backgroundTint="@color/red"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/yes"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:translationZ="90dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_no"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_corners_white_bg"
+            android:backgroundTint="@color/red"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/no"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            android:translationZ="90dp" />
+
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

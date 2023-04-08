@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -30,10 +28,8 @@ import kotlinx.coroutines.withContext
 import tn.esprit.taktakandroid.uis.common.sheets.editprofile.EditProfileSheet
 import tn.esprit.miniprojetinterfaces.Sheets.SettingsSheet
 import tn.esprit.taktakandroid.uis.common.sheets.updatepwd.UpdatePasswordSheet
-import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.FragmentUserProfileBinding
-import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
-import tn.esprit.taktakandroid.databinding.LayoutDialogOptionsBinding
+import tn.esprit.taktakandroid.databinding.LayoutDialogYesNoBinding
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
@@ -129,6 +125,14 @@ class UserProfileFragment : BaseFragment() {
                     progressBarVisibility(false,mainView.spinkitView)
                     mainView.scrollView.visibility=View.VISIBLE
                     response.data?.let { userProfileResponse ->
+                        mainView.tvFullname.visibility=View.VISIBLE
+                        mainView.tvAddress.visibility=View.VISIBLE
+                        mainView.ivAddPic.isClickable = true
+                        mainView.ivLogout.isClickable = true
+                        mainView.flEdit.isClickable = true
+                        mainView.flWork.isClickable = true
+                        mainView.flPwd.isClickable = true
+                        mainView.flDeleteAcc.isClickable = true
                         user = userProfileResponse.user
                         //set username and address
                         mainView.tvFullname.text = user.firstname + " " + user.lastname
@@ -141,9 +145,17 @@ class UserProfileFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     progressBarVisibility(false,mainView.spinkitView)
+                    mainView.scrollView.visibility=View.VISIBLE
                     response.message?.let { message ->
                         showDialog(message)
-                        mainView.scrollView.visibility=View.GONE
+                        mainView.tvFullname.visibility=View.GONE
+                        mainView.tvAddress.visibility=View.GONE
+                        mainView.ivAddPic.isClickable = false
+                        mainView.ivLogout.isClickable = false
+                        mainView.flEdit.isClickable = false
+                        mainView.flWork.isClickable = false
+                        mainView.flPwd.isClickable = false
+                        mainView.flDeleteAcc.isClickable = false
                     }
                 }
                 is Resource.Loading -> {
@@ -191,7 +203,7 @@ class UserProfileFragment : BaseFragment() {
                 val uri: Uri = data?.data!!
                 val file= uri.path?.let { File(it) }
                 viewModel.updatePic(file)
-                //TODO
+                //TODO change next line right way
                 mainView.ivPic.setImageURI(uri)
             } else if (resultCode == ImagePicker.RESULT_ERROR) {
                 Toast.makeText(requireContext(), ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
@@ -200,7 +212,7 @@ class UserProfileFragment : BaseFragment() {
 
     private fun showDeletionDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        val binding = LayoutDialogOptionsBinding.inflate(layoutInflater)
+        val binding = LayoutDialogYesNoBinding.inflate(layoutInflater)
         builder.setView(binding.root)
         val dialog = builder.create()
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

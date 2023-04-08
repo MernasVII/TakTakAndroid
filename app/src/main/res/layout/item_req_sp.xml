@@ -34,7 +34,7 @@
             android:layout_weight="0.5"
             android:fontFamily="@font/poppins_semibold"
             android:text="Foulen El Fouleni"
-            android:textColor="@color/darkGrey"
+            android:textColor="@color/darkGreyToWhite"
             android:textSize="14dp" />
         <TextView
             android:id="@+id/tv_tos"
@@ -46,7 +46,7 @@
             android:layout_weight="0.6"
             android:fontFamily="@font/poppins_regular"
             android:text="Plumber"
-            android:textColor="@color/grey"
+            android:textColor="@color/greyToYellow"
             android:textSize="14dp" />
         <TextView
             android:id="@+id/tv_timeLoc"
@@ -58,7 +58,7 @@
             android:layout_weight="0.5"
             android:fontFamily="@font/poppins_regular"
             android:text="20/11/2022 in Ariana"
-            android:textColor="@color/grey"
+            android:textColor="@color/greyToYellow"
             android:textSize="12dp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
     <TextView
@@ -71,6 +71,6 @@
         android:fontFamily="@font/poppins_regular"
         android:padding="10dp"
         android:text="Bids: 13"
-        android:textColor="@color/white"
+        android:textColor="@color/whiteToBG"
         android:textSize="12dp" />
 </androidx.appcompat.widget.LinearLayoutCompat>

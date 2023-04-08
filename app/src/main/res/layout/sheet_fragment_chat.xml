@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/sheet_background"
-        android:backgroundTint="@color/orangeToLB"
+        android:backgroundTint="@color/BGToLB"
         android:orientation="horizontal"
         android:padding="10dp">
 
@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:background="@drawable/rounded_corners_white_bg_orange_stroke"
+            android:background="@drawable/rounded_corners_white_bg_stroke"
             android:orientation="horizontal"
             android:padding="5dp">
 
@@ -65,7 +65,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tl_content"
                 android:layout_width="0dp"
-                style="@style/OutlinedBoxOrangeLB"
+                style="@style/OutlinedBoxBGLB"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_gravity="center"
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/rounded_corners_white_bg"
-                android:backgroundTint="@color/orangeToLB"
+                android:backgroundTint="@color/BGToLB"
                 android:padding="10dp"
                 android:src="@drawable/ic_send"
                 app:borderWidth="0dp"
