@@ -1,4 +1,4 @@
-package tn.esprit.taktakandroid.models.userprofile
+package tn.esprit.taktakandroid.models.responses
 
 import tn.esprit.taktakandroid.models.entities.User
 

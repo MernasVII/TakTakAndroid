@@ -88,6 +88,12 @@
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/Mini projet/TakTakAndroid/app/src/main/res/layout/spinner_item_lang.xml" value="0.15208333333333332" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/Mini projet/TakTakAndroid/app/src/main/res/layout/spinner_item_tos.xml" value="0.20521590423257802" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/Mini projet/TakTakAndroid/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.20512820512820512" />
+        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/fragment_apts.xml" value="0.1" />
+        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/fragment_archived_apts.xml" value="0.25" />
+        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/fragment_notifs.xml" value="0.1" />
+        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/fragment_pending_apts.xml" value="0.25" />
+        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/item_apt.xml" value="0.25" />
+        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/item_notif.xml" value="0.25" />
       </map>
     </option>
   </component>

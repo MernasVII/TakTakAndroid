@@ -1,13 +1,12 @@
 package tn.esprit.taktakandroid.uis.common.sheets.editprofile
 
-import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.MessageResponse
-import tn.esprit.taktakandroid.models.updateprofile.UpdateProfileRequest
+import tn.esprit.taktakandroid.models.requests.UpdateProfileRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
@@ -87,11 +86,12 @@ class EditProfileViewModel (private val repository: UserRepository) :
                 updateProfileRes.postValue(Resource.Loading())
                 val token = AppDataStore.readString(Constants.AUTH_TOKEN)
                 viewModelScope.launch(handler) {
-                    val response = repository.updateProfile("Bearer $token",UpdateProfileRequest(
+                    val response = repository.updateProfile("Bearer $token", UpdateProfileRequest(
                         firstname!!,
                         lastname!!,
                         address!!
-                    ))
+                    )
+                    )
                     updateProfileRes.postValue(handleResponse(response))
                 }
 

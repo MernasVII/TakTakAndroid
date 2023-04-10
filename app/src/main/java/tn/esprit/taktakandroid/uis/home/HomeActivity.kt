@@ -15,8 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.databinding.ActivityHomeBinding
-import tn.esprit.taktakandroid.uis.common.AptsFragment
-import tn.esprit.taktakandroid.uis.common.NotifsFragment
+import tn.esprit.taktakandroid.uis.common.apts.AptsFragment
+import tn.esprit.taktakandroid.uis.common.notifs.NotifsFragment
 import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileFragment
 import tn.esprit.taktakandroid.uis.customer.spslist.SPsFragment
 import tn.esprit.taktakandroid.utils.AppDataStore
