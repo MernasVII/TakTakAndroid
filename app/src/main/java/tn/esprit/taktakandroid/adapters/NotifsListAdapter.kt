@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -46,6 +47,11 @@ class NotifsListAdapter (private val fragmentManager: FragmentManager) : Recycle
     override fun onBindViewHolder(holder: NotifViewHolder, position: Int) {
         var notif=differ.currentList[position]
         holder.itemView.apply {
+            if(notif.read){
+                holder.itemView.setBackgroundResource(R.drawable.list_item_bg)
+            }else{
+                holder.itemView.setBackgroundResource(R.drawable.notif_unread_bg)
+            }
             var notifTitle:String
             if(notif.apt!=null){
                 notifTitle=holder.itemView.context.getString(R.string.apt)
