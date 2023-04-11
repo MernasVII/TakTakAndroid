@@ -15,9 +15,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.SignUpRequest
-import tn.esprit.taktakandroid.models.login.LoginRequest
-import tn.esprit.taktakandroid.models.login.LoginResponse
+import tn.esprit.taktakandroid.models.requests.SignUpRequest
+import tn.esprit.taktakandroid.models.requests.LoginRequest
+import tn.esprit.taktakandroid.models.responses.LoginResponse
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants

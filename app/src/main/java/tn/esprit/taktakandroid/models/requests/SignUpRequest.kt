@@ -1,4 +1,4 @@
-package tn.esprit.taktakandroid.models
+package tn.esprit.taktakandroid.models.requests
 
 class SignUpRequest(
     val firstname: String,
