@@ -39,8 +39,7 @@ class UpdateWorkDescriptionSheet (private val user: User) : SheetBaseFragment() 
         savedInstanceState: Bundle?
     ): View? {
 
-        mainView =
-            SheetFragmentUpdateWorkDescriptionBinding.inflate(layoutInflater, container, false)
+        mainView = SheetFragmentUpdateWorkDescriptionBinding.inflate(layoutInflater, container, false)
         val userRepository = UserRepository()
         viewModel = ViewModelProvider(this,UpdateWorkDescriptionViewModelFactory(userRepository))[UpdateWorkDescriptionViewModel::class.java]
 

@@ -8,13 +8,18 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.adapters.AptsListAdapter
 import tn.esprit.taktakandroid.databinding.FragmentPendingAptsBinding
 import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
+import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
+import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
@@ -23,6 +28,7 @@ class PendingAptsFragment : BaseFragment() {
     val TAG="PendingAptsFragment"
 
     lateinit var viewModel: PendingAptsViewModel
+    lateinit var aptsViewModel: AptsViewModel
     lateinit var aptAdapter: AptsListAdapter
 
     lateinit var mainView: FragmentPendingAptsBinding
@@ -41,6 +47,7 @@ class PendingAptsFragment : BaseFragment() {
 
         val aptRepository = AptRepository()
         viewModel = ViewModelProvider(this, PendingAptsViewModelFactory(aptRepository))[PendingAptsViewModel::class.java]
+        aptsViewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
 
         lifecycleScope.launch {
             val cin = AppDataStore.readString(Constants.CIN)
@@ -96,7 +103,8 @@ class PendingAptsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView(cin: String?) {
-        aptAdapter = AptsListAdapter(cin, parentFragmentManager)
+        val viewModelScope = CoroutineScope(viewModel.viewModelScope.coroutineContext + Dispatchers.Main)
+        aptAdapter = AptsListAdapter(cin, parentFragmentManager, viewModelScope,aptsViewModel)
         mainView.rvApts.apply {
             adapter = aptAdapter
             layoutManager = LinearLayoutManager(activity)

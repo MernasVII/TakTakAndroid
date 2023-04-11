@@ -6,22 +6,39 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.databinding.SheetFragmentPostponeAptBinding
+import tn.esprit.taktakandroid.models.requests.PostponeAptRequest
+import tn.esprit.taktakandroid.repositories.AptRepository
+import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
+import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
 
 
 class PostponeAptSheet : BottomSheetDialogFragment() {
+    val TAG="PostponeAptSheet"
 
     private lateinit var mainView: SheetFragmentPostponeAptBinding
+    lateinit var viewModel: AptsViewModel
+
     private val data = arrayOf("5", "10", "15", "20", "25", "30")
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         mainView = SheetFragmentPostponeAptBinding.inflate(layoutInflater, container, false)
+        val aptRepository = AptRepository()
+        viewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
+        val aptId = arguments?.getString("aptId")
         setupPicker()
+
         mainView.btnPostpone.setOnClickListener {
-            Log.v("PostponeAptSheet", data[mainView.npMinutes.value - 1])
+            lifecycleScope.launch {
+                viewModel.postponeApt(PostponeAptRequest(aptId!!,(data[mainView.npMinutes.value - 1]).toInt()))
+            }
             dismiss()
         }
 

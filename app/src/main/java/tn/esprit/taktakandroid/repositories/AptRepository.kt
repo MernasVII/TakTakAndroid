@@ -1,6 +1,10 @@
 package tn.esprit.taktakandroid.repositories
 
 import tn.esprit.taktakandroid.api.RetrofitInstance
+import tn.esprit.taktakandroid.models.requests.AcceptAptRequest
+import tn.esprit.taktakandroid.models.requests.IdBodyRequest
+import tn.esprit.taktakandroid.models.requests.PostponeAptRequest
+import tn.esprit.taktakandroid.models.requests.UpdateAptStateRequest
 
 class AptRepository {
     /**************** AS A CUSTOMER ****************/
@@ -24,6 +28,10 @@ class AptRepository {
     suspend fun getRequestedArchivedApts(token:String)=
         RetrofitInstance.aptApi.getRequestedArchivedApts(token)
 
+    //CANCEL APT
+    suspend fun cancelApt(token:String,idBodyRequest: IdBodyRequest)=
+        RetrofitInstance.aptApi.cancelApt(token,idBodyRequest)
+
     /**************** AS A SERVICE PROVIDER ****************/
     //GET ALL RECEIVED
     suspend fun getAllReceivedApts(token:String)=
@@ -40,4 +48,24 @@ class AptRepository {
     //GET RECEIVED ARCHIVED
     suspend fun getReceivedArchivedApts(token:String)=
         RetrofitInstance.aptApi.getReceivedArchivedApts(token)
+
+    //POSTPONE APT
+    suspend fun postponeApt(token:String,postponeAptRequest: PostponeAptRequest)=
+        RetrofitInstance.aptApi.postponeApt(token,postponeAptRequest)
+
+    //GET TIME LEFT TO APT
+    suspend fun getTimeLeftToApt(token:String,idBodyRequest: IdBodyRequest)=
+        RetrofitInstance.aptApi.getTimeLeftToApt(token,idBodyRequest)
+
+    //ACCEPT APT
+    suspend fun acceptApt(token:String,acceptAptRequest: AcceptAptRequest)=
+        RetrofitInstance.aptApi.acceptApt(token,acceptAptRequest)
+
+    //DECLINE APT
+    suspend fun declineApt(token:String,idBodyRequest: IdBodyRequest)=
+        RetrofitInstance.aptApi.declineApt(token,idBodyRequest)
+
+    //UPDATE APT STATE
+    suspend fun updateAptState(token:String,updateAptStateRequest: UpdateAptStateRequest)=
+        RetrofitInstance.aptApi.updateAptState(token,updateAptStateRequest)
 }

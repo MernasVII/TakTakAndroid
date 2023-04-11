@@ -6,7 +6,7 @@ import java.io.Serializable
 
 @Parcelize
 data class Appointment (
-    var _id: String? = null,
+    val _id: String? = null,
     val createdAt: String,
     val customer: User,
     val date: String,
@@ -15,9 +15,9 @@ data class Appointment (
     val isArchived: Boolean,
     val location: String,
     val postpone: Int,
-    val rate: Float,
+    var rate: Float,
     val sp: User,
-    val state: Int,
+    var state: Int,
     val tos: String,
     val updatedAt: String
 ) : Serializable, Parcelable

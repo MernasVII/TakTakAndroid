@@ -8,7 +8,10 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.adapters.AptsListAdapter
@@ -119,7 +122,8 @@ class AptsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView(cin: String?) {
-        aptAdapter = AptsListAdapter(cin, parentFragmentManager)
+        val viewModelScope = CoroutineScope(viewModel.viewModelScope.coroutineContext + Dispatchers.Main)
+        aptAdapter = AptsListAdapter(cin, parentFragmentManager, viewModelScope,viewModel)
         mainView.rvApts.apply {
             adapter = aptAdapter
             layoutManager = LinearLayoutManager(activity)

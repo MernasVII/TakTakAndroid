@@ -89,7 +89,6 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
 
     private fun handleResponse(response: Response<LoginResponse>): Resource<LoginResponse> {
         if (response.isSuccessful) {
-
             response.body()?.let { resultResponse ->
                 viewModelScope.launch(Dispatchers.IO) {
                     AppDataStore.writeString(Constants.AUTH_TOKEN, resultResponse.token!!)

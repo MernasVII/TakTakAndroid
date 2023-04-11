@@ -12,7 +12,9 @@
         android:orientation="vertical">
 
         <!-- TOP LAYOUT -->
-        <include layout="@layout/layout_profile"/>
+        <include
+            android:id="@+id/profile_layout"
+            layout="@layout/layout_profile" />
 
         <!-- BOTTOM LAYOUT -->
         <androidx.appcompat.widget.AppCompatTextView
@@ -33,14 +35,14 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="30dp"
-            android:gravity="center"
             android:background="@drawable/btn_bg"
             android:backgroundTint="@color/BGToLB"
             android:fontFamily="@font/poppins_regular"
-            android:textColor="@color/white"
-            android:textSize="16dp"
+            android:gravity="center"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
 
         <!-- LOCATION -->
         <androidx.appcompat.widget.AppCompatTextView
@@ -52,6 +54,7 @@
             android:text="@string/location"
             android:textColor="@color/BGToLB"
             android:textSize="14dp" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_location"
             android:layout_width="match_parent"
@@ -59,14 +62,14 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="30dp"
-            android:gravity="center"
             android:background="@drawable/btn_bg"
             android:backgroundTint="@color/BGToLB"
             android:fontFamily="@font/poppins_regular"
-            android:textColor="@color/white"
-            android:textSize="16dp"
+            android:gravity="center"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
 
         <!-- TOS -->
         <androidx.appcompat.widget.AppCompatTextView
@@ -78,6 +81,7 @@
             android:text="@string/type_of_service"
             android:textColor="@color/BGToLB"
             android:textSize="14dp" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_tos"
             android:layout_width="match_parent"
@@ -85,14 +89,14 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="30dp"
-            android:gravity="center"
             android:background="@drawable/btn_bg"
             android:backgroundTint="@color/BGToLB"
             android:fontFamily="@font/poppins_regular"
-            android:textColor="@color/white"
-            android:textSize="16dp"
+            android:gravity="center"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
 
         <!-- DESCRIPTION -->
         <androidx.appcompat.widget.AppCompatTextView
@@ -104,6 +108,7 @@
             android:text="@string/description_of_request"
             android:textColor="@color/BGToLB"
             android:textSize="14dp" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_desc"
             android:layout_width="match_parent"
@@ -111,101 +116,135 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="30dp"
-            android:maxLines="5"
-            android:gravity="center"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/btn_bg"
             android:backgroundTint="@color/BGToLB"
             android:fontFamily="@font/poppins_regular"
-            android:textColor="@color/white"
-            android:textSize="16dp"
-            android:paddingTop="10dp"
+            android:gravity="center"
+            android:maxLines="5"
             android:paddingStart="10dp"
+            android:paddingTop="10dp"
             android:paddingEnd="10dp"
-            android:paddingBottom="10dp"/>
-        <!-- VISIBLE WHEN APT IS PENDING (ACCPET/DECLINE BTNS) -->
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+        <!-- SP VIEWS -->
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/ll_pending"
-            android:visibility="gone"
+            android:id="@+id/ll_active"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
             android:orientation="vertical">
+
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_timeLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/poppins_bold"
+                android:fontFamily="@font/poppins_medium"
                 android:textColor="@color/red"
                 android:textSize="14dp" />
+            <!-- VISIBLE WHEN CUSTOMER -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/btn_bg"
+                android:backgroundTint="@color/red"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/cancel"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+            <!-- VISIBLE WHEN SP ACCPETED -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_postpone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/btn_bg"
+                android:backgroundTint="@color/red"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/postpone"
+                android:textColor="@color/white"
+                android:textSize="16dp"
+                android:visibility="gone" />
+            <!-- VISIBLE WHEN SP PENDING -->
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_pending_sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_accept"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="3dp"
                     android:layout_weight="0.5"
-                    android:text="@string/accept"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:textSize="16dp"
                     android:background="@drawable/btn_bg"
                     android:backgroundTint="@color/green"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="3dp"/>
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/accept"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_decline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginEnd="30dp"
                     android:layout_weight="0.5"
-                    android:text="@string/decline"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:textSize="16dp"
                     android:background="@drawable/btn_bg"
                     android:backgroundTint="@color/red"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginEnd="30dp"/>
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/decline"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.appcompat.widget.LinearLayoutCompat>
-        <!-- VISIBLE WHEN APT IS ACCEPTED (IM HERE/WORK IS DONE) -->
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/ll_accepted"
+
+        <!-- VISIBLE WHEN CUSTOMER AND APT IS DONE -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_scan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/LBToOrange"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/scan_code"
+            android:textColor="@color/white"
+            android:textSize="16dp"/>
+
+        <!-- VISIBLE WHEN SP AND APT IS NOW OR IN PROGRESS (IM HERE/WORK IS DONE) -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
-            android:orientation="vertical">
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_here"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/here"
-                android:textColor="@color/white"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="16dp"
-                android:background="@drawable/btn_bg"
-                android:backgroundTint="@color/LBToOrange"/>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_done"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/work_is_done"
-                android:visibility="gone"
-                android:textColor="@color/white"
-                android:fontFamily="@font/poppins_semibold"
-                android:textSize="16dp"
-                android:background="@drawable/btn_bg"
-                android:backgroundTint="@color/LBToOrange"/>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
+            android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/LBToOrange"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/here"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </ScrollView>

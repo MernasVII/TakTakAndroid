@@ -83,6 +83,8 @@
     <string name="update_password">Update Password</string>
     <string name="delete_account">Delete Account</string>
     <string name="cancel">Cancel</string>
+    <string name="scan_code">Scan QR code</string>
+    <string name="generate_code">Generate QR code</string>
     <string name="warning">Warning</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>

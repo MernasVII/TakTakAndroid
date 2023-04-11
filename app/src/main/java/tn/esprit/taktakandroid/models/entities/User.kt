@@ -6,7 +6,7 @@ import java.io.Serializable
 
 @Parcelize
 data class User (
-    var _id: String? = null,
+    val _id: String? = null,
     val firstname: String? = null,
     val lastname: String? = null,
     val address: String? = null,

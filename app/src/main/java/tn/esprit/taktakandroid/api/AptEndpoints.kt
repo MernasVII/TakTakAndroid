@@ -1,9 +1,14 @@
 package tn.esprit.taktakandroid.api
 
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Header
+import retrofit2.http.*
+import tn.esprit.taktakandroid.models.MessageResponse
+import tn.esprit.taktakandroid.models.requests.AcceptAptRequest
+import tn.esprit.taktakandroid.models.requests.IdBodyRequest
+import tn.esprit.taktakandroid.models.requests.PostponeAptRequest
+import tn.esprit.taktakandroid.models.requests.UpdateAptStateRequest
 import tn.esprit.taktakandroid.models.responses.AptsResponse
+import tn.esprit.taktakandroid.models.responses.TimeLeftResponse
 
 interface AptEndpoints {
     /**************** AS A CUSTOMER ****************/
@@ -37,6 +42,13 @@ interface AptEndpoints {
         @Header("Authorization") token: String
     ): Response<AptsResponse>
 
+    //CANCEL APT
+    @PUT("appointment/archiveApt")
+    suspend fun cancelApt(
+        @Header("Authorization") token: String,
+        @Body request: IdBodyRequest
+    ): Response<MessageResponse>
+
     /**************** AS A SERVICE PROVIDER ****************/
     //GET ALL RECEIVED
     @GET("appointment/getAllReceivedApts")
@@ -61,5 +73,41 @@ interface AptEndpoints {
     suspend fun getReceivedArchivedApts(
         @Header("Authorization") token: String
     ): Response<AptsResponse>
+
+    //POSTPONE APT
+    @PUT("appointment/postponeApt")
+    suspend fun postponeApt(
+        @Header("Authorization") token: String,
+        @Body request: PostponeAptRequest
+    ): Response<MessageResponse>
+
+    //ACCEPT APT
+    @PUT("appointment/acceptApt")
+    suspend fun acceptApt(
+        @Header("Authorization") token: String,
+        @Body request: AcceptAptRequest
+    ): Response<MessageResponse>
+
+    //DECLINE APT
+    @PUT("appointment/declineApt")
+    suspend fun declineApt(
+        @Header("Authorization") token: String,
+        @Body request: IdBodyRequest
+    ): Response<MessageResponse>
+
+    /**************** COMMON ****************/
+    //TIME LEFT TO APT
+    @POST("appointment/timeLeft")
+    suspend fun getTimeLeftToApt(
+        @Header("Authorization") token: String,
+        @Body request: IdBodyRequest
+    ): Response<TimeLeftResponse>
+
+    //UPDATE APT STATE
+    @PUT("appointment/updateAptState")
+    suspend fun updateAptState(
+        @Header("Authorization") token: String,
+        @Body request: UpdateAptStateRequest
+    ): Response<MessageResponse>
 
 }

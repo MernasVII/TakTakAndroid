@@ -10,9 +10,10 @@ import com.google.android.material.button.MaterialButton
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.FragmentSpProfileBinding
 import tn.esprit.taktakandroid.models.entities.User
+import tn.esprit.taktakandroid.uis.BaseFragment
 import tn.esprit.taktakandroid.utils.Constants
 
-class SPProfileFragment : Fragment(R.layout.fragment_sp_profile) {
+class SPProfileFragment : BaseFragment() {
     private val TAG="SPProfileFragment"
     private lateinit var mainView: FragmentSpProfileBinding
     private lateinit var tosButtons: List<MaterialButton>

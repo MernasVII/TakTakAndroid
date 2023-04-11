@@ -111,8 +111,6 @@ class EditProfileViewModel (private val repository: UserRepository) :
         }
         val errorBody = JSONObject(response.errorBody()!!.string())
         return Resource.Error(errorBody.getString("message"))
-
-
     }
 
     private fun isFirstnameValid(firstname: String?): Boolean {

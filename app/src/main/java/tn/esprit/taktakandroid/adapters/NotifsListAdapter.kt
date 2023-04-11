@@ -1,20 +1,29 @@
 package tn.esprit.taktakandroid.adapters
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.models.entities.Appointment
+import tn.esprit.taktakandroid.models.entities.Bid
 import tn.esprit.taktakandroid.models.entities.Notification
+import tn.esprit.taktakandroid.models.requests.IdBodyRequest
+import tn.esprit.taktakandroid.uis.common.AptDetailsFragment
+import tn.esprit.taktakandroid.uis.common.notifs.NotifsViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NotifsListAdapter (private val fragmentManager: FragmentManager) : RecyclerView.Adapter<NotifsListAdapter.NotifViewHolder>() {
+class NotifsListAdapter (private val fragmentManager: FragmentManager,
+                         private val adapterScope: CoroutineScope? = null,
+                         private val viewModel: NotifsViewModel? = null,) : RecyclerView.Adapter<NotifsListAdapter.NotifViewHolder>() {
 
     inner class NotifViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
@@ -63,7 +72,25 @@ class NotifsListAdapter (private val fragmentManager: FragmentManager) : Recycle
             val time=getTime(notif.createdAt)
             holder.itemView.findViewById<TextView>(R.id.tv_time).text = time
             setOnClickListener {
-                //TODO navigateToBidOrApt(notif.apt,notif.bid)
+                adapterScope?.launch {
+                        viewModel?.markRead(IdBodyRequest(notif._id!!))
+                        navigateToBidOrApt(notif.apt,notif.bid)
+                }
+            }
+        }
+    }
+
+    private fun navigateToBidOrApt(apt: Appointment?, bid: Bid?) {
+        if(apt!=null){
+            val bundle = Bundle().apply {
+                putParcelable("apt", apt)
+            }
+            val aptDetailsFragment = AptDetailsFragment()
+            aptDetailsFragment.arguments = bundle
+            fragmentManager.beginTransaction().apply {
+                replace(R.id.fragment_container, aptDetailsFragment)
+                addToBackStack(null)
+                commit()
             }
         }
     }

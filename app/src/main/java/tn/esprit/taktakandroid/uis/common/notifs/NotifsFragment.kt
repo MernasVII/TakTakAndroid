@@ -7,8 +7,12 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.adapters.AptsListAdapter
 import tn.esprit.taktakandroid.adapters.NotifsListAdapter
 import tn.esprit.taktakandroid.databinding.FragmentNotifsBinding
 import tn.esprit.taktakandroid.repositories.NotifRepository
@@ -87,7 +91,8 @@ class NotifsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
-        notifAdapter = NotifsListAdapter(parentFragmentManager)
+        val viewModelScope = CoroutineScope(viewModel.viewModelScope.coroutineContext + Dispatchers.Main)
+        notifAdapter = NotifsListAdapter(parentFragmentManager, viewModelScope,viewModel)
         mainView.rvNotifs.apply {
             adapter = notifAdapter
             layoutManager = LinearLayoutManager(activity)

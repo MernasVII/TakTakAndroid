@@ -14,12 +14,16 @@ import tn.esprit.taktakandroid.databinding.SheetFragmentQrCodeBinding
 
 
 class QRCodeSheet : BottomSheetDialogFragment() {
+    val TAG="QRCodeSheet"
+
     private lateinit var mainView: SheetFragmentQrCodeBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         mainView = SheetFragmentQrCodeBinding.inflate(layoutInflater, container, false)
+        val aptKey = arguments?.getString("aptKey")
 
         generateQrCode("content")
         return mainView.root
