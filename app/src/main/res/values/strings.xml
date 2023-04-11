@@ -67,10 +67,12 @@
     <string name="here">I\'m here</string>
     <string name="work_is_done">Work is done</string>
     <string name="appointments">Appointments</string>
+    <string name="apt">Appointment</string>
     <string name="appointments_archive">Appointments Archive</string>
     <string name="requests_archive">Requests Archive</string>
     <string name="book_an_appointment">Book an Appointment</string>
     <string name="bids">Bids</string>
+    <string name="bid">Bid</string>
     <string name="auction_house">Auction House</string>
     <string name="pending_appointments">Pending Appointments</string>
     <string name="pending_bids">Pending Bids</string>
@@ -92,6 +94,10 @@
     <string name="lastname_empty">Lastname cannot be empty!</string>
     <string name="address_empty">Address should contain at least 3 characters!</string>
     <string name="no_sps">No service providers found!</string>
+    <string name="no_notifs">No notifications found!</string>
+    <string name="no_apts">No appointments found!</string>
+    <string name="no_pending_apts">No pending appointments found!</string>
+    <string name="archive_empty">Archive is empty!</string>
     <string name="work_days_cannot_be_empty">Work days cannot be empty!</string>
     <string name="types_of_services_cannot_be_empty">Types of services cannot be empty!</string>
 

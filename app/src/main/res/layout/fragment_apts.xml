@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whiteToBG"
-    tools:context=".uis.common.AptsFragment">
+    tools:context=".uis.common.apts.AptsFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_title"
@@ -88,6 +88,19 @@
         app:layout_constraintTop_toBottomOf="@+id/search_view"
         app:layout_constraintVertical_bias="0.0"/>
 
-
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center"
+        android:text="@string/no_apts"
+        android:textColor="@color/orangeToYellow"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

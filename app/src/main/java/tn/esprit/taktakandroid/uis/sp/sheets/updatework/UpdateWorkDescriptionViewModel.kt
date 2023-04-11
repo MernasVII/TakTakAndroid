@@ -1,6 +1,5 @@
 package tn.esprit.taktakandroid.uis.sp.sheets.updatework
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +9,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.MessageResponse
-import tn.esprit.taktakandroid.models.updateprofile.UpdateProfileRequest
-import tn.esprit.taktakandroid.models.updateworkdesc.UpdateWorkDescRequest
+import tn.esprit.taktakandroid.models.requests.UpdateWorkDescRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants

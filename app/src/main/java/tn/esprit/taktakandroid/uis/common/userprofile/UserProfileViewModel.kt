@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.MessageResponse
-import tn.esprit.taktakandroid.models.userprofile.UserProfileResponse
+import tn.esprit.taktakandroid.models.responses.UserProfileResponse
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants

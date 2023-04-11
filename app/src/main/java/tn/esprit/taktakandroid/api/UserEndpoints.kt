@@ -3,10 +3,10 @@ package tn.esprit.taktakandroid.api
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
-import tn.esprit.taktakandroid.models.splist.SPsResponse
+import tn.esprit.taktakandroid.models.responses.SPsResponse
 import tn.esprit.taktakandroid.models.login.LoginRequest
 import tn.esprit.taktakandroid.models.login.LoginResponse
-import tn.esprit.taktakandroid.models.userprofile.UserProfileResponse
+import tn.esprit.taktakandroid.models.responses.UserProfileResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -14,9 +14,9 @@ import tn.esprit.taktakandroid.models.MessageResponse
 import tn.esprit.taktakandroid.models.ResetPwdRequest
 import tn.esprit.taktakandroid.models.SendOtpRequest
 import tn.esprit.taktakandroid.models.SignUpRequest
-import tn.esprit.taktakandroid.models.updateprofile.UpdateProfileRequest
-import tn.esprit.taktakandroid.models.updatepwd.UpdatePwdRequest
-import tn.esprit.taktakandroid.models.updateworkdesc.UpdateWorkDescRequest
+import tn.esprit.taktakandroid.models.requests.UpdateProfileRequest
+import tn.esprit.taktakandroid.models.requests.UpdatePwdRequest
+import tn.esprit.taktakandroid.models.requests.UpdateWorkDescRequest
 
 interface UserEndpoints {
 

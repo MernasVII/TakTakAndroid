@@ -28,6 +28,11 @@ class RetrofitInstance {
         val userApi: UserEndpoints by lazy {
             retrofit.create(UserEndpoints::class.java)
         }
-
+        val notifApi: NotifEndpoints by lazy {
+            retrofit.create(NotifEndpoints::class.java)
+        }
+        val aptApi: AptEndpoints by lazy {
+            retrofit.create(AptEndpoints::class.java)
+        }
     }
 }

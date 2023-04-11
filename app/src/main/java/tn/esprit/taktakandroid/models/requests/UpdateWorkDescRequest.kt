@@ -1,4 +1,4 @@
-package tn.esprit.taktakandroid.models.updateworkdesc
+package tn.esprit.taktakandroid.models.requests
 
 data class UpdateWorkDescRequest(
     val speciality: String,

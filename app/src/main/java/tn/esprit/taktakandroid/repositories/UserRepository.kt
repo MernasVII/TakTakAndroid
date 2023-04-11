@@ -1,6 +1,5 @@
 package tn.esprit.taktakandroid.repositories
 
-import android.util.Log
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import tn.esprit.taktakandroid.api.RetrofitInstance
@@ -8,14 +7,11 @@ import tn.esprit.taktakandroid.models.login.LoginRequest
 import tn.esprit.taktakandroid.models.ResetPwdRequest
 import tn.esprit.taktakandroid.models.SendOtpRequest
 import tn.esprit.taktakandroid.models.SignUpRequest
-import tn.esprit.taktakandroid.models.updateprofile.UpdateProfileRequest
-import tn.esprit.taktakandroid.models.updatepwd.UpdatePwdRequest
-import tn.esprit.taktakandroid.models.updateworkdesc.UpdateWorkDescRequest
-import tn.esprit.taktakandroid.utils.AppDataStore
-import tn.esprit.taktakandroid.utils.Constants
+import tn.esprit.taktakandroid.models.requests.UpdateProfileRequest
+import tn.esprit.taktakandroid.models.requests.UpdatePwdRequest
+import tn.esprit.taktakandroid.models.requests.UpdateWorkDescRequest
 import java.io.File
 import java.util.*
-import kotlin.math.log
 
 class UserRepository {
 

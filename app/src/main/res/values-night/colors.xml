@@ -44,6 +44,7 @@
 
 
     <color name="lightGreyToDarkGrey">#4Da3bed8</color>
+    <color name="lightGreyToDarkGrey2">#99a3bed8</color>
     <color name="darkGreyToWhite">#FFFFFFFF</color>
     <color name="greyToYellow">#ffeccc</color>
     <color name="darkGreyToYellow">#ffeccc</color>

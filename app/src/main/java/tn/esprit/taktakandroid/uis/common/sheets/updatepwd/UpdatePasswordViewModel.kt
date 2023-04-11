@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.MessageResponse
-import tn.esprit.taktakandroid.models.updatepwd.UpdatePwdRequest
+import tn.esprit.taktakandroid.models.requests.UpdatePwdRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
