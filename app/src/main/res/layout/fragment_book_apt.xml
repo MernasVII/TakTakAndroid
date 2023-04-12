@@ -1,49 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/whiteToBG"
-    tools:context=".uis.customer.BookAptFragment">
-
+    tools:context=".uis.customer.bookapt.BookAptFragment">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
         <!-- TOP LAYOUT -->
-        <include layout="@layout/layout_profile"/>
+        <include
+            android:id="@+id/profile_layout"
+            layout="@layout/layout_profile"/>
         <!-- BOTTOM LAYOUT -->
-        <androidx.appcompat.widget.AppCompatTextView
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_datetime"
+            style="@style/OutlinedBoxBGLB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="25dp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxStrokeWidth="1dp"
+            app:hintEnabled="true"
+            android:clickable="true"
+            app:errorIconTint="@color/red"
+            app:errorTextColor="@color/red"
+            app:boxStrokeErrorColor="@color/red"
+            app:startIconDrawable="@drawable/ic_calendar"
+            app:startIconTint="@color/BGToLB"
+            android:focusable="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_datetime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="false"
+                android:clickable="true"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="@string/date_and_time"
+                android:inputType="textPersonName"
+                android:textColor="@color/grey"
+                android:textSize="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_location"
+            style="@style/OutlinedBoxBGLB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="25dp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxStrokeWidth="1dp"
+            app:hintEnabled="true"
+            android:clickable="true"
+            app:errorIconTint="@color/red"
+            app:errorTextColor="@color/red"
+            app:boxStrokeErrorColor="@color/red"
+            app:startIconDrawable="@drawable/ic_location"
+            app:startIconTint="@color/BGToLB"
+            android:focusable="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_location"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:focusable="false"
+                android:clickable="true"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="@string/location"
+                android:inputType="textPersonName"
+                android:textColor="@color/grey"
+                android:textSize="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
+        android:orientation="vertical">
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:orientation="horizontal"
+            android:rowCount="1"
+            android:useDefaultMargins="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnInstallation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/installation"
+                android:textAllCaps="false"
+                android:textColor="@color/BGToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/BGToLB"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRepair"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:text="@string/repair"
+                android:textAllCaps="false"
+                android:textColor="@color/BGToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/BGToLB"
+                app:strokeWidth="1dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMaintenance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:layout_row="0"
+                android:layout_rowWeight="1"
+                android:layout_column="2"
+                android:layout_columnWeight="1"
+                android:backgroundTint="@color/white"
+                android:letterSpacing="0"
+                android:singleLine="true"
+                android:text="@string/maintenance"
+                android:textAllCaps="false"
+                android:textColor="@color/BGToLB"
+                android:textSize="16dp"
+                app:cornerRadius="24dp"
+                app:strokeColor="@color/BGToLB"
+                app:strokeWidth="1dp" />
+
+        </GridLayout>
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_tosError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="25dp"
-            android:fontFamily="@font/poppins_bold"
-            android:text="@string/location"
-            android:textColor="@color/BGToLB"
-            android:textSize="14dp" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_marginBottom="7dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/ic_error"
+                android:tint="@color/red"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/types_of_services_cannot_be_empty"
+                android:textColor="@color/red"
+                android:fontFamily="@font/poppins_medium"
+                android:textSize="12dp"/>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_desc"
+            style="@style/OutlinedBoxBGLB"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
             android:layout_marginStart="25dp"
-            android:fontFamily="@font/poppins_bold"
-            android:text="@string/type_of_service"
-            android:textColor="@color/BGToLB"
-            android:textSize="14dp" />
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="25dp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusTopStart="24dp"
+            app:errorIconTint="@color/red"
+            app:errorTextColor="@color/red"
+            app:boxStrokeErrorColor="@color/red"
+            app:boxStrokeWidth="1dp"
+            app:hintEnabled="true"
+            app:startIconDrawable="@drawable/ic_description"
+            app:startIconTint="@color/BGToLB">
 
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="25dp"
-            android:fontFamily="@font/poppins_bold"
-            android:text="@string/description_of_request"
-            android:textColor="@color/BGToLB"
-            android:textSize="14dp" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoSizeTextType="uniform"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="@string/description_of_request"
+                android:inputType="textMultiLine"
+                android:textColor="@color/grey"
+                android:textSize="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_book"
@@ -54,12 +250,20 @@
             android:fontFamily="@font/poppins_semibold"
             android:textSize="16dp"
             android:background="@drawable/btn_bg"
-            android:backgroundTint="@color/orangeToLB"
+            android:backgroundTint="@color/BGToLB"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="30dp"
             android:layout_marginTop="20dp"/>
-
+        </LinearLayout>
     </androidx.appcompat.widget.LinearLayoutCompat>
-
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spinkit_view"
+        style="@style/SpinKitView.Large.Circle"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:SpinKit_Color="@color/orangeToYellow"/>
+    </FrameLayout>
 </ScrollView>

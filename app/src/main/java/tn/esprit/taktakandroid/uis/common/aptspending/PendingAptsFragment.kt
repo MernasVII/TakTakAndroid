@@ -1,6 +1,7 @@
 package tn.esprit.taktakandroid.uis.common.aptspending
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,25 +10,30 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.adapters.AptsListAdapter
 import tn.esprit.taktakandroid.databinding.FragmentPendingAptsBinding
+import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
+import tn.esprit.taktakandroid.uis.sp.sheets.AptPriceSheet
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class PendingAptsFragment : BaseFragment() {
+class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
     val TAG="PendingAptsFragment"
 
-    lateinit var viewModel: PendingAptsViewModel
+    lateinit var pendingAptsViewModel: PendingAptsViewModel
     lateinit var aptsViewModel: AptsViewModel
     lateinit var aptAdapter: AptsListAdapter
 
@@ -46,7 +52,7 @@ class PendingAptsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val aptRepository = AptRepository()
-        viewModel = ViewModelProvider(this, PendingAptsViewModelFactory(aptRepository))[PendingAptsViewModel::class.java]
+        pendingAptsViewModel = ViewModelProvider(this, PendingAptsViewModelFactory(aptRepository))[PendingAptsViewModel::class.java]
         aptsViewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
 
         lifecycleScope.launch {
@@ -54,11 +60,12 @@ class PendingAptsFragment : BaseFragment() {
             setupRecyclerView(cin)
         }
 
+
         observeViewModel()
     }
 
     private fun observeViewModel() {
-        viewModel.pendingAptsResult.observe(viewLifecycleOwner, Observer { response ->
+        pendingAptsViewModel.pendingAptsResult.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
                     progressBarVisibility(false, mainView.spinkitView)
@@ -103,11 +110,28 @@ class PendingAptsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView(cin: String?) {
-        val viewModelScope = CoroutineScope(viewModel.viewModelScope.coroutineContext + Dispatchers.Main)
+        val viewModelScope = CoroutineScope(aptsViewModel.viewModelScope.coroutineContext + Dispatchers.Main)
         aptAdapter = AptsListAdapter(cin, parentFragmentManager, viewModelScope,aptsViewModel)
         mainView.rvApts.apply {
             adapter = aptAdapter
-            layoutManager = LinearLayoutManager(activity)
+            adapter = aptAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            val itemTouchHelperCallback = AptItemTouchHelperCallback(requireContext(),aptAdapter, this@PendingAptsFragment)
+            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+            itemTouchHelper.attachToRecyclerView(this)
         }
+
+    }
+
+    override fun onAptSwipedLeft(aptId: String) {
+        pendingAptsViewModel.declineApt(IdBodyRequest(aptId))
+    }
+
+    override fun onAptSwipedRight(aptId: String) {
+        val aptPriceSheet = AptPriceSheet()
+        val args = Bundle()
+        args.putString("aptId", aptId)
+        aptPriceSheet.arguments = args
+        aptPriceSheet.show(parentFragmentManager, "exampleBottomSheet")
     }
 }

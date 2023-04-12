@@ -16,6 +16,7 @@
 
         <!-- RATE LL -->
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"

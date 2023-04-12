@@ -27,9 +27,6 @@ import tn.esprit.taktakandroid.utils.Resource
 class AptsFragment : BaseFragment() {
     val TAG="AptsFragment"
 
-    private val pendingAptsFragment = PendingAptsFragment()
-    private val archivedAptsFragment = ArchivedAptsFragment()
-
     lateinit var viewModel: AptsViewModel
     lateinit var aptAdapter: AptsListAdapter
 
@@ -131,6 +128,7 @@ class AptsFragment : BaseFragment() {
     }
 
     private fun navigateToArchivedApts() {
+        val archivedAptsFragment = ArchivedAptsFragment()
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.fragment_container, archivedAptsFragment)
         transaction?.addToBackStack(null)
@@ -138,6 +136,7 @@ class AptsFragment : BaseFragment() {
     }
 
     private fun navigateToPendingApts() {
+        val pendingAptsFragment = PendingAptsFragment()
         val transaction = activity?.supportFragmentManager?.beginTransaction()
         transaction?.replace(R.id.fragment_container, pendingAptsFragment)
         transaction?.addToBackStack(null)

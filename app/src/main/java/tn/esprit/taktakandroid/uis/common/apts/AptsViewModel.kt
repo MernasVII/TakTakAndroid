@@ -76,34 +76,6 @@ class AptsViewModel  (private val aptRepository: AptRepository
         }
     }
 
-    fun acceptApt(acceptAptRequest: AcceptAptRequest) = viewModelScope.launch {
-        try {
-            putAptRes.postValue(Resource.Loading())
-            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
-            viewModelScope.launch(handler) {
-                val response = aptRepository.acceptApt("Bearer $token", acceptAptRequest)
-                putAptRes.postValue(handleAcceptAptResponse(response))
-            }
-
-        } catch (e: Exception) {
-            putAptRes.postValue(Resource.Error("Server connection failed!"))
-        }
-    }
-
-    fun declineApt(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
-        try {
-            putAptRes.postValue(Resource.Loading())
-            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
-            viewModelScope.launch(handler) {
-                val response = aptRepository.declineApt("Bearer $token", idBodyRequest)
-                putAptRes.postValue(handlePutAptResponse(response))
-            }
-
-        } catch (e: Exception) {
-            putAptRes.postValue(Resource.Error("Server connection failed!"))
-        }
-    }
-
     fun updateAptState(updateAptStateRequest: UpdateAptStateRequest) = viewModelScope.launch {
         try {
             putAptRes.postValue(Resource.Loading())
@@ -137,16 +109,6 @@ class AptsViewModel  (private val aptRepository: AptRepository
 
     private val handler = CoroutineExceptionHandler { _, _ ->
         putAptRes.postValue(Resource.Error("Server connection failed!"))
-    }
-
-    private fun handleAcceptAptResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
-        if (response.isSuccessful) {
-            response.body()?.let { resultResponse ->
-                return Resource.Success(resultResponse)
-            }
-        }
-        val errorBody = JSONObject(response.errorBody()!!.string())
-        return Resource.Error(errorBody.getString("message"))
     }
 
     private fun handlePutAptResponse(response: Response<MessageResponse>): Resource<MessageResponse> {

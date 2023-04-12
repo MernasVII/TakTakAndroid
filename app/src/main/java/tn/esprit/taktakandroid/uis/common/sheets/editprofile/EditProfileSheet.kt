@@ -1,10 +1,12 @@
 package tn.esprit.taktakandroid.uis.common.sheets.editprofile
 
+import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -12,21 +14,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.databinding.SheetFragmentEditProfileBinding
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.BaseFragment
 import tn.esprit.taktakandroid.uis.SheetBaseFragment
-import tn.esprit.taktakandroid.uis.home.HomeActivity
+import tn.esprit.taktakandroid.uis.common.mapView.MapActivity
 import tn.esprit.taktakandroid.utils.Resource
 
 
@@ -42,13 +44,21 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
     ): View? {
         mainView = SheetFragmentEditProfileBinding.inflate(layoutInflater, container, false)
         val userRepository = UserRepository()
-        viewModel = ViewModelProvider(this, EditProfileViewModelProviderFactory(userRepository))[EditProfileViewModel::class.java]
+        viewModel = ViewModelProvider(
+            this,
+            EditProfileViewModelProviderFactory(userRepository)
+        )[EditProfileViewModel::class.java]
 
         setData()
         setUpEditTexts()
         errorHandling()
 
         observeViewModel()
+
+        mainView.etAddress.setOnClickListener {
+            openMap()
+        }
+
         mainView.btnSaveChanges.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.updateProfile()
@@ -58,24 +68,54 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
         return mainView.root
     }
 
+    private fun openMap() {
+        PermissionX.init(this).permissions(
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+        ).request { allGranted, _, _ ->
+            if (allGranted) {
+                if (isLocationEnabled()) {
+                    startForLocationResult.launch(
+                        Intent(
+                            requireContext(),
+                            MapActivity::class.java
+                        )
+                    )
+                } else {
+                    Toast.makeText(requireContext(), "Please turn on location", Toast.LENGTH_LONG).show()
+                    runBlocking {
+                        delay(500L)
+                    }
+                    val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                    startActivity(intent)
+                }
+
+            }
+        }
+    }
+
     private fun observeViewModel() {
         viewModel.updateProfileRes.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Resource.Success -> {
-                    progressBarVisibility(false,mainView.spinkitView)
+                    progressBarVisibility(false, mainView.spinkitView)
                     result.data?.let {
-                        Toast.makeText(requireContext(), getString(R.string.profile_updated), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.profile_updated),
+                            Toast.LENGTH_SHORT
+                        ).show()
                         dismiss()
                     }
                 }
                 is Resource.Error -> {
-                    progressBarVisibility(false,mainView.spinkitView)
+                    progressBarVisibility(false, mainView.spinkitView)
                     result.message?.let { msg ->
                         showDialog(msg)
                     }
                 }
                 is Resource.Loading -> {
-                    progressBarVisibility(true,mainView.spinkitView)
+                    progressBarVisibility(true, mainView.spinkitView)
                 }
             }
         })
@@ -170,6 +210,29 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
             }
         }
 
+    }
+
+    private val startForLocationResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            val resultCode = result.resultCode
+            val data = result.data
+            val location: String
+
+            if (resultCode == Activity.RESULT_OK) {
+                location = data!!.getStringExtra("location")!!.replace("null", "")
+
+                mainView.etAddress.setText(location)
+                viewModel.setAddress(location)
+
+            }
+        }
+
+    private fun isLocationEnabled(): Boolean {
+        val locationManager: LocationManager =
+            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
     }
 
     override fun onDismiss(dialog: DialogInterface) {

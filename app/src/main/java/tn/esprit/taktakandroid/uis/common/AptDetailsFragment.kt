@@ -1,22 +1,27 @@
 package tn.esprit.taktakandroid.uis.common
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.FragmentAptDetailsBinding
 import tn.esprit.taktakandroid.models.entities.Appointment
+import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.UpdateAptStateRequest
 import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
+import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModel
+import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModelFactory
 import tn.esprit.taktakandroid.uis.sp.sheets.AptPriceSheet
 import tn.esprit.taktakandroid.uis.sp.sheets.QRCodeSheet
 import tn.esprit.taktakandroid.uis.sp.sheets.PostponeAptSheet
@@ -31,6 +36,9 @@ class AptDetailsFragment : BaseFragment() {
 
     private lateinit var mainView: FragmentAptDetailsBinding
     lateinit var viewModel: AptsViewModel
+    lateinit var pendingAptsViewModel: PendingAptsViewModel
+
+    private lateinit var apt:Appointment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +49,8 @@ class AptDetailsFragment : BaseFragment() {
         val aptRepository = AptRepository()
         viewModel =
             ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
-        val apt = arguments?.getParcelable<Appointment>("apt")
+        pendingAptsViewModel = ViewModelProvider(this, PendingAptsViewModelFactory(aptRepository))[PendingAptsViewModel::class.java]
+        apt = arguments?.getParcelable<Appointment>("apt")!!
 
         setData(apt!!)
 
@@ -57,7 +66,7 @@ class AptDetailsFragment : BaseFragment() {
         }
         mainView.btnDecline.setOnClickListener {
             lifecycleScope.launch {
-                viewModel.declineApt(IdBodyRequest(apt._id!!))
+                pendingAptsViewModel.declineApt(IdBodyRequest(apt._id!!))
             }
         }
         mainView.btnCancel.setOnClickListener {
@@ -102,14 +111,26 @@ class AptDetailsFragment : BaseFragment() {
         viewModel.timeLeftAptRes.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Loading -> {
+                    //TODO manage progress bar visibility
                     // Handle loading state
                 }
                 is Resource.Success -> {
+                    //TODO manage progress bar visibility
                     // Log the result response
-                    val timeLeftString=formatTimeLeft(resource.data!!.timeLeft)
-                    if(timeLeftString.trim()!="0"){
+                    val timeLeftRes=resource.data!!.timeLeft
+                    if(timeLeftRes > 0 && !apt.isArchived){
                         mainView.tvTimeLeft.visibility=View.VISIBLE
-                        mainView.tvTimeLeft.text= formatTimeLeft(resource.data!!.timeLeft)
+                        object : CountDownTimer(resource.data.timeLeft, 1000) {
+                            //fired every 1 second
+                            override fun onTick(millisUntilFinished: Long) {
+                                val timeLeftString=formatTimeLeft(millisUntilFinished)
+                                mainView.tvTimeLeft.text=timeLeftString
+                            }
+                            // when the time is up
+                            override fun onFinish() {
+                                mainView.tvTimeLeft.visibility=View.GONE
+                            }
+                        }.start()
                     }else{
                         mainView.tvTimeLeft.visibility=View.GONE
                     }
@@ -117,7 +138,7 @@ class AptDetailsFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     // Handle error state
-                    Log.d("MyFragment", "error")
+                    //TODO manage progress bar visibility
                 }
             }
         }
@@ -155,17 +176,21 @@ class AptDetailsFragment : BaseFragment() {
         lifecycleScope.launch {
             val cin = AppDataStore.readString(Constants.CIN)
             manageViewsVisibiltiy(apt, cin)
+            val user:User
             if (cin.isNullOrEmpty()) {
+                user=apt.sp
                 mainView.profileLayout.tvSpeciality.visibility = View.VISIBLE
-                mainView.profileLayout.tvFullname.text = apt.sp.firstname + " " + apt.sp.lastname
-                mainView.profileLayout.tvSpeciality.text = apt.sp.speciality
-                mainView.profileLayout.tvAddress.text = apt.sp.address
+                mainView.profileLayout.llRate.visibility = View.VISIBLE
+                mainView.profileLayout.tvSpeciality.text = user.speciality
+                mainView.profileLayout.tvRate.text = user.rate.toString()
             } else {
+                user=apt.customer
                 mainView.profileLayout.tvSpeciality.visibility = View.GONE
-                mainView.profileLayout.tvFullname.text =
-                    apt.customer.firstname + " " + apt.customer.lastname
-                mainView.profileLayout.tvAddress.text = apt.customer.address
+                mainView.profileLayout.llRate.visibility = View.GONE
             }
+            Glide.with(requireContext()).load(Constants.IMG_URL +user.pic).into(mainView.profileLayout.ivPic)
+            mainView.profileLayout.tvFullname.text = user.firstname + " " + user.lastname
+            mainView.profileLayout.tvAddress.text = user.address
         }
     }
 
@@ -238,5 +263,17 @@ class AptDetailsFragment : BaseFragment() {
         val timeStr = timeFormatter.format(date)
         return "$dateStr at $timeStr"
     }
+
+    override fun onResume() {
+        super.onResume()
+        observeViewModel(apt)
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.timeLeftAptRes.removeObservers(viewLifecycleOwner)
+    }
+
 
 }

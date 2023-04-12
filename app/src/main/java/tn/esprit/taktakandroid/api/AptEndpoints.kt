@@ -3,10 +3,8 @@ package tn.esprit.taktakandroid.api
 import retrofit2.Response
 import retrofit2.http.*
 import tn.esprit.taktakandroid.models.MessageResponse
-import tn.esprit.taktakandroid.models.requests.AcceptAptRequest
-import tn.esprit.taktakandroid.models.requests.IdBodyRequest
-import tn.esprit.taktakandroid.models.requests.PostponeAptRequest
-import tn.esprit.taktakandroid.models.requests.UpdateAptStateRequest
+import tn.esprit.taktakandroid.models.SignUpRequest
+import tn.esprit.taktakandroid.models.requests.*
 import tn.esprit.taktakandroid.models.responses.AptsResponse
 import tn.esprit.taktakandroid.models.responses.TimeLeftResponse
 
@@ -47,6 +45,12 @@ interface AptEndpoints {
     suspend fun cancelApt(
         @Header("Authorization") token: String,
         @Body request: IdBodyRequest
+    ): Response<MessageResponse>
+
+    @POST("appointment/bookApt")
+    suspend fun bookApt(
+        @Header("Authorization") token: String,
+        @Body request: BookAptRequest
     ): Response<MessageResponse>
 
     /**************** AS A SERVICE PROVIDER ****************/

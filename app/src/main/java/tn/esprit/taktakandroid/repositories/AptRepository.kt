@@ -1,10 +1,7 @@
 package tn.esprit.taktakandroid.repositories
 
 import tn.esprit.taktakandroid.api.RetrofitInstance
-import tn.esprit.taktakandroid.models.requests.AcceptAptRequest
-import tn.esprit.taktakandroid.models.requests.IdBodyRequest
-import tn.esprit.taktakandroid.models.requests.PostponeAptRequest
-import tn.esprit.taktakandroid.models.requests.UpdateAptStateRequest
+import tn.esprit.taktakandroid.models.requests.*
 
 class AptRepository {
     /**************** AS A CUSTOMER ****************/
@@ -68,4 +65,8 @@ class AptRepository {
     //UPDATE APT STATE
     suspend fun updateAptState(token:String,updateAptStateRequest: UpdateAptStateRequest)=
         RetrofitInstance.aptApi.updateAptState(token,updateAptStateRequest)
+
+    //BOOK APT
+    suspend fun bookApt(token:String,bookAptRequest: BookAptRequest)=
+        RetrofitInstance.aptApi.bookApt(token,bookAptRequest)
 }

@@ -15,13 +15,15 @@ import tn.esprit.taktakandroid.models.requests.AcceptAptRequest
 import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
+import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModel
+import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModelFactory
 
 
 class AptPriceSheet : BottomSheetDialogFragment() {
     val TAG="AptPriceSheet"
 
     private lateinit var mainView: SheetFragmentAptPriceBinding
-    lateinit var viewModel: AptsViewModel
+    lateinit var pendingAptsViewModel: PendingAptsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,12 +31,12 @@ class AptPriceSheet : BottomSheetDialogFragment() {
     ): View? {
         mainView = SheetFragmentAptPriceBinding.inflate(layoutInflater, container, false)
         val aptRepository = AptRepository()
-        viewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
+        pendingAptsViewModel = ViewModelProvider(this, PendingAptsViewModelFactory(aptRepository))[PendingAptsViewModel::class.java]
         val aptId = arguments?.getString("aptId")
 
         mainView.btnProceed.setOnClickListener {
             lifecycleScope.launch {
-                viewModel.acceptApt(AcceptAptRequest(aptId!!,mainView.etBalance.text.toString().toFloat()))
+                pendingAptsViewModel.acceptApt(AcceptAptRequest(aptId!!,mainView.etBalance.text.toString().toFloat()))
             }
             dismiss()
         }
