@@ -74,24 +74,31 @@
         app:queryBackground="@null"
         app:queryHint="Search by type of service"
         app:searchHintIcon="@null"
-        app:layout_constraintBottom_toTopOf="@id/rv_requestsCustomer"
+        app:layout_constraintBottom_toTopOf="@id/swipe_refresh_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:layout_constraintTop_toBottomOf="@+id/ll_title"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_requestsCustomer"
-        tools:listitem="@layout/item_req_customer"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:visibility="gone"
-        android:divider="@color/transparent"
-        android:dividerHeight="10dp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_view"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_requestsCustomer"
+            tools:listitem="@layout/item_req_customer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            android:divider="@color/transparent"
+            android:dividerHeight="10dp"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/tv_info"

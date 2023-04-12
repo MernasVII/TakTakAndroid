@@ -57,11 +57,12 @@ class CustomerReqsFragment : BaseFragment() {
         }
 
         setupRecyclerView()
-
+        swipeLayoutSetup()
        viewModel.myRequestsResult.observe(viewLifecycleOwner) { response ->
             when(response){
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.spinkitView)
+                    mainView.swipeRefreshLayout.isRefreshing = false
                     response.data?.let { myRequestsResponse ->
 
                         myRequestsAdapter.setdata(myRequestsResponse.myRequests.toMutableList())
@@ -76,6 +77,8 @@ class CustomerReqsFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     progressBarVisibility(false,mainView.spinkitView)
+                    mainView.swipeRefreshLayout.isRefreshing = false
+
                     response.message?.let { message ->
                         showDialog(message)
                         mainView.rvRequestsCustomer.visibility=View.GONE
@@ -141,6 +144,24 @@ class CustomerReqsFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getMyRequests()
+    }
+    fun swipeLayoutSetup() {
+        mainView.swipeRefreshLayout.setColorSchemeColors(
+            resources.getColor(
+                R.color.orangeToBG,
+                null
+            )
+        )
+        mainView.swipeRefreshLayout.setOnRefreshListener {
+            if(mainView.spinkitView.visibility!=View.VISIBLE) {
+                viewModel.getMyRequests()
+            }
+            else{
+                mainView.swipeRefreshLayout.isRefreshing = false
+
+            }
+
+        }
     }
 
 
