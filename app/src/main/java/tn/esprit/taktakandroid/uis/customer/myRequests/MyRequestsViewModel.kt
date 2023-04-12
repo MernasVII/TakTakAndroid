@@ -24,21 +24,29 @@ class MyRequestsViewModel(private val requestsRepository: RequestsRepository
     private val _getMyRequestsResult= MutableLiveData<Resource<UserReqResponse>>()
     val myRequestsResult: LiveData<Resource<UserReqResponse>>
             get() = _getMyRequestsResult
-    private val _filteredItems = MutableLiveData<List<Request>>()
-    val filteredItems: LiveData<List<Request>> = _filteredItems
+
+
+
+    private val _tempRequests = MutableLiveData<MutableList<Request>>()
+    val tempRequests: LiveData<MutableList<Request>> = _tempRequests
+
+    private val _requests = MutableLiveData<List<Request>>()
+    val requests: LiveData<List<Request>> = _requests
+
 
 
     init {
-        getMyRequests()
+        _tempRequests.value = mutableListOf()
+        _requests.value = listOf()
     }
 
-     private fun getMyRequests(query: String = "") = viewModelScope.launch {
+
+      fun getMyRequests() = viewModelScope.launch {
         try {
             _getMyRequestsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             val response = requestsRepository.getMyRequests("Bearer $token")
             _getMyRequestsResult.postValue(handleSPsResponse(response))
-            filterItems(query)
         } catch (exception: Exception) {
             _getMyRequestsResult.postValue(Resource.Error("Server connection failed!"))
         }
@@ -47,18 +55,25 @@ class MyRequestsViewModel(private val requestsRepository: RequestsRepository
     private fun handleSPsResponse(response: Response<UserReqResponse>): Resource<UserReqResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
+                _requests.postValue(resultResponse.myRequests)
                 return Resource.Success(resultResponse)
             }
         }
         return Resource.Error(response.message())
     }
 
-    private fun filterItems(query: String) {
-        val filteredList = _getMyRequestsResult.value?.data?.myRequests?.filter {
-            val name=it.tos!!
-            name.contains(query, ignoreCase = true)
+    fun filter(filtredVal:String){
+        _tempRequests.value!!.clear()
+        val templst= mutableListOf<Request>()
+        if(!_requests.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
+            _requests.value!!.forEach {
+                if(it.tos.contains(filtredVal, ignoreCase = true))  templst.add(it)
+            }
+            _tempRequests.postValue(templst)
         }
-        _filteredItems.postValue(filteredList)
+        else{
+            _tempRequests.postValue(_requests.value!!.toMutableList())
+        }
     }
 
 

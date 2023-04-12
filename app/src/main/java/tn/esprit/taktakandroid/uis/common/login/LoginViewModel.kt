@@ -113,8 +113,8 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
     }
 
     private fun isPwdValid(pwd: String?): Boolean {
-        if (pwd == null || pwd.isEmpty() || pwd.length < 8) {
-            _passwordError.postValue("Password needs 8+ characters and a mix of letters and numbers for security")
+        if (pwd == null || pwd.isEmpty() ) {
+            _passwordError.postValue("Password cannot be empty!")
             return false
         }
         return true

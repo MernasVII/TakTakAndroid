@@ -13,11 +13,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 const val TAG="MyRequestsAdapter"
-class MyRequestsAdapter (private val fragmentManager: FragmentManager) :RecyclerView.Adapter<MyRequestsAdapter.MyRequestsViewHolder>() {
+class MyRequestsAdapter (private val fragmentManager: FragmentManager,private var requests: MutableList<Request>) :RecyclerView.Adapter<MyRequestsAdapter.MyRequestsViewHolder>() {
 
     inner class MyRequestsViewHolder(val mainView: ItemReqCustomerBinding):RecyclerView.ViewHolder(mainView.root)
 
-    private val differCallback=object :DiffUtil.ItemCallback<Request>(){
+   /* private val differCallback=object :DiffUtil.ItemCallback<Request>(){
         override fun areItemsTheSame(oldItem: Request, newItem: Request): Boolean {
             return oldItem._id==newItem._id
         }
@@ -27,7 +27,7 @@ class MyRequestsAdapter (private val fragmentManager: FragmentManager) :Recycler
         }
     }
 
-    val  differ= AsyncListDiffer(this,differCallback)
+    val  differ= AsyncListDiffer(this,differCallback)*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRequestsViewHolder {
         val mainView = ItemReqCustomerBinding
@@ -36,18 +36,18 @@ class MyRequestsAdapter (private val fragmentManager: FragmentManager) :Recycler
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return requests.size
     }
 
     override fun onBindViewHolder(holder: MyRequestsViewHolder, position: Int) {
-        var request=differ.currentList[position]
+        var request=requests[position]
         holder.mainView.tvTitle.text=request.tos
         holder.mainView.tvBidCount.text="Bids: ${request.bids.size}"
         holder.mainView.tvDesc.text=request.desc
         holder.mainView.tvTimeLoc.text="${parseDate(request.date)} in ${request.location}"
         holder.mainView.root.setOnClickListener {
                // navigateToSPProfileFragment(sp)
-            Log.e(TAG, "clicked", )
+
         }
 
     }
@@ -70,7 +70,10 @@ class MyRequestsAdapter (private val fragmentManager: FragmentManager) :Recycler
 
       val outputDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.US)
       val formatedDate = inputDateFormat.parse(date)
-
         return outputDateFormat.format(formatedDate!!)
+    }
+    fun setdata(list:MutableList<Request>){
+        requests=list
+        notifyDataSetChanged()
     }
 }

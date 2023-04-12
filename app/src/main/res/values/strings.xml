@@ -53,7 +53,7 @@
     <string name="switch_to_pro">Switch to Pro</string>
     <string name="date_and_time">Date and Time</string>
     <string name="type_of_service">Type of service</string>
-    <string name="request_from">Request from</string>
+    <string name="request_from">Request form</string>
     <string name="description_of_request">Description of request</string>
     <string name="location">Location</string>
     <string name="add_request">Add Request</string>
@@ -100,5 +100,6 @@
     <string name="archive_empty">Archive is empty!</string>
     <string name="work_days_cannot_be_empty">Work days cannot be empty!</string>
     <string name="types_of_services_cannot_be_empty">Types of services cannot be empty!</string>
+    <string name="no_requests_found">No requests found!</string>
 
 </resources>

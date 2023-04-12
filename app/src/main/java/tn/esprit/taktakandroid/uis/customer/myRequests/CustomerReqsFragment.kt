@@ -1,31 +1,38 @@
 package tn.esprit.taktakandroid.uis.customer.myRequests
 
+import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.DatePicker
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.adapters.MyRequestsAdapter
-import tn.esprit.taktakandroid.adapters.SPsListAdapter
 import tn.esprit.taktakandroid.databinding.FragmentCustomerReqsBinding
 import tn.esprit.taktakandroid.repositories.RequestsRepository
-import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
 import tn.esprit.taktakandroid.uis.customer.ArchivedReqsFragment
-import tn.esprit.taktakandroid.uis.customer.spslist.SPsViewModel
-import tn.esprit.taktakandroid.uis.customer.spslist.SPsViewModelFactory
+import tn.esprit.taktakandroid.uis.customer.addRequest.AddRequestFragment
 import tn.esprit.taktakandroid.utils.Resource
+import java.util.*
+import kotlin.time.Duration.Companion.seconds
 
 const val TAG ="CustomerReqsFragment"
 class CustomerReqsFragment : BaseFragment() {
     private lateinit var mainView:FragmentCustomerReqsBinding
-    private val archivedReqsFragment = ArchivedReqsFragment()
     private lateinit var viewModel: MyRequestsViewModel
     lateinit var myRequestsAdapter: MyRequestsAdapter
 
@@ -46,18 +53,18 @@ class CustomerReqsFragment : BaseFragment() {
         )[MyRequestsViewModel::class.java]
 
         mainView.ivArchive.setOnClickListener{
-            navigateToArchivedReqs()
+            navigateTo(ArchivedReqsFragment())
         }
 
         setupRecyclerView()
 
-        viewModel.myRequestsResult.observe(viewLifecycleOwner) { response ->
+       viewModel.myRequestsResult.observe(viewLifecycleOwner) { response ->
             when(response){
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.spinkitView)
                     response.data?.let { myRequestsResponse ->
 
-                        myRequestsAdapter.differ.submitList(myRequestsResponse.myRequests)
+                        myRequestsAdapter.setdata(myRequestsResponse.myRequests.toMutableList())
                         if (myRequestsResponse.myRequests.isNullOrEmpty()) {
                             mainView.tvInfo.visibility=View.VISIBLE
                             mainView.rvRequestsCustomer.visibility=View.GONE
@@ -83,20 +90,58 @@ class CustomerReqsFragment : BaseFragment() {
                 }
             }
         }
+        mainView.fabAddReq.setOnClickListener {
+            navigateTo(AddRequestFragment())
+        }
+        mainView.searchView
+            .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                viewModel.filter(newText)
+                return false
+            }
+        }
+        )
+        viewModel.tempRequests.observe(viewLifecycleOwner){
+            if(!it.isNullOrEmpty()){
+                mainView.tvInfo.visibility=View.GONE
+                mainView.rvRequestsCustomer.visibility=View.VISIBLE
+                myRequestsAdapter.setdata(it)
+
+            }
+            else{
+                    if(mainView.spinkitView.visibility!=View.VISIBLE){
+                        mainView.tvInfo.visibility=View.VISIBLE
+                        mainView.rvRequestsCustomer.visibility=View.GONE
+                    }
+
+            }
+        }
     }
 
     private fun setupRecyclerView(){
-        myRequestsAdapter= MyRequestsAdapter(parentFragmentManager)
+        myRequestsAdapter= MyRequestsAdapter(parentFragmentManager, mutableListOf())
         mainView.rvRequestsCustomer.apply {
             adapter=myRequestsAdapter
             layoutManager= LinearLayoutManager(activity)
         }
     }
 
-    private fun navigateToArchivedReqs() {
+    private fun navigateTo(fragment:Fragment) {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.fragment_container, archivedReqsFragment)
+        transaction?.replace(R.id.fragment_container, fragment)
         transaction?.addToBackStack(null)
         transaction?.commit()
+
     }
+
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getMyRequests()
+    }
+
+
 }

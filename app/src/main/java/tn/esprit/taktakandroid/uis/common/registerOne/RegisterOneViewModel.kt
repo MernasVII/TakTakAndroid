@@ -185,11 +185,29 @@ class RegisterOneViewModel(private val repository: UserRepository) :
     }
 
     private fun isPwdValid(pwd: String?): Boolean {
-        if (pwd == null || pwd.isEmpty() || pwd.length < 8) {
-            _passwordError.postValue("Password needs 8+ characters and a mix of letters and numbers for security")
+        if (pwd == null || pwd.isEmpty() || isAlphaNumericWithUppercase(pwd)) {
+            _passwordError.postValue("Password should be: 8+ chars, mix of letters/numbers, 1 uppercase")
             return false
         }
         return true
+    }
+    private fun isAlphaNumericWithUppercase(input: String): Boolean {
+        var hasUppercase = false
+        var hasDigit = false
+        if(input.length<8) return false
+        else{
+            for (char in input) {
+
+                if (char.isDigit()) {
+                    hasDigit = true
+
+                } else if (char.isUpperCase()) {
+
+                    hasUppercase = true
+                }
+            }
+        }
+        return hasUppercase && hasDigit // Return true only if an uppercase letter is present
     }
 
     fun fieldsValidation(
