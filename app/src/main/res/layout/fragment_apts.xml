@@ -59,7 +59,7 @@
         app:defaultQueryHint="@null"
         app:iconifiedByDefault="false"
         app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintBottom_toTopOf="@+id/rv_apts"
+        app:layout_constraintBottom_toTopOf="@+id/swipe_refresh_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_title"
@@ -67,17 +67,28 @@
         app:queryHint="Search by name or type of service"
         app:searchHintIcon="@null" />
 
-    <ProgressBar
+    <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/spinkit_view"
+        style="@style/SpinKitView.Large.Circle"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_title" />
+        app:layout_constraintTop_toBottomOf="@+id/ll_title"
+        app:SpinKit_Color="@color/orangeToYellow"/>
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_view"
+        app:layout_constraintVertical_bias="0.0">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_apts"
         tools:listitem="@layout/item_apt"
@@ -90,6 +101,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_view"
         app:layout_constraintVertical_bias="0.0"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/tv_info"

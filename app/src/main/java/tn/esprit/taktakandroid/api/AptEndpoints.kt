@@ -101,11 +101,11 @@ interface AptEndpoints {
 
     /**************** COMMON ****************/
     //TIME LEFT TO APT
-    @POST("appointment/timeLeft")
+    /*@POST("appointment/timeLeft")
     suspend fun getTimeLeftToApt(
         @Header("Authorization") token: String,
         @Body request: IdBodyRequest
-    ): Response<TimeLeftResponse>
+    ): Response<TimeLeftResponse>*/
 
     //UPDATE APT STATE
     @PUT("appointment/updateAptState")

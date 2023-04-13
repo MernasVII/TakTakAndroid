@@ -9,14 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.ItemAptBinding
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
@@ -30,13 +29,14 @@ import java.util.*
 class AptsListAdapter(
     private val cin: String?,
     private val fragmentManager: FragmentManager,
+    var apts: MutableList<Appointment>,
     private val adapterScope: CoroutineScope? = null,
     private val viewModel: AptsViewModel? = null,
 ) : RecyclerView.Adapter<AptsListAdapter.AptViewHolder>() {
 
-    inner class AptViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    inner class AptViewHolder(mainView: ItemAptBinding): RecyclerView.ViewHolder(mainView.root)
 
-    private val differCallback=object : DiffUtil.ItemCallback<Appointment>(){
+    /*private val differCallback=object : DiffUtil.ItemCallback<Appointment>(){
         override fun areItemsTheSame(oldItem: Appointment, newItem: Appointment): Boolean {
             return oldItem._id==newItem._id
         }
@@ -46,24 +46,20 @@ class AptsListAdapter(
         }
     }
 
-    val  differ= AsyncListDiffer(this,differCallback)
+    val  differ= AsyncListDiffer(this,differCallback)*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AptViewHolder {
-        return AptViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_apt,
-                parent,
-                false
-            )
-        )
+        val mainView = ItemAptBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return AptViewHolder(mainView)
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return apts.size
     }
 
     override fun onBindViewHolder(holder: AptsListAdapter.AptViewHolder, position: Int) {
-        var apt=differ.currentList[position]
+        var apt=apts[position]
         var user:User
         holder.itemView.apply {
             user = if(cin.isNullOrEmpty()){
@@ -120,7 +116,6 @@ class AptsListAdapter(
             }else{
                 itemView.findViewById<Button>(R.id.btn_postpone).visibility=View.GONE
             }
-            itemView.findViewById<Button>(R.id.btn_postpone).visibility=View.VISIBLE
             itemView.findViewById<Button>(R.id.btn_cancel).visibility=View.GONE
         }
     }
@@ -134,7 +129,7 @@ class AptsListAdapter(
         dateFormatter.timeZone = TimeZone.getDefault()
         val dateStr = dateFormatter.format(date)
 
-        val timeFormatter = SimpleDateFormat("hh:mm")
+        val timeFormatter = SimpleDateFormat("HH:mm")
         timeFormatter.timeZone = TimeZone.getDefault()
         val timeStr = timeFormatter.format(date)
         return "$dateStr at $timeStr"
@@ -151,6 +146,11 @@ class AptsListAdapter(
             addToBackStack(null)
             commit()
         }
+    }
+
+    fun setdata(list:MutableList<Appointment>){
+        apts=list
+        notifyDataSetChanged()
     }
 
 }

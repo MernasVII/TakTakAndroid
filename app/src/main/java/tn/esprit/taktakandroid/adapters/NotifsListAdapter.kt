@@ -2,16 +2,14 @@ package tn.esprit.taktakandroid.adapters
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.ItemNotifBinding
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.models.entities.Bid
 import tn.esprit.taktakandroid.models.entities.Notification
@@ -23,11 +21,12 @@ import java.util.*
 
 class NotifsListAdapter (private val fragmentManager: FragmentManager,
                          private val adapterScope: CoroutineScope? = null,
-                         private val viewModel: NotifsViewModel? = null,) : RecyclerView.Adapter<NotifsListAdapter.NotifViewHolder>() {
+                         private val viewModel: NotifsViewModel? = null,
+                         private var notifs: MutableList<Notification>) : RecyclerView.Adapter<NotifsListAdapter.NotifViewHolder>() {
 
-    inner class NotifViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    inner class NotifViewHolder(mainView: ItemNotifBinding): RecyclerView.ViewHolder(mainView.root)
 
-    private val differCallback=object : DiffUtil.ItemCallback<Notification>(){
+    /*private val differCallback=object : DiffUtil.ItemCallback<Notification>(){
         override fun areItemsTheSame(oldItem: Notification, newItem: Notification): Boolean {
             return oldItem._id==newItem._id
         }
@@ -37,24 +36,20 @@ class NotifsListAdapter (private val fragmentManager: FragmentManager,
         }
     }
 
-    val  differ= AsyncListDiffer(this,differCallback)
+    val  differ= AsyncListDiffer(this,differCallback)*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotifViewHolder {
-        return NotifViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_notif,
-                parent,
-                false
-            )
-        )
+        val mainView = ItemNotifBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return NotifViewHolder(mainView)
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return notifs.size
     }
 
     override fun onBindViewHolder(holder: NotifViewHolder, position: Int) {
-        var notif=differ.currentList[position]
+        var notif=notifs[position]
         holder.itemView.apply {
             if(notif.read){
                 holder.itemView.setBackgroundResource(R.drawable.list_item_bg)
@@ -103,5 +98,10 @@ class NotifsListAdapter (private val fragmentManager: FragmentManager,
         val timeFormatter = SimpleDateFormat("hh:mm")
         timeFormatter.timeZone = TimeZone.getDefault()
         return timeFormatter.format(date)
+    }
+
+    fun setdata(list:MutableList<Notification>){
+        notifs=list
+        notifyDataSetChanged()
     }
 }

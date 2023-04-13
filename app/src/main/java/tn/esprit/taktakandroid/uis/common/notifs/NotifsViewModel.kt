@@ -21,42 +21,43 @@ class NotifsViewModel (private val notifRepository: NotifRepository
 ) : ViewModel() {
     private val TAG:String="NotifsViewModel"
 
-    val notifsRes: MutableLiveData<Resource<NotifsResponse>> = MutableLiveData()
-    private val _filteredItems = MutableLiveData<List<Notification>>()
-    val filteredItems: LiveData<List<Notification>> = _filteredItems
+    private val _getNotifsResult= MutableLiveData<Resource<NotifsResponse>>()
+    val notifsRes: LiveData<Resource<NotifsResponse>>
+        get() = _getNotifsResult
+
+    private val _tempNotifs = MutableLiveData<MutableList<Notification>>()
+    val tempNotifs: LiveData<MutableList<Notification>> = _tempNotifs
+
+    private val _notifs = MutableLiveData<List<Notification>>()
+    val notifs: LiveData<List<Notification>> = _notifs
+
+    //val notifsRes: MutableLiveData<Resource<NotifsResponse>> = MutableLiveData()
     val readNotifRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
 
     init {
-        getNotifsList()
+        _tempNotifs.value = mutableListOf()
+        _notifs.value = listOf()
     }
 
-    private fun getNotifsList(query: String = "") = viewModelScope.launch {
+    fun getNotifsList() = viewModelScope.launch {
         try {
-            notifsRes.postValue(Resource.Loading())
+            _getNotifsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             val response = notifRepository.getNotifsList("Bearer $token")
-            notifsRes.postValue(handleNotifsResponse(response))
-            filterItems(query)
+            _getNotifsResult.postValue(handleNotifsResponse(response))
         } catch (exception: Exception) {
-            notifsRes.postValue(Resource.Error("Server connection failed!"))
+            _getNotifsResult.postValue(Resource.Error("Server connection failed!"))
         }
     }
 
     private fun handleNotifsResponse(response: Response<NotifsResponse>): Resource<NotifsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
+                _notifs.postValue(resultResponse.notifs)
                 return Resource.Success(resultResponse)
             }
         }
         return Resource.Error(response.message())
-    }
-
-    fun filterItems(query: String) {
-        val filteredList = notifsRes.value?.data?.notifs?.filter {
-            val content=it.content
-            content.contains(query, ignoreCase = true)
-        }
-        _filteredItems.postValue(filteredList)
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
@@ -85,6 +86,20 @@ class NotifsViewModel (private val notifRepository: NotifRepository
         }
         val errorBody = JSONObject(response.errorBody()!!.string())
         return Resource.Error(errorBody.getString("message"))
+    }
+
+    fun filter(filtredVal:String){
+        _tempNotifs.value!!.clear()
+        val templst= mutableListOf<Notification>()
+        if(!_notifs.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
+            _notifs.value!!.forEach {
+                if(it.content.contains(filtredVal, ignoreCase = true))  templst.add(it)
+            }
+            _tempNotifs.postValue(templst)
+        }
+        else{
+            _tempNotifs.postValue(_notifs.value!!.toMutableList())
+        }
     }
 
 

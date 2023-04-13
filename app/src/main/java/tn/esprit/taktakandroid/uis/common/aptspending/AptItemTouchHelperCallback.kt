@@ -31,7 +31,7 @@ class AptItemTouchHelperCallback(
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
-        val apt = adapter.differ.currentList[position]
+        val apt = adapter.apts[position]
         when (direction) {
             ItemTouchHelper.LEFT -> {
                 listener.onAptSwipedLeft(apt._id!!)

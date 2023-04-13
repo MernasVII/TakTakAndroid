@@ -88,4 +88,12 @@ dependencies {
     //google Sign In
     implementation 'com.google.android.gms:play-services-auth:20.4.1'
 
+    //joda time
+    implementation 'joda-time:joda-time:2.10.13'
+
+    //calendar
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+
+    // pull to refresh
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 }

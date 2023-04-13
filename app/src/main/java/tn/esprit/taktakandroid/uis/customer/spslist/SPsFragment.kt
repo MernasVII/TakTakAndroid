@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -39,17 +40,49 @@ class SPsFragment : BaseFragment() {
             SPsViewModel::class.java)
 
         setupRecyclerView()
-
+        swipeLayoutSetup()
         observeViewModel()
+
+        mainView.searchView
+            .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    return false
+                }
+                override fun onQueryTextChange(newText: String): Boolean {
+                    viewModel.filter(newText)
+                    return false
+                }
+            }
+            )
+        observeTemp()
+
     }
 
+    private fun observeTemp() {
+        viewModel.tempSPs.observe(viewLifecycleOwner){
+            if(!it.isNullOrEmpty()){
+                mainView.tvInfo.visibility=View.GONE
+                mainView.rvSps.visibility=View.VISIBLE
+                sPsListAdapter.setdata(it)
+
+            }
+            else{
+                if(mainView.spinkitView.visibility!=View.VISIBLE){
+                    mainView.tvInfo.visibility=View.VISIBLE
+                    mainView.rvSps.visibility=View.GONE
+                }
+
+            }
+        }
+    }
     private fun observeViewModel() {
-        viewModel.spsResult.observe(viewLifecycleOwner, Observer { response ->
+        viewModel.spsRes.observe(viewLifecycleOwner, Observer { response ->
             when(response){
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.spinkitView)
+                    mainView.swipeRefreshLayout.isRefreshing = false
                     response.data?.let { spsResponse ->
-                        sPsListAdapter.differ.submitList(spsResponse.users)
+                        sPsListAdapter.setdata(spsResponse.users.toMutableList())
                         if (spsResponse.users.isNullOrEmpty()) {
                             mainView.tvInfo.visibility=View.VISIBLE
                             mainView.rvSps.visibility=View.GONE
@@ -61,27 +94,51 @@ class SPsFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     progressBarVisibility(false,mainView.spinkitView)
+                    mainView.swipeRefreshLayout.isRefreshing = false
                     response.message?.let { message ->
                         showDialog(message)
                         mainView.rvSps.visibility=View.GONE
-                        mainView.tvInfo.setText(R.string.server_failure)
-                        mainView.tvInfo.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
                         mainView.tvInfo.visibility=View.VISIBLE
                     }
                 }
                 is Resource.Loading -> {
                     progressBarVisibility(true,mainView.spinkitView)
                     mainView.rvSps.visibility=View.GONE
+                    mainView.tvInfo.visibility = View.GONE
                 }
             }
         })
     }
 
     private fun setupRecyclerView(){
-        sPsListAdapter= SPsListAdapter(parentFragmentManager)
+        sPsListAdapter= SPsListAdapter(parentFragmentManager,mutableListOf())
         mainView.rvSps.apply {
             adapter=sPsListAdapter
             layoutManager= LinearLayoutManager(activity)
         }
+    }
+
+    fun swipeLayoutSetup() {
+        mainView.swipeRefreshLayout.setColorSchemeColors(
+            resources.getColor(
+                R.color.orangeToBG,
+                null
+            )
+        )
+        mainView.swipeRefreshLayout.setOnRefreshListener {
+            if(mainView.spinkitView.visibility!=View.VISIBLE) {
+                viewModel.getSPsList()
+            }
+            else{
+                mainView.swipeRefreshLayout.isRefreshing = false
+
+            }
+
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getSPsList()
     }
 }

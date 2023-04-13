@@ -17,42 +17,57 @@ class SPsViewModel(private val userRepository: UserRepository
 ) : ViewModel() {
     private val TAG:String="SPsViewModel"
 
-    val spsResult: MutableLiveData<Resource<SPsResponse>> = MutableLiveData()
-    private val _filteredItems = MutableLiveData<List<User>>()
-    val filteredItems: LiveData<List<User>> = _filteredItems
+    private val _getSPsResult= MutableLiveData<Resource<SPsResponse>>()
+    val spsRes: LiveData<Resource<SPsResponse>>
+        get() = _getSPsResult
+
+    private val _tempSPs = MutableLiveData<MutableList<User>>()
+    val tempSPs: LiveData<MutableList<User>> = _tempSPs
+
+    private val _sps = MutableLiveData<List<User>>()
+    val sps: LiveData<List<User>> = _sps
+
+    //val spsResult: MutableLiveData<Resource<SPsResponse>> = MutableLiveData()
+
 
     init {
-        getSPsList()
+        _tempSPs.value = mutableListOf()
+        _sps.value = listOf()
     }
 
-    private fun getSPsList(query: String = "") = viewModelScope.launch {
+    fun getSPsList() = viewModelScope.launch {
         try {
-            spsResult.postValue(Resource.Loading())
+            _getSPsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             val response = userRepository.getSPsList("Bearer $token")
-            spsResult.postValue(handleSPsResponse(response))
-            filterItems(query)
+            _getSPsResult.postValue(handleSPsResponse(response))
         } catch (exception: Exception) {
-            spsResult.postValue(Resource.Error("Server connection failed!"))
+            _getSPsResult.postValue(Resource.Error("Server connection failed!"))
         }
     }
 
     private fun handleSPsResponse(response: Response<SPsResponse>): Resource<SPsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
+                _sps.postValue(resultResponse.users)
                 return Resource.Success(resultResponse)
             }
         }
         return Resource.Error(response.message())
     }
 
-    fun filterItems(query: String) {
-        val filteredList = spsResult.value?.data?.users?.filter {
-            val name=it.firstname!!+" "+it.lastname!!
-            name.contains(query, ignoreCase = true)
+    fun filter(filtredVal:String){
+        _tempSPs.value!!.clear()
+        val templst= mutableListOf<User>()
+        if(!_sps.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
+            _sps.value!!.forEach {
+                if(it.firstname!!.contains(filtredVal, ignoreCase = true) || it.lastname!!.contains(filtredVal, ignoreCase = true)  || it.speciality!!.contains(filtredVal, ignoreCase = true))  templst.add(it)
+            }
+            _tempSPs.postValue(templst)
         }
-        _filteredItems.postValue(filteredList)
+        else{
+            _tempSPs.postValue(_sps.value!!.toMutableList())
+        }
     }
-
 
 }

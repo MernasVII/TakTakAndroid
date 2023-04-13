@@ -2,25 +2,24 @@ package tn.esprit.taktakandroid.adapters
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import de.hdodenhof.circleimageview.CircleImageView
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.User
 import com.bumptech.glide.Glide
+import tn.esprit.taktakandroid.databinding.ItemSpBinding
 import tn.esprit.taktakandroid.uis.customer.SPProfileFragment
 import tn.esprit.taktakandroid.utils.Constants.IMG_URL
 
-class SPsListAdapter (private val fragmentManager: FragmentManager) :RecyclerView.Adapter<SPsListAdapter.SPViewHolder>() {
+class SPsListAdapter (private val fragmentManager: FragmentManager,
+                      private var sps: MutableList<User>) :RecyclerView.Adapter<SPsListAdapter.SPViewHolder>() {
 
-    inner class SPViewHolder(itemView:View):RecyclerView.ViewHolder(itemView)
+    inner class SPViewHolder(mainView:ItemSpBinding):RecyclerView.ViewHolder(mainView.root)
 
-    private val differCallback=object :DiffUtil.ItemCallback<User>(){
+    /*private val differCallback=object :DiffUtil.ItemCallback<User>(){
         override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem._id==newItem._id
         }
@@ -30,24 +29,20 @@ class SPsListAdapter (private val fragmentManager: FragmentManager) :RecyclerVie
         }
     }
 
-    val  differ= AsyncListDiffer(this,differCallback)
+    val  differ= AsyncListDiffer(this,differCallback)*/
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SPViewHolder {
-        return SPViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_sp,
-                parent,
-                false
-            )
-        )
+        val mainView = ItemSpBinding
+            .inflate(LayoutInflater.from(parent.context), parent, false)
+        return SPViewHolder(mainView)
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return sps.size
     }
 
     override fun onBindViewHolder(holder: SPViewHolder, position: Int) {
-        var sp=differ.currentList[position]
+        var sp=sps[position]
         holder.itemView.apply {
             Glide.with(this).load(IMG_URL+sp.pic).into(holder.itemView.findViewById<CircleImageView>(R.id.iv_pic))
             holder.itemView.findViewById<TextView>(R.id.tv_name).text = sp.firstname+" "+sp.lastname
@@ -71,5 +66,10 @@ class SPsListAdapter (private val fragmentManager: FragmentManager) :RecyclerVie
             addToBackStack(null)
             commit()
         }
+    }
+
+    fun setdata(list:MutableList<User>){
+        sps=list
+        notifyDataSetChanged()
     }
 }

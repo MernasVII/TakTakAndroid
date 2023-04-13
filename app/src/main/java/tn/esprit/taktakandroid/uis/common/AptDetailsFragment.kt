@@ -2,7 +2,6 @@ package tn.esprit.taktakandroid.uis.common
 
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.launch
+import java.text.ParseException
+import java.util.*
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.FragmentAptDetailsBinding
 import tn.esprit.taktakandroid.models.entities.Appointment
@@ -27,9 +28,7 @@ import tn.esprit.taktakandroid.uis.sp.sheets.QRCodeSheet
 import tn.esprit.taktakandroid.uis.sp.sheets.PostponeAptSheet
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
-import tn.esprit.taktakandroid.utils.Resource
 import java.text.SimpleDateFormat
-import java.util.*
 
 class AptDetailsFragment : BaseFragment() {
     private val TAG = "AptDetailsFragment"
@@ -38,7 +37,7 @@ class AptDetailsFragment : BaseFragment() {
     lateinit var viewModel: AptsViewModel
     lateinit var pendingAptsViewModel: PendingAptsViewModel
 
-    private lateinit var apt:Appointment
+    private lateinit var apt: Appointment
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,8 +48,13 @@ class AptDetailsFragment : BaseFragment() {
         val aptRepository = AptRepository()
         viewModel =
             ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
-        pendingAptsViewModel = ViewModelProvider(this, PendingAptsViewModelFactory(aptRepository))[PendingAptsViewModel::class.java]
+        pendingAptsViewModel = ViewModelProvider(
+            this,
+            PendingAptsViewModelFactory(aptRepository)
+        )[PendingAptsViewModel::class.java]
         apt = arguments?.getParcelable<Appointment>("apt")!!
+
+        calculateTimeLeft(apt.date)
 
         setData(apt!!)
 
@@ -106,51 +110,61 @@ class AptDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun observeViewModel(apt: Appointment) {
-        // Observe the LiveData in the ViewModel
-        viewModel.timeLeftAptRes.observe(viewLifecycleOwner) { resource ->
-            when (resource) {
-                is Resource.Loading -> {
-                    //TODO manage progress bar visibility
-                    // Handle loading state
-                }
-                is Resource.Success -> {
-                    //TODO manage progress bar visibility
-                    // Log the result response
-                    val timeLeftRes=resource.data!!.timeLeft
-                    if(timeLeftRes > 0 && !apt.isArchived){
-                        mainView.tvTimeLeft.visibility=View.VISIBLE
-                        object : CountDownTimer(resource.data.timeLeft, 1000) {
-                            //fired every 1 second
-                            override fun onTick(millisUntilFinished: Long) {
-                                val timeLeftString=formatTimeLeft(millisUntilFinished)
-                                mainView.tvTimeLeft.text=timeLeftString
-                            }
-                            // when the time is up
-                            override fun onFinish() {
-                                mainView.tvTimeLeft.visibility=View.GONE
-                            }
-                        }.start()
-                    }else{
-                        mainView.tvTimeLeft.visibility=View.GONE
-                    }
-                    // Handle success state
-                }
-                is Resource.Error -> {
-                    // Handle error state
-                    //TODO manage progress bar visibility
-                }
-            }
-        }
-        // Call the method in the ViewModel to fetch the data
-        viewModel.getTimeLeftToApt(IdBodyRequest(apt._id!!))
-    }
-
     private fun isPastDate(apt: Appointment): Boolean {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.getDefault())
         val dateTime = dateFormat.parse(apt.date.replace("Z", "+00:00"))
         val currentTime = Date()
         return !dateTime.after(currentTime)
+    }
+
+
+    private fun setData(apt: Appointment) {
+        setTimeLeft(apt)
+        mainView.tvDatetime.text = getTime(apt.date)
+        mainView.tvLocation.text = apt.location
+        mainView.tvTos.text = apt.tos
+        mainView.tvDesc.text = apt.desc
+        lifecycleScope.launch {
+            val cin = AppDataStore.readString(Constants.CIN)
+            manageViewsVisibiltiy(apt, cin)
+            val user: User
+            if (cin.isNullOrEmpty()) {
+                user = apt.sp
+                mainView.profileLayout.tvSpeciality.visibility = View.VISIBLE
+                mainView.profileLayout.llRate.visibility = View.VISIBLE
+                mainView.profileLayout.tvSpeciality.text = user.speciality
+                mainView.profileLayout.tvRate.text = user.rate.toString()
+            } else {
+                user = apt.customer
+                mainView.profileLayout.tvSpeciality.visibility = View.GONE
+                mainView.profileLayout.llRate.visibility = View.GONE
+            }
+            Glide.with(requireContext()).load(Constants.IMG_URL + user.pic)
+                .into(mainView.profileLayout.ivPic)
+            mainView.profileLayout.tvFullname.text = user.firstname + " " + user.lastname
+            mainView.profileLayout.tvAddress.text = user.address
+        }
+    }
+
+    private fun setTimeLeft(apt: Appointment) {
+        var timeLeftMs=calculateTimeLeft(apt.date)
+        if (timeLeftMs!! > 0) {
+            mainView.tvTimeLeft.visibility = View.VISIBLE
+            object : CountDownTimer(timeLeftMs, 1000) {
+                //fired every 1 second
+                override fun onTick(millisUntilFinished: Long) {
+                    val timeLeftString = formatTimeLeft(millisUntilFinished)
+                    mainView.tvTimeLeft.text = timeLeftString
+                }
+
+                // when the time is up
+                override fun onFinish() {
+                    mainView.tvTimeLeft.visibility = View.GONE
+                }
+            }.start()
+        } else {
+            mainView.tvTimeLeft.visibility = View.GONE
+        }
     }
 
     fun formatTimeLeft(millis: Long): String {
@@ -166,31 +180,15 @@ class AptDetailsFragment : BaseFragment() {
         return "${days} Days, ${remainingHours} hours, ${remainingMinutes} minutes and ${remainingSeconds} seconds left"
     }
 
-
-    private fun setData(apt: Appointment) {
-        observeViewModel(apt)
-        mainView.tvDatetime.text = getTime(apt.date)
-        mainView.tvLocation.text = apt.location
-        mainView.tvTos.text = apt.tos
-        mainView.tvDesc.text = apt.desc
-        lifecycleScope.launch {
-            val cin = AppDataStore.readString(Constants.CIN)
-            manageViewsVisibiltiy(apt, cin)
-            val user:User
-            if (cin.isNullOrEmpty()) {
-                user=apt.sp
-                mainView.profileLayout.tvSpeciality.visibility = View.VISIBLE
-                mainView.profileLayout.llRate.visibility = View.VISIBLE
-                mainView.profileLayout.tvSpeciality.text = user.speciality
-                mainView.profileLayout.tvRate.text = user.rate.toString()
-            } else {
-                user=apt.customer
-                mainView.profileLayout.tvSpeciality.visibility = View.GONE
-                mainView.profileLayout.llRate.visibility = View.GONE
-            }
-            Glide.with(requireContext()).load(Constants.IMG_URL +user.pic).into(mainView.profileLayout.ivPic)
-            mainView.profileLayout.tvFullname.text = user.firstname + " " + user.lastname
-            mainView.profileLayout.tvAddress.text = user.address
+    fun calculateTimeLeft(dateTimeString: String): Long? {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.US)
+        return try {
+            val dateTime = dateFormat.parse(dateTimeString)
+            val now = Date()
+            val duration = dateTime.time - now.time
+            duration
+        } catch (e: ParseException) {
+            null
         }
     }
 
@@ -263,17 +261,5 @@ class AptDetailsFragment : BaseFragment() {
         val timeStr = timeFormatter.format(date)
         return "$dateStr at $timeStr"
     }
-
-    override fun onResume() {
-        super.onResume()
-        observeViewModel(apt)
-    }
-
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.timeLeftAptRes.removeObservers(viewLifecycleOwner)
-    }
-
 
 }

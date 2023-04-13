@@ -51,8 +51,8 @@ class AptRepository {
         RetrofitInstance.aptApi.postponeApt(token,postponeAptRequest)
 
     //GET TIME LEFT TO APT
-    suspend fun getTimeLeftToApt(token:String,idBodyRequest: IdBodyRequest)=
-        RetrofitInstance.aptApi.getTimeLeftToApt(token,idBodyRequest)
+    /*suspend fun getTimeLeftToApt(token:String,idBodyRequest: IdBodyRequest)=
+        RetrofitInstance.aptApi.getTimeLeftToApt(token,idBodyRequest)*/
 
     //ACCEPT APT
     suspend fun acceptApt(token:String,acceptAptRequest: AcceptAptRequest)=

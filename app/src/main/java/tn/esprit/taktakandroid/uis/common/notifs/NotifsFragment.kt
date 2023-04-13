@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.adapters.AptsListAdapter
 import tn.esprit.taktakandroid.adapters.NotifsListAdapter
 import tn.esprit.taktakandroid.databinding.FragmentNotifsBinding
 import tn.esprit.taktakandroid.repositories.NotifRepository
@@ -41,8 +41,40 @@ class NotifsFragment : BaseFragment() {
         viewModel = ViewModelProvider(this, NotifsViewModelFactory(notifRepository))[NotifsViewModel::class.java]
 
         setupRecyclerView()
+        swipeLayoutSetup()
 
         observeViewModel()
+
+        mainView.searchView
+            .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    return false
+                }
+                override fun onQueryTextChange(newText: String): Boolean {
+                    viewModel.filter(newText)
+                    return false
+                }
+            }
+            )
+        observeTemp()
+    }
+
+    private fun observeTemp() {
+        viewModel.tempNotifs.observe(viewLifecycleOwner){
+            if(!it.isNullOrEmpty()){
+                mainView.tvInfo.visibility=View.GONE
+                mainView.rvNotifs.visibility=View.VISIBLE
+                notifAdapter.setdata(it)
+
+            }
+            else{
+                if(mainView.spinkitView.visibility!=View.VISIBLE){
+                    mainView.tvInfo.visibility=View.VISIBLE
+                    mainView.rvNotifs.visibility=View.GONE
+                }
+
+            }
+        }
     }
 
     private fun observeViewModel() {
@@ -50,15 +82,10 @@ class NotifsFragment : BaseFragment() {
             when (response) {
                 is Resource.Success -> {
                     progressBarVisibility(false, mainView.spinkitView)
+                    mainView.swipeRefreshLayout.isRefreshing = false
                     response.data?.let { notifsResponse ->
-                        notifAdapter.differ.submitList(notifsResponse.notifs)
+                        notifAdapter.setdata(notifsResponse.notifs.toMutableList())
                         if (notifsResponse.notifs.isNullOrEmpty()) {
-                            mainView.tvInfo.setTextColor(
-                                ContextCompat.getColor(
-                                    requireContext(),
-                                    R.color.orangeToYellow
-                                )
-                            )
                             mainView.tvInfo.visibility = View.VISIBLE
                             mainView.rvNotifs.visibility = View.GONE
                         } else {
@@ -69,22 +96,17 @@ class NotifsFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     progressBarVisibility(false, mainView.spinkitView)
+                    mainView.swipeRefreshLayout.isRefreshing = false
                     response.message?.let { message ->
                         showDialog(message)
                         mainView.rvNotifs.visibility = View.GONE
-                        mainView.tvInfo.setText(R.string.server_failure)
-                        mainView.tvInfo.setTextColor(
-                            ContextCompat.getColor(
-                                requireContext(),
-                                R.color.red
-                            )
-                        )
                         mainView.tvInfo.visibility = View.VISIBLE
                     }
                 }
                 is Resource.Loading -> {
                     progressBarVisibility(true, mainView.spinkitView)
                     mainView.rvNotifs.visibility = View.GONE
+                    mainView.tvInfo.visibility = View.GONE
                 }
             }
         })
@@ -92,10 +114,35 @@ class NotifsFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         val viewModelScope = CoroutineScope(viewModel.viewModelScope.coroutineContext + Dispatchers.Main)
-        notifAdapter = NotifsListAdapter(parentFragmentManager, viewModelScope,viewModel)
+        notifAdapter = NotifsListAdapter(parentFragmentManager, viewModelScope,viewModel,
+            mutableListOf())
         mainView.rvNotifs.apply {
             adapter = notifAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    fun swipeLayoutSetup() {
+        mainView.swipeRefreshLayout.setColorSchemeColors(
+            resources.getColor(
+                R.color.orangeToBG,
+                null
+            )
+        )
+        mainView.swipeRefreshLayout.setOnRefreshListener {
+            if(mainView.spinkitView.visibility!=View.VISIBLE) {
+                viewModel.getNotifsList()
+            }
+            else{
+                mainView.swipeRefreshLayout.isRefreshing = false
+
+            }
+
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getNotifsList()
     }
 }

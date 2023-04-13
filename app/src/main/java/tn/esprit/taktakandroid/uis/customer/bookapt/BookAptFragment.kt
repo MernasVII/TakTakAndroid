@@ -137,11 +137,13 @@ class BookAptFragment : BaseFragment() {
         val hourOfDay = calendar.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.get(Calendar.MINUTE)
 
-        // Create date picker dialog
-        val datePickerDialog = DatePickerDialog(requireContext(),
+        // Create date picker dialog with a minimum date
+        val datePickerDialog = DatePickerDialog(
+            requireContext(),
             { _, selectedYear, selectedMonth, selectedDayOfMonth ->
                 // Create time picker dialog
-                val timePickerDialog = TimePickerDialog(requireContext(),
+                val timePickerDialog = TimePickerDialog(
+                    requireContext(),
                     { _, selectedHourOfDay, selectedMinute ->
                         // Handle selected date and time
                         val selectedDateTime = Calendar.getInstance().apply {
@@ -151,10 +153,20 @@ class BookAptFragment : BaseFragment() {
                             .format(selectedDateTime)
                         mainView.etDatetime.setText(formattedDateTime)
                     },
-                    hourOfDay, minute, true)
+                    hourOfDay,
+                    minute,
+                    true
+                )
                 timePickerDialog.show()
             },
-            year, month, dayOfMonth)
+            year,
+            month,
+            dayOfMonth
+        )
+
+        // Disable past dates by setting a minimum date
+        datePickerDialog.datePicker.minDate = calendar.timeInMillis
+
         datePickerDialog.show()
     }
 
