@@ -34,5 +34,8 @@ class RetrofitInstance {
         val aptApi: AptEndpoints by lazy {
             retrofit.create(AptEndpoints::class.java)
         }
+        val bidApi: BidEndpoints by lazy {
+            retrofit.create(BidEndpoints::class.java)
+        }
     }
 }

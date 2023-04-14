@@ -134,6 +134,8 @@ class ArchivedAptsFragment : BaseFragment() {
         )
         mainView.swipeRefreshLayout.setOnRefreshListener {
             if(mainView.spinkitView.visibility!=View.VISIBLE) {
+                mainView.searchView.clearFocus()
+                mainView.searchView.setQuery("", false)
                 viewModel.getArchivedAptsList()
             }
             else{

@@ -176,6 +176,8 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
         )
         mainView.swipeRefreshLayout.setOnRefreshListener {
             if (mainView.spinkitView.visibility != View.VISIBLE) {
+                mainView.searchView.clearFocus()
+                mainView.searchView.setQuery("", false)
                 pendingAptsViewModel.getPendingAptsList()
             } else {
                 mainView.swipeRefreshLayout.isRefreshing = false

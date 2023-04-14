@@ -29,6 +29,7 @@ import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.SheetBaseFragment
 import tn.esprit.taktakandroid.uis.common.mapView.MapActivity
+import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileFragment
 import tn.esprit.taktakandroid.utils.Resource
 
 
@@ -105,6 +106,7 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
                             getString(R.string.profile_updated),
                             Toast.LENGTH_SHORT
                         ).show()
+                        fetchProfile()
                         dismiss()
                     }
                 }
@@ -119,6 +121,14 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
                 }
             }
         })
+    }
+
+    private fun fetchProfile() {
+        // Reload the profile fragment
+        val profileFragment = UserProfileFragment()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, profileFragment)
+            .commit()
     }
 
     private fun setData() {
