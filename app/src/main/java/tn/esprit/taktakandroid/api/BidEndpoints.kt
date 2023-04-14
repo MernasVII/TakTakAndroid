@@ -2,9 +2,9 @@ package tn.esprit.taktakandroid.api
 
 import retrofit2.Response
 import retrofit2.http.*
-import tn.esprit.taktakandroid.models.MessageResponse
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.MakeBidRequest
+import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.responses.MyBidOnRequestResponse
 import tn.esprit.taktakandroid.models.responses.ReceivedBidsResponse
 import tn.esprit.taktakandroid.models.responses.SentBidsResponse

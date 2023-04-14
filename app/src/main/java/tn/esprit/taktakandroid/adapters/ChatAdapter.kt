@@ -3,14 +3,12 @@ package tn.esprit.taktakandroid.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ReceivedMsgLayoutBinding
 import tn.esprit.taktakandroid.databinding.SentMsgLayoutBinding
-import tn.esprit.taktakandroid.models.ChatMessage
+import tn.esprit.taktakandroid.models.entities.ChatMessage
 
 class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val MESSAGE_SENT = 1

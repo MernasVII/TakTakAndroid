@@ -9,9 +9,9 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.MessageResponse
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.BookAptRequest
+import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants

@@ -13,7 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.adapters.ChatAdapter
 import tn.esprit.taktakandroid.databinding.SheetFragmentChatBinding
-import tn.esprit.taktakandroid.models.ChatMessage
+import tn.esprit.taktakandroid.models.entities.ChatMessage
 
 
 class ChatSheet : BottomSheetDialogFragment() {

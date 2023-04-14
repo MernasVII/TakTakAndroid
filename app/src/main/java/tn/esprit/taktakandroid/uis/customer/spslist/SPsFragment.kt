@@ -82,11 +82,11 @@ class SPsFragment : BaseFragment() {
                     progressBarVisibility(false,mainView.spinkitView)
                     mainView.swipeRefreshLayout.isRefreshing = false
                     response.data?.let { spsResponse ->
-                        sPsListAdapter.setdata(spsResponse.users.toMutableList())
                         if (spsResponse.users.isNullOrEmpty()) {
                             mainView.tvInfo.visibility=View.VISIBLE
                             mainView.rvSps.visibility=View.GONE
                         }else{
+                            sPsListAdapter.setdata(spsResponse.users.toMutableList())
                             mainView.tvInfo.visibility=View.GONE
                             mainView.rvSps.visibility=View.VISIBLE
                         }

@@ -59,7 +59,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="#228B22"
+        android:backgroundTint="@color/green"
         app:borderWidth="0dp"
         android:contentDescription="TODO"
         android:visibility="visible"

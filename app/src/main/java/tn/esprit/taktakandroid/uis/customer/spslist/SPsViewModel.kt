@@ -57,7 +57,7 @@ class SPsViewModel(private val userRepository: UserRepository
     }
 
     fun filter(filtredVal:String){
-        _tempSPs.value!!.clear()
+        _tempSPs.value?.clear()
         val templst= mutableListOf<User>()
         if(!_sps.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
             _sps.value!!.forEach {
@@ -66,7 +66,7 @@ class SPsViewModel(private val userRepository: UserRepository
             _tempSPs.postValue(templst)
         }
         else{
-            _tempSPs.postValue(_sps.value!!.toMutableList())
+            _tempSPs.postValue(_sps.value?.toMutableList())
         }
     }
 

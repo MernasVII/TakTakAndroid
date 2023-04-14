@@ -8,9 +8,9 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.MessageResponse
 import tn.esprit.taktakandroid.models.entities.Notification
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
+import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.responses.NotifsResponse
 import tn.esprit.taktakandroid.repositories.NotifRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
@@ -89,7 +89,7 @@ class NotifsViewModel (private val notifRepository: NotifRepository
     }
 
     fun filter(filtredVal:String){
-        _tempNotifs.value!!.clear()
+        _tempNotifs.value?.clear()
         val templst= mutableListOf<Notification>()
         if(!_notifs.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
             _notifs.value!!.forEach {
@@ -98,7 +98,7 @@ class NotifsViewModel (private val notifRepository: NotifRepository
             _tempNotifs.postValue(templst)
         }
         else{
-            _tempNotifs.postValue(_notifs.value!!.toMutableList())
+            _tempNotifs.postValue(_notifs.value?.toMutableList())
         }
     }
 

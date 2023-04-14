@@ -63,7 +63,7 @@ class ArchivedAptsViewModel  (private val aptRepository: AptRepository
     }
 
     fun filter(filtredVal:String,cin:String){
-        _tempApts.value!!.clear()
+        _tempApts.value?.clear()
         val templst= mutableListOf<Appointment>()
         if(!_apts.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
             _apts.value!!.forEach {
@@ -78,7 +78,7 @@ class ArchivedAptsViewModel  (private val aptRepository: AptRepository
             _tempApts.postValue(templst)
         }
         else{
-            _tempApts.postValue(_apts.value!!.toMutableList())
+            _tempApts.postValue(_apts.value?.toMutableList())
         }
     }
 

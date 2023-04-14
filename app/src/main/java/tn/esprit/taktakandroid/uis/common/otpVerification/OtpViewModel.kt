@@ -6,8 +6,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.MessageResponse
-import tn.esprit.taktakandroid.models.SendOtpRequest
+import tn.esprit.taktakandroid.models.responses.MessageResponse
+import tn.esprit.taktakandroid.models.requests.SendOtpRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants

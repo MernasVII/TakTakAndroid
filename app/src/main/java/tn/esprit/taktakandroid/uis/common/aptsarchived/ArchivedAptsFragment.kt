@@ -89,11 +89,11 @@ class ArchivedAptsFragment : BaseFragment() {
                     progressBarVisibility(false, mainView.spinkitView)
                     mainView.swipeRefreshLayout.isRefreshing = false
                     response.data?.let { aptsResponse ->
-                        aptAdapter.setdata(aptsResponse.appointments.toMutableList())
                         if (aptsResponse.appointments.isNullOrEmpty()) {
                             mainView.tvInfo.visibility = View.VISIBLE
                             mainView.rvApts.visibility = View.GONE
                         } else {
+                            aptAdapter.setdata(aptsResponse.appointments.toMutableList())
                             mainView.tvInfo.visibility = View.GONE
                             mainView.rvApts.visibility = View.VISIBLE
                         }

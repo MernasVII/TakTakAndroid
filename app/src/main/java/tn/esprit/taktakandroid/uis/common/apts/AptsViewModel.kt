@@ -8,13 +8,13 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.MessageResponse
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.PostponeAptRequest
 import tn.esprit.taktakandroid.models.requests.UpdateAptStateRequest
 import tn.esprit.taktakandroid.models.responses.AptsResponse
+import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
@@ -145,7 +145,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
     }*/
 
     fun filter(filtredVal:String,cin:String){
-        _tempApts.value!!.clear()
+        _tempApts.value?.clear()
         val templst= mutableListOf<Appointment>()
         if(!_apts.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
             _apts.value!!.forEach {
@@ -160,7 +160,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
             _tempApts.postValue(templst)
         }
         else{
-            _tempApts.postValue(_apts.value!!.toMutableList())
+            _tempApts.postValue(_apts.value?.toMutableList())
         }
     }
 

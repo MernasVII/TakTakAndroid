@@ -5,8 +5,8 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PUT
-import tn.esprit.taktakandroid.models.MessageResponse
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
+import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.responses.NotifsResponse
 
 interface NotifEndpoints {
