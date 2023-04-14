@@ -1,4 +1,4 @@
-package tn.esprit.taktakandroid.models.login
+package tn.esprit.taktakandroid.models.responses
 
 data class LoginResponse(
     val cin: String?,

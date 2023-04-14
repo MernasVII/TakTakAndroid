@@ -7,8 +7,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.customer.CustomerReqsFragment
-import tn.esprit.taktakandroid.uis.sp.SPReqsFragment
+import tn.esprit.taktakandroid.uis.customer.myRequests.CustomerReqsFragment
+import tn.esprit.taktakandroid.uis.sp.spRequests.SPReqsFragment
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whiteToBG"
-    tools:context=".uis.sp.SPReqsFragment">
+    tools:context=".uis.sp.spRequests.SPReqsFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_title"
@@ -40,16 +40,21 @@
             android:src="@drawable/pending"/>
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <ProgressBar
+    <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/spinkit_view"
+        android:padding="50dp"
+        android:backgroundTint="#66425968"
+        android:background="@drawable/rounded_corners_white_bg"
+        style="@style/SpinKitView.Large.Circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_gravity="center"
+        app:SpinKit_Color="@color/orangeToYellow"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_title" />
+        app:layout_constraintTop_toBottomOf="@+id/ll_title"/>
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
@@ -57,10 +62,11 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginTop="15dp"
-        android:theme="@style/CustomSearchViewStyle"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/search_bg"
         android:queryHint="Search by type of service"
         android:queryBackground="@null"
+        android:theme="@style/CustomSearchViewStyle"
         android:iconifiedByDefault="false"
         app:defaultQueryHint="@null"
         app:closeIcon="@null"
@@ -68,19 +74,40 @@
         app:queryBackground="@null"
         app:queryHint="Search by type of service"
         app:searchHintIcon="@null"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/swipe_refresh_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_title"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_bidsCustomer"
-        tools:listitem="@layout/item_req_sp"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:divider="@color/transparent"
-        android:dividerHeight="10dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_view"
-        app:layout_constraintVertical_bias="0.0"/>
+        app:layout_constraintVertical_bias="0.0">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_allRequests"
+        tools:listitem="@layout/item_req_sp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:divider="@color/transparent"
+        android:dividerHeight="10dp"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <TextView
+        android:id="@+id/tv_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center"
+        android:text="@string/no_requests_found"
+        android:textColor="@color/orangeToYellow"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

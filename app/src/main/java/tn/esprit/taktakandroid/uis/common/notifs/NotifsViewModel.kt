@@ -8,9 +8,9 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
-import tn.esprit.taktakandroid.models.MessageResponse
 import tn.esprit.taktakandroid.models.entities.Notification
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
+import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.responses.NotifsResponse
 import tn.esprit.taktakandroid.repositories.NotifRepository
 import tn.esprit.taktakandroid.utils.AppDataStore

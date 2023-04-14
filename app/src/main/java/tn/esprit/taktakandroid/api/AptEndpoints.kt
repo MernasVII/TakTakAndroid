@@ -2,10 +2,9 @@ package tn.esprit.taktakandroid.api
 
 import retrofit2.Response
 import retrofit2.http.*
-import tn.esprit.taktakandroid.models.MessageResponse
-import tn.esprit.taktakandroid.models.SignUpRequest
 import tn.esprit.taktakandroid.models.requests.*
 import tn.esprit.taktakandroid.models.responses.AptsResponse
+import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.responses.TimeLeftResponse
 
 interface AptEndpoints {
