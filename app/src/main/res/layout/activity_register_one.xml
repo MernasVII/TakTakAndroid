@@ -186,6 +186,7 @@
                     app:errorTextColor="@color/red"
                     app:boxStrokeErrorColor="@color/red"
                     app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/grey"
                     app:startIconDrawable="@drawable/ic_key"
                     app:startIconTint="@color/BGToOrange">
 

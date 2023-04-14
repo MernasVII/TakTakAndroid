@@ -6,10 +6,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.entities.Request
 import tn.esprit.taktakandroid.models.entities.User
+import tn.esprit.taktakandroid.models.requests.DeleteReqRequest
 import tn.esprit.taktakandroid.models.responses.LoginResponse
+import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.responses.SPsResponse
 import tn.esprit.taktakandroid.models.responses.UserReqResponse
 import tn.esprit.taktakandroid.repositories.RequestsRepository
@@ -25,6 +28,9 @@ class MyRequestsViewModel(private val requestsRepository: RequestsRepository
     val myRequestsResult: LiveData<Resource<UserReqResponse>>
             get() = _getMyRequestsResult
 
+    private val _deleteReqResult= MutableLiveData<Resource<MessageResponse>>()
+    val deleteReqResult: LiveData<Resource<MessageResponse>>
+        get() = _deleteReqResult
 
 
     private val _tempRequests = MutableLiveData<MutableList<Request>>()
@@ -46,13 +52,32 @@ class MyRequestsViewModel(private val requestsRepository: RequestsRepository
             _getMyRequestsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             val response = requestsRepository.getMyRequests("Bearer $token")
-            _getMyRequestsResult.postValue(handleSPsResponse(response))
+            _getMyRequestsResult.postValue(handleGetResponse(response))
         } catch (exception: Exception) {
             _getMyRequestsResult.postValue(Resource.Error("Server connection failed!"))
         }
     }
+    fun deleteRequest(id:String) = viewModelScope.launch {
+       // try {
+            _deleteReqResult.postValue(Resource.Loading())
+            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+            val response = requestsRepository.deleteRequest("Bearer $token", DeleteReqRequest(id))
+            _deleteReqResult.postValue(handleDeleteResponse(response))
+       /* } catch (exception: Exception) {
+            _deleteReqResult.postValue(Resource.Error("Server connection failed!"))
+        }*/
+    }
 
-    private fun handleSPsResponse(response: Response<UserReqResponse>): Resource<UserReqResponse> {
+    private fun handleDeleteResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+        if (response.isSuccessful) {
+
+                return Resource.Success(MessageResponse("Request deleted!"))
+
+        }
+        val errorBody = JSONObject(response.errorBody()!!.string())
+        return Resource.Error(errorBody.getString("message"))
+    }
+    private fun handleGetResponse(response: Response<UserReqResponse>): Resource<UserReqResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 _requests.postValue(resultResponse.myRequests)
@@ -63,7 +88,7 @@ class MyRequestsViewModel(private val requestsRepository: RequestsRepository
     }
 
     fun filter(filtredVal:String){
-        _tempRequests.value!!.clear()
+        _tempRequests.value?.clear()
         val templst= mutableListOf<Request>()
         if(!_requests.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
             _requests.value!!.forEach {
@@ -72,7 +97,7 @@ class MyRequestsViewModel(private val requestsRepository: RequestsRepository
             _tempRequests.postValue(templst)
         }
         else{
-            _tempRequests.postValue(_requests.value!!.toMutableList())
+            _tempRequests.postValue(_requests.value?.toMutableList()  )
         }
     }
 
