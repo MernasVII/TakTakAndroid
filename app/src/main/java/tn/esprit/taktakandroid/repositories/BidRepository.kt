@@ -7,8 +7,8 @@ import tn.esprit.taktakandroid.models.requests.MakeBidRequest
 class BidRepository {
     /**************** AS A CUSTOMER ****************/
     //GET RECEIVED BIDS
-    suspend fun getReceivedBids(token:String)=
-        RetrofitInstance.bidApi.getReceivedBids(token)
+    suspend fun getReceivedBids(token:String,idBodyRequest: IdBodyRequest)=
+        RetrofitInstance.bidApi.getReceivedBids(token,idBodyRequest)
 
     //ACCEPT BID
     suspend fun acceptBid(token:String,idBodyRequest: IdBodyRequest)=

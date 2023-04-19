@@ -47,6 +47,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
 
     fun getAptsList() = viewModelScope.launch {
         try {
+            _apts.postValue(listOf())
             _getAptsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             cin = AppDataStore.readString(Constants.CIN)
@@ -117,6 +118,8 @@ class AptsViewModel  (private val aptRepository: AptRepository
                 _apts.postValue(resultResponse.appointments)
                 return Resource.Success(resultResponse)
             }
+        }else{
+            _apts.postValue(listOf())
         }
         return Resource.Error(response.message())
     }

@@ -16,6 +16,7 @@ data class Appointment (
     val location: String,
     val postpone: Int,
     var rate: Float,
+    var price: Float?=null,
     val sp: User,
     var state: Int,
     val tos: String,

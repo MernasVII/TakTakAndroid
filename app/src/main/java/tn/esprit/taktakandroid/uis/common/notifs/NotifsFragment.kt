@@ -131,13 +131,10 @@ class NotifsFragment : BaseFragment() {
         )
         mainView.swipeRefreshLayout.setOnRefreshListener {
             if(mainView.spinkitView.visibility!=View.VISIBLE) {
+                mainView.swipeRefreshLayout.isRefreshing = false
                 mainView.searchView.clearFocus()
                 mainView.searchView.setQuery("", false)
                 viewModel.getNotifsList()
-            }
-            else{
-                mainView.swipeRefreshLayout.isRefreshing = false
-
             }
 
         }

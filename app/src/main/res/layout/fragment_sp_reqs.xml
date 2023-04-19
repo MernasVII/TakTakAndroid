@@ -44,7 +44,6 @@
         android:id="@+id/spinkit_view"
         android:padding="50dp"
         android:backgroundTint="#66425968"
-        android:background="@drawable/rounded_corners_white_bg"
         style="@style/SpinKitView.Large.Circle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

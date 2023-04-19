@@ -12,9 +12,10 @@ import tn.esprit.taktakandroid.models.responses.SentBidsResponse
 interface BidEndpoints {
     /**************** AS A CUSTOMER ****************/
     //GET RECEIVED BIDS
-    @GET("bid/getReceivedBids")
+    @POST("bid/getReceivedBids")
     suspend fun getReceivedBids(
-        @Header("Authorization") token: String
+        @Header("Authorization") token: String,
+        @Body request: IdBodyRequest
     ): Response<ReceivedBidsResponse>
 
     //ACCEPT BID
@@ -40,7 +41,7 @@ interface BidEndpoints {
     ): Response<MessageResponse>
 
     //GET SENT BIDS
-    @GET("bid/getSentBids")
+    @POST("bid/getSentBids")
     suspend fun getSentBids(
         @Header("Authorization") token: String
     ): Response<SentBidsResponse>

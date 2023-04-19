@@ -58,7 +58,7 @@ class UserProfileFragment : BaseFragment() {
     ): View? {
         mainView = FragmentUserProfileBinding.inflate(layoutInflater)
         val userRepository = UserRepository()
-        viewModel = ViewModelProvider(this, UserProfileViewModelFactory(userRepository)).get(UserProfileViewModel::class.java)
+        viewModel = ViewModelProvider(this, UserProfileViewModelFactory(userRepository))[UserProfileViewModel::class.java]
 
         //logout
         mainView.ivLogout.setOnClickListener {
@@ -139,7 +139,14 @@ class UserProfileFragment : BaseFragment() {
                         user = userProfileResponse.user
                         //set username and address
                         mainView.tvFullname.text = user.firstname + " " + user.lastname
-                        mainView.tvAddress.text = user.address
+                        //check and set address
+                        if(user.address.isNullOrEmpty()){
+                            mainView.tvAddress.text = "-"
+                            mainView.ivError.visibility=View.VISIBLE
+                        }else{
+                            mainView.tvAddress.text = user.address
+                            mainView.ivError.visibility=View.GONE
+                        }
                         if(user.cin?.isEmpty() == true){
                             mainView.flWork.visibility=View.GONE
                         }

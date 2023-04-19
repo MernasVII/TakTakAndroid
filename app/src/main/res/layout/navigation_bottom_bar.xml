@@ -8,66 +8,90 @@
     android:clipChildren="false"
     android:clipToPadding="false"
     android:orientation="horizontal"
-    android:padding="8dp">
+    android:paddingStart="8dp"
+    android:paddingTop="15dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="20dp">
 
-    <TextView
+    <ImageView
         android:id="@+id/tv_providers"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:drawableTop="@drawable/ic_people_outline"
         android:drawableTint="@color/white"
-        android:gravity="center_horizontal"
+        android:onClick="showSPsFragment"
         android:padding="4dp"
-        android:textColor="@android:color/white"
-        android:onClick="showSPsFragment"/>
+        android:src="@drawable/ic_people_outline"
+        android:textColor="@android:color/white" />
     <!--android:text="Providers"-->
 
-    <TextView
+    <ImageView
         android:id="@+id/tv_apts"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:drawableTop="@drawable/ic_calendar_outline"
         android:drawableTint="@color/white"
-        android:gravity="center_horizontal"
+        android:onClick="showAptsFragment"
         android:padding="4dp"
-        android:textColor="@android:color/white"
-        android:onClick="showAptsFragment"/>
+        android:src="@drawable/ic_calendar_outline"
+        android:textColor="@android:color/white" />
+
     <!--android:text="Appointments"-->
-    <TextView
+    <ImageView
         android:id="@+id/tv_reqs"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:drawableTop="@drawable/ic_work_outline"
         android:drawableTint="@color/white"
-        android:gravity="center_horizontal"
         android:padding="4dp"
+        android:src="@drawable/ic_work_outline"
         android:textColor="@android:color/white" />
     <!--android:text="Requests"-->
-    <TextView
+    <ImageView
         android:id="@+id/tv_notifs"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:drawableTop="@drawable/ic_bell_outline"
         android:drawableTint="@color/white"
-        android:gravity="center_horizontal"
         android:padding="4dp"
+        android:src="@drawable/ic_bell_outline"
         android:textColor="@android:color/white" />
     <!--android:text="Notifications"-->
 
-    <TextView
-        android:id="@+id/tv_profile"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:drawableTop="@drawable/ic_person_outline"
-        android:drawableTint="@color/white"
-        android:gravity="center_horizontal"
-        android:padding="4dp"
-        android:textColor="@android:color/white" />
+        android:gravity="center"
+        android:layout_weight="1">
+        <FrameLayout
+            android:id="@+id/frame_layout_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/tv_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTint="@color/white"
+                android:padding="4dp"
+                android:src="@drawable/ic_person_outline"
+                android:textColor="@android:color/white" />
+
+            <ImageView
+                android:id="@+id/iv_errorAddress"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:visibility="gone"
+                android:layout_gravity="top|end"
+                android:src="@drawable/ic_error" />
+
+        </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
     <!--android:text="Profile"-->
 
 </androidx.appcompat.widget.LinearLayoutCompat>

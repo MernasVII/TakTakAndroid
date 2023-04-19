@@ -97,4 +97,8 @@ dependencies {
     // pull to refresh
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
+    //QR Code Scanner
+    implementation("io.github.g00fy2.quickie:quickie-bundled:1.6.0")
+
+
 }

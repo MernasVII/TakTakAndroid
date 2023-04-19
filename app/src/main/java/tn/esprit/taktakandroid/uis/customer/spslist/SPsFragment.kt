@@ -127,13 +127,10 @@ class SPsFragment : BaseFragment() {
         )
         mainView.swipeRefreshLayout.setOnRefreshListener {
             if(mainView.spinkitView.visibility!=View.VISIBLE) {
+                mainView.swipeRefreshLayout.isRefreshing = false
                 mainView.searchView.clearFocus()
                 mainView.searchView.setQuery("", false)
                 viewModel.getSPsList()
-            }
-            else{
-                mainView.swipeRefreshLayout.isRefreshing = false
-
             }
 
         }

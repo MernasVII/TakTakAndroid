@@ -1,11 +1,18 @@
 package tn.esprit.taktakandroid.adapters
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ItemReqCustomerBinding
 import tn.esprit.taktakandroid.models.entities.Request
+import tn.esprit.taktakandroid.models.entities.User
+import tn.esprit.taktakandroid.uis.common.RequestDetailsFragment
+import tn.esprit.taktakandroid.uis.customer.CustomerBidsFragment
+import tn.esprit.taktakandroid.uis.customer.SPProfileFragment
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,24 +49,36 @@ class CustomerRequestsAdapter (private val fragmentManager: FragmentManager, var
         holder.mainView.tvDesc.text=request.desc
         holder.mainView.tvTimeLoc.text="${parseDate(request.date)} in ${request.location}"
         holder.mainView.root.setOnClickListener {
-               // navigateToSPProfileFragment(sp)
-
+            navigateToBidsListFragment(request)
         }
 
     }
 
-  /*  private fun navigateToSPProfileFragment(user: User) {
+    private fun navigateToBidsListFragment(request: Request) {
         val bundle = Bundle().apply {
-            putParcelable("user", user)
+            putParcelable("request", request)
         }
-        val spProfileFragment = SPProfileFragment()
-        spProfileFragment.arguments = bundle
+        val customerBidsFragment = CustomerBidsFragment()
+        customerBidsFragment.arguments = bundle
         fragmentManager.beginTransaction().apply {
-            replace(R.id.fragment_container, spProfileFragment)
+            replace(R.id.fragment_container, customerBidsFragment)
             addToBackStack(null)
             commit()
         }
-    }*/
+    }
+
+    private fun navigateToReqDetails(request: Request) {
+        val customerBidsFragment = CustomerBidsFragment()
+        val args = Bundle()
+        args.putString("reqId", request._id)
+        customerBidsFragment.arguments = args
+        fragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, customerBidsFragment)
+            addToBackStack(null)
+            commit()
+        }
+    }
+
     private fun parseDate(date:String):String{
       val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
       inputDateFormat.timeZone = TimeZone.getTimeZone("UTC")

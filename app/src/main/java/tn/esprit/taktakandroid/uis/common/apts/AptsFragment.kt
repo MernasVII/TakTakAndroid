@@ -141,7 +141,7 @@ class AptsFragment : BaseFragment() {
 
     private fun setupRecyclerView(cin: String?) {
         val viewModelScope = CoroutineScope(viewModel.viewModelScope.coroutineContext + Dispatchers.Main)
-        aptAdapter = AptsListAdapter(cin, parentFragmentManager,mutableListOf(), viewModelScope,viewModel)
+        aptAdapter = AptsListAdapter(cin, parentFragmentManager,mutableListOf(), viewModelScope,viewModel,viewLifecycleOwner)
         mainView.rvApts.apply {
             adapter = aptAdapter
             layoutManager = LinearLayoutManager(activity)
@@ -173,12 +173,10 @@ class AptsFragment : BaseFragment() {
         )
         mainView.swipeRefreshLayout.setOnRefreshListener {
             if(mainView.spinkitView.visibility!=View.VISIBLE) {
+                mainView.swipeRefreshLayout.isRefreshing = false
                 mainView.searchView.clearFocus()
                 mainView.searchView.setQuery("", false)
                 viewModel.getAptsList()
-            }
-            else{
-                mainView.swipeRefreshLayout.isRefreshing = false
             }
 
         }

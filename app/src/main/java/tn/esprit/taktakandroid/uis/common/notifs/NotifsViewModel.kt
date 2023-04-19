@@ -40,14 +40,12 @@ class NotifsViewModel (private val notifRepository: NotifRepository
     }
 
     fun getNotifsList() = viewModelScope.launch {
-        try {
+            _notifs.postValue(listOf())
             _getNotifsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             val response = notifRepository.getNotifsList("Bearer $token")
             _getNotifsResult.postValue(handleNotifsResponse(response))
-        } catch (exception: Exception) {
-            _getNotifsResult.postValue(Resource.Error("Server connection failed!"))
-        }
+
     }
 
     private fun handleNotifsResponse(response: Response<NotifsResponse>): Resource<NotifsResponse> {
@@ -56,6 +54,8 @@ class NotifsViewModel (private val notifRepository: NotifRepository
                 _notifs.postValue(resultResponse.notifs)
                 return Resource.Success(resultResponse)
             }
+        }else{
+            _notifs.postValue(listOf())
         }
         return Resource.Error(response.message())
     }

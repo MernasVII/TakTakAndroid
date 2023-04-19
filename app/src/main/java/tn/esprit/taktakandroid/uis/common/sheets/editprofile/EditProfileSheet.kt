@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -63,6 +64,7 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
         mainView.btnSaveChanges.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.updateProfile()
+                requireActivity().findViewById<ImageView>(R.id.iv_errorAddress).visibility=View.GONE
             }
         }
 

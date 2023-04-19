@@ -1,13 +1,19 @@
 package tn.esprit.taktakandroid.uis.common
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import io.github.g00fy2.quickie.QRResult
+import io.github.g00fy2.quickie.ScanQRCode
 import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.util.*
@@ -18,16 +24,20 @@ import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.UpdateAptStateRequest
 import tn.esprit.taktakandroid.repositories.AptRepository
+import tn.esprit.taktakandroid.repositories.PaymentRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
 import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModel
 import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModelFactory
+import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModel
+import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModelFactory
 import tn.esprit.taktakandroid.uis.sp.sheets.AptPriceSheet
 import tn.esprit.taktakandroid.uis.sp.sheets.QRCodeSheet
 import tn.esprit.taktakandroid.uis.sp.sheets.PostponeAptSheet
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
+import tn.esprit.taktakandroid.utils.Resource
 import java.text.SimpleDateFormat
 
 class AptDetailsFragment : BaseFragment() {
@@ -36,6 +46,32 @@ class AptDetailsFragment : BaseFragment() {
     private lateinit var mainView: FragmentAptDetailsBinding
     lateinit var viewModel: AptsViewModel
     lateinit var pendingAptsViewModel: PendingAptsViewModel
+    private lateinit var paymentViewModel: PaymentViewModel
+
+    val scanQrCodeLauncher = registerForActivityResult(ScanQRCode()) { result ->
+        when(result){
+            is QRResult.QRSuccess ->{
+                val url = result.content.rawValue
+                openLinkInBrowser(url)
+            }
+            is QRResult.QRUserCanceled ->{
+            }
+            is QRResult.QRMissingPermission ->{
+                Toast.makeText(requireContext(), "Camera permission is required!", Toast.LENGTH_LONG).show()
+            }
+            is QRResult.QRError ->{
+                Toast.makeText(requireContext(), "Error encountered when opening Scanner!", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun openLinkInBrowser(url: String) {
+        val urlIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(url)
+        )
+        startActivity(urlIntent)
+    }
 
     private lateinit var apt: Appointment
 
@@ -46,12 +82,8 @@ class AptDetailsFragment : BaseFragment() {
     ): View? {
         mainView = FragmentAptDetailsBinding.inflate(layoutInflater)
         val aptRepository = AptRepository()
-        viewModel =
-            ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
-        pendingAptsViewModel = ViewModelProvider(
-            this,
-            PendingAptsViewModelFactory(aptRepository)
-        )[PendingAptsViewModel::class.java]
+        viewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
+        pendingAptsViewModel = ViewModelProvider(this, PendingAptsViewModelFactory(aptRepository))[PendingAptsViewModel::class.java]
         apt = arguments?.getParcelable<Appointment>("apt")!!
 
         calculateTimeLeft(apt.date)
@@ -88,19 +120,40 @@ class AptDetailsFragment : BaseFragment() {
         mainView.btnState.setOnClickListener {
             if (apt.state < 2) {
                 updateState(apt)
-            } else if (apt.state == 2) {
-                val qrCodeSheet = QRCodeSheet()
-                val args = Bundle()
-                args.putString("aptKey", apt._id)
-                qrCodeSheet.arguments = args
-                qrCodeSheet.show(parentFragmentManager, "exampleBottomSheet")
+            }
+            if (apt.state == 2) {
+                openQrCodeSheet()
             }
         }
         mainView.btnScan.setOnClickListener {
-            //TODO OPEN QR CODE SCANNER
+            scanQrCodeLauncher.launch(null)
         }
 
         return mainView.root
+    }
+
+    private fun openQrCodeSheet() {
+        val paymentRepository = PaymentRepository()
+        paymentViewModel = ViewModelProvider(this, PaymentViewModelFactory(paymentRepository,apt))[PaymentViewModel::class.java]
+        paymentViewModel.initRes.observe(viewLifecycleOwner){ response ->
+            when(response){
+                is Resource.Success -> {
+                    response.data?.let { myRequestsResponse ->
+                        val qrCodeSheet = QRCodeSheet()
+                        val args = Bundle()
+                        args.putString("payUrl", myRequestsResponse.payUrl)
+                        qrCodeSheet.arguments = args
+                        qrCodeSheet.show(parentFragmentManager, "exampleBottomSheet")
+                    }
+                }
+                is Resource.Error -> {
+                    Log.d(TAG, "onCreateView: error")
+                }
+                is Resource.Loading -> {
+                    Log.d(TAG, "onCreateView: loading")
+                }
+            }
+        }
     }
 
     private fun updateState(apt: Appointment) {
@@ -147,9 +200,10 @@ class AptDetailsFragment : BaseFragment() {
     }
 
     private fun setTimeLeft(apt: Appointment) {
-        var timeLeftMs=calculateTimeLeft(apt.date)
+        var timeLeftMs = calculateTimeLeft(apt.date)
         if (timeLeftMs!! > 0) {
             mainView.tvTimeLeft.visibility = View.VISIBLE
+            mainView.btnPostpone.visibility = View.VISIBLE
             object : CountDownTimer(timeLeftMs, 1000) {
                 //fired every 1 second
                 override fun onTick(millisUntilFinished: Long) {
@@ -160,10 +214,14 @@ class AptDetailsFragment : BaseFragment() {
                 // when the time is up
                 override fun onFinish() {
                     mainView.tvTimeLeft.visibility = View.GONE
+                    mainView.btnPostpone.visibility = View.GONE
+                    mainView.btnState.visibility = View.VISIBLE
                 }
             }.start()
         } else {
             mainView.tvTimeLeft.visibility = View.GONE
+            mainView.btnPostpone.visibility = View.GONE
+            mainView.btnState.visibility = View.VISIBLE
         }
     }
 
@@ -205,6 +263,7 @@ class AptDetailsFragment : BaseFragment() {
                 if (apt.isArchived) {
                     mainView.llActive.visibility = View.GONE
                 } else if (apt.isAccepted) {
+                    mainView.tvTimeLeft.visibility=View.GONE
                     mainView.llActive.visibility = View.VISIBLE
                     mainView.btnPostpone.visibility = View.VISIBLE
                     mainView.llPendingSp.visibility = View.GONE
@@ -220,7 +279,7 @@ class AptDetailsFragment : BaseFragment() {
             mainView.llPendingSp.visibility = View.GONE
             if (isPastDate(apt)) {
                 mainView.llActive.visibility = View.GONE
-                if (apt.state == 3) {
+                if (apt.state == 2) {
                     mainView.btnScan.visibility = View.VISIBLE
                 } else {
                     mainView.btnScan.visibility = View.GONE
@@ -229,6 +288,7 @@ class AptDetailsFragment : BaseFragment() {
                 mainView.btnScan.visibility = View.GONE
                 mainView.llActive.visibility = View.VISIBLE
                 if (apt.isArchived) {
+                    mainView.tvTimeLeft.visibility=View.GONE
                     mainView.btnCancel.visibility = View.GONE
                 } else {
                     mainView.btnCancel.visibility = View.VISIBLE

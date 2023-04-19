@@ -12,12 +12,12 @@ import tn.esprit.taktakandroid.adapters.SpRequestsAdapter
 import tn.esprit.taktakandroid.databinding.FragmentSpReqsBinding
 import tn.esprit.taktakandroid.repositories.RequestsRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
-import tn.esprit.taktakandroid.uis.sp.PendingBidsFragment
+import tn.esprit.taktakandroid.uis.sp.SPBidsFragment
 import tn.esprit.taktakandroid.utils.Resource
 
 class SPReqsFragment : BaseFragment() {
 
-    private val pendingBidsFragment = PendingBidsFragment()
+    private val myBidsFragment = SPBidsFragment()
     private lateinit var mainView: FragmentSpReqsBinding
     private lateinit var viewModel: AllRequestsViewModel
     private lateinit var spRequestsAdapter: SpRequestsAdapter
@@ -40,7 +40,7 @@ class SPReqsFragment : BaseFragment() {
 
 
         mainView.ivPending.setOnClickListener{
-            navigateToPendingBids()
+            navigateToMyBids()
         }
 
         setupRecyclerView()
@@ -137,9 +137,9 @@ class SPReqsFragment : BaseFragment() {
 
         }
     }
-    private fun navigateToPendingBids() {
+    private fun navigateToMyBids() {
         val transaction = activity?.supportFragmentManager?.beginTransaction()
-        transaction?.replace(R.id.fragment_container, pendingBidsFragment)
+        transaction?.replace(R.id.fragment_container, myBidsFragment)
         transaction?.addToBackStack(null)
         transaction?.commit()
     }

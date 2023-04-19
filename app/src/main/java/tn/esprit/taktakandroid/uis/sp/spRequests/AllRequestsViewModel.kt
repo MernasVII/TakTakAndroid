@@ -1,6 +1,5 @@
 package tn.esprit.taktakandroid.uis.sp.spRequests
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,19 +8,20 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.entities.Request
 import tn.esprit.taktakandroid.models.responses.AllReqResponse
-import tn.esprit.taktakandroid.models.responses.UserArchivedReqResponse
 import tn.esprit.taktakandroid.repositories.RequestsRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
-const val TAG="AllRequestsViewModel"
-class AllRequestsViewModel(private val requestsRepository: RequestsRepository
+
+const val TAG = "AllRequestsViewModel"
+
+class AllRequestsViewModel(
+    private val requestsRepository: RequestsRepository
 ) : ViewModel() {
 
-    private val _getAllRequestsResult= MutableLiveData<Resource<AllReqResponse>>()
+    private val _getAllRequestsResult = MutableLiveData<Resource<AllReqResponse>>()
     val allRequestsResult: LiveData<Resource<AllReqResponse>>
-            get() = _getAllRequestsResult
-
+        get() = _getAllRequestsResult
 
 
     private val _tempAllRequests = MutableLiveData<MutableList<Request>>()
@@ -31,14 +31,13 @@ class AllRequestsViewModel(private val requestsRepository: RequestsRepository
     val allRequests: LiveData<List<Request>> = _allRequests
 
 
-
     init {
         _tempAllRequests.value = mutableListOf()
         _allRequests.value = listOf()
     }
 
 
-      fun getAllRequests() = viewModelScope.launch {
+    fun getAllRequests() = viewModelScope.launch {
         try {
             _getAllRequestsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
@@ -59,16 +58,15 @@ class AllRequestsViewModel(private val requestsRepository: RequestsRepository
         return Resource.Error(response.message())
     }
 
-    fun filter(filtredVal:String){
+    fun filter(filtredVal: String) {
         _tempAllRequests.value?.clear()
-        val templst= mutableListOf<Request>()
-        if(!_allRequests.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
+        val templst = mutableListOf<Request>()
+        if (!_allRequests.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()) {
             _allRequests.value!!.forEach {
-                if(it.tos.contains(filtredVal, ignoreCase = true))  templst.add(it)
+                if (it.tos.contains(filtredVal, ignoreCase = true)) templst.add(it)
             }
             _tempAllRequests.postValue(templst)
-        }
-        else{
+        } else {
             _tempAllRequests.postValue(_allRequests.value?.toMutableList())
         }
     }
