@@ -42,18 +42,17 @@
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/spinkit_view"
-        android:padding="50dp"
-        android:backgroundTint="#66425968"
         style="@style/SpinKitView.Large.Circle"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        app:SpinKit_Color="@color/orangeToYellow"
-        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ll_title"/>
+        app:layout_constraintTop_toBottomOf="@+id/ll_title"
+        app:SpinKit_Color="@color/orangeToYellow"/>
+
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
