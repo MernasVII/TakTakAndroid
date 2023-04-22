@@ -58,24 +58,23 @@ class MyRequestsViewModel(private val requestsRepository: RequestsRepository
         }
     }
     fun deleteRequest(id:String) = viewModelScope.launch {
-       // try {
+        try {
+            _requests.postValue(listOf())
             _deleteReqResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             val response = requestsRepository.deleteRequest("Bearer $token", DeleteReqRequest(id))
             _deleteReqResult.postValue(handleDeleteResponse(response))
-       /* } catch (exception: Exception) {
+       } catch (exception: Exception) {
             _deleteReqResult.postValue(Resource.Error("Server connection failed!"))
-        }*/
+        }
     }
 
     private fun handleDeleteResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
-        if (response.isSuccessful) {
-
-                return Resource.Success(MessageResponse("Request deleted!"))
-
+        return if (response.isSuccessful) {
+            Resource.Success(MessageResponse("Request deleted!"))
+        } else{
+            Resource.Error("Cannot delete request!")
         }
-        val errorBody = JSONObject(response.errorBody()!!.string())
-        return Resource.Error(errorBody.getString("message"))
     }
     private fun handleGetResponse(response: Response<UserReqResponse>): Resource<UserReqResponse> {
         if (response.isSuccessful) {
@@ -83,6 +82,10 @@ class MyRequestsViewModel(private val requestsRepository: RequestsRepository
                 _requests.postValue(resultResponse.myRequests)
                 return Resource.Success(resultResponse)
             }
+        }
+        else{
+            _requests.postValue(listOf())
+            return Resource.Error(response.message())
         }
         return Resource.Error(response.message())
     }

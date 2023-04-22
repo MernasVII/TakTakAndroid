@@ -91,7 +91,7 @@ class CustomerReqsFragment : BaseFragment(), MyRequestTouchHelperListener {
             when (response) {
                 is Resource.Success -> {
                     progressBarVisibility(false, mainView.spinkitView)
-                    mainView.swipeRefreshLayout.isRefreshing = false
+
                     response.data?.let { myRequestsResponse ->
 
                         if (myRequestsResponse.myRequests.isNullOrEmpty()) {
@@ -100,7 +100,6 @@ class CustomerReqsFragment : BaseFragment(), MyRequestTouchHelperListener {
                             mainView.rvRequestsCustomer.visibility = View.GONE
                         } else {
                             customerRequestsAdapter.setdata(myRequestsResponse.myRequests.toMutableList())
-
                             mainView.tvInfo.visibility = View.GONE
                             mainView.rvRequestsCustomer.visibility = View.VISIBLE
                         }
@@ -108,7 +107,6 @@ class CustomerReqsFragment : BaseFragment(), MyRequestTouchHelperListener {
                 }
                 is Resource.Error -> {
                     progressBarVisibility(false, mainView.spinkitView)
-                    mainView.swipeRefreshLayout.isRefreshing = false
 
                     response.message?.let { message ->
                         showDialog(message)
@@ -129,7 +127,7 @@ class CustomerReqsFragment : BaseFragment(), MyRequestTouchHelperListener {
         viewModel.deleteReqResult.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
-                    //TODO  progressBarVisibility(false,mainView.spinkitView)
+                     progressBarVisibility(false,mainView.spinkitView)
                     response.data?.let { deleteResponse ->
                         viewModel.getMyRequests()
                         Toast.makeText(
@@ -140,7 +138,7 @@ class CustomerReqsFragment : BaseFragment(), MyRequestTouchHelperListener {
                     }
                 }
                 is Resource.Error -> {
-                    //TODO   progressBarVisibility(false,mainView.spinkitView)
+                    progressBarVisibility(false,mainView.spinkitView)
 
                     response.message?.let { message ->
                         showDialog(message)
@@ -148,7 +146,7 @@ class CustomerReqsFragment : BaseFragment(), MyRequestTouchHelperListener {
                     }
                 }
                 is Resource.Loading -> {
-                    //TODO   progressBarVisibility(true,mainView.spinkitView)
+                    progressBarVisibility(true,mainView.spinkitView)
 
                 }
             }
@@ -193,12 +191,10 @@ class CustomerReqsFragment : BaseFragment(), MyRequestTouchHelperListener {
         )
         mainView.swipeRefreshLayout.setOnRefreshListener {
             if (mainView.spinkitView.visibility != View.VISIBLE) {
+                mainView.swipeRefreshLayout.isRefreshing = false
                 mainView.searchView.clearFocus()
                 mainView.searchView.setQuery("", false)
                 viewModel.getMyRequests()
-            } else {
-                mainView.swipeRefreshLayout.isRefreshing = false
-
             }
 
         }

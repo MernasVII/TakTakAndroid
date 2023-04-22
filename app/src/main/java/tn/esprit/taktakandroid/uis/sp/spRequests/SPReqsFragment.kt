@@ -50,14 +50,13 @@ class SPReqsFragment : BaseFragment() {
             when(response){
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.spinkitView)
-                    mainView.swipeRefreshLayout.isRefreshing = false
-                    response.data?.let { allReqResponse ->
+                        response.data?.let { allReqResponse ->
 
-                        spRequestsAdapter.setdata(allReqResponse.allRequests.toMutableList())
                         if (allReqResponse.allRequests.isNullOrEmpty()) {
                             mainView.tvInfo.visibility=View.VISIBLE
                             mainView.rvAllRequests.visibility=View.GONE
                         }else{
+                            spRequestsAdapter.setdata(allReqResponse.allRequests.toMutableList())
                             mainView.tvInfo.visibility=View.GONE
                             mainView.rvAllRequests.visibility=View.VISIBLE
                         }
@@ -65,7 +64,6 @@ class SPReqsFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     progressBarVisibility(false,mainView.spinkitView)
-                    mainView.swipeRefreshLayout.isRefreshing = false
 
                     response.message?.let { message ->
                         showDialog(message)
@@ -80,6 +78,7 @@ class SPReqsFragment : BaseFragment() {
                 }
             }
         }
+
         mainView.searchView
             .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
@@ -127,13 +126,11 @@ class SPReqsFragment : BaseFragment() {
         )
         mainView.swipeRefreshLayout.setOnRefreshListener {
             if(mainView.spinkitView.visibility!=View.VISIBLE) {
+                mainView.swipeRefreshLayout.isRefreshing = false
+
                 mainView.searchView.clearFocus()
                 mainView.searchView.setQuery("",false)
                 viewModel.getAllRequests()
-            }
-            else{
-                mainView.swipeRefreshLayout.isRefreshing = false
-
             }
 
         }

@@ -39,6 +39,7 @@ class MyArchivedRequestsViewModel(private val requestsRepository: RequestsReposi
 
       fun getMyArchivedRequests() = viewModelScope.launch {
         try {
+            _requestsArchived.postValue(listOf())
             _getMyArchivedRequestsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             val response = requestsRepository.getMyArchivedRequests("Bearer $token")
@@ -54,6 +55,11 @@ class MyArchivedRequestsViewModel(private val requestsRepository: RequestsReposi
                 _requestsArchived.postValue(resultResponse.archivedRequests)
                 return Resource.Success(resultResponse)
             }
+        }
+        else{
+            _requestsArchived.postValue(listOf())
+            return Resource.Error(response.message())
+
         }
         return Resource.Error(response.message())
     }
