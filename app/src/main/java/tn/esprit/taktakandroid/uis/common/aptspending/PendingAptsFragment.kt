@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -79,6 +80,37 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
 
         swipeLayoutSetup()
         observeViewModel()
+        handleDeleteRequestResult()
+    }
+
+    private fun handleDeleteRequestResult() {
+        pendingAptsViewModel.putAptRes.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    //TODO  progressBarVisibility(false,mainView.spinkitView)
+                    response.data?.let { deleteResponse ->
+                        pendingAptsViewModel.getPendingAptsList()
+                        Toast.makeText(
+                            requireContext(),
+                            "${deleteResponse.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                is Resource.Error -> {
+                    //TODO   progressBarVisibility(false,mainView.spinkitView)
+
+                    response.message?.let { message ->
+                        showDialog(message)
+
+                    }
+                }
+                is Resource.Loading -> {
+                    //TODO   progressBarVisibility(true,mainView.spinkitView)
+
+                }
+            }
+        }
     }
 
     private fun observeTemp() {
@@ -106,11 +138,11 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
                     progressBarVisibility(false, mainView.spinkitView)
                     mainView.swipeRefreshLayout.isRefreshing = false
                     response.data?.let { aptsResponse ->
-                        aptAdapter.setdata(aptsResponse.appointments.toMutableList())
                         if (aptsResponse.appointments.isNullOrEmpty()) {
                             mainView.tvInfo.visibility = View.VISIBLE
                             mainView.rvApts.visibility = View.GONE
                         } else {
+                            aptAdapter.setdata(aptsResponse.appointments.toMutableList())
                             mainView.tvInfo.visibility = View.GONE
                             mainView.rvApts.visibility = View.VISIBLE
                         }
@@ -137,7 +169,7 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
     private fun setupRecyclerView(cin: String?) {
         val viewModelScope =
             CoroutineScope(aptsViewModel.viewModelScope.coroutineContext + Dispatchers.Main)
-        aptAdapter = AptsListAdapter(cin, parentFragmentManager, mutableListOf(), viewModelScope, aptsViewModel)
+        aptAdapter = AptsListAdapter(cin, parentFragmentManager, mutableListOf(), viewModelScope, aptsViewModel,viewLifecycleOwner,pendingAptsViewModel)
         mainView.rvApts.apply {
             adapter = aptAdapter
             adapter = aptAdapter
@@ -175,11 +207,11 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
             )
         )
         mainView.swipeRefreshLayout.setOnRefreshListener {
+            mainView.swipeRefreshLayout.isRefreshing = false
             if (mainView.spinkitView.visibility != View.VISIBLE) {
+                mainView.searchView.clearFocus()
+                mainView.searchView.setQuery("", false)
                 pendingAptsViewModel.getPendingAptsList()
-            } else {
-                mainView.swipeRefreshLayout.isRefreshing = false
-
             }
 
         }

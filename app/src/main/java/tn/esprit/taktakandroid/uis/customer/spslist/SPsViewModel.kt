@@ -37,6 +37,7 @@ class SPsViewModel(private val userRepository: UserRepository
 
     fun getSPsList() = viewModelScope.launch {
         try {
+            _sps.postValue(listOf())
             _getSPsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             val response = userRepository.getSPsList("Bearer $token")
@@ -52,12 +53,14 @@ class SPsViewModel(private val userRepository: UserRepository
                 _sps.postValue(resultResponse.users)
                 return Resource.Success(resultResponse)
             }
+        }else{
+            _sps.postValue(listOf())
         }
         return Resource.Error(response.message())
     }
 
     fun filter(filtredVal:String){
-        _tempSPs.value!!.clear()
+        _tempSPs.value?.clear()
         val templst= mutableListOf<User>()
         if(!_sps.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
             _sps.value!!.forEach {
@@ -66,7 +69,7 @@ class SPsViewModel(private val userRepository: UserRepository
             _tempSPs.postValue(templst)
         }
         else{
-            _tempSPs.postValue(_sps.value!!.toMutableList())
+            _tempSPs.postValue(_sps.value?.toMutableList())
         }
     }
 

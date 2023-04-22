@@ -7,10 +7,16 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import tn.esprit.taktakandroid.databinding.SheetFragmentQrCodeBinding
+import tn.esprit.taktakandroid.models.entities.Appointment
+import tn.esprit.taktakandroid.repositories.PaymentRepository
+import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModel
+import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModelFactory
+import tn.esprit.taktakandroid.utils.Resource
 
 
 class QRCodeSheet : BottomSheetDialogFragment() {
@@ -23,9 +29,14 @@ class QRCodeSheet : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         mainView = SheetFragmentQrCodeBinding.inflate(layoutInflater, container, false)
-        val aptKey = arguments?.getString("aptKey")
+        val payUrl = arguments?.getString("payUrl")
 
-        generateQrCode("content")
+        mainView.tvSend.setOnClickListener{
+            //TODO send link by email
+        }
+
+        //get string and pass to function
+        generateQrCode(payUrl!!)
         return mainView.root
     }
 

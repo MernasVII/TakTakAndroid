@@ -7,7 +7,6 @@ data class Bid (
     val isAccepted: Boolean,
     val isDeclined: Boolean,
     val sp: User,
-    val customer: User,
     val price: Float,
     val request: Request
 ) : Serializable

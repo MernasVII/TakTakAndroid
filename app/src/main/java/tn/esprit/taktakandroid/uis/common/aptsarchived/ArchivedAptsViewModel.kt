@@ -38,6 +38,7 @@ class ArchivedAptsViewModel  (private val aptRepository: AptRepository
 
     fun getArchivedAptsList() = viewModelScope.launch {
         try {
+            _apts.postValue(listOf())
             _getAptsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             cin = AppDataStore.readString(Constants.CIN)
@@ -58,12 +59,14 @@ class ArchivedAptsViewModel  (private val aptRepository: AptRepository
                 _apts.postValue(resultResponse.appointments)
                 return Resource.Success(resultResponse)
             }
+        }else{
+            _apts.postValue(listOf())
         }
         return Resource.Error(response.message())
     }
 
     fun filter(filtredVal:String,cin:String){
-        _tempApts.value!!.clear()
+        _tempApts.value?.clear()
         val templst= mutableListOf<Appointment>()
         if(!_apts.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
             _apts.value!!.forEach {
@@ -78,7 +81,7 @@ class ArchivedAptsViewModel  (private val aptRepository: AptRepository
             _tempApts.postValue(templst)
         }
         else{
-            _tempApts.postValue(_apts.value!!.toMutableList())
+            _tempApts.postValue(_apts.value?.toMutableList())
         }
     }
 

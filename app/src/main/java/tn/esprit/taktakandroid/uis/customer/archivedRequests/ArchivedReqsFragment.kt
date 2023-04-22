@@ -47,13 +47,16 @@ class ArchivedReqsFragment : BaseFragment() {
             when(response){
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.spinkitView)
-                        response.data?.let { myRequestsResponse ->
+
+                    mainView.swipeRefreshLayout.isRefreshing = false
+                    response.data?.let { myRequestsResponse ->
 
                         if (myRequestsResponse.archivedRequests.isNullOrEmpty()) {
                             mainView.tvInfo.visibility=View.VISIBLE
                             mainView.rvArchivedRequests.visibility=View.GONE
                         }else{
                             customerRequestsAdapter.setdata(myRequestsResponse.archivedRequests.toMutableList())
+
                             mainView.tvInfo.visibility=View.GONE
                             mainView.rvArchivedRequests.visibility=View.VISIBLE
                         }

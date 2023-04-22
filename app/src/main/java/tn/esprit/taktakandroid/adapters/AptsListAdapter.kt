@@ -1,5 +1,6 @@
 package tn.esprit.taktakandroid.adapters
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +8,10 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
@@ -21,8 +24,10 @@ import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.uis.common.AptDetailsFragment
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
+import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModel
 import tn.esprit.taktakandroid.uis.sp.sheets.PostponeAptSheet
 import tn.esprit.taktakandroid.utils.Constants
+import tn.esprit.taktakandroid.utils.Resource
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,7 +37,9 @@ class AptsListAdapter(
     var apts: MutableList<Appointment>,
     private val adapterScope: CoroutineScope? = null,
     private val viewModel: AptsViewModel? = null,
-) : RecyclerView.Adapter<AptsListAdapter.AptViewHolder>() {
+    private val owner: LifecycleOwner? = null,
+    private val pendingViewModel: PendingAptsViewModel? = null,
+    ) : RecyclerView.Adapter<AptsListAdapter.AptViewHolder>() {
 
     inner class AptViewHolder(mainView: ItemAptBinding): RecyclerView.ViewHolder(mainView.root)
 
@@ -63,9 +70,9 @@ class AptsListAdapter(
         var user:User
         holder.itemView.apply {
             user = if(cin.isNullOrEmpty()){
-                apt.sp
+                apt.sp!!
             }else{
-                apt.customer
+                apt.customer!!
             }
             manageViewsVisibility(apt,holder.itemView)
             Glide.with(this).load(Constants.IMG_URL +user.pic).into(holder.itemView.findViewById<CircleImageView>(R.id.iv_pic))
@@ -84,12 +91,76 @@ class AptsListAdapter(
                     val idBodyRequest= apt._id?.let { it1 -> IdBodyRequest(it1) }
                     if (idBodyRequest != null) {
                         viewModel?.cancelApt(idBodyRequest)
+                        if(apt.isAccepted){
+                            handleCancelRequestResult(holder.itemView.context)
+                        }else{
+                            handleCancelPspRequestResult(holder.itemView.context)
+                        }
                     }
                 }
             }
 
             setOnClickListener {
                 navigateToAptDetails(apt)
+            }
+        }
+    }
+
+    private fun handleCancelPspRequestResult(context: Context) {
+        viewModel?.putAptRes?.observe(owner!!) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    //TODO  progressBarVisibility(false,mainView.spinkitView)
+                    response.data?.let { response ->
+                        pendingViewModel?.getPendingAptsList()
+                        Toast.makeText(
+                            context,
+                            "${response.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                is Resource.Error -> {
+                    //TODO   progressBarVisibility(false,mainView.spinkitView)
+                    response.message?.let { message ->
+                        //showDialog(message)
+
+                    }
+                }
+                is Resource.Loading -> {
+                    //TODO   progressBarVisibility(true,mainView.spinkitView)
+
+                }
+            }
+        }
+    }
+
+    private fun handleCancelRequestResult(context: Context) {
+        viewModel?.putAptRes?.observe(owner!!) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    //TODO  progressBarVisibility(false,mainView.spinkitView)
+                    response.data?.let { response ->
+                        viewModel.getAptsList()
+                        Toast.makeText(
+                            context,
+                            "${response.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                is Resource.Error -> {
+                    //TODO   progressBarVisibility(false,mainView.spinkitView)
+
+                    response.message?.let { message ->
+                        //showDialog(message)
+
+                    }
+                }
+                is Resource.Loading -> {
+                    //TODO   progressBarVisibility(true,mainView.spinkitView)
+
+                }
             }
         }
     }
@@ -109,10 +180,18 @@ class AptsListAdapter(
         }
         if(cin.isNullOrEmpty()){
             itemView.findViewById<Button>(R.id.btn_postpone).visibility=View.GONE
-            itemView.findViewById<Button>(R.id.btn_cancel).visibility=View.VISIBLE
+            if(apt.state!=0){
+                itemView.findViewById<Button>(R.id.btn_cancel).visibility=View.GONE
+            }else{
+                itemView.findViewById<Button>(R.id.btn_cancel).visibility=View.VISIBLE
+            }
         }else{
             if(apt.isAccepted){
-                itemView.findViewById<Button>(R.id.btn_postpone).visibility=View.VISIBLE
+                if(apt.state!=0){
+                    itemView.findViewById<Button>(R.id.btn_postpone).visibility=View.GONE
+                }else{
+                    itemView.findViewById<Button>(R.id.btn_postpone).visibility=View.VISIBLE
+                }
             }else{
                 itemView.findViewById<Button>(R.id.btn_postpone).visibility=View.GONE
             }

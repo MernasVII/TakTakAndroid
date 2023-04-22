@@ -2,6 +2,7 @@ package tn.esprit.taktakandroid.uis.common.login
 
 import android.app.Application
 import android.content.Intent
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.lifecycle.*
@@ -138,6 +139,9 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
             val email = account.email
             val firstName = account.givenName
             val lastname = account.familyName
+            val pic=account.photoUrl
+            Log.d(TAG, "handleGoogleSignInResult: $pic")
+            //TODO save pic url
             val signUpRequest = SignUpRequest(firstname = firstName!!,lastname =lastname!!,email =email!!)
             try {
                 _loginResult.postValue(Resource.Loading())

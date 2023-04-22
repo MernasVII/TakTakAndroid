@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -29,6 +30,7 @@ import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.SheetBaseFragment
 import tn.esprit.taktakandroid.uis.common.mapView.MapActivity
+import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileFragment
 import tn.esprit.taktakandroid.utils.Resource
 
 
@@ -62,6 +64,7 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
         mainView.btnSaveChanges.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.updateProfile()
+                requireActivity().findViewById<ImageView>(R.id.iv_errorAddress).visibility=View.GONE
             }
         }
 
@@ -105,6 +108,7 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
                             getString(R.string.profile_updated),
                             Toast.LENGTH_SHORT
                         ).show()
+                        fetchProfile()
                         dismiss()
                     }
                 }
@@ -119,6 +123,14 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
                 }
             }
         })
+    }
+
+    private fun fetchProfile() {
+        // Reload the profile fragment
+        val profileFragment = UserProfileFragment()
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, profileFragment)
+            .commit()
     }
 
     private fun setData() {

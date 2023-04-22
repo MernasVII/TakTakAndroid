@@ -25,7 +25,7 @@ class UserProfileViewModel(private val userRepository: UserRepository
         getUserProfile()
     }
 
-    private fun getUserProfile() = viewModelScope.launch {
+    fun getUserProfile() = viewModelScope.launch {
         try {
             userProfileRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)

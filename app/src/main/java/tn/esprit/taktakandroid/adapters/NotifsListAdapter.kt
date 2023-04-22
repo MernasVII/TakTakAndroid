@@ -26,18 +26,6 @@ class NotifsListAdapter (private val fragmentManager: FragmentManager,
 
     inner class NotifViewHolder(mainView: ItemNotifBinding): RecyclerView.ViewHolder(mainView.root)
 
-    /*private val differCallback=object : DiffUtil.ItemCallback<Notification>(){
-        override fun areItemsTheSame(oldItem: Notification, newItem: Notification): Boolean {
-            return oldItem._id==newItem._id
-        }
-
-        override fun areContentsTheSame(oldItem: Notification, newItem: Notification): Boolean {
-            return oldItem==newItem
-        }
-    }
-
-    val  differ= AsyncListDiffer(this,differCallback)*/
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotifViewHolder {
         val mainView = ItemNotifBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -87,6 +75,8 @@ class NotifsListAdapter (private val fragmentManager: FragmentManager,
                 addToBackStack(null)
                 commit()
             }
+        }else if(bid!=null){
+            //TODO find newly created apt by date and sp and navigate to it
         }
     }
 

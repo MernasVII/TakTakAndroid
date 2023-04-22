@@ -13,8 +13,6 @@ import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.databinding.SheetFragmentAptPriceBinding
 import tn.esprit.taktakandroid.models.requests.AcceptAptRequest
 import tn.esprit.taktakandroid.repositories.AptRepository
-import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
-import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
 import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModel
 import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModelFactory
 
@@ -38,7 +36,6 @@ class AptPriceSheet : BottomSheetDialogFragment() {
             lifecycleScope.launch {
                 pendingAptsViewModel.acceptApt(AcceptAptRequest(aptId!!,mainView.etBalance.text.toString().toFloat()))
             }
-            dismiss()
         }
 
         return mainView.root

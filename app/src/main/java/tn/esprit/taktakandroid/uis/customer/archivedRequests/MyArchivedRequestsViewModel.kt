@@ -65,7 +65,7 @@ class MyArchivedRequestsViewModel(private val requestsRepository: RequestsReposi
     }
 
     fun filter(filtredVal:String){
-        _tempArchivedRequests.value!!.clear()
+        _tempArchivedRequests.value?.clear()
         val templst= mutableListOf<Request>()
         if(!_requestsArchived.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
             _requestsArchived.value!!.forEach {
@@ -74,7 +74,7 @@ class MyArchivedRequestsViewModel(private val requestsRepository: RequestsReposi
             _tempArchivedRequests.postValue(templst)
         }
         else{
-            _tempArchivedRequests.postValue(_requestsArchived.value!!.toMutableList())
+            _tempArchivedRequests.postValue(_requestsArchived.value?.toMutableList())
         }
     }
 

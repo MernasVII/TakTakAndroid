@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tn.esprit.taktakandroid.uis.common.sheets.editprofile.EditProfileSheet
 import tn.esprit.miniprojetinterfaces.Sheets.SettingsSheet
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.uis.common.sheets.updatepwd.UpdatePasswordSheet
 import tn.esprit.taktakandroid.databinding.FragmentUserProfileBinding
 import tn.esprit.taktakandroid.databinding.LayoutDialogYesNoBinding
@@ -57,7 +58,7 @@ class UserProfileFragment : BaseFragment() {
     ): View? {
         mainView = FragmentUserProfileBinding.inflate(layoutInflater)
         val userRepository = UserRepository()
-        viewModel = ViewModelProvider(this, UserProfileViewModelFactory(userRepository)).get(UserProfileViewModel::class.java)
+        viewModel = ViewModelProvider(this, UserProfileViewModelFactory(userRepository))[UserProfileViewModel::class.java]
 
         //logout
         mainView.ivLogout.setOnClickListener {
@@ -81,6 +82,7 @@ class UserProfileFragment : BaseFragment() {
             }
         }
 
+        swipeLayoutSetup()
         //get user from request getProfile
         getUser()
 
@@ -123,6 +125,7 @@ class UserProfileFragment : BaseFragment() {
             when (response) {
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.spinkitView)
+                    mainView.swipeRefreshLayout.isRefreshing = false
                     mainView.scrollView.visibility=View.VISIBLE
                     response.data?.let { userProfileResponse ->
                         mainView.tvFullname.visibility=View.VISIBLE
@@ -136,7 +139,14 @@ class UserProfileFragment : BaseFragment() {
                         user = userProfileResponse.user
                         //set username and address
                         mainView.tvFullname.text = user.firstname + " " + user.lastname
-                        mainView.tvAddress.text = user.address
+                        //check and set address
+                        if(user.address.isNullOrEmpty()){
+                            mainView.tvAddress.text = "-"
+                            mainView.ivError.visibility=View.VISIBLE
+                        }else{
+                            mainView.tvAddress.text = user.address
+                            mainView.ivError.visibility=View.GONE
+                        }
                         if(user.cin?.isEmpty() == true){
                             mainView.flWork.visibility=View.GONE
                         }
@@ -145,6 +155,7 @@ class UserProfileFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     progressBarVisibility(false,mainView.spinkitView)
+                    mainView.swipeRefreshLayout.isRefreshing = false
                     mainView.scrollView.visibility=View.VISIBLE
                     response.message?.let { message ->
                         showDialog(message)
@@ -226,4 +237,28 @@ class UserProfileFragment : BaseFragment() {
         dialog.show()
         dialog.setCanceledOnTouchOutside(false)
     }
+    fun swipeLayoutSetup() {
+        mainView.swipeRefreshLayout.setColorSchemeColors(
+            resources.getColor(
+                R.color.orangeToBG,
+                null
+            )
+        )
+        mainView.swipeRefreshLayout.setOnRefreshListener {
+            if(mainView.spinkitView.visibility!=View.VISIBLE) {
+                viewModel.getUserProfile()
+            }
+            else{
+                mainView.swipeRefreshLayout.isRefreshing = false
+
+            }
+
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getUserProfile()
+    }
+
 }

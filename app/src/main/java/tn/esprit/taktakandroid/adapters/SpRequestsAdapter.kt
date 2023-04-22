@@ -2,19 +2,19 @@ package tn.esprit.taktakandroid.adapters
 
 import android.os.Bundle
 import android.util.Log
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import de.hdodenhof.circleimageview.CircleImageView
 import tn.esprit.miniprojetinterfaces.Sheets.RequestDetailsSheet
+
 import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.databinding.ItemReqCustomerBinding
 import tn.esprit.taktakandroid.databinding.ItemReqSpBinding
 import tn.esprit.taktakandroid.models.entities.Request
+import tn.esprit.taktakandroid.uis.common.RequestDetailsFragment
 import tn.esprit.taktakandroid.utils.Constants
 import java.text.SimpleDateFormat
 import java.util.*
@@ -43,16 +43,25 @@ class SpRequestsAdapter (private val fragmentManager: FragmentManager,private va
         holder.mainView.tvTimeLoc.text="${parseDate(request.date)} in ${request.location}"
         holder.mainView.tvTos.text="${request.tos}"
         holder.mainView.root.setOnClickListener {
-            showRequestDetails(request)
+
+               navigateToReqDetails(request)
+
 
         }
 
     }
 
-   private fun showRequestDetails(request: Request) {
-        val requestDetailsSheet = RequestDetailsSheet(request)
-       requestDetailsSheet.show(fragmentManager, "")
-
+  private fun navigateToReqDetails(request: Request) {
+        val bundle = Bundle().apply {
+            putParcelable("request", request)
+        }
+        val requestDetailsFragment = RequestDetailsFragment()
+        requestDetailsFragment.arguments = bundle
+        fragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, requestDetailsFragment)
+            addToBackStack(null)
+            commit()
+        }
     }
     private fun parseDate(date:String):String{
       val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)

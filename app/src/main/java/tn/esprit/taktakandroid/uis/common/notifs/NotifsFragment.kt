@@ -84,11 +84,11 @@ class NotifsFragment : BaseFragment() {
                     progressBarVisibility(false, mainView.spinkitView)
                     mainView.swipeRefreshLayout.isRefreshing = false
                     response.data?.let { notifsResponse ->
-                        notifAdapter.setdata(notifsResponse.notifs.toMutableList())
                         if (notifsResponse.notifs.isNullOrEmpty()) {
                             mainView.tvInfo.visibility = View.VISIBLE
                             mainView.rvNotifs.visibility = View.GONE
                         } else {
+                            notifAdapter.setdata(notifsResponse.notifs.toMutableList())
                             mainView.tvInfo.visibility = View.GONE
                             mainView.rvNotifs.visibility = View.VISIBLE
                         }
@@ -131,11 +131,10 @@ class NotifsFragment : BaseFragment() {
         )
         mainView.swipeRefreshLayout.setOnRefreshListener {
             if(mainView.spinkitView.visibility!=View.VISIBLE) {
-                viewModel.getNotifsList()
-            }
-            else{
                 mainView.swipeRefreshLayout.isRefreshing = false
-
+                mainView.searchView.clearFocus()
+                mainView.searchView.setQuery("", false)
+                viewModel.getNotifsList()
             }
 
         }

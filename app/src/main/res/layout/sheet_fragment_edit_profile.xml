@@ -158,9 +158,11 @@
         app:startIconTint="@color/BGToLB">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_Address"
+            android:id="@+id/et_address"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusable="false"
+            android:clickable="true"
             android:autoSizeTextType="uniform"
             android:fontFamily="@font/poppins_medium"
             android:hint="@string/address"

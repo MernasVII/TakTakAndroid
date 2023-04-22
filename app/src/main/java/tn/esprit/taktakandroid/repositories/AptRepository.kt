@@ -29,6 +29,10 @@ class AptRepository {
     suspend fun cancelApt(token:String,idBodyRequest: IdBodyRequest)=
         RetrofitInstance.aptApi.cancelApt(token,idBodyRequest)
 
+    //BOOK APT
+    suspend fun bookApt(token:String,bookAptRequest: BookAptRequest)=
+        RetrofitInstance.aptApi.bookApt(token,bookAptRequest)
+
     /**************** AS A SERVICE PROVIDER ****************/
     //GET ALL RECEIVED
     suspend fun getAllReceivedApts(token:String)=
@@ -65,8 +69,4 @@ class AptRepository {
     //UPDATE APT STATE
     suspend fun updateAptState(token:String,updateAptStateRequest: UpdateAptStateRequest)=
         RetrofitInstance.aptApi.updateAptState(token,updateAptStateRequest)
-
-    //BOOK APT
-    suspend fun bookApt(token:String,bookAptRequest: BookAptRequest)=
-        RetrofitInstance.aptApi.bookApt(token,bookAptRequest)
 }

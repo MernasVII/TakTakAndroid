@@ -111,11 +111,11 @@ class AptsFragment : BaseFragment() {
                     progressBarVisibility(false, mainView.spinkitView)
                     mainView.swipeRefreshLayout.isRefreshing = false
                     response.data?.let { aptsResponse ->
-                        aptAdapter.setdata(aptsResponse.appointments.toMutableList())
                         if (aptsResponse.appointments.isNullOrEmpty()) {
                             mainView.tvInfo.visibility = View.VISIBLE
                             mainView.rvApts.visibility = View.GONE
                         } else {
+                            aptAdapter.setdata(aptsResponse.appointments.toMutableList())
                             mainView.tvInfo.visibility = View.GONE
                             mainView.rvApts.visibility = View.VISIBLE
                         }
@@ -141,7 +141,7 @@ class AptsFragment : BaseFragment() {
 
     private fun setupRecyclerView(cin: String?) {
         val viewModelScope = CoroutineScope(viewModel.viewModelScope.coroutineContext + Dispatchers.Main)
-        aptAdapter = AptsListAdapter(cin, parentFragmentManager,mutableListOf(), viewModelScope,viewModel)
+        aptAdapter = AptsListAdapter(cin, parentFragmentManager,mutableListOf(), viewModelScope,viewModel,viewLifecycleOwner)
         mainView.rvApts.apply {
             adapter = aptAdapter
             layoutManager = LinearLayoutManager(activity)
@@ -173,11 +173,10 @@ class AptsFragment : BaseFragment() {
         )
         mainView.swipeRefreshLayout.setOnRefreshListener {
             if(mainView.spinkitView.visibility!=View.VISIBLE) {
-                viewModel.getAptsList()
-            }
-            else{
                 mainView.swipeRefreshLayout.isRefreshing = false
-
+                mainView.searchView.clearFocus()
+                mainView.searchView.setQuery("", false)
+                viewModel.getAptsList()
             }
 
         }
