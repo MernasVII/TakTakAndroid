@@ -40,7 +40,7 @@ import kotlin.time.Duration.Companion.seconds
 
 const val TAG ="AddRequestFragment"
 class AddRequestFragment : BaseFragment() {
-
+//TODO fix the ui ( the same as book apt)
     private lateinit var mainView: FragmentAddRequestBinding
     private lateinit var viewModel: AddRequestViewModel
 

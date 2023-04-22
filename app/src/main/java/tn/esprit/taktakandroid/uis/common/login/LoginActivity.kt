@@ -20,6 +20,7 @@ import tn.esprit.taktakandroid.uis.common.registerOne.RegisterOneActivity
 import tn.esprit.taktakandroid.uis.common.sheets.TermsAndConditionsSheet
 
 import tn.esprit.taktakandroid.utils.Resource
+import tn.esprit.taktakandroid.utils.SocketService
 
 
 const val TAG = "LoginActivity"
@@ -87,7 +88,7 @@ class LoginActivity : BaseActivity() {
             startActivityResult.launch(viewModel.googleSignIn())
         }
         mainView.tvTermsConditions.setOnClickListener {
-            displaySheet(TermsAndConditionsSheet())
+           displaySheet(TermsAndConditionsSheet())
         }
 
 
