@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whiteToBG"
-    tools:context=".uis.customer.CustomerBidsFragment">
+    tools:context=".uis.customer.bids.CustomerBidsFragment">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/ll_title"

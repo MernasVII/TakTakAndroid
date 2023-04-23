@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/whiteToBG"
-    tools:context=".uis.sp.SPBidsFragment">
+    tools:context=".uis.sp.bids.SPBidsFragment">
 
     <TextView
         android:id="@+id/tv_title"

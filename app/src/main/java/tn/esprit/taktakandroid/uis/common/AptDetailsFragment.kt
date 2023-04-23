@@ -172,13 +172,13 @@ class AptDetailsFragment : BaseFragment() {
 
 
     private fun setData(apt: Appointment) {
-        setTimeLeft(apt)
         mainView.tvDatetime.text = getTime(apt.date)
         mainView.tvLocation.text = apt.location
         mainView.tvTos.text = apt.tos
         mainView.tvDesc.text = apt.desc
         lifecycleScope.launch {
             val cin = AppDataStore.readString(Constants.CIN)
+            setTimeLeft(apt,cin)
             manageViewsVisibiltiy(apt, cin)
             val user: User
             if (cin.isNullOrEmpty()) {
@@ -199,7 +199,7 @@ class AptDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun setTimeLeft(apt: Appointment) {
+    private fun setTimeLeft(apt: Appointment, cin: String?) {
         var timeLeftMs = calculateTimeLeft(apt.date)
         if (timeLeftMs!! > 0) {
             mainView.tvTimeLeft.visibility = View.VISIBLE
@@ -213,9 +213,10 @@ class AptDetailsFragment : BaseFragment() {
 
                 // when the time is up
                 override fun onFinish() {
-                    mainView.tvTimeLeft.visibility = View.GONE
-                    mainView.btnPostpone.visibility = View.GONE
-                    mainView.btnState.visibility = View.VISIBLE
+                    mainView.llActive.visibility = View.GONE
+                    if (!cin.isNullOrEmpty()) {
+                        mainView.btnState.visibility = View.VISIBLE
+                    }
                 }
             }.start()
         } else {
@@ -263,7 +264,7 @@ class AptDetailsFragment : BaseFragment() {
                 if (apt.isArchived) {
                     mainView.llActive.visibility = View.GONE
                 } else if (apt.isAccepted) {
-                    mainView.tvTimeLeft.visibility=View.GONE
+                    mainView.tvTimeLeft.visibility=View.VISIBLE
                     mainView.llActive.visibility = View.VISIBLE
                     mainView.btnPostpone.visibility = View.VISIBLE
                     mainView.llPendingSp.visibility = View.GONE

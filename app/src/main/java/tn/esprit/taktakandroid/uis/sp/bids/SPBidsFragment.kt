@@ -1,25 +1,29 @@
-package tn.esprit.taktakandroid.uis.sp
+package tn.esprit.taktakandroid.uis.sp.bids
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.adapters.BidsSPAdapter
 import tn.esprit.taktakandroid.databinding.FragmentSpBidsBinding
+import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.repositories.BidRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
+import tn.esprit.taktakandroid.uis.common.aptspending.AptItemTouchHelperCallback
 import tn.esprit.taktakandroid.uis.common.bid.BidViewModel
 import tn.esprit.taktakandroid.uis.common.bid.BidViewModelFactory
 import tn.esprit.taktakandroid.utils.Resource
 
-class SPBidsFragment : BaseFragment() {
+class SPBidsFragment : BaseFragment(), BidSPItemTouchHelperListener {
     val TAG="SPBidsFragment"
 
     lateinit var viewModel: BidViewModel
@@ -59,6 +63,37 @@ class SPBidsFragment : BaseFragment() {
         }
         swipeLayoutSetup()
         observeViewModel()
+        handleDeleteBidResult()
+    }
+
+    private fun handleDeleteBidResult() {
+        viewModel.putBidRes.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    //TODO  progressBarVisibility(false,mainView.spinkitView)
+                    response.data?.let { putResponse ->
+                        viewModel.getSentBidsList()
+                        Toast.makeText(
+                            requireContext(),
+                            "${putResponse.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                is Resource.Error -> {
+                    //TODO   progressBarVisibility(false,mainView.spinkitView)
+
+                    response.message?.let { message ->
+                        showDialog(message)
+
+                    }
+                }
+                is Resource.Loading -> {
+                    //TODO   progressBarVisibility(true,mainView.spinkitView)
+
+                }
+            }
+        }
     }
 
     private fun observeTemp() {
@@ -118,6 +153,13 @@ class SPBidsFragment : BaseFragment() {
         mainView.rvBidsSP.apply {
             adapter = bidAdapter
             layoutManager = LinearLayoutManager(activity)
+            val itemTouchHelperCallback = BidSPItemTouchHelperCallback(
+                requireContext(),
+                bidAdapter,
+                this@SPBidsFragment
+            )
+            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+            itemTouchHelper.attachToRecyclerView(this)
         }
     }
 
@@ -142,5 +184,9 @@ class SPBidsFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getSentBidsList()
+    }
+
+    override fun onBidSPSwiped(bidId: String) {
+        viewModel.deleteBid(IdBodyRequest(bidId))
     }
 }

@@ -1,30 +1,30 @@
-package tn.esprit.taktakandroid.uis.customer
+package tn.esprit.taktakandroid.uis.customer.bids
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.adapters.BidsCustomerAdapter
 import tn.esprit.taktakandroid.databinding.FragmentCustomerBidsBinding
 import tn.esprit.taktakandroid.models.entities.Request
-import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.repositories.BidRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
 import tn.esprit.taktakandroid.uis.common.RequestDetailsFragment
-import tn.esprit.taktakandroid.uis.common.aptsarchived.ArchivedAptsFragment
 import tn.esprit.taktakandroid.uis.common.bid.BidViewModel
 import tn.esprit.taktakandroid.uis.common.bid.BidViewModelFactory
 import tn.esprit.taktakandroid.utils.Resource
 
-class CustomerBidsFragment : BaseFragment() {
+class CustomerBidsFragment : BaseFragment(), BidCustomerItemTouchHelperListener {
     val TAG="CustomerBidsFragment"
 
     lateinit var viewModel: BidViewModel
@@ -85,6 +85,37 @@ class CustomerBidsFragment : BaseFragment() {
         }
         swipeLayoutSetup()
         observeViewModel()
+        handlePutBidResult()
+    }
+
+    private fun handlePutBidResult() {
+        viewModel.putBidRes.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    //TODO  progressBarVisibility(false,mainView.spinkitView)
+                    response.data?.let { putResponse ->
+                        viewModel.getReceivedBidsList(IdBodyRequest(request._id))
+                        Toast.makeText(
+                            requireContext(),
+                            "${putResponse.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                is Resource.Error -> {
+                    //TODO   progressBarVisibility(false,mainView.spinkitView)
+
+                    response.message?.let { message ->
+                        showDialog(message)
+
+                    }
+                }
+                is Resource.Loading -> {
+                    //TODO   progressBarVisibility(true,mainView.spinkitView)
+
+                }
+            }
+        }
     }
 
     private fun observeTemp() {
@@ -144,6 +175,13 @@ class CustomerBidsFragment : BaseFragment() {
         mainView.rvBidsCustomer.apply {
             adapter = bidAdapter
             layoutManager = LinearLayoutManager(activity)
+            val itemTouchHelperCallback = BidCustomerItemTouchHelperCallback(
+                requireContext(),
+                bidAdapter,
+                this@CustomerBidsFragment
+            )
+            val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
+            itemTouchHelper.attachToRecyclerView(this)
         }
     }
 
@@ -168,5 +206,13 @@ class CustomerBidsFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         viewModel.getReceivedBidsList(IdBodyRequest(request._id))
+    }
+
+    override fun onBidPendingSwipedLeft(bidId: String) {
+        viewModel.declineBid(IdBodyRequest(bidId))
+    }
+
+    override fun onBidPendingSwipedRight(bidId: String) {
+        viewModel.acceptBid(IdBodyRequest(bidId))
     }
 }

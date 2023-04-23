@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.entities.Bid
+import tn.esprit.taktakandroid.models.requests.AcceptAptRequest
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.MakeBidRequest
 import tn.esprit.taktakandroid.models.responses.MessageResponse
@@ -24,6 +25,10 @@ class BidViewModel(private val bidRepository: BidRepository
     private val TAG:String="BidViewModel"
 
     val makeBidRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+
+    private val _putBidRes= MutableLiveData<Resource<MessageResponse>>()
+    val putBidRes: LiveData<Resource<MessageResponse>>
+        get() = _putBidRes
 
     private val _getSentBidsResult= MutableLiveData<Resource<SentBidsResponse>>()
     val sentBidsRes: LiveData<Resource<SentBidsResponse>>
@@ -88,6 +93,52 @@ class BidViewModel(private val bidRepository: BidRepository
         } catch (e: Exception) {
             makeBidRes.postValue(Resource.Error("Server connection failed!"))
         }
+    }
+
+    fun deleteBid(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
+        try {
+            _putBidRes.postValue(Resource.Loading())
+            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+            val response = bidRepository.deleteBid("Bearer $token", idBodyRequest)
+            _putBidRes.postValue(handleResponse("Bid deleted!",response))
+        } catch (e: Exception) {
+            _putBidRes.postValue(Resource.Error("Server connection failed!"))
+        }
+    }
+
+    fun acceptBid(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
+        try {
+            _putBidRes.postValue(Resource.Loading())
+            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+            viewModelScope.launch(handler) {
+                val response = bidRepository.acceptBid("Bearer $token", idBodyRequest)
+                _putBidRes.postValue(handleResponse("Bid Accepted and appointment created!",response))
+            }
+        } catch (e: Exception) {
+            _putBidRes.postValue(Resource.Error("Server connection failed!"))
+        }
+    }
+
+    fun declineBid(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
+        try {
+            _putBidRes.postValue(Resource.Loading())
+            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+            viewModelScope.launch(handler) {
+                val response = bidRepository.declineBid("Bearer $token", idBodyRequest)
+                _putBidRes.postValue(handleResponse("Bid declined!",response))
+            }
+
+        } catch (e: Exception) {
+            _putBidRes.postValue(Resource.Error("Server connection failed!"))
+        }
+    }
+
+    private fun handleResponse(msg:String,response: Response<MessageResponse>): Resource<MessageResponse> {
+        if (response.isSuccessful) {
+            return Resource.Success(MessageResponse(msg))
+        }
+        val errorBody = JSONObject(response.errorBody()!!.string())
+        return Resource.Error(errorBody.getString("message"))
     }
 
     private fun handleMakeBidResponse(response: Response<MessageResponse>): Resource<MessageResponse> {

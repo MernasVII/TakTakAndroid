@@ -12,6 +12,7 @@ import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.customer.myRequests.CustomerReqsFragment
 import tn.esprit.taktakandroid.uis.sp.spRequests.SPReqsFragment
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -57,21 +58,25 @@ class HomeActivity  : BaseActivity() {
 
         val initialFragment = SPsFragment()
         replaceFragment(initialFragment)
+        setIconsColros(mainView.bottomNavigation.tvProviders)
+
 
         mainView.bottomNavigation.tvProviders.setOnClickListener {
             replaceFragment(spsFragment)
+            setIconsColros(mainView.bottomNavigation.tvProviders)
         }
 
         mainView.bottomNavigation.tvApts.setOnClickListener {
             replaceFragment(aptsFragment)
+            setIconsColros(mainView.bottomNavigation.tvApts)
         }
 
         lifecycleScope.launch (Dispatchers.IO) {
             val cin = AppDataStore.readString(Constants.CIN)
             Log.d(TAG, "onCreate: $cin")
             mainView.bottomNavigation.tvReqs.setOnClickListener {
-                if(cin.isNullOrEmpty()){
-                    replaceFragment(customerReqsFragment)
+                setIconsColros(mainView.bottomNavigation.tvReqs)
+                if(cin.isNullOrEmpty()){ replaceFragment(customerReqsFragment)
                 }else{
                 replaceFragment(spReqsFragment)
                 }
@@ -80,14 +85,24 @@ class HomeActivity  : BaseActivity() {
 
         mainView.bottomNavigation.tvNotifs.setOnClickListener {
             replaceFragment(notifsFragment)
+            setIconsColros(mainView.bottomNavigation.tvNotifs)
         }
 
         mainView.bottomNavigation.tvProfile.setOnClickListener {
             replaceFragment(profileFragment)
+            setIconsColros(mainView.bottomNavigation.tvProfile)
         }
 
         checkAddress()
 
+    }
+
+    private fun setIconsColros(imageView: ImageView) {
+        mainView.bottomNavigation.tvProviders.setColorFilter(ContextCompat.getColor(this, if (imageView == mainView.bottomNavigation.tvProviders) R.color.yellow else R.color.white))
+        mainView.bottomNavigation.tvApts.setColorFilter(ContextCompat.getColor(this, if (imageView == mainView.bottomNavigation.tvApts) R.color.yellow else R.color.white))
+        mainView.bottomNavigation.tvReqs.setColorFilter(ContextCompat.getColor(this, if (imageView == mainView.bottomNavigation.tvReqs) R.color.yellow else R.color.white))
+        mainView.bottomNavigation.tvNotifs.setColorFilter(ContextCompat.getColor(this, if (imageView == mainView.bottomNavigation.tvNotifs) R.color.yellow else R.color.white))
+        mainView.bottomNavigation.tvProfile.setColorFilter(ContextCompat.getColor(this, if (imageView == mainView.bottomNavigation.tvProfile) R.color.yellow else R.color.white))
     }
 
     private fun checkAddress() {

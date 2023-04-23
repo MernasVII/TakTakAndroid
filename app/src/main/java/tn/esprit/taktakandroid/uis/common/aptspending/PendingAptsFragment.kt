@@ -1,21 +1,17 @@
 package tn.esprit.taktakandroid.uis.common.aptspending
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -80,19 +76,19 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
 
         swipeLayoutSetup()
         observeViewModel()
-        handleDeleteRequestResult()
+        handlePutAptResult()
     }
 
-    private fun handleDeleteRequestResult() {
+    private fun handlePutAptResult() {
         pendingAptsViewModel.putAptRes.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     //TODO  progressBarVisibility(false,mainView.spinkitView)
-                    response.data?.let { deleteResponse ->
+                    response.data?.let { putResponse ->
                         pendingAptsViewModel.getPendingAptsList()
                         Toast.makeText(
                             requireContext(),
-                            "${deleteResponse.message}",
+                            "${putResponse.message}",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -171,7 +167,6 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
             CoroutineScope(aptsViewModel.viewModelScope.coroutineContext + Dispatchers.Main)
         aptAdapter = AptsListAdapter(cin, parentFragmentManager, mutableListOf(), viewModelScope, aptsViewModel,viewLifecycleOwner,pendingAptsViewModel)
         mainView.rvApts.apply {
-            adapter = aptAdapter
             adapter = aptAdapter
             layoutManager = LinearLayoutManager(requireContext())
             if (!cin.isNullOrEmpty()) {

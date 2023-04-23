@@ -12,7 +12,7 @@ import tn.esprit.taktakandroid.adapters.SpRequestsAdapter
 import tn.esprit.taktakandroid.databinding.FragmentSpReqsBinding
 import tn.esprit.taktakandroid.repositories.RequestsRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
-import tn.esprit.taktakandroid.uis.sp.SPBidsFragment
+import tn.esprit.taktakandroid.uis.sp.bids.SPBidsFragment
 import tn.esprit.taktakandroid.utils.Resource
 
 class SPReqsFragment : BaseFragment() {

@@ -47,7 +47,7 @@ interface BidEndpoints {
     ): Response<SentBidsResponse>
 
     //DELETE BID
-    @DELETE("bid/deleteBid")
+    @HTTP(method = "DELETE", path = "bid/deleteBid", hasBody = true)
     suspend fun deleteBid(
         @Header("Authorization") token: String,
         @Body request: IdBodyRequest
