@@ -36,10 +36,11 @@ class SocketService : Service() {
     }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         CoroutineScope(Dispatchers.IO).launch {
+            AppDataStore.init(applicationContext)
             val currUserID=AppDataStore.readString(Constants.USER_ID)
             _mSocket.on(currUserID) { data ->
                 val msgReceived= JSONObject(data[0].toString()).getString("msg")
-
+                Log.d(TAG, msgReceived)
                 MyNotificationManager.sendNotif(applicationContext,msgReceived)
             }
         }

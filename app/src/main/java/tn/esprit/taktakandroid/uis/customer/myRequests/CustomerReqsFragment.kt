@@ -202,7 +202,6 @@ class CustomerReqsFragment : BaseFragment(), MyRequestTouchHelperListener {
 
     override fun onRequestSwiped(reqID: String) {
         viewModel.deleteRequest(reqID)
-
     }
 
 

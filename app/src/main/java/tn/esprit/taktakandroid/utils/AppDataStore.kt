@@ -16,7 +16,9 @@ object AppDataStore {
     fun init(context: Context) {
         _dataStore = context.dataStore
     }
-
+    fun isInitiated():Boolean{
+        return true
+    }
     private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = USER_PREF)
 
     suspend fun writeString(key: String, value: String) {

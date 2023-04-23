@@ -7,5 +7,6 @@ data class BookAptRequest(
     val desc: String,
     val location: String,
     val sp: String,
+    val isAccepted: Boolean,
     val tos: String
 )
