@@ -50,7 +50,6 @@ class SocketService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-
         try {
             _mSocket.close()
         } catch (e: IOException) {

@@ -14,6 +14,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -43,9 +44,7 @@ class BookAptFragment : BaseFragment() {
     private lateinit var mainView: FragmentBookAptBinding
     lateinit var viewModel: BookAptViewModel
 
-    private lateinit var tosButtons: List<MaterialButton>
     private lateinit var sp: User
-    private var tos=""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,10 +56,10 @@ class BookAptFragment : BaseFragment() {
         val aptRepository = AptRepository()
         viewModel = ViewModelProvider(this, BookAptViewModelFactory(aptRepository,sp))[BookAptViewModel::class.java]
 
-        buttonsSetup()
+     //   buttonsSetup()
         editTextsSetup()
         inputsErrorHandling()
-
+        setupTosSpinner()
         setData(sp!!)
 
         mainView.etDatetime.setOnClickListener {
@@ -72,9 +71,10 @@ class BookAptFragment : BaseFragment() {
 
         observeViewModel()
         mainView.btnBook.setOnClickListener {
-            lifecycleScope.launch {
+            viewModel.setTos(mainView.spService.selectedItem.toString())
                 viewModel.bookApt()
-            }
+
+
         }
 
         return mainView.root
@@ -178,29 +178,8 @@ class BookAptFragment : BaseFragment() {
         mainView.profileLayout.tvRate.text = sp.rate.toString()
     }
 
-    private fun buttonsSetup() {
-        tosButtons = listOf(
-            mainView.btnInstallation, mainView.btnMaintenance, mainView.btnRepair
-        )
-        tosButtons.forEach {
-            it.setOnClickListener { _ ->
-                tos=it.text.toString()
-                viewModel.setTos(tos)
-                mainView.llTosError.visibility=View.GONE
-                colorTosBtns(tos)
-            }
-        }
-    }
 
-    private fun colorTosBtns(tos: String) {
-        tosButtons.forEach { it ->
-            if(it.text.toString().equals(tos)){
-                selectBtn(it)
-            }else{
-                unselectBtn(it)
-            }
-        }
-    }
+
 
     private fun selectBtn(btn: MaterialButton) {
         btn.setBackgroundColor(requireActivity().getColor(R.color.BGToLB))
@@ -278,13 +257,7 @@ class BookAptFragment : BaseFragment() {
                 }
             }
         }
-        viewModel.tosError.observe(viewLifecycleOwner) { _errorTxt ->
-            if (_errorTxt.isNotEmpty()) {
-                mainView.llTosError.visibility=View.VISIBLE
-            }else{
-                mainView.llTosError.visibility=View.GONE
-            }
-        }
+
         viewModel.descError.observe(viewLifecycleOwner) { _errorTxt ->
             if (_errorTxt.isNotEmpty()) {
                 mainView.tlDesc.apply {
@@ -320,6 +293,16 @@ class BookAptFragment : BaseFragment() {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
             LocationManager.NETWORK_PROVIDER
         )
+    }
+
+    private fun setupTosSpinner() {
+        val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
+            requireContext(),
+            R.layout.spinner_item_tos,
+            sp.tos!!.toList()
+        )
+        adapter.setDropDownViewResource(R.layout.spinner_custom_dropdown)
+        mainView.spService.adapter = adapter
     }
 }
 

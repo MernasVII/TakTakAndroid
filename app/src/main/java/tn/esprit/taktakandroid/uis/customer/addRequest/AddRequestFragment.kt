@@ -2,8 +2,10 @@ package tn.esprit.taktakandroid.uis.customer.addRequest
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
@@ -23,6 +25,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.button.MaterialButton
 import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.*
 import tn.esprit.taktakandroid.R
@@ -35,14 +38,17 @@ import tn.esprit.taktakandroid.uis.customer.myRequests.MyRequestsViewModelFactor
 import tn.esprit.taktakandroid.uis.customer.myRequests.TAG
 import tn.esprit.taktakandroid.uis.home.HomeActivity
 import tn.esprit.taktakandroid.utils.Resource
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.time.Duration.Companion.seconds
 
 const val TAG ="AddRequestFragment"
 class AddRequestFragment : BaseFragment() {
-//TODO fix the ui ( the same as book apt)
+
     private lateinit var mainView: FragmentAddRequestBinding
     private lateinit var viewModel: AddRequestViewModel
+    private lateinit var tosButtons: List<MaterialButton>
+    private var tos=""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,11 +67,10 @@ class AddRequestFragment : BaseFragment() {
             AddRequestViewModelFactory(reqRepository)
         )[AddRequestViewModel::class.java]
         errorHandling()
-        setupTosSpinner()
+        buttonsSetup()
+     //   setupTosSpinner()
         mainView.btnAddReq.setOnClickListener {
-            viewModel.setTos(mainView.spService.selectedItem.toString())
             viewModel.addRequest()
-
         }
         mainView.etDateTime.setOnClickListener {showDatePicker()  }
         mainView.etLocation.setOnClickListener {
@@ -81,21 +86,23 @@ class AddRequestFragment : BaseFragment() {
                 viewModel.setDesc(s.toString().trim())
                 viewModel.removeDescError()
             }
-
         })
+        mainView.etDateTime.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                viewModel.setDateTime(convertDateString(s.toString()))
+                viewModel.removeDateTimeError()
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+        })
+
         viewModel.addReqResult.observe(viewLifecycleOwner){result ->
             when(result){
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.progressBar)
                     result.data?.let {
                         Toast.makeText(requireContext(),it.message,Toast.LENGTH_SHORT).show()
-                        lifecycleScope.launch {
-                            delay(1.seconds)
-                            withContext(Dispatchers.Main){
                                 requireActivity().supportFragmentManager.popBackStack()
-                            }
-
-                        }
 
                     }
                 }
@@ -140,32 +147,47 @@ class AddRequestFragment : BaseFragment() {
     }
 
     private  fun showDatePicker() {
+        // Get current date and time
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.DAY_OF_MONTH, 1)
-        val currentYear = calendar.get(Calendar.YEAR)
-        val currentMonth = calendar.get(Calendar.MONTH)
-        val currentDay = calendar.get(Calendar.DAY_OF_MONTH)
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+        val hourOfDay = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
 
-        // Create a DatePickerDialog and set the current date as the default date
+        // Create date picker dialog with a minimum date
         val datePickerDialog = DatePickerDialog(
             requireContext(),
-            { _: DatePicker, year: Int, month: Int, day: Int ->
-                mainView.etDateTime.setText("${month+1}/$day/$year")
-                viewModel.setDateTime("${month+1}/$day/$year")
-                viewModel.removeDateTimeError()
+            { _, selectedYear, selectedMonth, selectedDayOfMonth ->
+                // Create time picker dialog
+                val timePickerDialog = TimePickerDialog(
+                    requireContext(),
+                    { _, selectedHourOfDay, selectedMinute ->
+                        // Handle selected date and time
+                        val selectedDateTime = Calendar.getInstance().apply {
+                            set(selectedYear, selectedMonth, selectedDayOfMonth, selectedHourOfDay, selectedMinute)
+                        }.timeInMillis
+                        val formattedDateTime = SimpleDateFormat("dd/MM/yyyy 'at' HH:mm", Locale.getDefault())
+                            .format(selectedDateTime)
+                        mainView.etDateTime.setText(formattedDateTime)
+                    },
+                    hourOfDay,
+                    minute,
+                    true
+                )
+                timePickerDialog.show()
             },
-            currentYear,
-            currentMonth,
-            currentDay
+            year,
+            month,
+            dayOfMonth
         )
 
-        // Set the minimum date to today's date
+        // Disable past dates by setting a minimum date
         datePickerDialog.datePicker.minDate = calendar.timeInMillis
 
-        // Show the dialog
         datePickerDialog.show()
     }
-    private fun setupTosSpinner() {
+    /*private fun setupTosSpinner() {
         val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
             requireContext(),
             R.layout.spinner_item_tos,
@@ -173,7 +195,7 @@ class AddRequestFragment : BaseFragment() {
         )
         adapter.setDropDownViewResource(R.layout.spinner_custom_dropdown)
         mainView.spService.adapter = adapter
-    }
+    }*/
     private fun isLocationEnabled(): Boolean {
         val locationManager: LocationManager =
             requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -233,8 +255,58 @@ class AddRequestFragment : BaseFragment() {
                 }
             }
         }
+        viewModel.tosError.observe(viewLifecycleOwner) { _errorTxt ->
+            if (_errorTxt.isNotEmpty()) {
+                mainView.llTosError.visibility=View.VISIBLE
+            }else{
+                mainView.llTosError.visibility=View.GONE
+            }
+        }
 
+    }
 
+    private fun buttonsSetup() {
+        tosButtons = listOf(
+            mainView.btnInstallation, mainView.btnMaintenance, mainView.btnRepair
+        )
+        tosButtons.forEach {
+            it.setOnClickListener { _ ->
+                tos=it.text.toString()
+                viewModel.setTos(tos)
+                mainView.llTosError.visibility=View.GONE
+                colorTosBtns(tos)
+            }
+        }
+    }
+
+    private fun colorTosBtns(tos: String) {
+        tosButtons.forEach { it ->
+            if(it.text.toString().equals(tos)){
+                selectBtn(it)
+            }else{
+                unselectBtn(it)
+            }
+        }
+    }
+
+    private fun selectBtn(btn: MaterialButton) {
+        btn.setBackgroundColor(requireActivity().getColor(R.color.BGToLB))
+        btn.setTextColor(requireActivity().getColor(R.color.white))
+    }
+
+    private fun unselectBtn(btn:MaterialButton) {
+        btn.setBackgroundColor(requireActivity().getColor(R.color.white))
+        btn.strokeColor = ColorStateList.valueOf(requireActivity().getColor(R.color.BGToLB))
+        btn.setTextColor(requireActivity().getColor(R.color.BGToLB))
+    }
+    fun convertDateString(dateString: String): String {
+        val formatter = SimpleDateFormat("dd/MM/yyyy 'at' HH:mm", Locale.getDefault())
+        val date = formatter.parse(dateString)
+        val timeZone = TimeZone.getTimeZone("UTC")
+        val offset = timeZone.getOffset(date.time).toLong()
+        val timestamp = date.time - offset
+        return SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.getDefault())
+            .format(Date(timestamp))
     }
 
 }
