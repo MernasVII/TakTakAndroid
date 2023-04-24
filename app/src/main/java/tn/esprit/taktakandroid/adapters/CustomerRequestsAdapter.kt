@@ -11,6 +11,7 @@ import tn.esprit.miniprojetinterfaces.Sheets.RequestDetailsSheet
 
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ItemReqCustomerBinding
+import tn.esprit.taktakandroid.models.entities.Bid
 import tn.esprit.taktakandroid.models.entities.Request
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.uis.common.RequestDetailsFragment
@@ -38,7 +39,7 @@ class CustomerRequestsAdapter (private val fragmentManager: FragmentManager, var
     override fun onBindViewHolder(holder: MyRequestsViewHolder, position: Int) {
         var request=requests[position]
         holder.mainView.tvTitle.text=request.tos
-        holder.mainView.tvBidCount.text="Bids: ${request.bids.size}"
+        holder.mainView.tvBidCount.text="Bids: ${countActiveBids(request.bids)}"
         holder.mainView.tvDesc.text=request.desc
         holder.mainView.tvTimeLoc.text="${parseDate(request.date)} in ${request.location}"
         holder.mainView.root.setOnClickListener {
@@ -46,7 +47,13 @@ class CustomerRequestsAdapter (private val fragmentManager: FragmentManager, var
             navigateToBidsListFragment(request)
 
         }
-
+    }
+    private fun countActiveBids(bids: List<Bid>):Int{
+        var count =0
+        bids.forEach { b->
+            if(!b.isDeclined) count ++
+        }
+        return count
     }
     private fun showRequestDetails(request: Request) {
         val requestDetailsSheet = RequestDetailsSheet(request)
