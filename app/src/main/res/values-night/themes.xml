@@ -31,4 +31,11 @@
         <item name="backgroundTintMode">@android:color/transparent</item>
         <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
     </style>
+
+    <style name="CustomDateDialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="android:windowBackground">#424242</item>     <!--calendar background-->
+        <item name="android:colorControlActivated">@color/lightBlue</item> <!--selected day-->
+        <item name="android:textColorPrimary">@color/white</item> <!--days of the month-->
+        <item name="android:textColorSecondary">@color/white</item>    <!--days of the week-->
+    </style>
 </resources>

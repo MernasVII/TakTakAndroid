@@ -70,7 +70,7 @@ class SPBidsFragment : BaseFragment(), BidSPItemTouchHelperListener {
         viewModel.putBidRes.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
-                    //TODO  progressBarVisibility(false,mainView.spinkitView)
+                    progressBarVisibility(false,mainView.spinkitView)
                     response.data?.let { putResponse ->
                         viewModel.getSentBidsList()
                         Toast.makeText(
@@ -81,16 +81,14 @@ class SPBidsFragment : BaseFragment(), BidSPItemTouchHelperListener {
                     }
                 }
                 is Resource.Error -> {
-                    //TODO   progressBarVisibility(false,mainView.spinkitView)
+                    progressBarVisibility(false,mainView.spinkitView)
 
                     response.message?.let { message ->
                         showDialog(message)
-
                     }
                 }
                 is Resource.Loading -> {
-                    //TODO   progressBarVisibility(true,mainView.spinkitView)
-
+                    progressBarVisibility(true,mainView.spinkitView)
                 }
             }
         }

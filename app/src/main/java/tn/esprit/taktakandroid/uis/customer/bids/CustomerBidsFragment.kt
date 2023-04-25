@@ -92,7 +92,7 @@ class CustomerBidsFragment : BaseFragment(), BidCustomerItemTouchHelperListener 
         viewModel.putBidRes.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
-                    //TODO  progressBarVisibility(false,mainView.spinkitView)
+                    progressBarVisibility(false,mainView.spinkitView)
                     response.data?.let { putResponse ->
                         viewModel.getReceivedBidsList(IdBodyRequest(request._id))
                         Toast.makeText(
@@ -103,7 +103,7 @@ class CustomerBidsFragment : BaseFragment(), BidCustomerItemTouchHelperListener 
                     }
                 }
                 is Resource.Error -> {
-                    //TODO   progressBarVisibility(false,mainView.spinkitView)
+                    progressBarVisibility(false,mainView.spinkitView)
 
                     response.message?.let { message ->
                         showDialog(message)
@@ -111,8 +111,7 @@ class CustomerBidsFragment : BaseFragment(), BidCustomerItemTouchHelperListener 
                     }
                 }
                 is Resource.Loading -> {
-                    //TODO   progressBarVisibility(true,mainView.spinkitView)
-
+                    progressBarVisibility(true,mainView.spinkitView)
                 }
             }
         }

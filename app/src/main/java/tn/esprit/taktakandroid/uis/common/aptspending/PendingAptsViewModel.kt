@@ -36,7 +36,8 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
     val apts: LiveData<List<Appointment>> = _apts
 
     //val pendingAptsResult: MutableLiveData<Resource<AptsResponse>> = MutableLiveData()
-    val putAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+    val acceptAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+    val declineAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
 
 
     init {
@@ -45,7 +46,8 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        putAptRes.postValue(Resource.Error("Server connection failed!"))
+        acceptAptRes.postValue(Resource.Error("Server connection failed!"))
+        declineAptRes.postValue(Resource.Error("Server connection failed!"))
     }
 
     fun getPendingAptsList() = viewModelScope.launch {
@@ -67,28 +69,28 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
 
     fun acceptApt(acceptAptRequest: AcceptAptRequest) = viewModelScope.launch {
         try {
-            putAptRes.postValue(Resource.Loading())
+            acceptAptRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             viewModelScope.launch(handler) {
                 val response = aptRepository.acceptApt("Bearer $token", acceptAptRequest)
-                putAptRes.postValue(handleAcceptAptResponse(response))
+                acceptAptRes.postValue(handleAcceptAptResponse(response))
             }
         } catch (e: Exception) {
-            putAptRes.postValue(Resource.Error("Server connection failed!"))
+            acceptAptRes.postValue(Resource.Error("Server connection failed!"))
         }
     }
 
     fun declineApt(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
         try {
-            putAptRes.postValue(Resource.Loading())
+            declineAptRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             viewModelScope.launch(handler) {
                 val response = aptRepository.declineApt("Bearer $token", idBodyRequest)
-                putAptRes.postValue(handlePutAptResponse(response))
+                declineAptRes.postValue(handleDeclineAptResponse(response))
             }
 
         } catch (e: Exception) {
-            putAptRes.postValue(Resource.Error("Server connection failed!"))
+            declineAptRes.postValue(Resource.Error("Server connection failed!"))
         }
     }
 
@@ -114,7 +116,7 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
         return Resource.Error(errorBody.getString("message"))
     }
 
-    private fun handlePutAptResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+    private fun handleDeclineAptResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)

@@ -13,10 +13,11 @@ import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.databinding.SheetFragmentMakeBidFragmentBinding
 import tn.esprit.taktakandroid.models.requests.MakeBidRequest
 import tn.esprit.taktakandroid.repositories.BidRepository
+import tn.esprit.taktakandroid.uis.SheetBaseFragment
 import tn.esprit.taktakandroid.uis.common.bid.BidViewModel
 import tn.esprit.taktakandroid.uis.common.bid.BidViewModelFactory
 
-class MakeBidSheet : BottomSheetDialogFragment() {
+class MakeBidSheet : SheetBaseFragment() {
     val TAG="MakeBidSheet"
 
     private lateinit var mainView: SheetFragmentMakeBidFragmentBinding

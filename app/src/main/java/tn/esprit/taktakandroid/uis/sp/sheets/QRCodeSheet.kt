@@ -81,6 +81,4 @@ class QRCodeSheet : BottomSheetDialogFragment() {
         super.onDismiss(dialog)
         Log.d("Debug", "Dismissed onDismiss")
     }
-
-
 }

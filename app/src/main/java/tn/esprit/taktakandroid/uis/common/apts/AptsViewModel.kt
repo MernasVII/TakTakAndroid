@@ -37,7 +37,9 @@ class AptsViewModel  (private val aptRepository: AptRepository
     val apts: LiveData<List<Appointment>> = _apts
 
     //val aptsResult: MutableLiveData<Resource<AptsResponse>> = MutableLiveData()
-    val putAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+    val cancelAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+    val postponeAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+    val updateStateAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
     //val timeLeftAptRes: MutableLiveData<Resource<TimeLeftResponse>> = MutableLiveData()
 
     init {
@@ -64,43 +66,42 @@ class AptsViewModel  (private val aptRepository: AptRepository
 
     fun cancelApt(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
             try {
-                putAptRes.postValue(Resource.Loading())
+                cancelAptRes.postValue(Resource.Loading())
                 val token = AppDataStore.readString(Constants.AUTH_TOKEN)
                 viewModelScope.launch(handler) {
                     val response = aptRepository.cancelApt("Bearer $token", idBodyRequest)
-                    putAptRes.postValue(handlePutAptResponse(response))
+                    cancelAptRes.postValue(handleAptCancelResponse(response))
                 }
-
             } catch (e: Exception) {
-                putAptRes.postValue(Resource.Error("Server connection failed!"))
+                cancelAptRes.postValue(Resource.Error("Server connection failed!"))
             }
     }
 
     fun postponeApt(postponeAptRequest: PostponeAptRequest) = viewModelScope.launch {
         try {
-            putAptRes.postValue(Resource.Loading())
+            postponeAptRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             viewModelScope.launch(handler) {
                 val response = aptRepository.postponeApt("Bearer $token", postponeAptRequest)
-                putAptRes.postValue(handlePutAptResponse(response))
+                postponeAptRes.postValue(handleAptPostponeResponse(response))
             }
 
         } catch (e: Exception) {
-            putAptRes.postValue(Resource.Error("Server connection failed!"))
+            postponeAptRes.postValue(Resource.Error("Server connection failed!"))
         }
     }
 
     fun updateAptState(updateAptStateRequest: UpdateAptStateRequest) = viewModelScope.launch {
         try {
-            putAptRes.postValue(Resource.Loading())
+            updateStateAptRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             viewModelScope.launch(handler) {
                 val response = aptRepository.updateAptState("Bearer $token", updateAptStateRequest)
-                putAptRes.postValue(handlePutAptResponse(response))
+                updateStateAptRes.postValue(handleAptStateResponse(response))
             }
 
         } catch (e: Exception) {
-            putAptRes.postValue(Resource.Error("Server connection failed!"))
+            updateStateAptRes.postValue(Resource.Error("Server connection failed!"))
         }
     }
 
@@ -125,10 +126,12 @@ class AptsViewModel  (private val aptRepository: AptRepository
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        putAptRes.postValue(Resource.Error("Server connection failed!"))
+        cancelAptRes.postValue(Resource.Error("Server connection failed!"))
+        postponeAptRes.postValue(Resource.Error("Server connection failed!"))
+        updateStateAptRes.postValue(Resource.Error("Server connection failed!"))
     }
 
-    private fun handlePutAptResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+    private fun handleAptStateResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
@@ -137,6 +140,28 @@ class AptsViewModel  (private val aptRepository: AptRepository
         val errorBody = JSONObject(response.errorBody()!!.string())
         return Resource.Error(errorBody.getString("message"))
     }
+
+    private fun handleAptCancelResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Resource.Success(resultResponse)
+            }
+        }
+        val errorBody = JSONObject(response.errorBody()!!.string())
+        return Resource.Error(errorBody.getString("message"))
+    }
+
+    private fun handleAptPostponeResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Resource.Success(resultResponse)
+            }
+        }
+        val errorBody = JSONObject(response.errorBody()!!.string())
+        return Resource.Error(errorBody.getString("message"))
+    }
+
+
 
     /*private fun handleTimeLeftAptResponse(response: Response<TimeLeftResponse>): Resource<TimeLeftResponse> {
         if (response.isSuccessful) {

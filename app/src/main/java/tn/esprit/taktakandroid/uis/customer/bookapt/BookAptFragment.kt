@@ -23,9 +23,7 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.permissionx.guolindev.PermissionX
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.FragmentBookAptBinding
 import tn.esprit.taktakandroid.models.entities.User
@@ -36,6 +34,7 @@ import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.Duration.Companion.seconds
 
 class BookAptFragment : BaseFragment() {
     private val TAG = "BookAptFragment"
@@ -113,6 +112,7 @@ class BookAptFragment : BaseFragment() {
                     progressBarVisibility(false,mainView.spinkitView)
                     result.data?.let {
                         Toast.makeText(requireContext(), getString(R.string.apt_booked), Toast.LENGTH_SHORT).show()
+                        requireActivity().supportFragmentManager.popBackStack()
                     }
                 }
                 is Resource.Error -> {
@@ -140,24 +140,35 @@ class BookAptFragment : BaseFragment() {
         // Create date picker dialog with a minimum date
         val datePickerDialog = DatePickerDialog(
             requireContext(),
+            R.style.CustomDateDialog,
             { _, selectedYear, selectedMonth, selectedDayOfMonth ->
-                // Create time picker dialog
-                val timePickerDialog = TimePickerDialog(
-                    requireContext(),
-                    { _, selectedHourOfDay, selectedMinute ->
-                        // Handle selected date and time
-                        val selectedDateTime = Calendar.getInstance().apply {
-                            set(selectedYear, selectedMonth, selectedDayOfMonth, selectedHourOfDay, selectedMinute)
-                        }.timeInMillis
-                        val formattedDateTime = SimpleDateFormat("dd/MM/yyyy 'at' HH:mm", Locale.getDefault())
-                            .format(selectedDateTime)
-                        mainView.etDatetime.setText(formattedDateTime)
-                    },
-                    hourOfDay,
-                    minute,
-                    true
-                )
-                timePickerDialog.show()
+                // Create a calendar instance for the selected date
+                val selectedCalendar = Calendar.getInstance().apply {
+                    set(selectedYear, selectedMonth, selectedDayOfMonth)
+                }
+
+                // Check if the selected day is a workday
+                if (sp.workDays!!.contains(getDayOfWeekString(selectedCalendar.get(Calendar.DAY_OF_WEEK)))) {
+                    // Create time picker dialog
+                    val timePickerDialog = TimePickerDialog(
+                        requireContext(),
+                        { _, selectedHourOfDay, selectedMinute ->
+                            // Handle selected date and time
+                            val selectedDateTime = Calendar.getInstance().apply {
+                                set(selectedYear, selectedMonth, selectedDayOfMonth, selectedHourOfDay, selectedMinute)
+                            }.timeInMillis
+                            val formattedDateTime = SimpleDateFormat("dd/MM/yyyy 'at' HH:mm", Locale.getDefault())
+                                .format(selectedDateTime)
+                            mainView.etDatetime.setText(formattedDateTime)
+                        },
+                        hourOfDay,
+                        minute,
+                        true
+                    )
+                    timePickerDialog.show()
+                } else {
+                    Toast.makeText(requireContext(), "Selected day is not a workday", Toast.LENGTH_SHORT).show()
+                }
             },
             year,
             month,
@@ -169,6 +180,21 @@ class BookAptFragment : BaseFragment() {
 
         datePickerDialog.show()
     }
+
+    private fun getDayOfWeekString(dayOfWeek: Int): String {
+        return when (dayOfWeek) {
+            Calendar.SUNDAY -> "Sunday"
+            Calendar.MONDAY -> "Monday"
+            Calendar.TUESDAY -> "Tuesday"
+            Calendar.WEDNESDAY -> "Wednesday"
+            Calendar.THURSDAY -> "Thursday"
+            Calendar.FRIDAY -> "Friday"
+            Calendar.SATURDAY -> "Saturday"
+            else -> ""
+        }
+    }
+
+
 
     private fun setData(sp: User) {
         Glide.with(requireContext()).load(Constants.IMG_URL +sp.pic).into(mainView.profileLayout.ivPic)

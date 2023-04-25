@@ -14,7 +14,10 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import io.github.g00fy2.quickie.QRResult
 import io.github.g00fy2.quickie.ScanQRCode
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.ParseException
 import java.util.*
 import tn.esprit.taktakandroid.R
@@ -39,6 +42,7 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 import java.text.SimpleDateFormat
+import kotlin.time.Duration.Companion.seconds
 
 class AptDetailsFragment : BaseFragment() {
     private val TAG = "AptDetailsFragment"
@@ -108,6 +112,10 @@ class AptDetailsFragment : BaseFragment() {
         mainView.btnCancel.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.cancelApt(IdBodyRequest(apt._id!!))
+                delay(1.seconds)
+                withContext(Dispatchers.Main){
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
             }
         }
         mainView.btnPostpone.setOnClickListener {

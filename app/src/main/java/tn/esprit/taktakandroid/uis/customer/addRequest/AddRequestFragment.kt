@@ -149,6 +149,7 @@ class AddRequestFragment : BaseFragment() {
         // Create a DatePickerDialog and set the current date as the default date
         val datePickerDialog = DatePickerDialog(
             requireContext(),
+            R.style.CustomDateDialog,
             { _: DatePicker, year: Int, month: Int, day: Int ->
                 mainView.etDateTime.setText("${month+1}/$day/$year")
                 viewModel.setDateTime("${month+1}/$day/$year")

@@ -76,14 +76,15 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
 
         swipeLayoutSetup()
         observeViewModel()
-        handlePutAptResult()
+        handleAcceptAptResult()
+        handleDeclineAptResult()
     }
 
-    private fun handlePutAptResult() {
-        pendingAptsViewModel.putAptRes.observe(viewLifecycleOwner) { response ->
+    private fun handleDeclineAptResult() {
+        pendingAptsViewModel.declineAptRes.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
-                    //TODO  progressBarVisibility(false,mainView.spinkitView)
+                    progressBarVisibility(false,mainView.spinkitView)
                     response.data?.let { putResponse ->
                         pendingAptsViewModel.getPendingAptsList()
                         Toast.makeText(
@@ -94,7 +95,7 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
                     }
                 }
                 is Resource.Error -> {
-                    //TODO   progressBarVisibility(false,mainView.spinkitView)
+                    progressBarVisibility(false,mainView.spinkitView)
 
                     response.message?.let { message ->
                         showDialog(message)
@@ -102,8 +103,36 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
                     }
                 }
                 is Resource.Loading -> {
-                    //TODO   progressBarVisibility(true,mainView.spinkitView)
+                    progressBarVisibility(true,mainView.spinkitView)
+                }
+            }
+        }
+    }
 
+    private fun handleAcceptAptResult() {
+        pendingAptsViewModel.acceptAptRes.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    response.data?.let { putResponse ->
+                        pendingAptsViewModel.getPendingAptsList()
+                        Toast.makeText(
+                            requireContext(),
+                            "${putResponse.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                is Resource.Error -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+
+                    response.message?.let { message ->
+                        showDialog(message)
+
+                    }
+                }
+                is Resource.Loading -> {
+                    progressBarVisibility(true,mainView.spinkitView)
                 }
             }
         }

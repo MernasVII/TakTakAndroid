@@ -107,4 +107,13 @@
         <item name="android:statusBarColor">@color/orange</item>
     </style>
 
+    <style name="CustomDateDialog" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/orange</item>                   <!--header background-->
+        <item name="android:windowBackground">@color/white</item>     <!--calendar background-->
+        <item name="android:colorControlActivated">@color/orange</item> <!--selected day-->
+        <item name="android:textColorPrimary">@color/grey</item> <!--days of the month-->
+        <item name="android:textColorSecondary">@color/grey</item>    <!--days of the week-->
+    </style>
+
+
 </resources>
