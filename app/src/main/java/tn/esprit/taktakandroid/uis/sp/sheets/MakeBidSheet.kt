@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -16,6 +17,7 @@ import tn.esprit.taktakandroid.repositories.BidRepository
 import tn.esprit.taktakandroid.uis.SheetBaseFragment
 import tn.esprit.taktakandroid.uis.common.bid.BidViewModel
 import tn.esprit.taktakandroid.uis.common.bid.BidViewModelFactory
+import tn.esprit.taktakandroid.utils.Resource
 
 class MakeBidSheet : SheetBaseFragment() {
     val TAG="MakeBidSheet"
@@ -37,8 +39,30 @@ class MakeBidSheet : SheetBaseFragment() {
                 viewModel.makeBid(MakeBidRequest(mainView.etBid.text.toString().toFloat(),reqId!!))
             }
         }
-
+        observeViewModel()
         return mainView.root
+    }
+
+    private fun observeViewModel() {
+        viewModel.makeBidRes.observe(viewLifecycleOwner, Observer { result ->
+            when (result) {
+                is Resource.Success -> {
+                    progressBarVisibility(false, mainView.spinkitView)
+                    result.data?.let {
+                        dismiss()
+                    }
+                }
+                is Resource.Error -> {
+                    progressBarVisibility(false, mainView.spinkitView)
+                    result.message?.let { msg ->
+                        showDialog(msg)
+                    }
+                }
+                is Resource.Loading -> {
+                    progressBarVisibility(true, mainView.spinkitView)
+                }
+            }
+        })
     }
 
 

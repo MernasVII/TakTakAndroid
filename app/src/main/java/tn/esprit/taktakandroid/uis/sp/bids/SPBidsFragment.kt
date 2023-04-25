@@ -67,7 +67,7 @@ class SPBidsFragment : BaseFragment(), BidSPItemTouchHelperListener {
     }
 
     private fun handleDeleteBidResult() {
-        viewModel.putBidRes.observe(viewLifecycleOwner) { response ->
+        viewModel.deleteBidRes.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.spinkitView)

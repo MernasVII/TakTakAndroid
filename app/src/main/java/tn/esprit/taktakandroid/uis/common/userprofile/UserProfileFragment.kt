@@ -149,6 +149,7 @@ class UserProfileFragment : BaseFragment() {
                         }
                         if(user.cin?.isEmpty() == true){
                             mainView.flWork.visibility=View.GONE
+                            mainView.ivWallet.visibility=View.GONE
                         }
                         Glide.with(this).load(Constants.IMG_URL +user.pic).into(mainView.ivPic)
                     }

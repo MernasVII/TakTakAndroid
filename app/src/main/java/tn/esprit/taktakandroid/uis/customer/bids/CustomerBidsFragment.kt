@@ -85,11 +85,35 @@ class CustomerBidsFragment : BaseFragment(), BidCustomerItemTouchHelperListener 
         }
         swipeLayoutSetup()
         observeViewModel()
-        handlePutBidResult()
+        handleAcceptBidResult()
+        handleDeclineBidResult()
     }
 
-    private fun handlePutBidResult() {
-        viewModel.putBidRes.observe(viewLifecycleOwner) { response ->
+    private fun handleAcceptBidResult() {
+        viewModel.acceptBidRes.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    response.data?.let {
+                        requireActivity().supportFragmentManager.popBackStack()
+                    }
+                }
+                is Resource.Error -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+
+                    response.message?.let { message ->
+                        showDialog(message)
+                    }
+                }
+                is Resource.Loading -> {
+                    progressBarVisibility(true,mainView.spinkitView)
+                }
+            }
+        }
+    }
+
+    private fun handleDeclineBidResult() {
+        viewModel.declineBidRes.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.spinkitView)

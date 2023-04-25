@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -43,6 +44,8 @@ class HomeActivity  : BaseActivity() {
     private val notifsFragment = NotifsFragment()
     private val profileFragment = UserProfileFragment()
 
+    private var cin:String? = null
+
     lateinit var uservm: UserProfileViewModel
 
     val viewModel: HomeViewModel by viewModels {
@@ -56,9 +59,24 @@ class HomeActivity  : BaseActivity() {
         val userRepository = UserRepository()
         uservm = ViewModelProvider(this, UserProfileViewModelFactory(userRepository))[UserProfileViewModel::class.java]
 
-        val initialFragment = SPsFragment()
-        replaceFragment(initialFragment)
-        setIconsColros(mainView.bottomNavigation.tvProviders)
+        val initialFragmentCustomer = SPsFragment()
+        val initialFragmentSP = AptsFragment()
+
+        lifecycleScope.launch(Dispatchers.IO){
+            cin = AppDataStore.readString(Constants.CIN)
+            Log.d(TAG, "onCreate: $cin")
+            if(!cin.isNullOrEmpty()){
+                val bottomNav = findViewById<View>(R.id.bottom_navigation) as ViewGroup
+                val providersImageView = bottomNav.findViewById<View>(R.id.tv_providers)
+                bottomNav.removeView(providersImageView)
+                replaceFragment(initialFragmentSP)
+                setIconsColros(mainView.bottomNavigation.tvApts)
+            }else{
+                replaceFragment(initialFragmentCustomer)
+                setIconsColros(mainView.bottomNavigation.tvProviders)
+            }
+        }
+
 
 
         mainView.bottomNavigation.tvProviders.setOnClickListener {
@@ -71,15 +89,12 @@ class HomeActivity  : BaseActivity() {
             setIconsColros(mainView.bottomNavigation.tvApts)
         }
 
-        lifecycleScope.launch (Dispatchers.IO) {
-            val cin = AppDataStore.readString(Constants.CIN)
-            Log.d(TAG, "onCreate: $cin")
-            mainView.bottomNavigation.tvReqs.setOnClickListener {
-                setIconsColros(mainView.bottomNavigation.tvReqs)
-                if(cin.isNullOrEmpty()){ replaceFragment(customerReqsFragment)
-                }else{
+        mainView.bottomNavigation.tvReqs.setOnClickListener {
+            setIconsColros(mainView.bottomNavigation.tvReqs)
+            if(cin.isNullOrEmpty()){
+                replaceFragment(customerReqsFragment)
+            }else{
                 replaceFragment(spReqsFragment)
-                }
             }
         }
 
@@ -116,7 +131,7 @@ class HomeActivity  : BaseActivity() {
                         }else{
                             mainView.bottomNavigation.ivErrorAddress.visibility=View.GONE
                         }
-                        
+
                     }
                 }
                 is Resource.Error -> {
@@ -130,7 +145,7 @@ class HomeActivity  : BaseActivity() {
             }
         })
     }
-    
+
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.beginTransaction()

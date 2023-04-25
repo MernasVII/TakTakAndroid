@@ -76,7 +76,7 @@ class NotifsListAdapter (private val fragmentManager: FragmentManager,
                 commit()
             }
         }else if(bid!=null){
-            //TODO find newly created apt by date and sp and navigate to it
+            //TODO if bid still not accepted+not declined navigate to bids list else find newly created apt by date and sp and navigate to it
         }
     }
 

@@ -43,18 +43,6 @@ class AptsListAdapter(
 
     inner class AptViewHolder(mainView: ItemAptBinding): RecyclerView.ViewHolder(mainView.root)
 
-    /*private val differCallback=object : DiffUtil.ItemCallback<Appointment>(){
-        override fun areItemsTheSame(oldItem: Appointment, newItem: Appointment): Boolean {
-            return oldItem._id==newItem._id
-        }
-
-        override fun areContentsTheSame(oldItem: Appointment, newItem: Appointment): Boolean {
-            return oldItem==newItem
-        }
-    }
-
-    val  differ= AsyncListDiffer(this,differCallback)*/
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AptViewHolder {
         val mainView = ItemAptBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -107,10 +95,9 @@ class AptsListAdapter(
     }
 
     private fun handleCancelPspRequestResult(context: Context) {
-        viewModel?.putAptRes?.observe(owner!!) { response ->
+        viewModel?.cancelAptRes?.observe(owner!!) { response ->
             when (response) {
                 is Resource.Success -> {
-                    //TODO  progressBarVisibility(false,mainView.spinkitView)
                     response.data?.let { response ->
                         pendingViewModel?.getPendingAptsList()
                         Toast.makeText(
@@ -121,14 +108,15 @@ class AptsListAdapter(
                     }
                 }
                 is Resource.Error -> {
-                    //TODO   progressBarVisibility(false,mainView.spinkitView)
                     response.message?.let { message ->
-                        //showDialog(message)
-
+                        Toast.makeText(
+                            context,
+                            "Failed to cancel appointment!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 is Resource.Loading -> {
-                    //TODO   progressBarVisibility(true,mainView.spinkitView)
 
                 }
             }
@@ -136,10 +124,9 @@ class AptsListAdapter(
     }
 
     private fun handleCancelRequestResult(context: Context) {
-        viewModel?.putAptRes?.observe(owner!!) { response ->
+        viewModel?.cancelAptRes?.observe(owner!!) { response ->
             when (response) {
                 is Resource.Success -> {
-                    //TODO  progressBarVisibility(false,mainView.spinkitView)
                     response.data?.let { response ->
                         viewModel.getAptsList()
                         Toast.makeText(
@@ -150,16 +137,15 @@ class AptsListAdapter(
                     }
                 }
                 is Resource.Error -> {
-                    //TODO   progressBarVisibility(false,mainView.spinkitView)
-
                     response.message?.let { message ->
-                        //showDialog(message)
-
+                        Toast.makeText(
+                            context,
+                            "Failed to cancel appointment!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
                 is Resource.Loading -> {
-                    //TODO   progressBarVisibility(true,mainView.spinkitView)
-
                 }
             }
         }
