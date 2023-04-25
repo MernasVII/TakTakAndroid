@@ -5,8 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+
+import tn.esprit.miniprojetinterfaces.Sheets.RequestDetailsSheet
+
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ItemReqCustomerBinding
+import tn.esprit.taktakandroid.models.entities.Bid
 import tn.esprit.taktakandroid.models.entities.Request
 import tn.esprit.taktakandroid.uis.customer.bids.CustomerBidsFragment
 import java.text.SimpleDateFormat
@@ -29,7 +33,7 @@ class CustomerRequestsAdapter (private val fragmentManager: FragmentManager, var
     override fun onBindViewHolder(holder: MyRequestsViewHolder, position: Int) {
         var request=requests[position]
         holder.mainView.tvTitle.text=request.tos
-        holder.mainView.tvBidCount.text="Bids: ${request.bids.size}"
+        holder.mainView.tvBidCount.text="Bids: ${countActiveBids(request.bids)}"
         holder.mainView.tvDesc.text=request.desc
         holder.mainView.tvTimeLoc.text="${parseDate(request.date)} in ${request.location}"
         if(!request.isClosed){
@@ -37,6 +41,13 @@ class CustomerRequestsAdapter (private val fragmentManager: FragmentManager, var
                 navigateToBidsListFragment(request)
             }
         }
+    }
+    private fun countActiveBids(bids: List<Bid>):Int{
+        var count =0
+        bids.forEach { b->
+            if(!b.isDeclined) count ++
+        }
+        return count
     }
 
     private fun navigateToBidsListFragment(request: Request) {

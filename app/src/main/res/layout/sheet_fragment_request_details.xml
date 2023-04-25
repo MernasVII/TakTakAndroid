@@ -8,7 +8,8 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".uis.common.sheets.RequestDetailsSheet">
+    android:focusable="false"
+    android:focusableInTouchMode="false" >
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="match_parent"

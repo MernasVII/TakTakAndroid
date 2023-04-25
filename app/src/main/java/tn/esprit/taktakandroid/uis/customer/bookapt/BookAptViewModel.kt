@@ -16,6 +16,7 @@ import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
+import tn.esprit.taktakandroid.utils.SocketService
 
 class BookAptViewModel(
     private val repository: AptRepository,
@@ -109,6 +110,7 @@ class BookAptViewModel(
                             desc!!,
                             location!!,
                             sp._id!!,
+                            false,
                             tos!!
                         )
                     )
@@ -125,6 +127,11 @@ class BookAptViewModel(
 
     private fun handleResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
         if (response.isSuccessful) {
+            viewModelScope.launch {
+                val currUserID = AppDataStore.readString(Constants.USER_ID)
+                val msg = "${sp._id}/ booked an appointment!/$currUserID"
+                SocketService.sendMessage(msg)
+            }
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
             }

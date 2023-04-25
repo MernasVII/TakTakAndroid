@@ -47,8 +47,10 @@ class ArchivedReqsFragment : BaseFragment() {
             when(response){
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.spinkitView)
+
                     mainView.swipeRefreshLayout.isRefreshing = false
                     response.data?.let { myRequestsResponse ->
+
                         if (myRequestsResponse.archivedRequests.isNullOrEmpty()) {
                             mainView.tvInfo.visibility=View.VISIBLE
                             mainView.rvArchivedRequests.visibility=View.GONE
@@ -62,7 +64,6 @@ class ArchivedReqsFragment : BaseFragment() {
                 }
                 is Resource.Error -> {
                     progressBarVisibility(false,mainView.spinkitView)
-                    mainView.swipeRefreshLayout.isRefreshing = false
 
                     response.message?.let { message ->
                         showDialog(message)
@@ -128,13 +129,10 @@ class ArchivedReqsFragment : BaseFragment() {
         )
         mainView.swipeRefreshLayout.setOnRefreshListener {
             if(mainView.spinkitView.visibility!=View.VISIBLE) {
-                mainView.searchView.clearFocus()
-                mainView.searchView.setQuery("",false)
-                viewModel.getMyArchivedRequests()
-            }
-            else{
                 mainView.swipeRefreshLayout.isRefreshing = false
-
+                mainView.searchView.clearFocus()
+                mainView.searchView.setQuery("", false)
+                viewModel.getMyArchivedRequests()
             }
 
         }

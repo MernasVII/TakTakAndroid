@@ -1,5 +1,6 @@
 package tn.esprit.taktakandroid.uis.home
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -32,6 +33,7 @@ import tn.esprit.taktakandroid.uis.customer.spslist.SPsFragment
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
+import tn.esprit.taktakandroid.utils.SocketService
 
 class HomeActivity  : BaseActivity() {
     private lateinit var mainView : ActivityHomeBinding
@@ -54,6 +56,8 @@ class HomeActivity  : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val intent = Intent(this, SocketService::class.java)
+        startService(intent)
         mainView=ActivityHomeBinding.inflate(layoutInflater)
         setContentView(mainView.root)
         val userRepository = UserRepository()

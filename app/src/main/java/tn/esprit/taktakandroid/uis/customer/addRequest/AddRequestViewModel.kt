@@ -49,6 +49,12 @@ class AddRequestViewModel(
         get() = _descError
 
     private val _tos = MutableLiveData<String>()
+    val tos: LiveData<String>
+        get() = _tos
+
+    private val _tosError = MutableLiveData<String>()
+    val tosError: LiveData<String>
+        get() = _tosError
 
     private val _addReqResult = MutableLiveData<Resource<MessageResponse>>()
     val addReqResult: LiveData<Resource<MessageResponse>>
@@ -81,7 +87,9 @@ class AddRequestViewModel(
     fun removeDescError() {
         _descError.value = ""
     }
-
+    fun removeTosError() {
+        _tosError.value = ""
+    }
     private val handler = CoroutineExceptionHandler { _, _ ->
         _addReqResult.postValue(Resource.Error("Failed to connect"))
     }
@@ -95,7 +103,8 @@ class AddRequestViewModel(
         val isDateTimeValid = isDateTimeValid(dateTime)
         val isLocationValid = isLocationValid(location)
         val isDescValid = isDescValid(desc)
-        if (isDateTimeValid && isLocationValid && isDescValid) {
+        val isTosValid = isTosValid(tos)
+        if (isDateTimeValid && isLocationValid && isDescValid && isTosValid) {
             try {
                 _addReqResult.postValue(Resource.Loading())
 
@@ -122,15 +131,15 @@ class AddRequestViewModel(
     }
 
     private fun isDateTimeValid(dateTime: String?): Boolean {
-        if (dateTime == null || dateTime.isEmpty()) {
-            _dateTimeError.postValue("Date and time cannot be empty!")
+        if (dateTime.isNullOrEmpty()) {
+            _dateTimeError.postValue("Date cannot be empty!")
             return false
         }
         return true
     }
 
     private fun isLocationValid(location: String?): Boolean {
-        if (location == null || location.isEmpty()) {
+        if (location.isNullOrEmpty()) {
             _locationError.postValue("Location cannot be empty!")
             return false
         }
@@ -138,12 +147,19 @@ class AddRequestViewModel(
     }
 
     private fun isDescValid(desc: String?): Boolean {
-        if (desc == null || desc.isEmpty() || desc.length < 5) {
+        if (desc.isNullOrEmpty() || desc.length < 5) {
             _descError.postValue("Please enter a valid description!")
             return false
         }
         return true
     }
 
+    private fun isTosValid(tos: String?): Boolean {
+        if (tos.isNullOrEmpty()) {
+            _tosError.postValue("Types of services cannot be empty!")
+            return false
+        }
+        return true
+    }
 
 }

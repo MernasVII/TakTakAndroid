@@ -39,6 +39,7 @@ class AllRequestsViewModel(
 
     fun getAllRequests() = viewModelScope.launch {
         try {
+            _allRequests.postValue(listOf())
             _getAllRequestsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             val response = requestsRepository.getAllRequests("Bearer $token")
@@ -54,6 +55,9 @@ class AllRequestsViewModel(
                 _allRequests.postValue(resultResponse.allRequests)
                 return Resource.Success(resultResponse)
             }
+        }else{
+            _allRequests.postValue(listOf())
+            return Resource.Error(response.message())
         }
         return Resource.Error(response.message())
     }

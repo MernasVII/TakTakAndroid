@@ -94,6 +94,8 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
                 viewModelScope.launch(Dispatchers.IO) {
                     AppDataStore.writeString(Constants.AUTH_TOKEN, resultResponse.token!!)
                     AppDataStore.writeString(Constants.CIN, resultResponse.cin!!)
+                    AppDataStore.writeString(Constants.USER_ID,resultResponse.id!!)
+
                 }
                 return Resource.Success(resultResponse)
             }

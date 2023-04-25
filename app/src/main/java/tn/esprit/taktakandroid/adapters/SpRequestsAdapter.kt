@@ -1,11 +1,16 @@
 package tn.esprit.taktakandroid.adapters
 
 import android.os.Bundle
+import android.util.Log
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import de.hdodenhof.circleimageview.CircleImageView
+import tn.esprit.miniprojetinterfaces.Sheets.RequestDetailsSheet
+
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ItemReqSpBinding
 import tn.esprit.taktakandroid.models.entities.Request
@@ -38,13 +43,15 @@ class SpRequestsAdapter (private val fragmentManager: FragmentManager,private va
         holder.mainView.tvTimeLoc.text="${parseDate(request.date)} in ${request.location}"
         holder.mainView.tvTos.text="${request.tos}"
         holder.mainView.root.setOnClickListener {
+
                navigateToReqDetails(request)
+
 
         }
 
     }
 
-    private fun navigateToReqDetails(request: Request) {
+  private fun navigateToReqDetails(request: Request) {
         val bundle = Bundle().apply {
             putParcelable("request", request)
         }
