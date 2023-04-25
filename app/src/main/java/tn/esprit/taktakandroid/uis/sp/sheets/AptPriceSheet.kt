@@ -24,6 +24,8 @@ import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
 import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModel
 import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModelFactory
+import tn.esprit.taktakandroid.utils.Constants
+import tn.esprit.taktakandroid.utils.Constants.ACCEPTED_APT_RESULT
 import tn.esprit.taktakandroid.utils.Resource
 import kotlin.time.Duration.Companion.seconds
 
@@ -60,7 +62,7 @@ class AptPriceSheet : SheetBaseFragment() {
                 is Resource.Success -> {
                     progressBarVisibility(false, mainView.spinkitView)
                     result.data?.let {
-                        pendingAptsViewModel.getPendingAptsList()
+                        parentFragmentManager.setFragmentResult(ACCEPTED_APT_RESULT, Bundle())
                         dismiss()
                     }
                 }
@@ -78,15 +80,6 @@ class AptPriceSheet : SheetBaseFragment() {
     }
 
 
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        Log.d("Debug", "Dismissed onDismiss")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("Debug", "Dismissed onDestroy")
-    }
 
 
 }

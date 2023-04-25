@@ -26,6 +26,7 @@ import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
 import tn.esprit.taktakandroid.uis.sp.sheets.AptPriceSheet
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
+import tn.esprit.taktakandroid.utils.Constants.ACCEPTED_APT_RESULT
 import tn.esprit.taktakandroid.utils.Resource
 
 class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
@@ -78,6 +79,11 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
         observeViewModel()
         handleAcceptAptResult()
         handleDeclineAptResult()
+
+        parentFragmentManager.setFragmentResultListener(ACCEPTED_APT_RESULT,viewLifecycleOwner) {
+                _,_->
+            pendingAptsViewModel.getPendingAptsList()
+        }
     }
 
     private fun handleDeclineAptResult() {

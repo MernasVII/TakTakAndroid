@@ -22,4 +22,6 @@ object Constants {
     const val CHANNEL_ID = "taktak_channel_id"
     const val CHANNEL_NAME = "TAKTAK"
     const val NOTIFICATION_ID = 1
+    const val POSTPONED_RESULT = "postponed"
+    const val ACCEPTED_APT_RESULT = "accepted"
 }

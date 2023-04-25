@@ -1,11 +1,11 @@
 package tn.esprit.taktakandroid.uis.common.apts
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -23,9 +23,12 @@ import tn.esprit.taktakandroid.uis.common.aptsarchived.ArchivedAptsFragment
 import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsFragment
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
+import tn.esprit.taktakandroid.utils.Constants.POSTPONED_RESULT
 import tn.esprit.taktakandroid.utils.Resource
 
 class AptsFragment : BaseFragment() {
+
+
     val TAG="AptsFragment"
 
     lateinit var viewModel: AptsViewModel
@@ -84,6 +87,12 @@ class AptsFragment : BaseFragment() {
         mainView.ivArchive.setOnClickListener {
             navigateToArchivedApts()
         }
+
+       parentFragmentManager.setFragmentResultListener(POSTPONED_RESULT,viewLifecycleOwner) {
+           _,_->
+           viewModel.getAptsList()
+       }
+
     }
 
     private fun observeTemp() {
@@ -184,6 +193,10 @@ class AptsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+
         viewModel.getAptsList()
+
     }
+
+
 }

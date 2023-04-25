@@ -42,6 +42,9 @@ class AptsViewModel  (private val aptRepository: AptRepository
     val updateStateAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
     //val timeLeftAptRes: MutableLiveData<Resource<TimeLeftResponse>> = MutableLiveData()
 
+
+
+
     init {
         _tempApts.value = mutableListOf()
         _apts.value = listOf()
