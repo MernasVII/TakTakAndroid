@@ -14,7 +14,9 @@ import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.PostponeAptRequest
 import tn.esprit.taktakandroid.models.requests.UpdateAptStateRequest
 import tn.esprit.taktakandroid.models.responses.AptsResponse
+import tn.esprit.taktakandroid.models.responses.GetAptResponse
 import tn.esprit.taktakandroid.models.responses.MessageResponse
+import tn.esprit.taktakandroid.models.responses.UserProfileResponse
 import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
@@ -29,6 +31,9 @@ class AptsViewModel  (private val aptRepository: AptRepository
     private val _getAptsResult= MutableLiveData<Resource<AptsResponse>>()
     val aptsRes: LiveData<Resource<AptsResponse>>
         get() = _getAptsResult
+
+    val getAptRes: MutableLiveData<Resource<GetAptResponse>> = MutableLiveData()
+
 
     private val _tempApts = MutableLiveData<MutableList<Appointment>>()
     val tempApts: LiveData<MutableList<Appointment>> = _tempApts
@@ -106,6 +111,27 @@ class AptsViewModel  (private val aptRepository: AptRepository
         } catch (e: Exception) {
             updateStateAptRes.postValue(Resource.Error("Server connection failed!"))
         }
+    }
+
+    fun getApt(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
+        try {
+            getAptRes.postValue(Resource.Loading())
+            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+            val response = aptRepository.getApt("Bearer $token",idBodyRequest)
+            getAptRes.postValue(handleGetAptResponse(response))
+        } catch (exception: Exception) {
+            getAptRes.postValue(Resource.Error("Server connection failed!"))
+        }
+    }
+
+
+    private fun handleGetAptResponse(response: Response<GetAptResponse>): Resource<GetAptResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Resource.Success(resultResponse)
+            }
+        }
+        return Resource.Error(response.message())
     }
 
     /*fun getTimeLeftToApt(idBodyRequest: IdBodyRequest) = viewModelScope.launch {

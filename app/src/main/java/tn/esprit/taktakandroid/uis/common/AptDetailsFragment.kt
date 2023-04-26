@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import io.github.g00fy2.quickie.QRResult
 import io.github.g00fy2.quickie.ScanQRCode
@@ -51,6 +52,7 @@ class AptDetailsFragment : BaseFragment() {
     lateinit var viewModel: AptsViewModel
     lateinit var pendingAptsViewModel: PendingAptsViewModel
     private lateinit var paymentViewModel: PaymentViewModel
+    private var timer: CountDownTimer? = null
 
     val scanQrCodeLauncher = registerForActivityResult(ScanQRCode()) { result ->
         when(result){
@@ -90,9 +92,12 @@ class AptDetailsFragment : BaseFragment() {
         pendingAptsViewModel = ViewModelProvider(this, PendingAptsViewModelFactory(aptRepository))[PendingAptsViewModel::class.java]
         apt = arguments?.getParcelable<Appointment>("apt")!!
 
-        calculateTimeLeft(apt.date)
-
         setData(apt!!)
+        observeGetApt()
+        observePostponeApt()
+        observeCancelAptViewModel()
+        observeDeclineAptViewModel()
+        observeAcceptApt()
 
         mainView.btnAccept.setOnClickListener {
             /*lifecycleScope.launch {
@@ -112,10 +117,6 @@ class AptDetailsFragment : BaseFragment() {
         mainView.btnCancel.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.cancelApt(IdBodyRequest(apt._id!!))
-                delay(1.seconds)
-                withContext(Dispatchers.Main){
-                    requireActivity().supportFragmentManager.popBackStack()
-                }
             }
         }
         mainView.btnPostpone.setOnClickListener {
@@ -136,8 +137,23 @@ class AptDetailsFragment : BaseFragment() {
         mainView.btnScan.setOnClickListener {
             scanQrCodeLauncher.launch(null)
         }
+        swipeLayoutSetup()
 
         return mainView.root
+    }
+
+    private fun observeAcceptApt() {
+        parentFragmentManager.setFragmentResultListener(Constants.ACCEPTED_APT_RESULT,viewLifecycleOwner) {
+                _,_->
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+    }
+
+    private fun observePostponeApt() {
+        parentFragmentManager.setFragmentResultListener(Constants.POSTPONED_RESULT,viewLifecycleOwner) {
+                _,_->
+            viewModel.getApt(IdBodyRequest(apt._id!!))
+        }
     }
 
     private fun openQrCodeSheet() {
@@ -212,7 +228,14 @@ class AptDetailsFragment : BaseFragment() {
         if (timeLeftMs!! > 0) {
             mainView.tvTimeLeft.visibility = View.VISIBLE
             mainView.btnPostpone.visibility = View.VISIBLE
-            object : CountDownTimer(timeLeftMs, 1000) {
+
+            // check if the timer is running and cancel it
+            if (timer != null) {
+                timer?.cancel()
+                timer = null
+            }
+
+            timer = object : CountDownTimer(timeLeftMs, 1000) {
                 //fired every 1 second
                 override fun onTick(millisUntilFinished: Long) {
                     val timeLeftString = formatTimeLeft(millisUntilFinished)
@@ -233,6 +256,7 @@ class AptDetailsFragment : BaseFragment() {
             mainView.btnState.visibility = View.VISIBLE
         }
     }
+
 
     fun formatTimeLeft(millis: Long): String {
         val seconds = millis / 1000
@@ -330,5 +354,103 @@ class AptDetailsFragment : BaseFragment() {
         val timeStr = timeFormatter.format(date)
         return "$dateStr at $timeStr"
     }
+
+    private fun observeGetApt() {
+        viewModel.getAptRes.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    mainView.swipeRefreshLayout.isRefreshing = false
+                    mainView.scrollView.visibility=View.VISIBLE
+                    response.data?.let { getAptResponse ->
+                        setData(getAptResponse.apt)
+                    }
+                }
+                is Resource.Error -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    mainView.swipeRefreshLayout.isRefreshing = false
+                    mainView.scrollView.visibility=View.VISIBLE
+                    response.message?.let { message ->
+                        showDialog(message)
+                    }
+                }
+                is Resource.Loading -> {
+                    progressBarVisibility(true,mainView.spinkitView)
+                    mainView.scrollView.visibility=View.GONE
+                }
+            }
+        })
+    }
+
+    private fun observeCancelAptViewModel() {
+        viewModel.cancelAptRes.observe(viewLifecycleOwner, Observer { result ->
+            when (result){
+                is Resource.Success -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    result.data?.let {
+                        Toast.makeText(requireContext(), getString(R.string.apt_canceled), Toast.LENGTH_SHORT).show()
+                        requireActivity().supportFragmentManager.popBackStack()
+                    }
+                }
+                is Resource.Error -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    result.message?.let { msg ->
+                        showDialog(msg)
+                    }
+                }
+                is Resource.Loading -> {
+                    progressBarVisibility(true,mainView.spinkitView)
+                }
+            }
+        })
+    }
+
+    private fun observeDeclineAptViewModel() {
+        pendingAptsViewModel.declineAptRes.observe(viewLifecycleOwner, Observer { result ->
+            when (result){
+                is Resource.Success -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    result.data?.let {
+                        Toast.makeText(requireContext(), getString(R.string.apt_canceled), Toast.LENGTH_SHORT).show()
+                        requireActivity().supportFragmentManager.popBackStack()
+                    }
+                }
+                is Resource.Error -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    result.message?.let { msg ->
+                        showDialog(msg)
+                    }
+                }
+                is Resource.Loading -> {
+                    progressBarVisibility(true,mainView.spinkitView)
+                }
+            }
+        })
+    }
+
+    fun swipeLayoutSetup() {
+        mainView.swipeRefreshLayout.setColorSchemeColors(
+            resources.getColor(
+                R.color.orangeToBG,
+                null
+            )
+        )
+        mainView.swipeRefreshLayout.setOnRefreshListener {
+            if(mainView.spinkitView.visibility!=View.VISIBLE) {
+                viewModel.getApt(IdBodyRequest(apt._id!!))
+            }
+            else{
+                mainView.swipeRefreshLayout.isRefreshing = false
+
+            }
+
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getApt(IdBodyRequest(apt._id!!))
+    }
+
 
 }

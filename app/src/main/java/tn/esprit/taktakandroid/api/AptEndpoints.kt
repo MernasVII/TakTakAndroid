@@ -4,6 +4,7 @@ import retrofit2.Response
 import retrofit2.http.*
 import tn.esprit.taktakandroid.models.requests.*
 import tn.esprit.taktakandroid.models.responses.AptsResponse
+import tn.esprit.taktakandroid.models.responses.GetAptResponse
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.responses.TimeLeftResponse
 
@@ -112,5 +113,12 @@ interface AptEndpoints {
         @Header("Authorization") token: String,
         @Body request: UpdateAptStateRequest
     ): Response<MessageResponse>
+
+    //GET APT BY ID
+    @POST("appointment/getApt")
+    suspend fun getApt(
+        @Header("Authorization") token: String,
+        @Body request: IdBodyRequest
+    ): Response<GetAptResponse>
 
 }

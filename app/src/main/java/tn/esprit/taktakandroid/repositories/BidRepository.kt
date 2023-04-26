@@ -38,4 +38,8 @@ class BidRepository {
     suspend fun getMyBid(token:String,idBodyRequest: IdBodyRequest)=
         RetrofitInstance.bidApi.getMyBidOnRequest(token,idBodyRequest)
 
+    //GET MY BID PRICE ON A SPECIFIC REQUEST
+    suspend fun getMyBidPrice(token:String,idBodyRequest: IdBodyRequest)=
+        RetrofitInstance.bidApi.getMyBidPrice(token,idBodyRequest)
+
 }

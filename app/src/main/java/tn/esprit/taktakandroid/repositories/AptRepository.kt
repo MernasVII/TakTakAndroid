@@ -66,7 +66,12 @@ class AptRepository {
     suspend fun declineApt(token:String,idBodyRequest: IdBodyRequest)=
         RetrofitInstance.aptApi.declineApt(token,idBodyRequest)
 
+    /**************** COMMON ****************/
     //UPDATE APT STATE
     suspend fun updateAptState(token:String,updateAptStateRequest: UpdateAptStateRequest)=
         RetrofitInstance.aptApi.updateAptState(token,updateAptStateRequest)
+
+    //GET APT BY ID
+    suspend fun getApt(token:String,idBodyRequest: IdBodyRequest)=
+        RetrofitInstance.aptApi.getApt(token,idBodyRequest)
 }

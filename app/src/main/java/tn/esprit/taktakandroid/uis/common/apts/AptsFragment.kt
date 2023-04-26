@@ -1,7 +1,6 @@
 package tn.esprit.taktakandroid.uis.common.apts
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -92,7 +91,6 @@ class AptsFragment : BaseFragment() {
            _,_->
            viewModel.getAptsList()
        }
-
     }
 
     private fun observeTemp() {

@@ -94,6 +94,7 @@
     <string name="pwd_updated">Password updated!</string>
     <string name="work_desc_updated">Work description updated!</string>
     <string name="apt_booked">Appointment booked!</string>
+    <string name="apt_canceled">Appointment canceled!</string>
     <string name="firstname_empty">Firstname cannot be empty!</string>
     <string name="lastname_empty">Lastname cannot be empty!</string>
     <string name="address_empty">Address should contain at least 3 characters!</string>

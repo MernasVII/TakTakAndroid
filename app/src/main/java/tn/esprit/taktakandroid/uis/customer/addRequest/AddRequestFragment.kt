@@ -55,6 +55,7 @@ class AddRequestFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         mainView = FragmentAddRequestBinding.inflate(layoutInflater, container, false)
+        buttonsSetup()
 
         return mainView.root
     }
@@ -67,7 +68,6 @@ class AddRequestFragment : BaseFragment() {
             AddRequestViewModelFactory(reqRepository)
         )[AddRequestViewModel::class.java]
         errorHandling()
-        buttonsSetup()
         //   setupTosSpinner()
         mainView.btnAddReq.setOnClickListener {
             viewModel.addRequest()
@@ -300,6 +300,7 @@ class AddRequestFragment : BaseFragment() {
         btn.strokeColor = ColorStateList.valueOf(requireActivity().getColor(R.color.BGToLB))
         btn.setTextColor(requireActivity().getColor(R.color.BGToLB))
     }
+
     fun convertDateString(dateString: String): String {
         val formatter = SimpleDateFormat("dd/MM/yyyy 'at' HH:mm", Locale.getDefault())
         val date = formatter.parse(dateString)

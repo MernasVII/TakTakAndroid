@@ -1,6 +1,5 @@
 package tn.esprit.taktakandroid.uis.sp.sheets
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.databinding.SheetFragmentPostponeAptBinding
+import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.PostponeAptRequest
 import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.uis.SheetBaseFragment
@@ -43,11 +43,11 @@ class PostponeAptSheet : SheetBaseFragment() {
                 viewModel.postponeApt(PostponeAptRequest(aptId!!,(data[mainView.npMinutes.value - 1]).toInt()))
             }
         }
-        observeViewModel()
+        observeViewModel(aptId)
         return mainView.root
     }
 
-    private fun observeViewModel() {
+    private fun observeViewModel(aptId: String?) {
         viewModel.postponeAptRes.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Resource.Success -> {

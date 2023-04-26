@@ -12,9 +12,7 @@ import tn.esprit.taktakandroid.models.entities.Bid
 import tn.esprit.taktakandroid.models.requests.AcceptAptRequest
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.MakeBidRequest
-import tn.esprit.taktakandroid.models.responses.MessageResponse
-import tn.esprit.taktakandroid.models.responses.ReceivedBidsResponse
-import tn.esprit.taktakandroid.models.responses.SentBidsResponse
+import tn.esprit.taktakandroid.models.responses.*
 import tn.esprit.taktakandroid.repositories.BidRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
@@ -58,6 +56,9 @@ class BidViewModel(private val bidRepository: BidRepository
     private val _receivedBids = MutableLiveData<List<Bid>>()
     val receivedBids: LiveData<List<Bid>> = _receivedBids
 
+    val getBidPriceRes: MutableLiveData<Resource<MyBidPriceResponse>> = MutableLiveData()
+
+
     init {
         _tempSentBids.value = mutableListOf()
         _sentBids.value = listOf()
@@ -67,6 +68,17 @@ class BidViewModel(private val bidRepository: BidRepository
 
     private val handler = CoroutineExceptionHandler { _, _ ->
         makeBidRes.postValue(Resource.Error("Server connection failed!"))
+    }
+
+    fun getMyBid(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
+        try {
+            getBidPriceRes.postValue(Resource.Loading())
+            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+            val response = bidRepository.getMyBidPrice("Bearer $token",idBodyRequest)
+            getBidPriceRes.postValue(handleGetMyBidPriceResponse(response))
+        } catch (exception: Exception) {
+            getBidPriceRes.postValue(Resource.Error("Server connection failed!"))
+        }
     }
 
     fun getSentBidsList() = viewModelScope.launch {
@@ -139,6 +151,15 @@ class BidViewModel(private val bidRepository: BidRepository
         } catch (e: Exception) {
             _declineBidRes.postValue(Resource.Error("Server connection failed!"))
         }
+    }
+
+    private fun handleGetMyBidPriceResponse(response: Response<MyBidPriceResponse>): Resource<MyBidPriceResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Resource.Success(resultResponse)
+            }
+        }
+        return Resource.Error(response.message())
     }
 
     private fun handleAcceptResponse(msg:String,response: Response<MessageResponse>): Resource<MessageResponse> {

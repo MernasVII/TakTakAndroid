@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.databinding.SheetFragmentMakeBidFragmentBinding
+import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.MakeBidRequest
 import tn.esprit.taktakandroid.repositories.BidRepository
 import tn.esprit.taktakandroid.uis.SheetBaseFragment
@@ -25,6 +26,8 @@ class MakeBidSheet : SheetBaseFragment() {
     private lateinit var mainView: SheetFragmentMakeBidFragmentBinding
     lateinit var viewModel: BidViewModel
 
+    lateinit var reqId: String
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,15 +35,45 @@ class MakeBidSheet : SheetBaseFragment() {
         mainView = SheetFragmentMakeBidFragmentBinding.inflate(layoutInflater, container, false)
         val bidRepository=BidRepository()
         viewModel = ViewModelProvider(this, BidViewModelFactory(bidRepository))[BidViewModel::class.java]
-        val reqId = arguments?.getString("reqId")
+        reqId = arguments?.getString("reqId").toString()
 
         mainView.btnSave.setOnClickListener {
             lifecycleScope.launch {
                 viewModel.makeBid(MakeBidRequest(mainView.etBid.text.toString().toFloat(),reqId!!))
             }
         }
+        viewModel.getMyBid(IdBodyRequest(reqId))
         observeViewModel()
+        observeGetMyBid()
         return mainView.root
+    }
+
+    private fun observeGetMyBid() {
+        viewModel.getBidPriceRes.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    //mainView.swipeRefreshLayout.isRefreshing = false
+                    //mainView.scrollView.visibility=View.VISIBLE
+                    response.data?.let { getBidResponse ->
+                        if(getBidResponse.price!=null)
+                            mainView.etBid.setText(getBidResponse.price.toString())
+                    }
+                }
+                is Resource.Error -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    //mainView.swipeRefreshLayout.isRefreshing = false
+                    //mainView.scrollView.visibility=View.VISIBLE
+                    response.message?.let { message ->
+                        showDialog(message)
+                    }
+                }
+                is Resource.Loading -> {
+                    progressBarVisibility(true,mainView.spinkitView)
+                    //mainView.scrollView.visibility=View.GONE
+                }
+            }
+        })
     }
 
     private fun observeViewModel() {
@@ -74,6 +107,11 @@ class MakeBidSheet : SheetBaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d("Debug", "Dismissed onDestroy")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getMyBid(IdBodyRequest(reqId!!))
     }
 
 

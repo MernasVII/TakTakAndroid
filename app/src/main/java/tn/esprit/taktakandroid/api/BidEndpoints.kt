@@ -4,10 +4,7 @@ import retrofit2.Response
 import retrofit2.http.*
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.MakeBidRequest
-import tn.esprit.taktakandroid.models.responses.MessageResponse
-import tn.esprit.taktakandroid.models.responses.MyBidOnRequestResponse
-import tn.esprit.taktakandroid.models.responses.ReceivedBidsResponse
-import tn.esprit.taktakandroid.models.responses.SentBidsResponse
+import tn.esprit.taktakandroid.models.responses.*
 
 interface BidEndpoints {
     /**************** AS A CUSTOMER ****************/
@@ -59,4 +56,11 @@ interface BidEndpoints {
         @Header("Authorization") token: String,
         @Body request: IdBodyRequest
     ): Response<MyBidOnRequestResponse>
+
+    //GET MY BID PRICE ON A SPECIFIC REQUEST
+    @POST("bid/getMyBidPrice")
+    suspend fun getMyBidPrice(
+        @Header("Authorization") token: String,
+        @Body request: IdBodyRequest
+    ): Response<MyBidPriceResponse>
 }
