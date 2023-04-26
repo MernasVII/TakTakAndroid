@@ -53,8 +53,6 @@ class MakeBidSheet : SheetBaseFragment() {
             when (response) {
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.spinkitView)
-                    //mainView.swipeRefreshLayout.isRefreshing = false
-                    //mainView.scrollView.visibility=View.VISIBLE
                     response.data?.let { getBidResponse ->
                         if(getBidResponse.price!=null)
                             mainView.etBid.setText(getBidResponse.price.toString())
@@ -62,15 +60,12 @@ class MakeBidSheet : SheetBaseFragment() {
                 }
                 is Resource.Error -> {
                     progressBarVisibility(false,mainView.spinkitView)
-                    //mainView.swipeRefreshLayout.isRefreshing = false
-                    //mainView.scrollView.visibility=View.VISIBLE
                     response.message?.let { message ->
                         showDialog(message)
                     }
                 }
                 is Resource.Loading -> {
                     progressBarVisibility(true,mainView.spinkitView)
-                    //mainView.scrollView.visibility=View.GONE
                 }
             }
         })
