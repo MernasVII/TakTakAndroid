@@ -10,6 +10,7 @@ import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.models.entities.User
+import tn.esprit.taktakandroid.models.requests.FindAptRequest
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.PostponeAptRequest
 import tn.esprit.taktakandroid.models.requests.UpdateAptStateRequest
@@ -34,6 +35,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
         get() = _getAptsResult
 
     val getAptRes: MutableLiveData<Resource<GetAptResponse>> = MutableLiveData()
+    val findAptRes: MutableLiveData<Resource<GetAptResponse>> = MutableLiveData()
 
 
     private val _tempApts = MutableLiveData<MutableList<Appointment>>()
@@ -125,8 +127,28 @@ class AptsViewModel  (private val aptRepository: AptRepository
         }
     }
 
+    fun findApt(findAptRequest: FindAptRequest) = viewModelScope.launch {
+        try {
+            findAptRes.postValue(Resource.Loading())
+            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+            val response = aptRepository.findApt("Bearer $token",findAptRequest)
+            findAptRes.postValue(handleFindAptResponse(response))
+        } catch (exception: Exception) {
+            findAptRes.postValue(Resource.Error("Server connection failed!"))
+        }
+    }
+
 
     private fun handleGetAptResponse(response: Response<GetAptResponse>): Resource<GetAptResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Resource.Success(resultResponse)
+            }
+        }
+        return Resource.Error(response.message())
+    }
+
+    private fun handleFindAptResponse(response: Response<GetAptResponse>): Resource<GetAptResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)

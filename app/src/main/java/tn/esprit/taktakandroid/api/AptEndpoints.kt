@@ -121,4 +121,11 @@ interface AptEndpoints {
         @Body request: IdBodyRequest
     ): Response<GetAptResponse>
 
+    //GET APT DATE AND SP ID
+    @POST("appointment/findApt")
+    suspend fun findApt(
+        @Header("Authorization") token: String,
+        @Body request: FindAptRequest
+    ): Response<GetAptResponse>
+
 }
