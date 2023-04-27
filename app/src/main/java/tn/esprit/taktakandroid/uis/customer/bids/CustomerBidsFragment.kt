@@ -1,6 +1,7 @@
 package tn.esprit.taktakandroid.uis.customer.bids
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,14 +94,16 @@ class CustomerBidsFragment : BaseFragment(), BidCustomerItemTouchHelperListener 
         viewModel.acceptBidRes.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is Resource.Success -> {
-                    progressBarVisibility(false,mainView.spinkitView)
                     response.data?.let {
-                        requireActivity().supportFragmentManager.popBackStack()
+                        //Log.d(TAG, "handleAcceptBidResult: ${response.message}")
+                        progressBarVisibility(false,mainView.spinkitView)
+                        //TODO why response.message is null
+                        //Toast.makeText( requireContext(), "${response.message}", Toast.LENGTH_SHORT).show()
+                        parentFragmentManager.popBackStack()
                     }
                 }
                 is Resource.Error -> {
                     progressBarVisibility(false,mainView.spinkitView)
-
                     response.message?.let { message ->
                         showDialog(message)
                     }

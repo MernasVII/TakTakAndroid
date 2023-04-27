@@ -2,6 +2,7 @@ package tn.esprit.taktakandroid.uis
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -12,8 +13,10 @@ open class BaseFragment() :Fragment() {
     fun progressBarVisibility(visible: Boolean, view: View) {
         if (visible) {
             view.visibility = View.VISIBLE
+            Log.d("CustomerBidsFragment", "progressBarVisibility: here1")
         } else {
             view.visibility = View.GONE
+            Log.d("CustomerBidsFragment", "progressBarVisibility: here2")
         }
     }
 

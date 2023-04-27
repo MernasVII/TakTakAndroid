@@ -74,4 +74,8 @@ class AptRepository {
     //GET APT BY ID
     suspend fun getApt(token:String,idBodyRequest: IdBodyRequest)=
         RetrofitInstance.aptApi.getApt(token,idBodyRequest)
+
+    //GET APT DATE AND SP ID
+    suspend fun findApt(token:String,findAptRequest: FindAptRequest)=
+        RetrofitInstance.aptApi.findApt(token,findAptRequest)
 }

@@ -9,7 +9,6 @@ import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.entities.Bid
-import tn.esprit.taktakandroid.models.requests.AcceptAptRequest
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.MakeBidRequest
 import tn.esprit.taktakandroid.models.responses.*
