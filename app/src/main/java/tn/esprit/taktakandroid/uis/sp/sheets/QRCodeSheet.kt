@@ -16,28 +16,38 @@ import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.repositories.PaymentRepository
 import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModel
 import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModelFactory
-import tn.esprit.taktakandroid.utils.Resource
 
 
 class QRCodeSheet : BottomSheetDialogFragment() {
-    val TAG="QRCodeSheet"
+    val TAG = "QRCodeSheet"
 
     private lateinit var mainView: SheetFragmentQrCodeBinding
+    private lateinit var viewModel: PaymentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         mainView = SheetFragmentQrCodeBinding.inflate(layoutInflater, container, false)
-        val payUrl = arguments?.getString("payUrl")
+        return mainView.root
+    }
 
-        mainView.tvSend.setOnClickListener{
-            //TODO send link by email
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val payRepo = PaymentRepository()
+        viewModel = ViewModelProvider(
+            this,
+            PaymentViewModelFactory(payRepo,null)
+        )[PaymentViewModel::class.java]
+        val payUrl = arguments?.getString("payUrl")
+        val customerEmail = arguments?.getString("customerEmail")
+
+        mainView.tvSend.setOnClickListener {
+            viewModel.sendLink(customerEmail!!, payUrl!!)
         }
 
         //get string and pass to function
         generateQrCode(payUrl!!)
-        return mainView.root
     }
 
     private fun getScreenMetrics(): Pair<Int, Int> {

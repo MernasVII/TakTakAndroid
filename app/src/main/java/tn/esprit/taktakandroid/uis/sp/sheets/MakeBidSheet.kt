@@ -36,10 +36,11 @@ class MakeBidSheet : SheetBaseFragment() {
         val bidRepository=BidRepository()
         viewModel = ViewModelProvider(this, BidViewModelFactory(bidRepository))[BidViewModel::class.java]
         reqId = arguments?.getString("reqId").toString()
+        val customerID=arguments?.getString("customerID").toString()
 
         mainView.btnSave.setOnClickListener {
             lifecycleScope.launch {
-                viewModel.makeBid(MakeBidRequest(mainView.etBid.text.toString().toFloat(),reqId!!))
+                viewModel.makeBid(MakeBidRequest(mainView.etBid.text.toString().toFloat(),reqId!!),customerID)
             }
         }
         viewModel.getMyBid(IdBodyRequest(reqId))

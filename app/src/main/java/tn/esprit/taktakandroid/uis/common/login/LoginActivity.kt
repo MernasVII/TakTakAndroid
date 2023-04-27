@@ -8,9 +8,11 @@ import android.text.TextWatcher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.*
 import tn.esprit.taktakandroid.databinding.ActivityLoginBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.BaseActivity
@@ -21,6 +23,7 @@ import tn.esprit.taktakandroid.uis.common.sheets.TermsAndConditionsSheet
 
 import tn.esprit.taktakandroid.utils.Resource
 import tn.esprit.taktakandroid.utils.SocketService
+import kotlin.time.Duration.Companion.seconds
 
 
 const val TAG = "LoginActivity"
@@ -52,11 +55,18 @@ class LoginActivity : BaseActivity() {
         viewModel.loginResult.observe(this@LoginActivity, Observer { result ->
             when (result) {
                 is Resource.Success -> {
-                    progressBarVisibility(false,mainView.progressBar)
+
                     result.data?.let {
-                        Intent(this, HomeActivity::class.java).also {
-                            startActivity(it)
-                            finish()
+                        lifecycleScope.launch {
+                            delay(1.seconds)
+                            withContext(Dispatchers.Main){
+                                Intent(this@LoginActivity, HomeActivity::class.java).also {
+                                    progressBarVisibility(false,mainView.progressBar)
+                                    startActivity(it)
+                                    finish()
+                                }
+                            }
+
                         }
                     }
                 }

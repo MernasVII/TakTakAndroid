@@ -5,9 +5,9 @@ import androidx.lifecycle.ViewModelProvider
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.repositories.PaymentRepository
 
-class PaymentViewModelFactory (
+class PaymentViewModelFactory(
     val paymentRepository: PaymentRepository,
-    val appointment: Appointment
+    val appointment: Appointment?
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.databinding.SheetFragmentPostponeAptBinding
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
@@ -15,8 +16,11 @@ import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.uis.SheetBaseFragment
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
+import tn.esprit.taktakandroid.utils.AppDataStore
+import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Constants.POSTPONED_RESULT
 import tn.esprit.taktakandroid.utils.Resource
+import tn.esprit.taktakandroid.utils.SocketService
 
 
 class PostponeAptSheet : SheetBaseFragment() {
@@ -36,11 +40,12 @@ class PostponeAptSheet : SheetBaseFragment() {
         val aptRepository = AptRepository()
         viewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
         val aptId = arguments?.getString("aptId")
+        val customerID = arguments?.getString("customerID")
         setupPicker()
 
         mainView.btnPostpone.setOnClickListener {
             lifecycleScope.launch {
-                viewModel.postponeApt(PostponeAptRequest(aptId!!,(data[mainView.npMinutes.value - 1]).toInt()))
+                viewModel.postponeApt(PostponeAptRequest(aptId!!,(data[mainView.npMinutes.value - 1]).toInt()),customerID!!)
             }
         }
         observeViewModel(aptId)
@@ -53,6 +58,7 @@ class PostponeAptSheet : SheetBaseFragment() {
                 is Resource.Success -> {
                     progressBarVisibility(false, mainView.spinkitView)
                     result.data?.let {
+
                         parentFragmentManager.setFragmentResult(POSTPONED_RESULT, Bundle())
                         dismiss()
                     }

@@ -13,6 +13,7 @@ import tn.esprit.miniprojetinterfaces.Sheets.RequestDetailsSheet
 
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ItemReqSpBinding
+import tn.esprit.taktakandroid.models.entities.Bid
 import tn.esprit.taktakandroid.models.entities.Request
 import tn.esprit.taktakandroid.uis.common.RequestDetailsFragment
 import tn.esprit.taktakandroid.utils.Constants
@@ -39,7 +40,7 @@ class SpRequestsAdapter (private val fragmentManager: FragmentManager,private va
         var request=requests[position]
         Glide.with(holder.itemView).load(Constants.IMG_URL +request.customer.pic).into(holder.mainView.ivPic)
         holder.mainView.tvName.text="${request.customer.firstname} ${request.customer.lastname}"
-        holder.mainView.tvBidCount.text="Bids: ${request.bids.size}"
+        holder.mainView.tvBidCount.text="Bids: ${countActiveBids(request.bids)}"
         holder.mainView.tvTimeLoc.text="${parseDate(request.date)} in ${request.location}"
         holder.mainView.tvTos.text="${request.tos}"
         holder.mainView.root.setOnClickListener {
@@ -62,6 +63,14 @@ class SpRequestsAdapter (private val fragmentManager: FragmentManager,private va
             addToBackStack(null)
             commit()
         }
+    }
+
+    private fun countActiveBids(bids: List<Bid>):Int{
+        var count =0
+        bids.forEach { b->
+            if(!b.isDeclined) count ++
+        }
+        return count
     }
     private fun parseDate(date:String):String{
       val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)

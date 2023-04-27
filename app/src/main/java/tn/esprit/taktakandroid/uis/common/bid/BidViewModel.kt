@@ -17,6 +17,7 @@ import tn.esprit.taktakandroid.repositories.BidRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
+import tn.esprit.taktakandroid.utils.SocketService
 
 class BidViewModel(private val bidRepository: BidRepository
 ) : ViewModel() {
@@ -102,13 +103,13 @@ class BidViewModel(private val bidRepository: BidRepository
 
     }
 
-    fun makeBid(makeBidRequest: MakeBidRequest) = viewModelScope.launch {
+    fun makeBid(makeBidRequest: MakeBidRequest,customerID:String) = viewModelScope.launch {
         try {
             makeBidRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             viewModelScope.launch(handler) {
                 val response = bidRepository.makeBid("Bearer $token", makeBidRequest)
-                makeBidRes.postValue(handleMakeBidResponse(response))
+                makeBidRes.postValue(handleMakeBidResponse(response,customerID))
             }
         } catch (e: Exception) {
             makeBidRes.postValue(Resource.Error("Server connection failed!"))
@@ -126,26 +127,26 @@ class BidViewModel(private val bidRepository: BidRepository
         }
     }
 
-    fun acceptBid(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
+    fun acceptBid(idBodyRequest: IdBodyRequest,spID:String) = viewModelScope.launch {
         try {
             _acceptBidRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             viewModelScope.launch(handler) {
                 val response = bidRepository.acceptBid("Bearer $token", idBodyRequest)
-                _acceptBidRes.postValue(handleAcceptResponse("Bid Accepted and appointment created!",response))
+                _acceptBidRes.postValue(handleAcceptResponse("Bid Accepted and appointment created!",response,spID))
             }
         } catch (e: Exception) {
             _acceptBidRes.postValue(Resource.Error("Server connection failed!"))
         }
     }
 
-    fun declineBid(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
+    fun declineBid(idBodyRequest: IdBodyRequest,spID:String) = viewModelScope.launch {
         try {
             _declineBidRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             viewModelScope.launch(handler) {
                 val response = bidRepository.declineBid("Bearer $token", idBodyRequest)
-                _declineBidRes.postValue(handleDeclineResponse("Bid declined!",response))
+                _declineBidRes.postValue(handleDeclineResponse("Bid declined!",response,spID))
             }
 
         } catch (e: Exception) {
@@ -162,16 +163,26 @@ class BidViewModel(private val bidRepository: BidRepository
         return Resource.Error(response.message())
     }
 
-    private fun handleAcceptResponse(msg:String,response: Response<MessageResponse>): Resource<MessageResponse> {
+    private fun handleAcceptResponse(msg:String,response: Response<MessageResponse>,spID:String): Resource<MessageResponse> {
         if (response.isSuccessful) {
+            viewModelScope.launch {
+                val currUserID = AppDataStore.readString(Constants.USER_ID)
+                val msg = "$spID/ accepted your bid!/$currUserID"
+                SocketService.sendMessage(msg)
+            }
             return Resource.Success(MessageResponse(msg))
         }
         val errorBody = JSONObject(response.errorBody()!!.string())
         return Resource.Error(errorBody.getString("message"))
     }
 
-    private fun handleDeclineResponse(msg:String,response: Response<MessageResponse>): Resource<MessageResponse> {
+    private fun handleDeclineResponse(msg:String,response: Response<MessageResponse>,spID:String): Resource<MessageResponse> {
         if (response.isSuccessful) {
+            viewModelScope.launch {
+                val currUserID = AppDataStore.readString(Constants.USER_ID)
+                val msg = "$spID/ declined your bid!/$currUserID"
+                SocketService.sendMessage(msg)
+            }
             return Resource.Success(MessageResponse(msg))
         }
         val errorBody = JSONObject(response.errorBody()!!.string())
@@ -186,8 +197,13 @@ class BidViewModel(private val bidRepository: BidRepository
         return Resource.Error(errorBody.getString("message"))
     }
 
-    private fun handleMakeBidResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+    private fun handleMakeBidResponse(response: Response<MessageResponse>,customerID:String): Resource<MessageResponse> {
         if (response.isSuccessful) {
+            viewModelScope.launch {
+                val currUserID = AppDataStore.readString(Constants.USER_ID)
+                val msg = "$customerID/ made a bid!/$currUserID"
+                SocketService.sendMessage(msg)
+            }
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
             }

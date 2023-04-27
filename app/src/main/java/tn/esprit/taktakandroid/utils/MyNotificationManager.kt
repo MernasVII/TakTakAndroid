@@ -24,7 +24,7 @@ object MyNotificationManager {
     fun sendNotif(context: Context,  message: String) {
         val manager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        createNotifChannel(context,manager)
+        createNotifChannel(manager)
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.logo)
@@ -40,12 +40,12 @@ object MyNotificationManager {
         manager.notify(NOTIFICATION_ID, builder.build())
     }
 
-    private fun createNotifChannel(context: Context,manager:NotificationManager) {
+    private fun createNotifChannel(manager:NotificationManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 CHANNEL_ID,
                 CHANNEL_NAME,
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_HIGH
             ).apply {
                 lightColor = Color.BLUE
                 enableLights(true)

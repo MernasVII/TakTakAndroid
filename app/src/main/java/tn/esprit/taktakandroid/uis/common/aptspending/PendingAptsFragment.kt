@@ -217,14 +217,15 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
 
     }
 
-    override fun onAptSwipedLeft(aptId: String) {
-        pendingAptsViewModel.declineApt(IdBodyRequest(aptId))
+    override fun onAptSwipedLeft(aptId: String,customerID:String) {
+        pendingAptsViewModel.declineApt(IdBodyRequest(aptId),customerID)
     }
 
-    override fun onAptSwipedRight(aptId: String) {
+    override fun onAptSwipedRight(aptId: String,customerID:String) {
         val aptPriceSheet = AptPriceSheet()
         val args = Bundle()
         args.putString("aptId", aptId)
+        args.putString("customerID", customerID)
         aptPriceSheet.arguments = args
         aptPriceSheet.show(parentFragmentManager, "exampleBottomSheet")
 
