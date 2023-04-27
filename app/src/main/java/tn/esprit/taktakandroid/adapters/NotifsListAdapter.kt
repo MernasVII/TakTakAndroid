@@ -13,8 +13,10 @@ import tn.esprit.taktakandroid.databinding.ItemNotifBinding
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.models.entities.Bid
 import tn.esprit.taktakandroid.models.entities.Notification
+import tn.esprit.taktakandroid.models.entities.Request
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.uis.common.AptDetailsFragment
+import tn.esprit.taktakandroid.uis.common.RequestDetailsFragment
 import tn.esprit.taktakandroid.uis.common.notifs.NotifsViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -76,7 +78,24 @@ class NotifsListAdapter (private val fragmentManager: FragmentManager,
                 commit()
             }
         }else if(bid!=null){
-            //TODO if bid still not accepted+not declined navigate to bids list else find newly created apt by date and sp and navigate to it
+            if(!bid.isAccepted){
+                navigateToReqDetailsFragment(bid.request)
+            }else{
+                //TODO find apt by date+sp and navigate to its details
+            }
+        }
+    }
+
+    private fun navigateToReqDetailsFragment(request: Request) {
+        val bundle = Bundle().apply {
+            putParcelable("request", request)
+        }
+        val requestDetailsFragment = RequestDetailsFragment()
+        requestDetailsFragment.arguments = bundle
+        fragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, requestDetailsFragment)
+            addToBackStack(null)
+            commit()
         }
     }
 

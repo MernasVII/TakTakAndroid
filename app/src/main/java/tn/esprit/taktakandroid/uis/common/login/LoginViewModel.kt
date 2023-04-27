@@ -95,15 +95,12 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
                     AppDataStore.writeString(Constants.AUTH_TOKEN, resultResponse.token!!)
                     AppDataStore.writeString(Constants.CIN, resultResponse.cin!!)
                     AppDataStore.writeString(Constants.USER_ID,resultResponse.id!!)
-
                 }
                 return Resource.Success(resultResponse)
             }
         }
         val errorBody = JSONObject(response.errorBody()!!.string())
         return Resource.Error(errorBody.getString("message"))
-
-
     }
 
     private fun isEmailValid(email: String?): Boolean {
