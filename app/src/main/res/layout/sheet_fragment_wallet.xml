@@ -8,22 +8,89 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".uis.sp.sheets.WalletSheet">
+    tools:context=".uis.sp.sheets.wallet.WalletSheet">
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_walletTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:autoSizeTextType="uniform"
+        android:visibility="gone"
         android:fontFamily="@font/poppins_semibold"
         android:gravity="center"
         android:text="@string/balance"
         android:textColor="@color/redToYellow"
         android:textSize="35dp" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_walletAuthTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_marginTop="20dp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center"
+        android:text="@string/wallet_access_authentication"
+        android:textColor="@color/BGToLB"
+        android:textSize="35dp" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tlPassword"
+        style="@style/OutlinedBoxBGLB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="25dp"
+        app:boxBackgroundColor="@color/white"
+        android:visibility="visible"
+        app:boxCornerRadiusBottomEnd="24dp"
+        app:boxCornerRadiusBottomStart="24dp"
+        app:errorIconTint="@color/red"
+        app:errorTextColor="@color/red"
+        app:boxStrokeErrorColor="@color/red"
+        app:boxCornerRadiusTopEnd="24dp"
+        app:boxCornerRadiusTopStart="24dp"
+        app:boxStrokeWidth="1dp"
+        app:hintEnabled="true"
+        app:passwordToggleEnabled="true"
+        app:startIconDrawable="@drawable/ic_key"
+        app:startIconTint="@color/BGToLB">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_Password"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="@string/new_password"
+            android:inputType="textPassword"
+            android:textColor="@color/grey"
+            android:textSize="16dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnConfirm"
+        android:visibility="visible"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        app:backgroundTint="@color/BGToLB"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="40dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:fontFamily="@font/poppins_medium"
+        android:letterSpacing="0"
+        android:text="@string/confirm"
+        android:textAllCaps="false"
+        app:cornerRadius="24dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tl_Balance"
         style="@style/OutlinedBoxRed"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -56,12 +123,12 @@
             android:textSize="16dp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnWithdraw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
+        android:visibility="gone"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="40dp"

@@ -3,13 +3,7 @@ package tn.esprit.taktakandroid.repositories
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import tn.esprit.taktakandroid.api.RetrofitInstance
-import tn.esprit.taktakandroid.models.requests.LoginRequest
-import tn.esprit.taktakandroid.models.requests.ResetPwdRequest
-import tn.esprit.taktakandroid.models.requests.SendOtpRequest
-import tn.esprit.taktakandroid.models.requests.SignUpRequest
-import tn.esprit.taktakandroid.models.requests.UpdateProfileRequest
-import tn.esprit.taktakandroid.models.requests.UpdatePwdRequest
-import tn.esprit.taktakandroid.models.requests.UpdateWorkDescRequest
+import tn.esprit.taktakandroid.models.requests.*
 import java.io.File
 import java.util.*
 
@@ -47,4 +41,9 @@ class UserRepository {
 
     suspend fun deleteUser(token:String)=
         RetrofitInstance.userApi.deleteUser(token)
+
+    suspend fun checkPassword(token:String,checkPwdRequest: CheckPwdRequest)=
+        RetrofitInstance.userApi.checkPwd(token,checkPwdRequest)
+
+
 }
