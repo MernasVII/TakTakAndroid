@@ -130,9 +130,7 @@ class UserProfileFragment : BaseFragment() {
             }
         }
 
-        mainView.ivWallet.setOnClickListener {
-            displaySheet(WalletSheet())
-        }
+
 
         return mainView.root
     }
@@ -163,6 +161,9 @@ class UserProfileFragment : BaseFragment() {
         //open update pwd sheet
         mainView.flPwd.setOnClickListener {
             displaySheet(UpdatePasswordSheet(user))
+        }
+        mainView.ivWallet.setOnClickListener {
+            displaySheet(WalletSheet())
         }
     }
 

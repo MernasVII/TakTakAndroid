@@ -14,12 +14,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.SheetFragmentWalletBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
+import tn.esprit.taktakandroid.repositories.WalletRepository
 import tn.esprit.taktakandroid.uis.SheetBaseFragment
 import tn.esprit.taktakandroid.uis.sp.sheets.updatework.UpdateWorkDescriptionViewModel
 import tn.esprit.taktakandroid.uis.sp.sheets.updatework.UpdateWorkDescriptionViewModelFactory
 import tn.esprit.taktakandroid.utils.Resource
 
-const val TAG="WalletSheet"
+const val TAG = "WalletSheet"
+
 class WalletSheet : SheetBaseFragment() {
 
     private lateinit var mainView: SheetFragmentWalletBinding
@@ -35,10 +37,11 @@ class WalletSheet : SheetBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val repo = UserRepository()
+        val userRepo = UserRepository()
+        val walletRepo = WalletRepository()
         viewModel = ViewModelProvider(
             this,
-            WalletViewModelFactory(repo)
+            WalletViewModelFactory(userRepo, walletRepo)
         )[WalletViewModel::class.java]
 
         mainView.etPassword.addTextChangedListener(object : TextWatcher {
@@ -65,29 +68,82 @@ class WalletSheet : SheetBaseFragment() {
         }
 
 
-        mainView.btnWithdraw.setOnClickListener { dismiss() }
+        mainView.btnWithdraw.setOnClickListener {
+            val currentBalance = mainView.etBalance.text.toString().toFloat()
+
+            if (currentBalance == 0.0f) {
+                showDialog("Cannot withdraw due to insufficient funds!")
+            } else {
+                viewModel.withdrawMoney()
+            }
+       }
         mainView.btnConfirm.setOnClickListener { viewModel.verifyPassword() }
 
-        viewModel.checkPWDRes.observe(viewLifecycleOwner)
-            { result ->
-                when (result) {
-                    is Resource.Success -> {
-                       // progressBarVisibility(false,mainView.spinkitView)
-                        result.data?.let {
-                            Toast.makeText(requireContext(), "User authenticated!", Toast.LENGTH_SHORT).show()
-                            showBalance()
-                        }
-                    }
-                    is Resource.Error -> {
-                       // progressBarVisibility(false,mainView.spinkitView)
-                        result.message?.let { msg ->
-                            showDialog(msg)
-                        }
-                    }
-                    is Resource.Loading -> {
-                       // progressBarVisibility(true,mainView.spinkitView)
+        viewModel.checkPWDResult.observe(viewLifecycleOwner)
+        { result ->
+            when (result) {
+                is Resource.Success -> {
+                     progressBarVisibility(false,mainView.spinkitView)
+                    result.data?.let {
+                        viewModel.getCurrentBalance()
                     }
                 }
+                is Resource.Error -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    result.message?.let { msg ->
+                        showDialog(msg)
+                    }
+                }
+                is Resource.Loading -> {
+                    progressBarVisibility(true,mainView.spinkitView)
+                }
+            }
+
+        }
+
+        viewModel.getMyBalanceResult.observe(viewLifecycleOwner)
+        { result ->
+            when (result) {
+                is Resource.Success -> {
+                     progressBarVisibility(false,mainView.spinkitView)
+                    result.data?.let { resp ->
+                        mainView.etBalance.setText(resp.amount.toString())
+                        showBalance()
+                    }
+                }
+                is Resource.Error -> {
+                   progressBarVisibility(false,mainView.spinkitView)
+                    result.message?.let { msg ->
+                        showDialog(msg)
+                    }
+                }
+                is Resource.Loading -> {
+                   progressBarVisibility(true,mainView.spinkitView)
+                }
+            }
+
+        }
+
+        viewModel.withdrawMoneyResult.observe(viewLifecycleOwner)
+        { result ->
+            when (result) {
+                is Resource.Success -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    result.data?.let {
+                        mainView.etBalance.setText("0.0")
+                        Toast.makeText(requireContext(), "Successful withdrawal. Check email for details.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                is Resource.Error -> {
+                    progressBarVisibility(false,mainView.spinkitView)
+                    result.message?.let { msg ->
+                        showDialog(msg)
+                    }
+                }
+                is Resource.Loading -> {
+                    progressBarVisibility(true,mainView.spinkitView)
+                }
+            }
 
         }
     }
