@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 import io.github.g00fy2.quickie.QRResult
 import io.github.g00fy2.quickie.ScanQRCode
 import kotlinx.coroutines.launch
-import tn.esprit.miniprojetinterfaces.Sheets.ChatSheet
+import tn.esprit.taktakandroid.uis.common.sheets.chat.ChatSheet
 import java.text.ParseException
 import java.util.*
 import tn.esprit.taktakandroid.R

@@ -110,6 +110,9 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return 0
     }
 
+    fun submitList(newList: List<ChatMessage>) {
+        diff.submitList(newList)
+    }
 
     override fun getItemCount(): Int {
         return diff.currentList.size
