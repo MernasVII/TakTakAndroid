@@ -34,8 +34,9 @@ class RequestDetailsFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         mainView = FragmentRequestDetailsBinding.inflate(layoutInflater)
-        val bidRepository=BidRepository()
-        viewModel = ViewModelProvider(this, BidViewModelFactory(bidRepository))[BidViewModel::class.java]
+        val bidRepository = BidRepository()
+        viewModel =
+            ViewModelProvider(this, BidViewModelFactory(bidRepository))[BidViewModel::class.java]
         request = arguments?.getParcelable<Request>("request")!!
 
         setData(request!!)
@@ -44,6 +45,7 @@ class RequestDetailsFragment : BaseFragment() {
             val makeBidSheet = MakeBidSheet()
             val args = Bundle()
             args.putString("reqId", request._id)
+            args.putString("customerID", request.customer._id)
             makeBidSheet.arguments = args
             makeBidSheet.show(parentFragmentManager, "exampleBottomSheet")
         }

@@ -44,7 +44,7 @@
     <color name="yellowToStatus">#ffeccc</color>
 
     <color name="lightGreyToDarkGrey">#BFe6e6e6</color>
-    <color name="lightGreyToDarkGrey2">#E6dadada</color>
+    <color name="yellowToDarkGrey">#ffeccc</color>
     <color name="darkGreyToWhite">#68767C</color>
     <color name="darkGreyToYellow">#68767C</color>
     <color name="greyToYellow">#808080</color>

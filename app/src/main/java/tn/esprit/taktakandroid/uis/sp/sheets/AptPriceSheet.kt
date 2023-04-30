@@ -45,11 +45,12 @@ class AptPriceSheet : SheetBaseFragment() {
         pendingAptsViewModel = ViewModelProvider(this, PendingAptsViewModelFactory(aptRepository))[PendingAptsViewModel::class.java]
 
         val aptId = arguments?.getString("aptId")
+        val customerID = arguments?.getString("customerID")
 
 
         mainView.btnProceed.setOnClickListener {
             lifecycleScope.launch {
-                pendingAptsViewModel.acceptApt(AcceptAptRequest(aptId!!,mainView.etBalance.text.toString().toFloat()))
+                pendingAptsViewModel.acceptApt(AcceptAptRequest(aptId!!,mainView.etBalance.text.toString().toFloat()),customerID!!)
             }
         }
         observeViewModel()

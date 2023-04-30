@@ -40,6 +40,7 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Constants.AUTH_TOKEN
 import tn.esprit.taktakandroid.utils.Resource
+import tn.esprit.taktakandroid.utils.SocketService
 import java.io.File
 
 const val TAG = "UserProfileFragment"
@@ -186,6 +187,8 @@ class UserProfileFragment : BaseFragment() {
     private fun doLogout() {
         lifecycleScope.launch(Dispatchers.IO) {
             AppDataStore.deleteString(AUTH_TOKEN)
+            val intent = Intent(requireActivity(), SocketService::class.java)
+            requireActivity().stopService(intent)
             googleSignOut()
             withContext(Dispatchers.Main){
                 Intent(requireActivity(), LoginActivity::class.java).also {

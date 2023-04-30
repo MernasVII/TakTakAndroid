@@ -20,6 +20,7 @@ object Constants {
     const val USER_ID = "user_id"
     const val OTP = "otp"
     const val CHANNEL_ID = "taktak_channel_id"
+    const val DARK_THEME_SET = "dark_theme_is_set"
     const val CHANNEL_NAME = "TAKTAK"
     const val NOTIFICATION_ID = 1
     const val POSTPONED_RESULT = "postponed"

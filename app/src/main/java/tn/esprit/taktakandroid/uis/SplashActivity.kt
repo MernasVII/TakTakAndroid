@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -26,8 +27,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
+        //setTheme()
         AppDataStore.init(applicationContext)
         lifecycleScope.launch(Dispatchers.IO) {
             val token = AppDataStore.readString(AUTH_TOKEN) ?: ""
@@ -52,6 +52,16 @@ class SplashActivity : AppCompatActivity() {
 
 
     }
+
+    /*private fun setTheme() {
+        var isDarkThemeSet:Boolean
+        lifecycleScope.launch(Dispatchers.Main) {
+            isDarkThemeSet = AppDataStore.readBool(Constants.DARK_THEME_SET)  ?: false
+            if(isDarkThemeSet){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
+        }
+    }*/
 
     private fun getLastSignedInAccount(): GoogleSignInAccount? {
         return GoogleSignIn.getLastSignedInAccount(this)

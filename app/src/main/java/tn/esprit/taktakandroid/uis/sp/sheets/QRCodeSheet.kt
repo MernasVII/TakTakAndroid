@@ -7,31 +7,46 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.*
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.zxing.BarcodeFormat
 import com.journeyapps.barcodescanner.BarcodeEncoder
 import tn.esprit.taktakandroid.databinding.SheetFragmentQrCodeBinding
+import tn.esprit.taktakandroid.repositories.PaymentRepository
+import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModel
+import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModelFactory
 
 
 class QRCodeSheet : BottomSheetDialogFragment() {
-    val TAG="QRCodeSheet"
+    val TAG = "QRCodeSheet"
 
     private lateinit var mainView: SheetFragmentQrCodeBinding
+    private lateinit var viewModel: PaymentViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         mainView = SheetFragmentQrCodeBinding.inflate(layoutInflater, container, false)
-        val payUrl = arguments?.getString("payUrl")
+        return mainView.root
+    }
 
-        mainView.tvSend.setOnClickListener{
-            //TODO send link by email
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val payRepo = PaymentRepository()
+        viewModel = ViewModelProvider(
+            this,
+            PaymentViewModelFactory(payRepo,null)
+        )[PaymentViewModel::class.java]
+        val payUrl = arguments?.getString("payUrl")
+        val customerEmail = arguments?.getString("customerEmail")
+
+        mainView.tvSend.setOnClickListener {
+            viewModel.sendLink(customerEmail!!, payUrl!!)
         }
 
         //get string and pass to function
         generateQrCode(payUrl!!)
-        return mainView.root
     }
 
     private fun getScreenMetrics(): Pair<Int, Int> {

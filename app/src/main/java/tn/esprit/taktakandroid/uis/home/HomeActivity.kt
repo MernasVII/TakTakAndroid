@@ -20,6 +20,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.databinding.ActivityHomeBinding
@@ -57,6 +58,10 @@ class HomeActivity  : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val intent = Intent(this, SocketService::class.java)
+
+        // Initialize Firebase
+        FirebaseApp.initializeApp(this)
+
         startService(intent)
         mainView=ActivityHomeBinding.inflate(layoutInflater)
         setContentView(mainView.root)
@@ -66,7 +71,7 @@ class HomeActivity  : BaseActivity() {
         val initialFragmentCustomer = SPsFragment()
         val initialFragmentSP = AptsFragment()
 
-        lifecycleScope.launch(Dispatchers.IO){
+        lifecycleScope.launch(Dispatchers.Main){
             cin = AppDataStore.readString(Constants.CIN)
             Log.d(TAG, "onCreate: $cin")
             if(!cin.isNullOrEmpty()){

@@ -18,6 +18,7 @@ import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
+import tn.esprit.taktakandroid.utils.SocketService
 
 class PendingAptsViewModel  (private val aptRepository: AptRepository
 ) : ViewModel() {
@@ -67,26 +68,26 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
         }
     }
 
-    fun acceptApt(acceptAptRequest: AcceptAptRequest) = viewModelScope.launch {
+    fun acceptApt(acceptAptRequest: AcceptAptRequest,customerID:String) = viewModelScope.launch {
         try {
             acceptAptRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             viewModelScope.launch(handler) {
                 val response = aptRepository.acceptApt("Bearer $token", acceptAptRequest)
-                acceptAptRes.postValue(handleAcceptAptResponse(response))
+                acceptAptRes.postValue(handleAcceptAptResponse(response,customerID))
             }
         } catch (e: Exception) {
             acceptAptRes.postValue(Resource.Error("Server connection failed!"))
         }
     }
 
-    fun declineApt(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
+    fun declineApt(idBodyRequest: IdBodyRequest,customerID:String) = viewModelScope.launch {
         try {
             declineAptRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             viewModelScope.launch(handler) {
                 val response = aptRepository.declineApt("Bearer $token", idBodyRequest)
-                declineAptRes.postValue(handleDeclineAptResponse(response))
+                declineAptRes.postValue(handleDeclineAptResponse(response,customerID))
             }
 
         } catch (e: Exception) {
@@ -96,6 +97,7 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
 
     private fun handleAptResponse(response: Response<AptsResponse>): Resource<AptsResponse> {
         if (response.isSuccessful) {
+
             response.body()?.let { resultResponse ->
                 _apts.postValue(resultResponse.appointments)
                 return Resource.Success(resultResponse)
@@ -106,8 +108,13 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
         return Resource.Error(response.message())
     }
 
-    private fun handleAcceptAptResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+    private fun handleAcceptAptResponse(response: Response<MessageResponse>,customerID:String): Resource<MessageResponse> {
         if (response.isSuccessful) {
+            viewModelScope.launch {
+                val currUserID = AppDataStore.readString(Constants.USER_ID)
+                val msg = "$customerID/ accepted your appointment!/$currUserID"
+                SocketService.sendMessage(msg)
+            }
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
             }
@@ -116,8 +123,13 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
         return Resource.Error(errorBody.getString("message"))
     }
 
-    private fun handleDeclineAptResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+    private fun handleDeclineAptResponse(response: Response<MessageResponse>,customerID:String): Resource<MessageResponse> {
         if (response.isSuccessful) {
+            viewModelScope.launch {
+                val currUserID = AppDataStore.readString(Constants.USER_ID)
+                val msg = "$customerID/ declined your appointment!/$currUserID"
+                SocketService.sendMessage(msg)
+            }
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
             }

@@ -234,11 +234,11 @@ class CustomerBidsFragment : BaseFragment(), BidCustomerItemTouchHelperListener 
         viewModel.getReceivedBidsList(IdBodyRequest(request._id))
     }
 
-    override fun onBidPendingSwipedLeft(bidId: String) {
-        viewModel.declineBid(IdBodyRequest(bidId))
+    override fun onBidPendingSwipedLeft(bidId: String,spID:String) {
+        viewModel.declineBid(IdBodyRequest(bidId),spID)
     }
 
-    override fun onBidPendingSwipedRight(bidId: String) {
-        viewModel.acceptBid(IdBodyRequest(bidId))
+    override fun onBidPendingSwipedRight(bidId: String,spID:String) {
+        viewModel.acceptBid(IdBodyRequest(bidId),spID)
     }
 }

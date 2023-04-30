@@ -59,11 +59,12 @@
             android:layout_weight="1"
             android:fontFamily="@font/poppins_medium"
             android:gravity="center|start"
-            android:text="Theme"
+            android:text="@string/dark_theme"
             android:textColor="@color/darkBlue"
             android:textSize="17dp" />
 
         <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/sw_theme"
             style="@style/Widget.App.Switch"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

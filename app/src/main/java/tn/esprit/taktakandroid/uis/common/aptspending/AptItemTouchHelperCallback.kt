@@ -34,11 +34,11 @@ class AptItemTouchHelperCallback(
         val apt = adapter.apts[position]
         when (direction) {
             ItemTouchHelper.LEFT -> {
-                listener.onAptSwipedLeft(apt._id!!)
+                listener.onAptSwipedLeft(apt._id!!,apt.customer._id!!)
                 adapter.notifyItemChanged(position) // add this line to notify adapter of change
             }
             ItemTouchHelper.RIGHT -> {
-                listener.onAptSwipedRight(apt._id!!)
+                listener.onAptSwipedRight(apt._id!!,apt.customer._id!!)
                 adapter.notifyItemChanged(position) // add this line to notify adapter of change
             }
             else -> {

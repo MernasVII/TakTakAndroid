@@ -131,6 +131,7 @@ class BookAptFragment : BaseFragment() {
     private fun openDateTimePicker() {
         // Get current date and time
         val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_MONTH,1)
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)

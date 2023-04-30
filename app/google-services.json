@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "557046121708",
+    "project_id": "taktakchat-ba8b0",
+    "storage_bucket": "taktakchat-ba8b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557046121708:android:fbd2c05f05dba57a6391c9",
+        "android_client_info": {
+          "package_name": "tn.esprit.taktakandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "557046121708-ohdsfi64i8ibpjvgvtb01lameipmht19.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWg6FC7Kabdnwcbats7KTkXG80bDh6XzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "557046121708-ohdsfi64i8ibpjvgvtb01lameipmht19.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "557046121708-0s05avmikladl2dnv09f3jlcvglp29c9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "tn.esprit.TakTakiOS"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

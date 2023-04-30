@@ -22,6 +22,7 @@ import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
+import tn.esprit.taktakandroid.utils.SocketService
 
 class AptsViewModel  (private val aptRepository: AptRepository
 ) : ViewModel() {
@@ -74,26 +75,26 @@ class AptsViewModel  (private val aptRepository: AptRepository
         }
     }
 
-    fun cancelApt(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
+    fun cancelApt(idBodyRequest: IdBodyRequest,spID:String) = viewModelScope.launch {
             try {
                 cancelAptRes.postValue(Resource.Loading())
                 val token = AppDataStore.readString(Constants.AUTH_TOKEN)
                 viewModelScope.launch(handler) {
                     val response = aptRepository.cancelApt("Bearer $token", idBodyRequest)
-                    cancelAptRes.postValue(handleAptCancelResponse(response))
+                    cancelAptRes.postValue(handleAptCancelResponse(response,spID))
                 }
             } catch (e: Exception) {
                 cancelAptRes.postValue(Resource.Error("Server connection failed!"))
             }
     }
 
-    fun postponeApt(postponeAptRequest: PostponeAptRequest) = viewModelScope.launch {
+    fun postponeApt(postponeAptRequest: PostponeAptRequest,customerID:String) = viewModelScope.launch {
         try {
             postponeAptRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             viewModelScope.launch(handler) {
                 val response = aptRepository.postponeApt("Bearer $token", postponeAptRequest)
-                postponeAptRes.postValue(handleAptPostponeResponse(response))
+                postponeAptRes.postValue(handleAptPostponeResponse(response,customerID))
             }
 
         } catch (e: Exception) {
@@ -192,8 +193,13 @@ class AptsViewModel  (private val aptRepository: AptRepository
         return Resource.Error(errorBody.getString("message"))
     }
 
-    private fun handleAptCancelResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+    private fun handleAptCancelResponse(response: Response<MessageResponse>,spID:String): Resource<MessageResponse> {
         if (response.isSuccessful) {
+            viewModelScope.launch {
+                val currUserID = AppDataStore.readString(Constants.USER_ID)
+                val msg = "$spID/ canceled an appointment!/$currUserID"
+                SocketService.sendMessage(msg)
+            }
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
             }
@@ -202,8 +208,13 @@ class AptsViewModel  (private val aptRepository: AptRepository
         return Resource.Error(errorBody.getString("message"))
     }
 
-    private fun handleAptPostponeResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+    private fun handleAptPostponeResponse(response: Response<MessageResponse>,customerID:String): Resource<MessageResponse> {
         if (response.isSuccessful) {
+            viewModelScope.launch {
+                val currUserID = AppDataStore.readString(Constants.USER_ID)
+                val msg = "$customerID/ postponed your appointment!/$currUserID"
+                SocketService.sendMessage(msg)
+            }
             response.body()?.let { resultResponse ->
                 return Resource.Success(resultResponse)
             }

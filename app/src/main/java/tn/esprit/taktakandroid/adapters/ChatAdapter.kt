@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import tn.esprit.taktakandroid.databinding.ReceivedMsgLayoutBinding
 import tn.esprit.taktakandroid.databinding.SentMsgLayoutBinding
 import tn.esprit.taktakandroid.models.entities.ChatMessage
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val MESSAGE_SENT = 1
@@ -31,7 +33,7 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         fun bind(message: ChatMessage) {
             mainView.tvMsgReceived.text = message.content
-            mainView.tvTimeReceived.text = message.time
+            mainView.tvTimeReceived.text = formatDate(message.time)
 
             mainView.tvMsgReceived.setOnClickListener {
                 if (mainView.tvTimeReceived.visibility == View.VISIBLE) {
@@ -40,6 +42,12 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 }
                 mainView.tvTimeReceived.visibility = View.VISIBLE
             }
+        }
+        fun formatDate(inputDate: String): String {
+            val inputFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+            val outputFormat = SimpleDateFormat("EEE MMM dd 'at' HH:mm", Locale.ENGLISH)
+            val outputDate = inputFormat.parse(inputDate)
+            return outputFormat.format(outputDate)
         }
     }
 
@@ -51,7 +59,7 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             message: ChatMessage
         ) {
             mainView.tvMsgSent.text = message.content
-            mainView.tvTimeSent.text = message.time
+            mainView.tvTimeSent.text = formatDate(message.time)
 
             mainView.tvMsgSent.setOnClickListener {
                 if (mainView.tvTimeSent.visibility == View.VISIBLE) {
@@ -62,7 +70,15 @@ class ChatAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             }
         }
+        fun formatDate(inputDate: String): String {
+            val inputFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH)
+            val outputFormat = SimpleDateFormat("EEE MMM dd 'at' HH:mm", Locale.ENGLISH)
+            val outputDate = inputFormat.parse(inputDate)
+            return outputFormat.format(outputDate)
+        }
     }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == MESSAGE_SENT) {

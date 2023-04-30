@@ -34,11 +34,11 @@ class BidCustomerItemTouchHelperCallback(
         val bid = adapter.bids[position]
         when (direction) {
             ItemTouchHelper.LEFT -> {
-                listener.onBidPendingSwipedLeft(bid._id!!)
+                listener.onBidPendingSwipedLeft(bid._id!!,bid.sp._id!!)
                 adapter.notifyItemChanged(position) // add this line to notify adapter of change
             }
             ItemTouchHelper.RIGHT -> {
-                listener.onBidPendingSwipedRight(bid._id!!)
+                listener.onBidPendingSwipedRight(bid._id!!,bid.sp._id!!)
                 adapter.notifyItemChanged(position) // add this line to notify adapter of change
             }
             else -> {

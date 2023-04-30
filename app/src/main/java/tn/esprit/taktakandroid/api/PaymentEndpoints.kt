@@ -6,7 +6,9 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.InitPaymentRequest
+import tn.esprit.taktakandroid.models.requests.SendLinkRequest
 import tn.esprit.taktakandroid.models.responses.InitPaymentResponse
+import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.responses.PaymentStatusResponse
 
 interface PaymentEndpoints {
@@ -23,4 +25,10 @@ interface PaymentEndpoints {
         @Header("Authorization") token: String,
         @Body request: IdBodyRequest
     ): Response<PaymentStatusResponse>
+
+    @POST("payment/sendLink")
+    suspend fun sendLink(
+        @Header("Authorization") token: String,
+        @Body request: SendLinkRequest
+    ): Response<MessageResponse>
 }

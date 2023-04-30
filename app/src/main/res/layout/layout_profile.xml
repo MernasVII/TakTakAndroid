@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/profile_lyt"
@@ -7,7 +8,7 @@
     android:orientation="vertical"
     android:paddingBottom="25dp">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -20,38 +21,44 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
-            android:background="@drawable/rate_ll"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="3dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:paddingTop="5dp"
                 android:text="4.5"
-                android:fontFamily="@font/poppins_regular"
-                android:paddingTop="3dp"
-                android:textColor="@color/white"
-                android:textSize="14dp" />
+                android:textColor="@color/orangeToWhite"
+                android:textSize="20dp" />
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:tint="@color/orangeToWhite"
                 android:src="@drawable/ic_star" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
         <!-- CHAT LL (VISIBLE ONLY WHEN APT ACCEPTED) -->
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_chat"
-            android:visibility="gone"
+            android:scaleX="-1"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_marginEnd="25dp"
-            android:tint="@color/orange"
-            android:src="@drawable/ic_chat"/>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            android:layout_marginStart="35dp"
+            android:src="@drawable/ic_chat"
+            app:tint="@color/orangeToWhite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_pic"

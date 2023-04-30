@@ -39,9 +39,9 @@ class AptsListAdapter(
     private val viewModel: AptsViewModel? = null,
     private val owner: LifecycleOwner? = null,
     private val pendingViewModel: PendingAptsViewModel? = null,
-    ) : RecyclerView.Adapter<AptsListAdapter.AptViewHolder>() {
+) : RecyclerView.Adapter<AptsListAdapter.AptViewHolder>() {
 
-    inner class AptViewHolder(mainView: ItemAptBinding): RecyclerView.ViewHolder(mainView.root)
+    inner class AptViewHolder(mainView: ItemAptBinding) : RecyclerView.ViewHolder(mainView.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AptViewHolder {
         val mainView = ItemAptBinding
@@ -54,23 +54,29 @@ class AptsListAdapter(
     }
 
     override fun onBindViewHolder(holder: AptsListAdapter.AptViewHolder, position: Int) {
-        var apt=apts[position]
-        var user:User
+        var apt = apts[position]
+        var user: User
         holder.itemView.apply {
-            user = if(cin.isNullOrEmpty()){
+            user = if (cin.isNullOrEmpty()) {
                 apt.sp!!
-            }else{
+            } else {
                 apt.customer!!
             }
-            manageViewsVisibility(apt,holder.itemView)
-            Glide.with(this).load(Constants.IMG_URL +user.pic).into(holder.itemView.findViewById<CircleImageView>(R.id.iv_pic))
-            holder.itemView.findViewById<TextView>(R.id.tv_name).text = user.firstname+" "+user.lastname
+            manageViewsVisibility(apt, holder.itemView)
+            Glide.with(this).load(Constants.IMG_URL + user.pic)
+                .into(holder.itemView.findViewById<CircleImageView>(R.id.iv_pic))
+            holder.itemView.findViewById<TextView>(R.id.tv_name).text =
+                user.firstname + " " + user.lastname
             holder.itemView.findViewById<TextView>(R.id.tv_speciality).text = apt.tos
             holder.itemView.findViewById<TextView>(R.id.tv_timeLoc).text = getTime(apt.date)
             holder.itemView.findViewById<Button>(R.id.btn_postpone).setOnClickListener {
                 val postponeAptSheet = PostponeAptSheet()
                 val args = Bundle()
                 args.putString("aptId", apt._id)
+                args.putString(
+                    "customerID", apt.customer
+                        ._id
+                )
                 postponeAptSheet.arguments = args
                 postponeAptSheet.show(fragmentManager, "exampleBottomSheet")
 
@@ -78,12 +84,12 @@ class AptsListAdapter(
             }
             holder.itemView.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
                 adapterScope?.launch {
-                    val idBodyRequest= apt._id?.let { it1 -> IdBodyRequest(it1) }
+                    val idBodyRequest = apt._id?.let { it1 -> IdBodyRequest(it1) }
                     if (idBodyRequest != null) {
-                        viewModel?.cancelApt(idBodyRequest)
-                        if(apt.isAccepted){
+                        viewModel?.cancelApt(idBodyRequest, apt.sp._id!!)
+                        if (apt.isAccepted) {
                             handleCancelRequestResult(holder.itemView.context)
-                        }else{
+                        } else {
                             handleCancelPspRequestResult(holder.itemView.context)
                         }
                     }
@@ -154,36 +160,38 @@ class AptsListAdapter(
     }
 
     private fun manageViewsVisibility(apt: Appointment?, itemView: View) {
-        if(apt!!.isArchived){
-            itemView.findViewById<LinearLayoutCompat>(R.id.ll_btns).visibility=View.GONE
-            itemView.findViewById<ImageView>(R.id.iv_aptState).visibility=View.GONE
-        }else {
+        if (apt!!.isArchived) {
+            itemView.findViewById<LinearLayoutCompat>(R.id.ll_btns).visibility = View.GONE
+            itemView.findViewById<ImageView>(R.id.iv_aptState).visibility = View.GONE
+        } else {
             itemView.findViewById<LinearLayoutCompat>(R.id.ll_btns).visibility = View.VISIBLE
             itemView.findViewById<ImageView>(R.id.iv_aptState).visibility = View.VISIBLE
         }
-        if(apt.isAccepted){
-            itemView.findViewById<ImageView>(R.id.iv_aptState).setImageResource(R.drawable.ic_accepted)
-        }else{
-            itemView.findViewById<ImageView>(R.id.iv_aptState).setImageResource(R.drawable.ic_pending)
+        if (apt.isAccepted) {
+            itemView.findViewById<ImageView>(R.id.iv_aptState)
+                .setImageResource(R.drawable.ic_accepted)
+        } else {
+            itemView.findViewById<ImageView>(R.id.iv_aptState)
+                .setImageResource(R.drawable.ic_pending)
         }
-        if(cin.isNullOrEmpty()){
-            itemView.findViewById<Button>(R.id.btn_postpone).visibility=View.GONE
-            if(apt.state!=0){
-                itemView.findViewById<Button>(R.id.btn_cancel).visibility=View.GONE
-            }else{
-                itemView.findViewById<Button>(R.id.btn_cancel).visibility=View.VISIBLE
+        if (cin.isNullOrEmpty()) {
+            itemView.findViewById<Button>(R.id.btn_postpone).visibility = View.GONE
+            if (apt.state != 0) {
+                itemView.findViewById<Button>(R.id.btn_cancel).visibility = View.GONE
+            } else {
+                itemView.findViewById<Button>(R.id.btn_cancel).visibility = View.VISIBLE
             }
-        }else{
-            if(apt.isAccepted){
-                if(apt.state!=0){
-                    itemView.findViewById<Button>(R.id.btn_postpone).visibility=View.GONE
-                }else{
-                    itemView.findViewById<Button>(R.id.btn_postpone).visibility=View.VISIBLE
+        } else {
+            if (apt.isAccepted) {
+                if (apt.state != 0) {
+                    itemView.findViewById<Button>(R.id.btn_postpone).visibility = View.GONE
+                } else {
+                    itemView.findViewById<Button>(R.id.btn_postpone).visibility = View.VISIBLE
                 }
-            }else{
-                itemView.findViewById<Button>(R.id.btn_postpone).visibility=View.GONE
+            } else {
+                itemView.findViewById<Button>(R.id.btn_postpone).visibility = View.GONE
             }
-            itemView.findViewById<Button>(R.id.btn_cancel).visibility=View.GONE
+            itemView.findViewById<Button>(R.id.btn_cancel).visibility = View.GONE
         }
     }
 
@@ -215,8 +223,8 @@ class AptsListAdapter(
         }
     }
 
-    fun setdata(list:MutableList<Appointment>){
-        apts=list
+    fun setdata(list: MutableList<Appointment>) {
+        apts = list
         notifyDataSetChanged()
     }
 
