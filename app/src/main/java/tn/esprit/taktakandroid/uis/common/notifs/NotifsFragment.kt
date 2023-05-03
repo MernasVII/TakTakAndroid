@@ -60,6 +60,7 @@ class NotifsFragment : BaseFragment() {
             }
             )
         observeTemp()
+
     }
 
     private fun observeTemp() {

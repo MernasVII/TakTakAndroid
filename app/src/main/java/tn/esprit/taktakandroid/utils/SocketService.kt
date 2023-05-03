@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.uis.home.HomeActivity
 import tn.esprit.taktakandroid.utils.Constants.CHANNEL_ID
 import tn.esprit.taktakandroid.utils.Constants.CHANNEL_NAME
 import java.io.IOException

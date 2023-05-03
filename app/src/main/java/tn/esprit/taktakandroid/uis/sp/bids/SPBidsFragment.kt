@@ -185,6 +185,7 @@ class SPBidsFragment : BaseFragment(), BidSPItemTouchHelperListener {
     }
 
     override fun onBidSPSwiped(bidId: String) {
-        viewModel.deleteBid(IdBodyRequest(bidId))
+
+        showChoiceDialog{ viewModel.deleteBid(IdBodyRequest(bidId))}
     }
 }

@@ -119,14 +119,12 @@ class AptDetailsFragment : BaseFragment() {
             aptPriceSheet.show(parentFragmentManager, "exampleBottomSheet")
         }
         mainView.btnDecline.setOnClickListener {
-            lifecycleScope.launch {
-                pendingAptsViewModel.declineApt(IdBodyRequest(apt._id!!), apt.customer._id!!)
-            }
+            showChoiceDialog { pendingAptsViewModel.declineApt(IdBodyRequest(apt._id!!), apt.customer._id!!) }
         }
         mainView.btnCancel.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.cancelApt(IdBodyRequest(apt._id!!), apt.sp._id!!)
-            }
+
+            showChoiceDialog {viewModel.cancelApt(IdBodyRequest(apt._id!!), apt.sp._id!!)}
+
         }
         mainView.btnPostpone.setOnClickListener {
             val postponeAptSheet = PostponeAptSheet()

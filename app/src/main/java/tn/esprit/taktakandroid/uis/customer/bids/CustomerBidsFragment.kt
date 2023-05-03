@@ -235,10 +235,11 @@ class CustomerBidsFragment : BaseFragment(), BidCustomerItemTouchHelperListener 
     }
 
     override fun onBidPendingSwipedLeft(bidId: String,spID:String) {
-        viewModel.declineBid(IdBodyRequest(bidId),spID)
+
+        showChoiceDialog{ viewModel.declineBid(IdBodyRequest(bidId),spID)}
     }
 
     override fun onBidPendingSwipedRight(bidId: String,spID:String) {
-        viewModel.acceptBid(IdBodyRequest(bidId),spID)
+
     }
 }

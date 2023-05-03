@@ -89,7 +89,7 @@ class UserProfileFragment : BaseFragment() {
         }
 
         mainView.flDeleteAcc.setOnClickListener {
-            showDeletionDialog()
+            showChoiceDialog{deleteAccountAndLogout()}
         }
 
         mainView.ivAddPic.setOnClickListener {
@@ -258,22 +258,7 @@ class UserProfileFragment : BaseFragment() {
     }
 
 
-    private fun showDeletionDialog() {
-        val builder = AlertDialog.Builder(requireContext())
-        val binding = LayoutDialogYesNoBinding.inflate(layoutInflater)
-        builder.setView(binding.root)
-        val dialog = builder.create()
-        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        binding.tvContent.text = "Are you sure you want to delete your account permanently?"
-        binding.btnNo.setOnClickListener {
-            dialog.dismiss()
-        }
-        binding.btnYes.setOnClickListener {
-            deleteAccountAndLogout()
-        }
-        dialog.show()
-        dialog.setCanceledOnTouchOutside(false)
-    }
+
 
     fun swipeLayoutSetup() {
         mainView.swipeRefreshLayout.setColorSchemeColors(

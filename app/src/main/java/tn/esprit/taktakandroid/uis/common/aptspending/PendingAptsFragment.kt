@@ -218,7 +218,8 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
     }
 
     override fun onAptSwipedLeft(aptId: String,customerID:String) {
-        pendingAptsViewModel.declineApt(IdBodyRequest(aptId),customerID)
+
+        showChoiceDialog { pendingAptsViewModel.declineApt(IdBodyRequest(aptId), customerID) }
     }
 
     override fun onAptSwipedRight(aptId: String,customerID:String) {

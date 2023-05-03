@@ -14,6 +14,7 @@ import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.customer.myRequests.CustomerReqsFragment
 import tn.esprit.taktakandroid.uis.sp.spRequests.SPReqsFragment
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
@@ -210,4 +211,5 @@ class HomeActivity : BaseActivity() {
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
+
 }
