@@ -34,13 +34,13 @@ open class BaseFragment() :Fragment() {
         dialog.show()
         dialog.setCanceledOnTouchOutside(false)
     }
-    fun showChoiceDialog(actionMethod: () -> Unit) {
+    fun showChoiceDialog(message:String,actionMethod: () -> Unit) {
         val builder = AlertDialog.Builder(requireContext())
         val binding = LayoutDialogYesNoBinding.inflate(layoutInflater)
         builder.setView(binding.root)
         val dialog = builder.create()
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        binding.tvContent.text = "Are you sure?"
+        binding.tvContent.text = message
         binding.btnNo.setOnClickListener {
             dialog.dismiss()
         }

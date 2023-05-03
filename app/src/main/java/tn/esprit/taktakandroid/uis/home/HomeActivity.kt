@@ -196,7 +196,7 @@ class HomeActivity : BaseActivity() {
                 }
                 is Resource.Error -> {
                     response.message?.let { message ->
-                        showDialog(message)
+                        //showDialog(message)
                     }
                 }
                 is Resource.Loading -> {

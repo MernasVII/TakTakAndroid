@@ -8,8 +8,7 @@
     android:gravity="center_horizontal"
 
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".uis.common.sheets.SettingsSheet">
+    android:padding="16dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvWelcome"
@@ -59,7 +58,7 @@
             android:layout_weight="1"
             android:fontFamily="@font/poppins_medium"
             android:gravity="center|start"
-            android:text="Theme"
+            android:text="@string/theme"
             android:textColor="@color/darkBlue"
             android:textSize="17dp" />
 
@@ -71,6 +70,8 @@
             android:checked="false"
             android:gravity="end|center"
             app:showText="false"
+            app:thumbIconTint="@color/white"
+            app:trackDecorationTint="@color/white"
             app:thumbTint="@color/white"
             app:trackTint="@color/BGToLB" />
 
@@ -81,6 +82,7 @@
         android:id="@+id/spLang"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"

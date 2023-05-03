@@ -119,11 +119,11 @@ class AptDetailsFragment : BaseFragment() {
             aptPriceSheet.show(parentFragmentManager, "exampleBottomSheet")
         }
         mainView.btnDecline.setOnClickListener {
-            showChoiceDialog { pendingAptsViewModel.declineApt(IdBodyRequest(apt._id!!), apt.customer._id!!) }
+            showChoiceDialog ("Are you sure you want to decline this appointment?"){ pendingAptsViewModel.declineApt(IdBodyRequest(apt._id!!), apt.customer._id!!) }
         }
         mainView.btnCancel.setOnClickListener {
 
-            showChoiceDialog {viewModel.cancelApt(IdBodyRequest(apt._id!!), apt.sp._id!!)}
+            showChoiceDialog ("Are you sure you want to cancel this appointment?"){viewModel.cancelApt(IdBodyRequest(apt._id!!), apt.sp._id!!)}
 
         }
         mainView.btnPostpone.setOnClickListener {

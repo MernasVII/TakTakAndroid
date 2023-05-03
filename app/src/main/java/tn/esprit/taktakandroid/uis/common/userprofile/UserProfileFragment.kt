@@ -89,7 +89,7 @@ class UserProfileFragment : BaseFragment() {
         }
 
         mainView.flDeleteAcc.setOnClickListener {
-            showChoiceDialog{deleteAccountAndLogout()}
+            showChoiceDialog("Are you sure you want to delete your account permanently?"){deleteAccountAndLogout()}
         }
 
         mainView.ivAddPic.setOnClickListener {

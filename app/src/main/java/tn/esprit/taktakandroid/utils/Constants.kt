@@ -15,6 +15,7 @@ object Constants {
       const val TERMS_URL = "http://192.168.1.14:9090/terms"
   */
     const val USER_PREF = "user_pref"
+    const val LANG = "user_lang"
     const val AUTH_TOKEN = "auth_token"
     const val CIN = "cin"
     const val USER_ID = "user_id"

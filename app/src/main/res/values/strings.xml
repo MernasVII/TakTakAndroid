@@ -109,5 +109,6 @@
     <string name="no_requests_found">No requests found!</string>
     <string name="send_by_email"><u>Click here to send by email!</u></string>
     <string name="wallet_access_authentication">Wallet Access Authentication</string>
+    <string name="theme">Theme</string>
 
 </resources>

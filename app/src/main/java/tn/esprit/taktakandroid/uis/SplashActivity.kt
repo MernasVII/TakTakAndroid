@@ -1,5 +1,6 @@
 package tn.esprit.taktakandroid.uis
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,7 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Constants.AUTH_TOKEN
 import tn.esprit.taktakandroid.utils.SocketService
+import java.util.*
 
 class SplashActivity : AppCompatActivity() {
 
@@ -28,8 +30,24 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
 
+
         AppDataStore.init(applicationContext)
         lifecycleScope.launch(Dispatchers.IO) {
+
+
+            val langStored = AppDataStore.readString("LANG")
+
+            if (!langStored.isNullOrEmpty()) {
+                if (langStored == "en") {
+                    setLocal(this@SplashActivity, "en")
+                } else {
+                    setLocal(this@SplashActivity, "fr")
+                }
+            } else {
+                setLocal(this@SplashActivity, "en")
+            }
+
+
             val token = AppDataStore.readString(AUTH_TOKEN) ?: ""
             if (token.isEmpty() && getLastSignedInAccount() == null) {
                 withContext(Dispatchers.Main) {
@@ -55,6 +73,16 @@ class SplashActivity : AppCompatActivity() {
 
     private fun getLastSignedInAccount(): GoogleSignInAccount? {
         return GoogleSignIn.getLastSignedInAccount(this)
+    }
+
+    private fun setLocal(activity: Activity, langCode: String) {
+        val customLocale = Locale(langCode)
+        Locale.setDefault(customLocale)
+        val resources = activity.resources
+        val config = resources.configuration
+        config.setLocale(customLocale)
+        resources.updateConfiguration(config, resources.displayMetrics)
+
     }
 
 
