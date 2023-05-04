@@ -10,10 +10,7 @@ import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.models.entities.User
-import tn.esprit.taktakandroid.models.requests.FindAptRequest
-import tn.esprit.taktakandroid.models.requests.IdBodyRequest
-import tn.esprit.taktakandroid.models.requests.PostponeAptRequest
-import tn.esprit.taktakandroid.models.requests.UpdateAptStateRequest
+import tn.esprit.taktakandroid.models.requests.*
 import tn.esprit.taktakandroid.models.responses.AptsResponse
 import tn.esprit.taktakandroid.models.responses.GetAptResponse
 import tn.esprit.taktakandroid.models.responses.MessageResponse
@@ -46,8 +43,10 @@ class AptsViewModel  (private val aptRepository: AptRepository
 
     //val aptsResult: MutableLiveData<Resource<AptsResponse>> = MutableLiveData()
     val cancelAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+    val archiveAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
     val postponeAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
     val updateStateAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
+    val rateAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
     //val timeLeftAptRes: MutableLiveData<Resource<TimeLeftResponse>> = MutableLiveData()
 
 
@@ -88,6 +87,19 @@ class AptsViewModel  (private val aptRepository: AptRepository
             }
     }
 
+    fun rateApt(rateBodyRequest: RateBodyRequest) = viewModelScope.launch {
+        try {
+            rateAptRes.postValue(Resource.Loading())
+            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+            viewModelScope.launch(handler) {
+                val response = aptRepository.rateApt("Bearer $token", rateBodyRequest)
+                rateAptRes.postValue(handleRateAptResponse(response))
+            }
+        } catch (e: Exception) {
+            rateAptRes.postValue(Resource.Error("Server connection failed!"))
+        }
+    }
+
     fun postponeApt(postponeAptRequest: PostponeAptRequest,customerID:String) = viewModelScope.launch {
         try {
             postponeAptRes.postValue(Resource.Loading())
@@ -99,6 +111,19 @@ class AptsViewModel  (private val aptRepository: AptRepository
 
         } catch (e: Exception) {
             postponeAptRes.postValue(Resource.Error("Server connection failed!"))
+        }
+    }
+
+    fun archiveApt(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
+        try {
+            archiveAptRes.postValue(Resource.Loading())
+            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+            viewModelScope.launch(handler) {
+                val response = aptRepository.cancelApt("Bearer $token", idBodyRequest)
+                archiveAptRes.postValue(handleAptArchiveResponse(response))
+            }
+        } catch (e: Exception) {
+            archiveAptRes.postValue(Resource.Error("Server connection failed!"))
         }
     }
 
@@ -208,6 +233,16 @@ class AptsViewModel  (private val aptRepository: AptRepository
         return Resource.Error(errorBody.getString("message"))
     }
 
+    private fun handleAptArchiveResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Resource.Success(resultResponse)
+            }
+        }
+        val errorBody = JSONObject(response.errorBody()!!.string())
+        return Resource.Error(errorBody.getString("message"))
+    }
+
     private fun handleAptPostponeResponse(response: Response<MessageResponse>,customerID:String): Resource<MessageResponse> {
         if (response.isSuccessful) {
             viewModelScope.launch {
@@ -223,6 +258,15 @@ class AptsViewModel  (private val aptRepository: AptRepository
         return Resource.Error(errorBody.getString("message"))
     }
 
+    private fun handleRateAptResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                return Resource.Success(resultResponse)
+            }
+        }
+        val errorBody = JSONObject(response.errorBody()!!.string())
+        return Resource.Error(errorBody.getString("message"))
+    }
 
 
     /*private fun handleTimeLeftAptResponse(response: Response<TimeLeftResponse>): Resource<TimeLeftResponse> {

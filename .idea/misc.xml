@@ -122,6 +122,7 @@
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/item_sp_bid.xml" value="0.264" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/layout_dialog.xml" value="0.25" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/layout_dialog_options.xml" value="0.25" />
+        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/layout_dialog_yes_no.xml" value="0.13645833333333332" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/layout_profile.xml" value="0.2" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/navigation_bottom_bar.xml" value="0.4" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/received_msg_layout.xml" value="0.16302083333333334" />
@@ -131,10 +132,12 @@
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_fragment_edit_profile.xml" value="0.21666666666666667" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_fragment_make_bid_fragment.xml" value="0.16944444444444445" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_fragment_postpone_apt.xml" value="0.21302083333333333" />
-        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_fragment_qr_code.xml" value="0.2" />
+        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_fragment_qr_code.xml" value="0.152" />
+        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_fragment_rate.xml" value="0.2" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_fragment_request_details.xml" value="0.264" />
-        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_fragment_settings.xml" value="0.25" />
+        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_fragment_settings.xml" value="0.14814814814814814" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_fragment_update_work_description.xml" value="0.17760416666666667" />
+        <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_fragment_wallet.xml" value="0.15364583333333334" />
         <entry key="..\:/Users/Bugs Bunny/Desktop/4SIM/TakTakAndroid/app/src/main/res/layout/sheet_make_bid_fragment.xml" value="0.20364583333333333" />
       </map>
     </option>

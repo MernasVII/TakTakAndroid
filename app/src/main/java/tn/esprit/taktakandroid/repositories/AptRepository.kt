@@ -33,6 +33,10 @@ class AptRepository {
     suspend fun bookApt(token:String,bookAptRequest: BookAptRequest)=
         RetrofitInstance.aptApi.bookApt(token,bookAptRequest)
 
+    //RATE APT
+    suspend fun rateApt(token:String,rateBodyRequest: RateBodyRequest)=
+        RetrofitInstance.aptApi.rateApt(token,rateBodyRequest)
+
     /**************** AS A SERVICE PROVIDER ****************/
     //GET ALL RECEIVED
     suspend fun getAllReceivedApts(token:String)=
@@ -78,4 +82,8 @@ class AptRepository {
     //GET APT DATE AND SP ID
     suspend fun findApt(token:String,findAptRequest: FindAptRequest)=
         RetrofitInstance.aptApi.findApt(token,findAptRequest)
+
+    //ARCHIVE APT
+    suspend fun archiveApt(token:String,idBodyRequest: IdBodyRequest)=
+        RetrofitInstance.aptApi.archiveApt(token,idBodyRequest)
 }

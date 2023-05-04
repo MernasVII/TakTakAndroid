@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import io.socket.client.IO
-import io.socket.client.Socket
 import io.socket.emitter.Emitter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,14 +19,15 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Constants.AUTH_TOKEN
 import tn.esprit.taktakandroid.utils.SocketService
+import kotlin.math.log
 
 class SplashActivity : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setTheme()
         AppDataStore.init(applicationContext)
+        setTheme()
         lifecycleScope.launch(Dispatchers.IO) {
             val token = AppDataStore.readString(AUTH_TOKEN) ?: ""
             if (token.isEmpty() && getLastSignedInAccount() == null) {
@@ -53,18 +52,25 @@ class SplashActivity : AppCompatActivity() {
 
     }
 
-    /*private fun setTheme() {
+    private fun setTheme() {
         var isDarkThemeSet:Boolean
         lifecycleScope.launch(Dispatchers.Main) {
             isDarkThemeSet = AppDataStore.readBool(Constants.DARK_THEME_SET)  ?: false
             if(isDarkThemeSet){
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
             }
+            Log.d("TESTINGG", "setTheme: $isDarkThemeSet")
         }
-    }*/
+    }
 
     private fun getLastSignedInAccount(): GoogleSignInAccount? {
         return GoogleSignIn.getLastSignedInAccount(this)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 
 

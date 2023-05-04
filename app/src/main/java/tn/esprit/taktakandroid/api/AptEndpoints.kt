@@ -41,7 +41,7 @@ interface AptEndpoints {
     ): Response<AptsResponse>
 
     //CANCEL APT
-    @PUT("appointment/archiveApt")
+    @PUT("appointment/cancelApt")
     suspend fun cancelApt(
         @Header("Authorization") token: String,
         @Body request: IdBodyRequest
@@ -51,6 +51,13 @@ interface AptEndpoints {
     suspend fun bookApt(
         @Header("Authorization") token: String,
         @Body request: BookAptRequest
+    ): Response<MessageResponse>
+
+    //ARCHIVE APT
+    @PUT("appointment/rateApt")
+    suspend fun rateApt(
+        @Header("Authorization") token: String,
+        @Body request: RateBodyRequest
     ): Response<MessageResponse>
 
     /**************** AS A SERVICE PROVIDER ****************/
@@ -127,5 +134,12 @@ interface AptEndpoints {
         @Header("Authorization") token: String,
         @Body request: FindAptRequest
     ): Response<GetAptResponse>
+
+    //ARCHIVE APT
+    @PUT("appointment/archiveApt")
+    suspend fun archiveApt(
+        @Header("Authorization") token: String,
+        @Body request: IdBodyRequest
+    ): Response<MessageResponse>
 
 }

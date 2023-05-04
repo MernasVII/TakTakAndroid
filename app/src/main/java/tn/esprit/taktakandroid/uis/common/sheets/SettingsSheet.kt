@@ -1,6 +1,9 @@
 package tn.esprit.miniprojetinterfaces.Sheets
 
 import android.content.DialogInterface
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,14 +12,18 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import tn.esprit.taktakandroid.R
+import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.databinding.SheetFragmentSettingsBinding
+import tn.esprit.taktakandroid.uis.SplashActivity
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 
@@ -29,7 +36,7 @@ class SettingsSheet : BottomSheetDialogFragment() {
     ): View? {
         mainView=SheetFragmentSettingsBinding.inflate(layoutInflater,container,false)
         setupLangSpinner()
-        //setupToggleTheme()
+        setupToggleTheme()
         return mainView.root
     }
 
@@ -44,36 +51,75 @@ class SettingsSheet : BottomSheetDialogFragment() {
         mainView.spLang.adapter = adapter
     }
 
-    /*fun setupToggleTheme(){
+    fun setupToggleTheme(){
         //get from datastore and set switch checked if dark theme is set
         var isDarkThemeSet:Boolean
+        var isInitialized = false
         lifecycleScope.launch(Dispatchers.Main) {
-            isDarkThemeSet = AppDataStore.readBool(Constants.DARK_THEME_SET)!!
-            if(isDarkThemeSet){
-                //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                mainView.swTheme.isChecked = isDarkThemeSet
+            if(AppDataStore.readBool(Constants.DARK_THEME_SET)!=null){
+                isDarkThemeSet = AppDataStore.readBool(Constants.DARK_THEME_SET)!!
+                if(isDarkThemeSet){
+                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    mainView.swTheme.isChecked = isDarkThemeSet
+                }
             }
+            isInitialized = true
         }
 
         mainView.swTheme.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                lifecycleScope.launch(Dispatchers.Main) {
-                    AppDataStore.writeBool(Constants.DARK_THEME_SET,true)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                }
-            } else {
-                lifecycleScope.launch(Dispatchers.Main) {
-                    AppDataStore.writeBool(Constants.DARK_THEME_SET,false)
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                }
+            if (isInitialized){
+                showRestartDialog(isChecked)
             }
         })
-    }*/
+    }
 
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         Log.d("Debug", "Dismissed onDismiss")
     }
+
+    private fun restartApp(){
+        val intent = Intent(requireActivity().applicationContext, SplashActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        requireActivity().startActivity(intent)
+        requireActivity().finishAffinity()
+    }
+
+    private fun saveThemeChoice(isChecked: Boolean) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            try {
+                if (isChecked) {
+                    AppDataStore.writeBool(Constants.DARK_THEME_SET,true)
+                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppDataStore.writeBool(Constants.DARK_THEME_SET,false)
+                    //AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+            } finally {
+                restartApp()
+            }
+        }
+    }
+
+    private fun showRestartDialog(isChecked:Boolean) {
+        lifecycleScope.launch(Dispatchers.Main) {
+            withContext(Dispatchers.Main) {
+                val builder = AlertDialog.Builder(requireContext())
+                val binding = LayoutDialogBinding.inflate(layoutInflater)
+                builder.setView(binding.root)
+                val dialog = builder.create()
+                dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                binding.tvTitle.text="Warning"
+                binding.tvBtn.text="Restart"
+                binding.tvMessage.text = "You should restart the app"
+                binding.tvBtn.setOnClickListener {
+                    saveThemeChoice(isChecked)
+                }
+                dialog.show()
+            }
+        }
+    }
+
 
 
 }

@@ -85,13 +85,14 @@
     <string name="update_password">Update Password</string>
     <string name="delete_account">Delete Account</string>
     <string name="cancel">Cancel</string>
-    <string name="scan_code">Scan QR code</string>
+    <string name="rate_pay">Rate and Pay</string>
     <string name="generate_code">Generate QR code</string>
     <string name="warning">Warning</string>
     <string name="yes">YES</string>
     <string name="no">NO</string>
     <string name="server_failure">Failed to connect to the server!</string>
     <string name="profile_updated">Profile updated!</string>
+    <string name="payment_link_sent">Payment link sent!</string>
     <string name="pwd_updated">Password updated!</string>
     <string name="work_desc_updated">Work description updated!</string>
     <string name="apt_booked">Appointment booked!</string>
@@ -108,6 +109,9 @@
     <string name="work_days_cannot_be_empty">Work days cannot be empty!</string>
     <string name="types_of_services_cannot_be_empty">Types of services cannot be empty!</string>
     <string name="no_requests_found">No requests found!</string>
-    <string name="send_by_email"><u>Click here to send by email!</u></string>
+    <string name="send_by_email"><u>Click here to send payment link by email!</u></string>
+    <string name="check_payment">Check payment</string>
+    <string name="payment_succeeded">Payment succeeded!</string>
+    <string name="rate">Rate service</string>
 
 </resources>

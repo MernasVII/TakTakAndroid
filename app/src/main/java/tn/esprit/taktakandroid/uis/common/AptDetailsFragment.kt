@@ -34,6 +34,7 @@ import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModel
 import tn.esprit.taktakandroid.uis.common.aptspending.PendingAptsViewModelFactory
 import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModel
 import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModelFactory
+import tn.esprit.taktakandroid.uis.customer.sheets.RateSheet
 import tn.esprit.taktakandroid.uis.sp.sheets.AptPriceSheet
 import tn.esprit.taktakandroid.uis.sp.sheets.QRCodeSheet
 import tn.esprit.taktakandroid.uis.sp.sheets.PostponeAptSheet
@@ -51,38 +52,6 @@ class AptDetailsFragment : BaseFragment() {
     private lateinit var paymentViewModel: PaymentViewModel
     private var timer: CountDownTimer? = null
 
-    val scanQrCodeLauncher = registerForActivityResult(ScanQRCode()) { result ->
-        when (result) {
-            is QRResult.QRSuccess -> {
-                val url = result.content.rawValue
-                openLinkInBrowser(url)
-            }
-            is QRResult.QRUserCanceled -> {
-            }
-            is QRResult.QRMissingPermission -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Camera permission is required!",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            is QRResult.QRError -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Error encountered when opening Scanner!",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-    }
-
-    private fun openLinkInBrowser(url: String) {
-        val urlIntent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(url)
-        )
-        startActivity(urlIntent)
-    }
 
     private lateinit var apt: Appointment
 
@@ -141,6 +110,8 @@ class AptDetailsFragment : BaseFragment() {
             postponeAptSheet.arguments = args
             postponeAptSheet.show(parentFragmentManager, "exampleBottomSheet")
         }
+
+        //state==0 initial; state==1: sp is here; state==2 waiting for payment/done
         mainView.btnState.setOnClickListener {
             if (apt.state < 2) {
                 updateState(apt)
@@ -150,11 +121,19 @@ class AptDetailsFragment : BaseFragment() {
             }
         }
         mainView.btnScan.setOnClickListener {
-            scanQrCodeLauncher.launch(null)
+            openRateSheet()
         }
         swipeLayoutSetup()
 
         return mainView.root
+    }
+
+    private fun openRateSheet() {
+        val rateSheet = RateSheet()
+        val args = Bundle()
+        args.putString("aptId", apt._id)
+        rateSheet.arguments = args
+        rateSheet.show(parentFragmentManager, "exampleBottomSheet")
     }
 
     private fun openChatSheet() {
@@ -205,8 +184,7 @@ class AptDetailsFragment : BaseFragment() {
                         val qrCodeSheet = QRCodeSheet()
                         val args = Bundle()
                         args.putString("payUrl", myRequestsResponse.payUrl)
-                        args.putString("customerEmail", apt.customer.email)
-
+                        args.putParcelable("apt", apt)
                         qrCodeSheet.arguments = args
                         qrCodeSheet.show(parentFragmentManager, "exampleBottomSheet")
                     }

@@ -241,7 +241,7 @@
                     android:background="@drawable/btn_bg"
                     android:backgroundTint="@color/LBToOrange"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="@string/scan_code"
+                    android:text="@string/rate_pay"
                     android:textColor="@color/white"
                     android:textSize="16dp"/>
 

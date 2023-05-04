@@ -57,12 +57,12 @@ class PaymentViewModel(
         }
     }
 
-    fun paymentStatus() = viewModelScope.launch {
+    fun paymentStatus(idBodyRequest: IdBodyRequest) = viewModelScope.launch {
         try {
             statusRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             val response = repository.paymentStatus(
-                "Bearer $token", IdBodyRequest(appointment!!._id!!)
+                "Bearer $token", idBodyRequest
             )
             statusRes.postValue(handleStatusResponse(response))
         } catch (e: Exception) {
