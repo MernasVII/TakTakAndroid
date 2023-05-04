@@ -4,19 +4,13 @@ import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
 import tn.esprit.taktakandroid.models.responses.SPsResponse
-import tn.esprit.taktakandroid.models.requests.LoginRequest
 import tn.esprit.taktakandroid.models.responses.LoginResponse
 import tn.esprit.taktakandroid.models.responses.UserProfileResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import tn.esprit.taktakandroid.models.requests.*
 import tn.esprit.taktakandroid.models.responses.MessageResponse
-import tn.esprit.taktakandroid.models.requests.ResetPwdRequest
-import tn.esprit.taktakandroid.models.requests.SendOtpRequest
-import tn.esprit.taktakandroid.models.requests.SignUpRequest
-import tn.esprit.taktakandroid.models.requests.UpdateProfileRequest
-import tn.esprit.taktakandroid.models.requests.UpdatePwdRequest
-import tn.esprit.taktakandroid.models.requests.UpdateWorkDescRequest
 
 interface UserEndpoints {
 
@@ -79,9 +73,13 @@ interface UserEndpoints {
         @Body request: UpdatePwdRequest
     ): Response<MessageResponse>
 
-
     @DELETE("user/delete")
     suspend fun deleteUser(
         @Header("Authorization") token: String
+    ): Response<MessageResponse>
+
+    @POST("user/checkPwd")
+    suspend fun checkPwd(
+        @Header("Authorization") token: String,@Body request: CheckPwdRequest
     ): Response<MessageResponse>
 }

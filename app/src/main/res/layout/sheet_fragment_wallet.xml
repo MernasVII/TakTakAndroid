@@ -1,78 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/sheet_background"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
+
     android:padding="16dp"
-    tools:context=".uis.sp.sheets.WalletSheet">
+    tools:context=".uis.sp.sheets.wallet.WalletSheet">
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:autoSizeTextType="uniform"
-        android:fontFamily="@font/poppins_semibold"
-        android:gravity="center"
-        android:text="@string/balance"
-        android:textColor="@color/redToYellow"
-        android:textSize="35dp" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tl_Balance"
-        style="@style/OutlinedBoxRed"
-        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_walletTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:text="@string/balance"
+            android:textColor="@color/redToYellow"
+            android:textSize="35dp"
+            android:visibility="gone" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_walletAuthTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:text="@string/wallet_access_authentication"
+            android:textColor="@color/BGToLB"
+            android:textSize="35dp"
+            android:visibility="visible" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tlPassword"
+            style="@style/OutlinedBoxBGLB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="25dp"
+            android:visibility="visible"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxStrokeErrorColor="@color/red"
+            app:boxStrokeWidth="1dp"
+            app:errorIconTint="@color/red"
+            app:errorTextColor="@color/red"
+            app:hintEnabled="true"
+            app:passwordToggleEnabled="true"
+            app:startIconDrawable="@drawable/ic_key"
+            app:startIconTint="@color/BGToLB">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_Password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/poppins_medium"
+                android:hint="@string/new_password"
+                android:inputType="textPassword"
+                android:textColor="@color/grey"
+                android:textSize="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="40dp"
+            android:fontFamily="@font/poppins_medium"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:letterSpacing="0"
+            android:text="@string/confirm"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:visibility="visible"
+            app:backgroundTint="@color/BGToLB"
+            app:cornerRadius="24dp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tl_Balance"
+            style="@style/OutlinedBoxRed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="25dp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:visibility="gone"
+
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusTopStart="24dp"
+            app:boxStrokeWidth="1dp"
+            app:hintEnabled="true"
+            app:startIconDrawable="@drawable/ic_money"
+            app:startIconTint="@color/red"
+            app:suffixText="TND"
+            android:focusable="false"
+            app:suffixTextColor="@color/red">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_Balance"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autoSizeTextType="uniform"
+                android:focusable="false"
+
+                android:fontFamily="@font/poppins_medium"
+                android:inputType="number"
+                android:text="0.000"
+                android:textColor="@color/grey"
+                android:textSize="16dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnWithdraw"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="40dp"
+            android:fontFamily="@font/poppins_medium"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:letterSpacing="0"
+            android:text="@string/withdraw"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:visibility="gone"
+            app:backgroundTint="@color/red"
+            app:cornerRadius="24dp" />
+    </LinearLayout>
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/spinkit_view"
+        style="@style/SpinKitView.Large.Circle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="25dp"
-        android:autoSizeTextType="uniform"
-        android:gravity="center"
-        app:boxBackgroundColor="@color/white"
-        app:boxCornerRadiusBottomEnd="24dp"
-        app:boxCornerRadiusBottomStart="24dp"
-        app:boxCornerRadiusTopEnd="24dp"
-        app:boxCornerRadiusTopStart="24dp"
-        app:boxStrokeWidth="1dp"
-        app:hintEnabled="true"
-        app:startIconDrawable="@drawable/ic_money"
-        app:startIconTint="@color/red"
-        app:suffixText="TND"
-        app:suffixTextColor="@color/red">
+        android:visibility="gone"
+        app:SpinKit_Color="@color/orangeToYellow" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_Balance"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:autoSizeTextType="uniform"
-            android:fontFamily="@font/poppins_medium"
-            android:inputType="number"
-            android:text="0.000"
-            android:textColor="@color/grey"
-            android:textSize="16dp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnWithdraw"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="40dp"
-        android:fontFamily="@font/poppins_medium"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:letterSpacing="0"
-        android:text="@string/withdraw"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        app:backgroundTint="@color/red"
-        app:cornerRadius="24dp" />
-</LinearLayout>
+</FrameLayout>

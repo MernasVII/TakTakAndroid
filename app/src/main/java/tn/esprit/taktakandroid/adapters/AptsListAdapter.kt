@@ -1,6 +1,8 @@
 package tn.esprit.taktakandroid.adapters
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
@@ -19,6 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ItemAptBinding
+import tn.esprit.taktakandroid.databinding.LayoutDialogYesNoBinding
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
@@ -86,7 +90,12 @@ class AptsListAdapter(
                 adapterScope?.launch {
                     val idBodyRequest = apt._id?.let { it1 -> IdBodyRequest(it1) }
                     if (idBodyRequest != null) {
-                        viewModel?.cancelApt(idBodyRequest, apt.sp._id!!)
+                        showChoiceDialog(context) {
+                            viewModel?.cancelApt(
+                                idBodyRequest,
+                                apt.sp._id!!
+                            )
+                        }
                         if (apt.isAccepted) {
                             handleCancelRequestResult(holder.itemView.context)
                         } else {
@@ -226,6 +235,24 @@ class AptsListAdapter(
     fun setdata(list: MutableList<Appointment>) {
         apts = list
         notifyDataSetChanged()
+    }
+
+    fun showChoiceDialog(context: Context,actionMethod: () -> Unit) {
+        val builder = AlertDialog.Builder(context)
+        val binding = LayoutDialogYesNoBinding.inflate(LayoutInflater.from(context))
+        builder.setView(binding.root)
+        val dialog = builder.create()
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        binding.tvContent.text = "Are you sure?"
+        binding.btnNo.setOnClickListener {
+            dialog.dismiss()
+        }
+        binding.btnYes.setOnClickListener {
+            actionMethod()
+            dialog.dismiss()
+        }
+        dialog.show()
+        dialog.setCanceledOnTouchOutside(false)
     }
 
 }

@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/sheet_background"
     android:gravity="center_horizontal"
-
     android:orientation="vertical"
-    android:padding="16dp"
-    tools:context=".uis.common.sheets.SettingsSheet">
+    android:padding="16dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvWelcome"
@@ -72,6 +69,8 @@
             android:checked="false"
             android:gravity="end|center"
             app:showText="false"
+            app:thumbIconTint="@color/white"
+            app:trackDecorationTint="@color/white"
             app:thumbTint="@color/white"
             app:trackTint="@color/BGToLB" />
 
@@ -82,6 +81,7 @@
         android:id="@+id/spLang"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+
         android:layout_marginStart="25dp"
         android:layout_marginTop="25dp"
         android:layout_marginEnd="25dp"

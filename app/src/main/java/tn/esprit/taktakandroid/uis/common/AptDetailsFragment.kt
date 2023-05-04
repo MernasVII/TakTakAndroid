@@ -93,14 +93,12 @@ class AptDetailsFragment : BaseFragment() {
             aptPriceSheet.show(parentFragmentManager, "exampleBottomSheet")
         }
         mainView.btnDecline.setOnClickListener {
-            lifecycleScope.launch {
-                pendingAptsViewModel.declineApt(IdBodyRequest(apt._id!!), apt.customer._id!!)
-            }
+            showChoiceDialog ("Are you sure you want to decline this appointment?"){ pendingAptsViewModel.declineApt(IdBodyRequest(apt._id!!), apt.customer._id!!) }
         }
         mainView.btnCancel.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.cancelApt(IdBodyRequest(apt._id!!), apt.sp._id!!)
-            }
+
+            showChoiceDialog ("Are you sure you want to cancel this appointment?"){viewModel.cancelApt(IdBodyRequest(apt._id!!), apt.sp._id!!)}
+
         }
         mainView.btnPostpone.setOnClickListener {
             val postponeAptSheet = PostponeAptSheet()
@@ -229,7 +227,7 @@ class AptDetailsFragment : BaseFragment() {
                 mainView.profileLayout.tvSpeciality.visibility = View.VISIBLE
                 mainView.profileLayout.llRate.visibility = View.VISIBLE
                 mainView.profileLayout.tvSpeciality.text = user.speciality
-                mainView.profileLayout.tvRate.text = user.rate.toString()
+                mainView.profileLayout.tvRate.text = String.format("%.1f", user.rate)
             } else {
                 user = apt.customer
                 mainView.profileLayout.tvSpeciality.visibility = View.GONE

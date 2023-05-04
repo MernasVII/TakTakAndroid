@@ -113,5 +113,6 @@
     <string name="check_payment">Check payment</string>
     <string name="payment_succeeded">Payment succeeded!</string>
     <string name="rate">Rate service</string>
+    <string name="wallet_access_authentication">Wallet Access Authentication</string>
 
 </resources>

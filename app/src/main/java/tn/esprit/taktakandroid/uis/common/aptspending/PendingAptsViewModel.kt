@@ -20,13 +20,14 @@ import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 import tn.esprit.taktakandroid.utils.SocketService
 
-class PendingAptsViewModel  (private val aptRepository: AptRepository
+class PendingAptsViewModel(
+    private val aptRepository: AptRepository
 ) : ViewModel() {
-    private val TAG:String="PendingAptsViewModel"
+    private val TAG: String = "PendingAptsViewModel"
 
-    var cin:String?=""
+    var cin: String? = ""
 
-    private val _getAptsResult= MutableLiveData<Resource<AptsResponse>>()
+    private val _getAptsResult = MutableLiveData<Resource<AptsResponse>>()
     val aptsRes: LiveData<Resource<AptsResponse>>
         get() = _getAptsResult
 
@@ -57,9 +58,9 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
             _getAptsResult.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             cin = AppDataStore.readString(Constants.CIN)
-            val response : Response<AptsResponse> = if(cin.isNullOrEmpty()){
+            val response: Response<AptsResponse> = if (cin.isNullOrEmpty()) {
                 aptRepository.getRequestedPendingApts("Bearer $token")
-            }else{
+            } else {
                 aptRepository.getReceivedPendingApts("Bearer $token")
             }
             _getAptsResult.postValue(handleAptResponse(response))
@@ -68,30 +69,32 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
         }
     }
 
-    fun acceptApt(acceptAptRequest: AcceptAptRequest,customerID:String) = viewModelScope.launch {
+    fun acceptApt(acceptAptRequest: AcceptAptRequest, customerID: String) = viewModelScope.launch {
         try {
             acceptAptRes.postValue(Resource.Loading())
             val token = AppDataStore.readString(Constants.AUTH_TOKEN)
             viewModelScope.launch(handler) {
                 val response = aptRepository.acceptApt("Bearer $token", acceptAptRequest)
-                acceptAptRes.postValue(handleAcceptAptResponse(response,customerID))
+                acceptAptRes.postValue(handleAcceptAptResponse(response, customerID))
             }
         } catch (e: Exception) {
             acceptAptRes.postValue(Resource.Error("Server connection failed!"))
         }
     }
 
-    fun declineApt(idBodyRequest: IdBodyRequest,customerID:String) = viewModelScope.launch {
-        try {
-            declineAptRes.postValue(Resource.Loading())
-            val token = AppDataStore.readString(Constants.AUTH_TOKEN)
-            viewModelScope.launch(handler) {
-                val response = aptRepository.declineApt("Bearer $token", idBodyRequest)
-                declineAptRes.postValue(handleDeclineAptResponse(response,customerID))
-            }
+    fun declineApt(idBodyRequest: IdBodyRequest, customerID: String) {
+        viewModelScope.launch {
+            try {
+                declineAptRes.postValue(Resource.Loading())
+                val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+                viewModelScope.launch(handler) {
+                    val response = aptRepository.declineApt("Bearer $token", idBodyRequest)
+                    declineAptRes.postValue(handleDeclineAptResponse(response, customerID))
+                }
 
-        } catch (e: Exception) {
-            declineAptRes.postValue(Resource.Error("Server connection failed!"))
+            } catch (e: Exception) {
+                declineAptRes.postValue(Resource.Error("Server connection failed!"))
+            }
         }
     }
 
@@ -102,13 +105,16 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
                 _apts.postValue(resultResponse.appointments)
                 return Resource.Success(resultResponse)
             }
-        }else{
+        } else {
             _apts.postValue(listOf())
         }
         return Resource.Error(response.message())
     }
 
-    private fun handleAcceptAptResponse(response: Response<MessageResponse>,customerID:String): Resource<MessageResponse> {
+    private fun handleAcceptAptResponse(
+        response: Response<MessageResponse>,
+        customerID: String
+    ): Resource<MessageResponse> {
         if (response.isSuccessful) {
             viewModelScope.launch {
                 val currUserID = AppDataStore.readString(Constants.USER_ID)
@@ -123,7 +129,10 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
         return Resource.Error(errorBody.getString("message"))
     }
 
-    private fun handleDeclineAptResponse(response: Response<MessageResponse>,customerID:String): Resource<MessageResponse> {
+    private fun handleDeclineAptResponse(
+        response: Response<MessageResponse>,
+        customerID: String
+    ): Resource<MessageResponse> {
         if (response.isSuccessful) {
             viewModelScope.launch {
                 val currUserID = AppDataStore.readString(Constants.USER_ID)
@@ -138,22 +147,28 @@ class PendingAptsViewModel  (private val aptRepository: AptRepository
         return Resource.Error(errorBody.getString("message"))
     }
 
-    fun filter(filtredVal:String,cin:String){
+    fun filter(filtredVal: String, cin: String) {
         _tempApts.value?.clear()
-        val templst= mutableListOf<Appointment>()
-        if(!_apts.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()){
+        val templst = mutableListOf<Appointment>()
+        if (!_apts.value.isNullOrEmpty() && !filtredVal.isNullOrEmpty()) {
             _apts.value!!.forEach {
                 var user: User
-                if(cin.isNullOrEmpty()){
-                    user=it.sp
-                }else{
-                    user=it.customer
+                if (cin.isNullOrEmpty()) {
+                    user = it.sp
+                } else {
+                    user = it.customer
                 }
-                if(user.firstname!!.contains(filtredVal, ignoreCase = true) || user.lastname!!.contains(filtredVal, ignoreCase = true) || it.tos!!.contains(filtredVal, ignoreCase = true))  templst.add(it)
+                if (user.firstname!!.contains(
+                        filtredVal,
+                        ignoreCase = true
+                    ) || user.lastname!!.contains(
+                        filtredVal,
+                        ignoreCase = true
+                    ) || it.tos!!.contains(filtredVal, ignoreCase = true)
+                ) templst.add(it)
             }
             _tempApts.postValue(templst)
-        }
-        else{
+        } else {
             _tempApts.postValue(_apts.value?.toMutableList())
         }
     }

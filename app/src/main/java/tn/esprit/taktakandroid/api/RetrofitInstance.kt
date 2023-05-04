@@ -43,5 +43,8 @@ class RetrofitInstance {
         val paymentApi: PaymentEndpoints by lazy {
             retrofit.create(PaymentEndpoints::class.java)
         }
+        val walletApi: WalletEndpoints by lazy {
+            retrofit.create(WalletEndpoints::class.java)
+        }
     }
 }
