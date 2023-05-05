@@ -92,7 +92,7 @@
         <item name="colorPrimary">@color/yellowToBG</item>
         <item name="colorPrimaryDark">@color/yellowToBG</item>
         <item name="colorAccent">@color/orange</item>
-        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@drawable/logo
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="s">@mipmap/ic_logo
         </item>
         <item name="android:statusBarColor">@color/yellowToBG</item>
     </style>

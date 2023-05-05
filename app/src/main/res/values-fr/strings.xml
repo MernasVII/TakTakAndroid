@@ -38,7 +38,7 @@
     <string name="resend">Renvoyer</string>
     <string name="send">Envoyer</string>
     <string name="old_password">Ancien mot de passe</string>
-    <string name="save_changes">Enregistrer les modifications</string>
+    <string name="save_changes">Enregistrer</string>
     <string name="change_password">Changer le mot de passe</string>
     <string name="edit_profile">Modifier le profil</string>
     <string name="work_description">Description du travail</string>

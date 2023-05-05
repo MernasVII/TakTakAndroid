@@ -38,7 +38,7 @@ object MyNotificationManager {
             context,
             0,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
         val builder: NotificationCompat.Builder = NotificationCompat.Builder(
@@ -49,7 +49,7 @@ object MyNotificationManager {
             .setLargeIcon(
                 BitmapFactory.decodeResource(
                     context.resources,
-                    R.drawable.logo
+                    R.mipmap.ic_logo
                 )
             )
             .setContentIntent(pendingIntent)

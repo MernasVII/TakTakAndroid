@@ -1,10 +1,10 @@
 package tn.esprit.taktakandroid.utils
 
 object Constants {
-    const val BASE_URL = "http://192.168.1.14:9090"
-    const val IMG_URL = "http://192.168.1.14:9090/img/"
-    const val TERMS_URL = "http://192.168.1.14:9090/terms"
-    const val SOCKET_URL = "ws://192.168.1.14:9090"
+    const val BASE_URL = "http://172.16.4.232:9090"
+    const val IMG_URL = "http://172.16.4.232:9090/img/"
+    const val TERMS_URL = "http://172.16.4.232:9090/terms"
+    const val SOCKET_URL = "ws://172.16.4.232:9090"
 
     /*  const val BASE_URL = "http://192.168.1.6:9090"
       const val IMG_URL = "http://192.168.1.6:9090/img/"

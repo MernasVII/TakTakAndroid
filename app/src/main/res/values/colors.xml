@@ -42,6 +42,7 @@
     <color name="statusColor">#CCFFB14A</color>
 
     <color name="yellowToStatus">#ffeccc</color>
+    <color name="nav_selected">#fae4be</color>
 
     <color name="lightGreyToDarkGrey">#BFe6e6e6</color>
     <color name="yellowToDarkGrey">#ffeccc</color>
