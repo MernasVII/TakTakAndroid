@@ -3,6 +3,7 @@ package tn.esprit.taktakandroid.utils
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -13,18 +14,17 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.uis.home.HomeActivity
-import tn.esprit.taktakandroid.utils.Constants.NOTIFICATION_ID
+import tn.esprit.taktakandroid.utils.Constants.CHANNEL_ID
+import tn.esprit.taktakandroid.utils.Constants.CHANNEL_NAME
 
 
 object MyNotificationManager {
     private val vibrationPattern = longArrayOf(500, 500, 500, 500)
     private var alarmSound: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-    private var channelID=""
-    private var channelName=""
+
 
     fun sendNotif(context: Context, message: String) {
-        channelID=ChannelConfig.generateChannelID()
-        channelName=ChannelConfig.generateChannelName()
+
         val manager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         createNotifChannel(manager)
@@ -39,12 +39,12 @@ object MyNotificationManager {
             context,
             0,
             intent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            FLAG_IMMUTABLE
         )
 
         val builder: NotificationCompat.Builder = NotificationCompat.Builder(
             context,
-            channelID
+            CHANNEL_ID
         )
             .setSmallIcon(R.drawable.logo)
             .setLargeIcon(
@@ -64,7 +64,7 @@ object MyNotificationManager {
             .setVibrate(vibrationPattern)
             .setSound(alarmSound)
 
-        manager.notify(NOTIFICATION_ID, builder.build())
+        manager.notify(NotifIDGenerator.generateNotifID(), builder.build())
     }
 
 
@@ -73,8 +73,8 @@ object MyNotificationManager {
 
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(
-                channelID,
-                channelName,
+                CHANNEL_ID,
+                CHANNEL_NAME,
                 importance
             )
             channel.enableVibration(true)
