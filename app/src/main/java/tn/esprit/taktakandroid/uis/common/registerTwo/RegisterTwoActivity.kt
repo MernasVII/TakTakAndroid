@@ -73,7 +73,7 @@ class RegisterTwoActivity : BaseActivity() {
             setOnClickListener {
                 showGuideDialog()
             }
-         //  isLongClickable=false //TODO remove this
+         //  isLongClickable=false //TODO enable comment
         }
 
         viewModel.signUpResult.observe(this){ result ->

@@ -25,6 +25,7 @@ import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
 import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModel
 import tn.esprit.taktakandroid.uis.common.payment.PaymentViewModelFactory
+import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 
@@ -136,6 +137,7 @@ class QRCodeSheet : SheetBaseFragment() {
                                     getString(R.string.payment_succeeded),
                                     Toast.LENGTH_SHORT
                                 ).show()
+                                parentFragmentManager.setFragmentResult(Constants.QRCODE_PAYMENT_RESULT, Bundle())
                                 dismiss()
                             }
                         }

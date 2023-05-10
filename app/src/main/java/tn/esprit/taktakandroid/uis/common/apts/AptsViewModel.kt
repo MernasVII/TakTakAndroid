@@ -1,5 +1,6 @@
 package tn.esprit.taktakandroid.uis.common.apts
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -167,6 +168,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
     private fun handleGetAptResponse(response: Response<GetAptResponse>): Resource<GetAptResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
+                Log.d(TAG, "handleGetAptResponse: ${resultResponse.apt.rate}")
                 return Resource.Success(resultResponse)
             }
         }
