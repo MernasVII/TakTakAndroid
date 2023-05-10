@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
+import render.animations.Attention
+import render.animations.Render
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.SheetFragmentUpdatePasswordBinding
 import tn.esprit.taktakandroid.models.entities.User
@@ -24,6 +26,7 @@ import tn.esprit.taktakandroid.utils.Resource
 
 class UpdatePasswordSheet (user: User) : SheetBaseFragment() {
     private val TAG="UpdatePasswordSheet"
+    private lateinit var render: Render
 
     lateinit var viewModel: UpdatePasswordViewModel
     private lateinit var mainView: SheetFragmentUpdatePasswordBinding
@@ -34,6 +37,7 @@ class UpdatePasswordSheet (user: User) : SheetBaseFragment() {
         mainView = SheetFragmentUpdatePasswordBinding.inflate(layoutInflater, container, false)
         val userRepository = UserRepository()
         viewModel = ViewModelProvider(this, UpdatePasswordViewModelFactory(userRepository))[UpdatePasswordViewModel::class.java]
+        render=Render(requireContext())
 
         setUpEditTexts()
         errorHandling()
@@ -100,6 +104,8 @@ class UpdatePasswordSheet (user: User) : SheetBaseFragment() {
                 mainView.tlOldPassword.apply {
                     error = viewModel.oldPwdError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlOldPassword))
+                    render.start()
                 }
             } else {
                 mainView.tlOldPassword.apply {
@@ -112,6 +118,8 @@ class UpdatePasswordSheet (user: User) : SheetBaseFragment() {
                 mainView.tlNewPassword.apply {
                     error = viewModel.newPwdError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlNewPassword))
+                    render.start()
                 }
             } else {
                 mainView.tlNewPassword.apply {

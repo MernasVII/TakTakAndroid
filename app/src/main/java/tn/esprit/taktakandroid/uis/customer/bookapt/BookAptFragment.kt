@@ -25,6 +25,8 @@ import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.*
+import render.animations.Attention
+import render.animations.Render
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.FragmentBookAptBinding
 import tn.esprit.taktakandroid.models.entities.User
@@ -44,6 +46,7 @@ class BookAptFragment : BaseFragment() {
     lateinit var viewModel: BookAptViewModel
 
     private lateinit var sp: User
+    private lateinit var render: Render
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,7 +57,7 @@ class BookAptFragment : BaseFragment() {
         sp = arguments?.getParcelable("sp")!!
         val aptRepository = AptRepository()
         viewModel = ViewModelProvider(this, BookAptViewModelFactory(aptRepository,sp))[BookAptViewModel::class.java]
-
+        render=Render(requireContext())
      //   buttonsSetup()
         editTextsSetup()
         inputsErrorHandling()
@@ -265,6 +268,8 @@ class BookAptFragment : BaseFragment() {
                 mainView.tlDatetime.apply {
                     error = viewModel.dateError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlDatetime))
+                    render.start()
                 }
             } else {
                 mainView.tlDatetime.apply {
@@ -277,6 +282,8 @@ class BookAptFragment : BaseFragment() {
                 mainView.tlLocation.apply {
                     error = viewModel.locationError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlLocation))
+                    render.start()
                 }
             } else {
                 mainView.tlLocation.apply {
@@ -290,6 +297,8 @@ class BookAptFragment : BaseFragment() {
                 mainView.tlDesc.apply {
                     error = viewModel.descError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlDesc))
+                    render.start()
                 }
             } else {
                 mainView.tlDesc.apply {

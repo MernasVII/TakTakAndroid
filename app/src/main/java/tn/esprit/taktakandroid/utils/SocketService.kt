@@ -14,8 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.utils.Constants.CHANNEL_ID
-import tn.esprit.taktakandroid.utils.Constants.CHANNEL_NAME
 import java.io.IOException
 
 
@@ -24,6 +22,8 @@ const val TAG = "SocketService"
 class SocketService : Service() {
 
     companion object {
+        var channelID=ChannelConfig.generateChannelID()
+        var channelName=ChannelConfig.generateChannelName()
         private lateinit var _mSocket: Socket
         fun sendMessage(msg: String) {
             _mSocket.emit("NodeJS Server Port", msg)
@@ -38,14 +38,13 @@ class SocketService : Service() {
 
             val importance = NotificationManager.IMPORTANCE_LOW
             val channel = NotificationChannel(
-                CHANNEL_ID,
-                CHANNEL_NAME,
+                channelID,
+                channelName,
                 importance
             )
             channel.enableVibration(false)
             channel.setSound(null, null)
             channel.enableLights(false)
-
             manager.createNotificationChannel(channel)
         }
       /*  val notificationIntent = Intent(this, HomeActivity::class.java)
@@ -57,7 +56,7 @@ class SocketService : Service() {
 */
         var notification: Notification = NotificationCompat.Builder(
             applicationContext,
-            CHANNEL_ID
+            channelID
         )
             .setContentTitle(
                 applicationContext.getString(tn.esprit.taktakandroid.R.string.app_name)

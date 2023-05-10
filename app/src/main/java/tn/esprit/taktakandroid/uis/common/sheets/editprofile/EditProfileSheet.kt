@@ -24,6 +24,8 @@ import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import render.animations.Attention
+import render.animations.Render
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.SheetFragmentEditProfileBinding
 import tn.esprit.taktakandroid.models.entities.User
@@ -39,6 +41,7 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
 
     lateinit var viewModel: EditProfileViewModel
     private lateinit var mainView: SheetFragmentEditProfileBinding
+    private lateinit var render: Render
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +53,7 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
             this,
             EditProfileViewModelProviderFactory(userRepository)
         )[EditProfileViewModel::class.java]
+        render=Render(requireContext())
 
         setData()
         setUpEditTexts()
@@ -190,6 +194,8 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
                 mainView.tlFirstname.apply {
                     error = viewModel.firstnameError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlFirstname))
+                    render.start()
                 }
             } else {
                 mainView.tlFirstname.apply {
@@ -202,6 +208,8 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
                 mainView.tlLastname.apply {
                     error = viewModel.lastnameError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlLastname))
+                    render.start()
                 }
             } else {
                 mainView.tlLastname.apply {
@@ -214,6 +222,8 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
                 mainView.tlAddress.apply {
                     error = viewModel.addressError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlAddress))
+                    render.start()
                 }
             } else {
                 mainView.tlAddress.apply {

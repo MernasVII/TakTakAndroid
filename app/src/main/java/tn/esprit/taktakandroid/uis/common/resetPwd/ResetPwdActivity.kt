@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import render.animations.Attention
+import render.animations.Render
 import tn.esprit.taktakandroid.databinding.ActivityResetPwdBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.BaseActivity
@@ -17,11 +19,13 @@ const val TAG = "ResetPwdActivity"
 class ResetPwdActivity : BaseActivity() {
     private lateinit var mainView: ActivityResetPwdBinding
     private lateinit var viewModel: ResetPwdViewModel
+    private lateinit var render: Render
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainView = ActivityResetPwdBinding.inflate(layoutInflater)
         setContentView(mainView.root)
+        render=Render(this)
 
         val userRepository = UserRepository()
         val viewModelProviderFactory = ResetPwdViewModelProviderFactory(userRepository)
@@ -38,6 +42,8 @@ class ResetPwdActivity : BaseActivity() {
                 mainView.tlNewPassword.apply {
                     error = viewModel.passwordError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlNewPassword))
+                    render.start()
                 }
             } else {
                 mainView.tlNewPassword.apply {

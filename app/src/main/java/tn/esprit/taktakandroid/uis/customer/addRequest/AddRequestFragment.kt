@@ -28,6 +28,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.*
+import render.animations.Attention
+import render.animations.Render
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.FragmentAddRequestBinding
 import tn.esprit.taktakandroid.repositories.RequestsRepository
@@ -49,6 +51,7 @@ class AddRequestFragment : BaseFragment() {
     private lateinit var viewModel: AddRequestViewModel
     private lateinit var tosButtons: List<MaterialButton>
     private var tos=""
+    private lateinit var render: Render
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,6 +65,8 @@ class AddRequestFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        render=Render(requireContext())
+
         val reqRepository = RequestsRepository()
         viewModel = ViewModelProvider(
             this,
@@ -225,6 +230,8 @@ class AddRequestFragment : BaseFragment() {
                 mainView.tlDateTime.apply {
                     error = viewModel.dateTimeError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlDateTime))
+                    render.start()
                 }
             } else {
                 mainView.tlDateTime.apply {
@@ -237,6 +244,8 @@ class AddRequestFragment : BaseFragment() {
                 mainView.tlLocation.apply {
                     error = viewModel.locationError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlLocation))
+                    render.start()
                 }
             } else {
                 mainView.tlLocation.apply {
@@ -249,6 +258,8 @@ class AddRequestFragment : BaseFragment() {
                 mainView.tlDescr.apply {
                     error = viewModel.descError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlDescr))
+                    render.start()
                 }
             } else {
                 mainView.tlDescr.apply {
@@ -259,6 +270,8 @@ class AddRequestFragment : BaseFragment() {
         viewModel.tosError.observe(viewLifecycleOwner) { _errorTxt ->
             if (_errorTxt.isNotEmpty()) {
                 mainView.llTosError.visibility=View.VISIBLE
+                render.setAnimation(Attention.Shake(mainView.llTos))
+                render.start()
             }else{
                 mainView.llTosError.visibility=View.GONE
             }

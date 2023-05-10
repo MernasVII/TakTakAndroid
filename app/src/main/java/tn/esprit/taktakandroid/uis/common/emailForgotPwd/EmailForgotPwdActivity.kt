@@ -6,6 +6,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import render.animations.Attention
+import render.animations.Render
 import tn.esprit.taktakandroid.databinding.ActivityEmailForgotPwdBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.BaseActivity
@@ -16,11 +18,13 @@ const val TAG = "EmailForgotPwdActivity"
 class EmailForgotPwdActivity : BaseActivity() {
     private lateinit var mainView:ActivityEmailForgotPwdBinding
     private lateinit var viewModel: EmailForgotPwdViewModel
+    private lateinit var render: Render
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainView=ActivityEmailForgotPwdBinding.inflate(layoutInflater)
         setContentView(mainView.root)
+        render=Render(this)
 
         val userRepository = UserRepository()
         val viewModelProviderFactory = EmailForgotPwdViewModelProviderFactory(userRepository)
@@ -43,6 +47,8 @@ class EmailForgotPwdActivity : BaseActivity() {
                 mainView.tlEmail.apply {
                     error = viewModel.emailError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlEmail))
+                    render.start()
                 }
             } else {
                 mainView.tlEmail.apply {

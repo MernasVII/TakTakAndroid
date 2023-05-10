@@ -17,6 +17,8 @@ import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import render.animations.Attention
+import render.animations.Render
 import tn.esprit.taktakandroid.databinding.ActivityRegisterOneBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.BaseActivity
@@ -29,11 +31,13 @@ const val TAG = "RegisterOneActivity"
 class RegisterOneActivity : BaseActivity() {
     private lateinit var mainView: ActivityRegisterOneBinding
     private lateinit var viewModel: RegisterOneViewModel
+    private lateinit var render: Render
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainView = ActivityRegisterOneBinding.inflate(layoutInflater)
         setContentView(mainView.root)
+        render=Render(this)
 
         val userRepository = UserRepository()
         val viewModelProviderFactory = RegisterOneViewModelProviderFactory(userRepository)
@@ -194,6 +198,8 @@ class RegisterOneActivity : BaseActivity() {
                 mainView.tlEmail.apply {
                     error = viewModel.emailError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlEmail))
+                    render.start()
                 }
             } else {
                 mainView.tlEmail.apply {
@@ -206,6 +212,8 @@ class RegisterOneActivity : BaseActivity() {
                 mainView.tlPassword.apply {
                     error = viewModel.passwordError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlPassword))
+                    render.start()
                 }
             } else {
                 mainView.tlPassword.apply {
@@ -218,6 +226,8 @@ class RegisterOneActivity : BaseActivity() {
                 mainView.tlFirstname.apply {
                     error = viewModel.firstnameError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlFirstname))
+                    render.start()
                 }
             } else {
                 mainView.tlFirstname.apply {
@@ -230,6 +240,8 @@ class RegisterOneActivity : BaseActivity() {
                 mainView.tlLastname.apply {
                     error = viewModel.lastnameError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlLastname))
+                    render.start()
                 }
             } else {
                 mainView.tlLastname.apply {
@@ -242,6 +254,8 @@ class RegisterOneActivity : BaseActivity() {
                 mainView.tlAddress.apply {
                     error = viewModel.addressError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlAddress))
+                    render.start()
                 }
             } else {
                 mainView.tlAddress.apply {
