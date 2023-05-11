@@ -201,7 +201,9 @@ class BookAptFragment : BaseFragment() {
 
 
     private fun setData(sp: User) {
-        Glide.with(requireContext()).load(Constants.IMG_URL +sp.pic).into(mainView.profileLayout.ivPic)
+        var userImage=Constants.IMG_URL + sp.pic
+        if(sp.pic!!.lowercase().contains("http")) userImage = sp.pic!!
+        Glide.with(requireContext()).load(userImage).into(mainView.profileLayout.ivPic)
         mainView.profileLayout.tvFullname.text = sp.firstname + " " + sp.lastname
         mainView.profileLayout.tvSpeciality.text = sp.speciality
         mainView.profileLayout.tvAddress.text = sp.address

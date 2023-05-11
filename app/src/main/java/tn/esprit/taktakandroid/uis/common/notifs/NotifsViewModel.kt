@@ -1,5 +1,6 @@
 package tn.esprit.taktakandroid.uis.common.notifs
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,6 +11,7 @@ import org.json.JSONObject
 import retrofit2.Response
 import tn.esprit.taktakandroid.models.entities.Notification
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
+import tn.esprit.taktakandroid.models.responses.CountNotifsResponse
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.responses.NotifsResponse
 import tn.esprit.taktakandroid.repositories.NotifRepository
@@ -20,7 +22,9 @@ import tn.esprit.taktakandroid.utils.Resource
 class NotifsViewModel (private val notifRepository: NotifRepository
 ) : ViewModel() {
     private val TAG:String="NotifsViewModel"
-
+    private val _countNotifResult = MutableLiveData<Resource<CountNotifsResponse>>()
+    val countNotifResult: LiveData<Resource<CountNotifsResponse>>
+        get() = _countNotifResult
     private val _getNotifsResult= MutableLiveData<Resource<NotifsResponse>>()
     val notifsRes: LiveData<Resource<NotifsResponse>>
         get() = _getNotifsResult
@@ -62,6 +66,32 @@ class NotifsViewModel (private val notifRepository: NotifRepository
 
     private val handler = CoroutineExceptionHandler { _, _ ->
         readNotifRes.postValue(Resource.Error("Server connection failed!"))
+    }
+    private val countHandler = CoroutineExceptionHandler { _, _ ->
+        _countNotifResult.postValue(Resource.Error("Server connection failed!"))
+
+    }
+     fun countMyNotif() {
+        viewModelScope.launch (countHandler){
+            try {
+                _countNotifResult.postValue(Resource.Loading())
+                val token = AppDataStore.readString(Constants.AUTH_TOKEN)
+                val response = notifRepository.countNotifs("Bearer $token")
+                _countNotifResult.postValue(handleResponse(response))
+            } catch (exception: Exception) {
+                _countNotifResult.postValue(Resource.Error("Server connection failed!"))
+            }
+        }
+    }
+    private fun handleResponse(response: Response<CountNotifsResponse>): Resource<CountNotifsResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                Log.d(TAG, "${resultResponse.nbNotif} ")
+                return Resource.Success(resultResponse)
+            }
+        }
+        val errorBody = JSONObject(response.errorBody()!!.string())
+        return Resource.Error(errorBody.getString("message"))
     }
 
     fun markRead(idBodyRequest: IdBodyRequest) = viewModelScope.launch {

@@ -6,6 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.PUT
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
+import tn.esprit.taktakandroid.models.responses.CountNotifsResponse
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.responses.NotifsResponse
 
@@ -15,6 +16,11 @@ interface NotifEndpoints {
     suspend fun getNotifs(
         @Header("Authorization") token: String
     ): Response<NotifsResponse>
+
+    @GET("notif/countNotifs")
+    suspend fun countNotifs(
+        @Header("Authorization") token: String
+    ): Response<CountNotifsResponse>
 
     //MARK READ
     @PUT("notif/markNotifRead")

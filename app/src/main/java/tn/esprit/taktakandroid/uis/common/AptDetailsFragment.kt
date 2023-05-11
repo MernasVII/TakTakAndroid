@@ -233,7 +233,10 @@ class AptDetailsFragment : BaseFragment() {
                 mainView.profileLayout.tvSpeciality.visibility = View.GONE
                 mainView.profileLayout.llRate.visibility = View.GONE
             }
-            Glide.with(requireContext()).load(Constants.IMG_URL + user.pic)
+
+            var userImage=Constants.IMG_URL + user.pic
+            if(user.pic!!.lowercase().contains("http")) userImage = user.pic!!
+            Glide.with(requireContext()).load(userImage)
                 .into(mainView.profileLayout.ivPic)
             mainView.profileLayout.tvFullname.text = user.firstname + " " + user.lastname
             mainView.profileLayout.tvAddress.text = user.address

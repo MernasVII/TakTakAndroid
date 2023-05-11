@@ -66,8 +66,12 @@ class AptsListAdapter(
             } else {
                 apt.customer!!
             }
+
             manageViewsVisibility(apt, holder.itemView)
-            Glide.with(this).load(Constants.IMG_URL + user.pic)
+
+            var userImage=Constants.IMG_URL + user.pic
+            if(user.pic!!.lowercase().contains("http")) userImage = user.pic!!
+            Glide.with(this).load(userImage)
                 .into(holder.itemView.findViewById<CircleImageView>(R.id.iv_pic))
             holder.itemView.findViewById<TextView>(R.id.tv_name).text =
                 user.firstname + " " + user.lastname

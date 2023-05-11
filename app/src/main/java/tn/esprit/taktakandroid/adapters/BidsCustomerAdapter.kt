@@ -36,7 +36,10 @@ class BidsCustomerAdapter (
         var bid=bids[position]
         var sp=bid.sp
         holder.itemView.apply {
-            Glide.with(this).load(Constants.IMG_URL +sp.pic).into(holder.itemView.findViewById<CircleImageView>(
+
+            var userImage=Constants.IMG_URL + sp.pic
+            if(sp.pic!!.lowercase().contains("http")) userImage = sp.pic!!
+            Glide.with(this).load(userImage).into(holder.itemView.findViewById<CircleImageView>(
                 R.id.iv_pic))
             holder.itemView.findViewById<TextView>(R.id.tv_name).text = sp.firstname+" "+sp.lastname
             val price = if (bid.price % 1 == 0f) bid.price.toInt() else bid.price

@@ -115,4 +115,7 @@ dependencies {
     // animation
     implementation 'com.github.gayanvoice:android-animations:1.0.2'
 
+    // splash screen
+    implementation "androidx.core:core-splashscreen:1.0.1"
+
 }

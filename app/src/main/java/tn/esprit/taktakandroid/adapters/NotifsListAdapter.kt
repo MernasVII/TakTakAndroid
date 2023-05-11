@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ItemNotifBinding
@@ -26,6 +27,7 @@ import tn.esprit.taktakandroid.uis.common.notifs.NotifsViewModel
 import tn.esprit.taktakandroid.utils.Resource
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.Duration.Companion.milliseconds
 
 class NotifsListAdapter(
     private val fragmentManager: FragmentManager,
@@ -70,6 +72,8 @@ class NotifsListAdapter(
                 adapterScope?.launch {
                     viewModel?.markRead(IdBodyRequest(notif._id!!))
                     navigateToBidOrApt(notif.apt, notif.bid)
+                    delay(200.milliseconds)
+                    viewModel?.countMyNotif()
                 }
                 observeFindApt(holder.itemView.context)
             }

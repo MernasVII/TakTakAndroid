@@ -17,12 +17,12 @@ import tn.esprit.taktakandroid.utils.Constants
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BidsSPAdapter (
+class BidsSPAdapter(
     private val fragmentManager: FragmentManager,
     var bids: MutableList<Bid>
 ) : RecyclerView.Adapter<BidsSPAdapter.BidSPViewHolder>() {
 
-    inner class BidSPViewHolder(mainView: ItemSpBidBinding): RecyclerView.ViewHolder(mainView.root)
+    inner class BidSPViewHolder(mainView: ItemSpBidBinding) : RecyclerView.ViewHolder(mainView.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BidSPViewHolder {
         val mainView = ItemSpBidBinding
@@ -35,17 +35,24 @@ class BidsSPAdapter (
     }
 
     override fun onBindViewHolder(holder: BidsSPAdapter.BidSPViewHolder, position: Int) {
-        var bid=bids[position]
-        var customer=bid.request.customer
-        var req=bid.request
+        var bid = bids[position]
+        var customer = bid.request.customer
+        var req = bid.request
         holder.itemView.apply {
-            Glide.with(this).load(Constants.IMG_URL +customer.pic).into(holder.itemView.findViewById<CircleImageView>(
-                R.id.iv_pic))
-            holder.itemView.findViewById<TextView>(R.id.tv_name).text = customer.firstname+" "+customer.lastname
+            var userImage = Constants.IMG_URL + customer.pic
+            if (customer.pic!!.lowercase().contains("http")) userImage = customer.pic!!
+            Glide.with(this).load(userImage).into(
+                holder.itemView.findViewById<CircleImageView>(
+                    R.id.iv_pic
+                )
+            )
+            holder.itemView.findViewById<TextView>(R.id.tv_name).text =
+                customer.firstname + " " + customer.lastname
             holder.itemView.findViewById<TextView>(R.id.tv_tos).text = req.tos
-            holder.itemView.findViewById<TextView>(R.id.tv_timeLoc).text = getTime(req.date,req.location)
+            holder.itemView.findViewById<TextView>(R.id.tv_timeLoc).text =
+                getTime(req.date, req.location)
             val price = if (bid.price % 1 == 0f) bid.price.toInt() else bid.price
-            holder.itemView.findViewById<TextView>(R.id.tv_price).text = "Price: "+price+"DT"
+            holder.itemView.findViewById<TextView>(R.id.tv_price).text = "Price: " + price + "DT"
 
             setOnClickListener {
                 navigateToReqDetails(req)
@@ -53,7 +60,7 @@ class BidsSPAdapter (
         }
     }
 
-    private fun getTime(dateString: String,loc:String): String {
+    private fun getTime(dateString: String, loc: String): String {
         val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         formatter.timeZone = TimeZone.getTimeZone("UTC")
         val date = formatter.parse(dateString)
@@ -77,8 +84,8 @@ class BidsSPAdapter (
         }
     }
 
-    fun setdata(list:MutableList<Bid>){
-        bids=list
+    fun setdata(list: MutableList<Bid>) {
+        bids = list
         notifyDataSetChanged()
     }
 

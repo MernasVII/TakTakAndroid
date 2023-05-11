@@ -20,10 +20,15 @@ import tn.esprit.taktakandroid.utils.Constants
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val TAG="SpRequestsAdapter"
-class SpRequestsAdapter (private val fragmentManager: FragmentManager,private var requests: MutableList<Request>) :RecyclerView.Adapter<SpRequestsAdapter.MyRequestsViewHolder>() {
+const val TAG = "SpRequestsAdapter"
 
-    inner class MyRequestsViewHolder(val mainView: ItemReqSpBinding):RecyclerView.ViewHolder(mainView.root)
+class SpRequestsAdapter(
+    private val fragmentManager: FragmentManager,
+    private var requests: MutableList<Request>
+) : RecyclerView.Adapter<SpRequestsAdapter.MyRequestsViewHolder>() {
+
+    inner class MyRequestsViewHolder(val mainView: ItemReqSpBinding) :
+        RecyclerView.ViewHolder(mainView.root)
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRequestsViewHolder {
@@ -37,22 +42,24 @@ class SpRequestsAdapter (private val fragmentManager: FragmentManager,private va
     }
 
     override fun onBindViewHolder(holder: MyRequestsViewHolder, position: Int) {
-        var request=requests[position]
-        Glide.with(holder.itemView).load(Constants.IMG_URL +request.customer.pic).into(holder.mainView.ivPic)
-        holder.mainView.tvName.text="${request.customer.firstname} ${request.customer.lastname}"
-        holder.mainView.tvBidCount.text="Bids: ${countActiveBids(request.bids)}"
-        holder.mainView.tvTimeLoc.text="${parseDate(request.date)} in ${request.location}"
-        holder.mainView.tvTos.text="${request.tos}"
+        var request = requests[position]
+        var userImage = Constants.IMG_URL + request.customer.pic
+        if (request.customer.pic!!.lowercase().contains("http")) userImage = request.customer.pic!!
+        Glide.with(holder.itemView).load(userImage).into(holder.mainView.ivPic)
+        holder.mainView.tvName.text = "${request.customer.firstname} ${request.customer.lastname}"
+        holder.mainView.tvBidCount.text = "Bids: ${countActiveBids(request.bids)}"
+        holder.mainView.tvTimeLoc.text = "${parseDate(request.date)} in ${request.location}"
+        holder.mainView.tvTos.text = "${request.tos}"
         holder.mainView.root.setOnClickListener {
 
-               navigateToReqDetails(request)
+            navigateToReqDetails(request)
 
 
         }
 
     }
 
-  private fun navigateToReqDetails(request: Request) {
+    private fun navigateToReqDetails(request: Request) {
         val bundle = Bundle().apply {
             putParcelable("request", request)
         }
@@ -65,24 +72,26 @@ class SpRequestsAdapter (private val fragmentManager: FragmentManager,private va
         }
     }
 
-    private fun countActiveBids(bids: List<Bid>):Int{
-        var count =0
-        bids.forEach { b->
-            if(!b.isDeclined) count ++
+    private fun countActiveBids(bids: List<Bid>): Int {
+        var count = 0
+        bids.forEach { b ->
+            if (!b.isDeclined) count++
         }
         return count
     }
-    private fun parseDate(date:String):String{
-      val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
-      inputDateFormat.timeZone = TimeZone.getTimeZone("UTC")
 
-      val outputDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.US)
-      val formatedDate = inputDateFormat.parse(date)
+    private fun parseDate(date: String): String {
+        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US)
+        inputDateFormat.timeZone = TimeZone.getTimeZone("UTC")
 
-      return outputDateFormat.format(formatedDate!!)
+        val outputDateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+        val formatedDate = inputDateFormat.parse(date)
+
+        return outputDateFormat.format(formatedDate!!)
     }
-    fun setdata(list:MutableList<Request>){
-        requests=list
+
+    fun setdata(list: MutableList<Request>) {
+        requests = list
         notifyDataSetChanged()
     }
 }

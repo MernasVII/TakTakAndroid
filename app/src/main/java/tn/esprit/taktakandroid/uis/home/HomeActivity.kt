@@ -25,11 +25,14 @@ import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.databinding.ActivityHomeBinding
+import tn.esprit.taktakandroid.repositories.NotifRepository
 import tn.esprit.taktakandroid.uis.BaseActivity
 import tn.esprit.taktakandroid.uis.BaseFragment
 import tn.esprit.taktakandroid.uis.common.apts.AptsFragment
 import tn.esprit.taktakandroid.uis.common.login.LoginActivity
 import tn.esprit.taktakandroid.uis.common.notifs.NotifsFragment
+import tn.esprit.taktakandroid.uis.common.notifs.NotifsViewModel
+import tn.esprit.taktakandroid.uis.common.notifs.NotifsViewModelFactory
 import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileFragment
 import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileViewModel
 import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileViewModelFactory
@@ -55,10 +58,9 @@ class HomeActivity : BaseActivity() {
     private var cin: String? = null
 
     lateinit var uservm: UserProfileViewModel
+    lateinit var notifvm: NotifsViewModel
 
-    val viewModel: HomeViewModel by viewModels {
-        HomeViewModelProviderFactory(UserRepository())
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,12 +76,21 @@ class HomeActivity : BaseActivity() {
         ContextCompat.startForegroundService(this, intent)
         mainView = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(mainView.root)
+
         val userRepository = UserRepository()
         uservm = ViewModelProvider(
             this,
             UserProfileViewModelFactory(userRepository)
         )[UserProfileViewModel::class.java]
 
+
+
+        val notifsRepository = NotifRepository()
+        notifvm = ViewModelProvider(
+            this,
+            NotifsViewModelFactory(notifsRepository)
+        )[NotifsViewModel::class.java]
+        notifvm.countMyNotif()
 
         lifecycleScope.launch(Dispatchers.Main){
             cin = AppDataStore.readString(Constants.CIN)
@@ -136,7 +147,34 @@ class HomeActivity : BaseActivity() {
         }
 
         checkAddress()
+        countNotif()
 
+    }
+
+    private fun countNotif() {
+        notifvm.countNotifResult.observe(this) { response ->
+            when (response) {
+                is Resource.Success -> {
+                    response.data?.let { response ->
+                        val count = response.nbNotif
+                        if (count>0) {
+                            mainView.bottomNavigation.tvNotifCount.text = "$count"
+                            mainView.bottomNavigation.tvNotifCount.visibility = View.VISIBLE
+                        } else{
+                            mainView.bottomNavigation.tvNotifCount.visibility = View.INVISIBLE
+                        }
+
+                    }
+                }
+                is Resource.Error -> {
+                    response.message?.let { message ->
+                        //showDialog(message)
+                    }
+                }
+                is Resource.Loading -> {
+                }
+            }
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {

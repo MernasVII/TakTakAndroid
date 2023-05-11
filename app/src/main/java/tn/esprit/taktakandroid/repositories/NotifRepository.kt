@@ -11,4 +11,7 @@ class NotifRepository {
     //MARK READ
     suspend fun markRead(token:String,idBodyRequest: IdBodyRequest)=
         RetrofitInstance.notifApi.markRead(token,idBodyRequest)
+
+    suspend fun countNotifs(token:String)=
+        RetrofitInstance.notifApi.countNotifs(token)
 }

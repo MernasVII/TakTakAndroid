@@ -50,16 +50,43 @@
         android:src="@drawable/ic_work_outline"
         android:textColor="@android:color/white" />
     <!--android:text="Requests"-->
-    <ImageView
-        android:id="@+id/tv_notifs"
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:drawableTint="@color/white"
-        android:padding="4dp"
-        android:src="@drawable/ic_bell_outline"
-        android:textColor="@android:color/white" />
+        android:gravity="center"
+        android:layout_weight="1">
+        <FrameLayout
+            android:id="@+id/frame_layout_notif"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/tv_notifs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:drawableTint="@color/white"
+                android:padding="4dp"
+                android:src="@drawable/ic_bell_outline"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/tv_notifCount"
+                android:layout_width="wrap_content"
+                android:layout_height="15dp"
+                android:paddingRight="3.5dp"
+                android:paddingLeft="3.5dp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:background="@drawable/badge_bg"
+                android:textColor="@color/white"
+                android:textSize="12dp"
+                android:layout_gravity="top|end" />
+
+        </FrameLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
     <!--android:text="Notifications"-->
 
     <androidx.appcompat.widget.LinearLayoutCompat

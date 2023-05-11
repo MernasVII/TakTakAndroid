@@ -140,9 +140,7 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
             val firstName = account.givenName
             val lastname = account.familyName
             val pic=account.photoUrl
-            Log.d(TAG, "handleGoogleSignInResult: $pic")
-            //TODO save pic url
-            val signUpRequest = SignUpRequest(firstname = firstName!!,lastname =lastname!!,email =email!!)
+            val signUpRequest = SignUpRequest(firstname = firstName!!,lastname =lastname!!,email =email!!,pic="$pic")
             try {
                 _loginResult.postValue(Resource.Loading())
                 viewModelScope.launch(handler) {

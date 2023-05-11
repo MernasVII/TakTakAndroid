@@ -10,9 +10,12 @@ import android.os.Handler
 import render.animations.*
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -27,8 +30,10 @@ import tn.esprit.taktakandroid.uis.common.emailForgotPwd.EmailForgotPwdActivity
 import tn.esprit.taktakandroid.uis.common.registerOne.RegisterOneActivity
 import tn.esprit.taktakandroid.uis.common.sheets.TermsAndConditionsSheet
 import tn.esprit.taktakandroid.uis.home.HomeActivity
+import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
+import java.util.*
 import kotlin.time.Duration.Companion.seconds
 
 
@@ -42,13 +47,14 @@ class LoginActivity : BaseActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         mainView = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(mainView.root)
 
         render = Render(this)
         val userRepository = UserRepository()
-        val viewModelProviderFactory = LoginViewModelProviderFactory(userRepository,application)
+        val viewModelProviderFactory = LoginViewModelProviderFactory(userRepository, application)
 
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[LoginViewModel::class.java]
@@ -63,11 +69,11 @@ class LoginActivity : BaseActivity() {
             viewModel.login()
         }
 
-        mainView.tvForgotPwd.setOnClickListener{
+        mainView.tvForgotPwd.setOnClickListener {
             startActivity(Intent(this, EmailForgotPwdActivity::class.java))
         }
 
-        mainView.btnCreateAccount.setOnClickListener{
+        mainView.btnCreateAccount.setOnClickListener {
             startActivity(Intent(this, RegisterOneActivity::class.java))
         }
 
@@ -75,7 +81,7 @@ class LoginActivity : BaseActivity() {
             startActivityResult.launch(viewModel.googleSignIn())
         }
         mainView.tvTermsConditions.setOnClickListener {
-           displaySheet(TermsAndConditionsSheet())
+            displaySheet(TermsAndConditionsSheet())
         }
 
 
@@ -86,9 +92,9 @@ class LoginActivity : BaseActivity() {
                     result.data?.let {
                         lifecycleScope.launch {
                             delay(1.seconds)
-                            withContext(Dispatchers.Main){
+                            withContext(Dispatchers.Main) {
                                 Intent(this@LoginActivity, HomeActivity::class.java).also {
-                                    progressBarVisibility(false,mainView.progressBar)
+                                    progressBarVisibility(false, mainView.progressBar)
                                     startActivity(it)
                                     finish()
                                 }
@@ -98,13 +104,13 @@ class LoginActivity : BaseActivity() {
                     }
                 }
                 is Resource.Error -> {
-                    progressBarVisibility(false,mainView.progressBar)
+                    progressBarVisibility(false, mainView.progressBar)
                     result.message?.let { msg ->
                         showDialog(msg)
                     }
                 }
                 is Resource.Loading -> {
-                    progressBarVisibility(true,mainView.progressBar)
+                    progressBarVisibility(true, mainView.progressBar)
                 }
             }
         })
@@ -126,10 +132,7 @@ class LoginActivity : BaseActivity() {
     }
 
 
-
-
-
-    private fun setUpEditTexts(){
+    private fun setUpEditTexts() {
         mainView.etEmail.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 viewModel.setEmail(s.toString().trim().lowercase())
@@ -152,7 +155,7 @@ class LoginActivity : BaseActivity() {
 
     }
 
-    private fun errorHandling(){
+    private fun errorHandling() {
         viewModel.emailError.observe(this) { _errorTxt ->
             if (_errorTxt.isNotEmpty()) {
                 mainView.tlEmail.apply {
@@ -184,14 +187,17 @@ class LoginActivity : BaseActivity() {
 
     }
 
-    private var startActivityResult=registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()){ result ->
+    private var startActivityResult = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
 
-            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            val task: Task<GoogleSignInAccount> =
+                GoogleSignIn.getSignedInAccountFromIntent(result.data)
             viewModel.handleGoogleSignInResult(task)
         }
     }
+
 
 
 }
