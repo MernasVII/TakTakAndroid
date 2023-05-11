@@ -25,7 +25,7 @@
         android:textSize="35dp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tl_Balance"
+        android:id="@+id/tl_price"
         style="@style/OutlinedBoxRed"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         app:suffixTextColor="@color/red">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_Balance"
+            android:id="@+id/et_price"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:autoSizeTextType="uniform"

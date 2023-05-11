@@ -18,6 +18,7 @@ import kotlinx.coroutines.withContext
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.SheetFragmentAptPriceBinding
 import tn.esprit.taktakandroid.models.requests.AcceptAptRequest
+import tn.esprit.taktakandroid.models.requests.MakeBidRequest
 import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.uis.SheetBaseFragment
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
@@ -49,8 +50,13 @@ class AptPriceSheet : SheetBaseFragment() {
 
 
         mainView.btnProceed.setOnClickListener {
-            lifecycleScope.launch {
-                pendingAptsViewModel.acceptApt(AcceptAptRequest(aptId!!,mainView.etBalance.text.toString().toFloat()),customerID!!)
+            if(mainView.etPrice.text.toString().isEmpty() || mainView.etPrice.text.toString().toFloat()==0f){
+                mainView.tlPrice.isErrorEnabled=true
+                mainView.tlPrice.error="Amount should be greater than 5TND"
+            }else{
+                lifecycleScope.launch {
+                    pendingAptsViewModel.acceptApt(AcceptAptRequest(aptId!!,mainView.etPrice.text.toString().toFloat()),customerID!!)
+                }
             }
         }
         observeViewModel()

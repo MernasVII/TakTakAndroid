@@ -2,7 +2,9 @@ package tn.esprit.taktakandroid.adapters
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
@@ -13,21 +15,20 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ItemNotifBinding
-import tn.esprit.taktakandroid.models.entities.Appointment
-import tn.esprit.taktakandroid.models.entities.Bid
-import tn.esprit.taktakandroid.models.entities.Notification
-import tn.esprit.taktakandroid.models.entities.Request
+import tn.esprit.taktakandroid.models.entities.*
 import tn.esprit.taktakandroid.models.requests.FindAptRequest
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.uis.common.AptDetailsFragment
 import tn.esprit.taktakandroid.uis.common.RequestDetailsFragment
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
 import tn.esprit.taktakandroid.uis.common.notifs.NotifsViewModel
+import tn.esprit.taktakandroid.uis.customer.bids.CustomerBidsFragment
 import tn.esprit.taktakandroid.utils.Resource
 import java.text.SimpleDateFormat
 import java.util.*
 
 class NotifsListAdapter(
+    private val cin: String?,
     private val fragmentManager: FragmentManager,
     private val adapterScope: CoroutineScope? = null,
     private val viewModel: NotifsViewModel,
@@ -68,18 +69,20 @@ class NotifsListAdapter(
             holder.itemView.findViewById<TextView>(R.id.tv_time).text = time
             setOnClickListener {
                 adapterScope?.launch {
-                    viewModel?.markRead(IdBodyRequest(notif._id!!))
-                    navigateToBidOrApt(notif.apt, notif.bid)
+                    if(!notif.read){
+                        viewModel?.markRead(IdBodyRequest(notif._id!!))
+                    }
+                    navigateToBidOrApt(notif,holder.itemView)
                 }
                 observeFindApt(holder.itemView.context)
             }
         }
     }
 
-    private fun navigateToBidOrApt(apt: Appointment?, bid: Bid?) {
-        if (apt != null) {
+    private fun navigateToBidOrApt(notif: Notification, item: View) {
+        if (notif.apt != null) {
             val bundle = Bundle().apply {
-                putParcelable("apt", apt)
+                putParcelable("apt", notif.apt)
             }
             val aptDetailsFragment = AptDetailsFragment()
             aptDetailsFragment.arguments = bundle
@@ -88,12 +91,45 @@ class NotifsListAdapter(
                 addToBackStack(null)
                 commit()
             }
-        } else if (bid != null) {
-            if (!bid.isAccepted) {
-                navigateToReqDetailsFragment(bid.request)
-            } else {
-                aptViewModel.findApt(FindAptRequest(bid.request.date, bid.sp._id!!))
+        } else if (notif.bid != null) {
+            Toast.makeText(item.context, "here2", Toast.LENGTH_SHORT).show()
+            if(notif.bid.request.isClosed){
+                Toast.makeText(item.context, "here3", Toast.LENGTH_SHORT).show()
+                if(!notif.read){
+                    item.setBackgroundResource(R.drawable.list_item_bg)
+                }
+                Toast.makeText(item.context, "The related request is closed!", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(item.context, "here4", Toast.LENGTH_SHORT).show()
+
+                if (!notif.bid.isAccepted) {
+                    if (cin.isNullOrEmpty()) {
+                        navigateToBidsListFragment(notif.bid.request)
+                    }else{
+                        navigateToReqDetailsFragment(notif.bid.request)
+                    }
+                } else {
+                    aptViewModel.findApt(FindAptRequest(notif.bid.request.date, notif.bid.sp._id!!))
+                }
             }
+        }else{
+            if(!notif.read){
+                item.setBackgroundResource(R.drawable.list_item_bg)
+            }
+            Toast.makeText(item.context, "The related request was deleted!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun navigateToBidsListFragment(request: Request) {
+        val bundle = Bundle().apply {
+            putParcelable("request", request)
+        }
+        val customerBidsFragment = CustomerBidsFragment()
+        customerBidsFragment.arguments = bundle
+        fragmentManager.beginTransaction().apply {
+            replace(R.id.fragment_container, customerBidsFragment)
+            addToBackStack(null)
+            commit()
         }
     }
 

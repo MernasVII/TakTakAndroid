@@ -9,9 +9,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.launch
-import tn.esprit.taktakandroid.databinding.SheetFragmentMakeBidFragmentBinding
+import tn.esprit.taktakandroid.databinding.SheetFragmentMakeBidBinding
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.MakeBidRequest
 import tn.esprit.taktakandroid.repositories.BidRepository
@@ -23,7 +22,7 @@ import tn.esprit.taktakandroid.utils.Resource
 class MakeBidSheet : SheetBaseFragment() {
     val TAG="MakeBidSheet"
 
-    private lateinit var mainView: SheetFragmentMakeBidFragmentBinding
+    private lateinit var mainView: SheetFragmentMakeBidBinding
     lateinit var viewModel: BidViewModel
 
     lateinit var reqId: String
@@ -32,15 +31,21 @@ class MakeBidSheet : SheetBaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mainView = SheetFragmentMakeBidFragmentBinding.inflate(layoutInflater, container, false)
+        mainView = SheetFragmentMakeBidBinding.inflate(layoutInflater, container, false)
         val bidRepository=BidRepository()
         viewModel = ViewModelProvider(this, BidViewModelFactory(bidRepository))[BidViewModel::class.java]
         reqId = arguments?.getString("reqId").toString()
         val customerID=arguments?.getString("customerID").toString()
 
         mainView.btnSave.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.makeBid(MakeBidRequest(mainView.etBid.text.toString().toFloat(),reqId!!),customerID)
+            if(mainView.etBid.text.toString().isEmpty() || mainView.etBid.text.toString().toFloat()==0f){
+                mainView.tlBid.isErrorEnabled=true
+                mainView.tlBid.error="Amount should be greater than 5TND"
+            }else{
+                mainView.tlBid.isErrorEnabled=false
+                lifecycleScope.launch {
+                    viewModel.makeBid(MakeBidRequest(mainView.etBid.text.toString().toFloat(),reqId!!),customerID)
+                }
             }
         }
         viewModel.getMyBid(IdBodyRequest(reqId))
@@ -55,8 +60,9 @@ class MakeBidSheet : SheetBaseFragment() {
                 is Resource.Success -> {
                     progressBarVisibility(false,mainView.spinkitView)
                     response.data?.let { getBidResponse ->
-                        if(getBidResponse.price!=null)
+                        if(getBidResponse.price!=null && getBidResponse.price!=0f){
                             mainView.etBid.setText(getBidResponse.price.toString())
+                        }
                     }
                 }
                 is Resource.Error -> {
