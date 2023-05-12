@@ -24,6 +24,7 @@ const val TAG = "SocketService"
 class SocketService : Service() {
 
     companion object {
+
         private lateinit var _mSocket: Socket
         fun sendMessage(msg: String) {
             _mSocket.emit("NodeJS Server Port", msg)
@@ -45,7 +46,6 @@ class SocketService : Service() {
             channel.enableVibration(false)
             channel.setSound(null, null)
             channel.enableLights(false)
-
             manager.createNotificationChannel(channel)
         }
       /*  val notificationIntent = Intent(this, HomeActivity::class.java)
@@ -71,30 +71,30 @@ class SocketService : Service() {
             //.setContentIntent(pendingIntent)
             .build()
 
-
+        Log.e(TAG, "Socket opened")
         startForeground(1337, notification)
 
         try {
             _mSocket = IO.socket(Constants.SOCKET_URL)
             _mSocket.connect()
-            // sendMessage("643585058d323d36598694b6/ canceled an appointment!/643585058d323d36598694b6")
 
         } catch (e: IOException) {
             Log.d(TAG, e.toString())
         }
-    }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         CoroutineScope(Dispatchers.IO).launch {
             AppDataStore.init(applicationContext)
             val currUserID = AppDataStore.readString(Constants.USER_ID)
             _mSocket.on(currUserID) { data ->
                 val msgReceived = JSONObject(data[0].toString()).getString("msg")
                 Log.d(TAG, msgReceived)
-                    MyNotificationManager.sendNotif(applicationContext, msgReceived)
+                MyNotificationManager.sendNotif(applicationContext, msgReceived)
 
             }
         }
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         return START_STICKY
     }

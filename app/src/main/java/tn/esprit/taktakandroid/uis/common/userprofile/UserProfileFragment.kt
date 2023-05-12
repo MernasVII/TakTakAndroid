@@ -194,7 +194,9 @@ class UserProfileFragment : BaseFragment() {
                             mainView.flWork.visibility = View.GONE
                             mainView.ivWallet.visibility = View.GONE
                         }
-                        Glide.with(this).load(Constants.IMG_URL + user.pic).into(mainView.ivPic)
+                        var userImage=Constants.IMG_URL + user.pic
+                        if(user.pic!!.lowercase().contains("http")) userImage = user.pic!!
+                        Glide.with(this).load(userImage).into(mainView.ivPic)
                     }
                 }
                 is Resource.Error -> {

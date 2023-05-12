@@ -10,4 +10,5 @@ class SignUpRequest(
     val speciality: String? ="",
     val tos: ArrayList<String>? = arrayListOf(),
     val workDays: ArrayList<String>? =arrayListOf(),
+    val pic: String? ="",
 )

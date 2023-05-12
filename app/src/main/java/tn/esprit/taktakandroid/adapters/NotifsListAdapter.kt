@@ -2,7 +2,6 @@ package tn.esprit.taktakandroid.adapters
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ItemNotifBinding
@@ -26,6 +26,7 @@ import tn.esprit.taktakandroid.uis.customer.bids.CustomerBidsFragment
 import tn.esprit.taktakandroid.utils.Resource
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.time.Duration.Companion.milliseconds
 
 class NotifsListAdapter(
     private val cin: String?,
@@ -73,6 +74,8 @@ class NotifsListAdapter(
                         viewModel?.markRead(IdBodyRequest(notif._id!!))
                     }
                     navigateToBidOrApt(notif,holder.itemView)
+                    delay(200.milliseconds)
+                    viewModel?.countMyNotif()
                 }
                 observeFindApt(holder.itemView.context)
             }
@@ -92,16 +95,12 @@ class NotifsListAdapter(
                 commit()
             }
         } else if (notif.bid != null) {
-            Toast.makeText(item.context, "here2", Toast.LENGTH_SHORT).show()
             if(notif.bid.request.isClosed){
-                Toast.makeText(item.context, "here3", Toast.LENGTH_SHORT).show()
                 if(!notif.read){
                     item.setBackgroundResource(R.drawable.list_item_bg)
                 }
                 Toast.makeText(item.context, "The related request is closed!", Toast.LENGTH_SHORT).show()
             }else{
-                Toast.makeText(item.context, "here4", Toast.LENGTH_SHORT).show()
-
                 if (!notif.bid.isAccepted) {
                     if (cin.isNullOrEmpty()) {
                         navigateToBidsListFragment(notif.bid.request)

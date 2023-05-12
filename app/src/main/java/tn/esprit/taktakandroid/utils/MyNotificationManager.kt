@@ -3,6 +3,7 @@ package tn.esprit.taktakandroid.utils
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -15,15 +16,15 @@ import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.uis.home.HomeActivity
 import tn.esprit.taktakandroid.utils.Constants.CHANNEL_ID
 import tn.esprit.taktakandroid.utils.Constants.CHANNEL_NAME
-import tn.esprit.taktakandroid.utils.Constants.NOTIFICATION_ID
 
 
 object MyNotificationManager {
     private val vibrationPattern = longArrayOf(500, 500, 500, 500)
-    var alarmSound: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+    private var alarmSound: Uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
 
 
     fun sendNotif(context: Context, message: String) {
+
         val manager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         createNotifChannel(manager)
@@ -38,7 +39,7 @@ object MyNotificationManager {
             context,
             0,
             intent,
-            PendingIntent.FLAG_IMMUTABLE
+            FLAG_IMMUTABLE
         )
 
         val builder: NotificationCompat.Builder = NotificationCompat.Builder(
@@ -63,7 +64,7 @@ object MyNotificationManager {
             .setVibrate(vibrationPattern)
             .setSound(alarmSound)
 
-        manager.notify(NOTIFICATION_ID, builder.build())
+        manager.notify(NotifIDGenerator.generateNotifID(), builder.build())
     }
 
 

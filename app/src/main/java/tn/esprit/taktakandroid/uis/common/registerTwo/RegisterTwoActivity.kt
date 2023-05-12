@@ -26,6 +26,8 @@ import com.google.android.material.button.MaterialButton
 import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import render.animations.Attention
+import render.animations.Render
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ActivityRegisterTwoBinding
 import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
@@ -42,11 +44,13 @@ class RegisterTwoActivity : BaseActivity() {
     private lateinit var viewModel: RegisterTwoViewModel
     private lateinit var tosButtons: List<MaterialButton>
     private lateinit var workDaysButtons: List<MaterialButton>
+    private lateinit var render: Render
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mainView = ActivityRegisterTwoBinding.inflate(layoutInflater)
         setContentView(mainView.root)
+        render=Render(this)
 
 
         val userRepository = UserRepository()
@@ -262,6 +266,8 @@ class RegisterTwoActivity : BaseActivity() {
                 mainView.tlSpeciality.apply {
                     error = viewModel.specialityError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlSpeciality))
+                    render.start()
                 }
             } else {
                 mainView.tlSpeciality.apply {
@@ -274,6 +280,8 @@ class RegisterTwoActivity : BaseActivity() {
                 mainView.tlCin.apply {
                     error = viewModel.cinError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlCin))
+                    render.start()
                 }
             } else {
                 mainView.tlCin.apply {

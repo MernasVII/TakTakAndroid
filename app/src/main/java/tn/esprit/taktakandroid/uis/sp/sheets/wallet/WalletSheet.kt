@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import render.animations.Attention
+import render.animations.Render
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.SheetFragmentWalletBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
@@ -26,6 +28,8 @@ class WalletSheet : SheetBaseFragment() {
 
     private lateinit var mainView: SheetFragmentWalletBinding
     private lateinit var viewModel: WalletViewModel
+    private lateinit var render: Render
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,6 +41,7 @@ class WalletSheet : SheetBaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        render = Render(requireContext())
         val userRepo = UserRepository()
         val walletRepo = WalletRepository()
         viewModel = ViewModelProvider(
@@ -59,6 +64,8 @@ class WalletSheet : SheetBaseFragment() {
                 mainView.tlPassword.apply {
                     error = viewModel.pwdError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlPassword))
+                    render.start()
                 }
             } else {
                 mainView.tlPassword.apply {

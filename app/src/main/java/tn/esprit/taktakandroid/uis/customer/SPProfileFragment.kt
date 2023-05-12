@@ -45,7 +45,9 @@ class SPProfileFragment : BaseFragment() {
         mainView.profileLayout.tvAddress.text=user.address
         mainView.profileLayout.tvSpeciality.text=user.speciality
         mainView.profileLayout.tvRate.text= String.format("%.1f", user.rate)
-        Glide.with(this).load(Constants.IMG_URL +user.pic).into(mainView.profileLayout.ivPic)
+        var userImage=Constants.IMG_URL + user.pic
+        if(user.pic!!.lowercase().contains("http")) userImage = user.pic!!
+        Glide.with(this).load(userImage).into(mainView.profileLayout.ivPic)
         initGridButtons(user)
     }
 

@@ -69,7 +69,9 @@ class ChatSheet : BottomSheetDialogFragment() {
     }
 
     private fun setHeader() {
-        Glide.with(this).load(Constants.IMG_URL + user.pic)
+        var userImage=Constants.IMG_URL + user.pic
+        if(user.pic!!.lowercase().contains("http")) userImage = user.pic!!
+        Glide.with(this).load(userImage)
             .into(mainView.ivPic)
         mainView.tvFullname.text=user.firstname+" "+user.lastname
     }

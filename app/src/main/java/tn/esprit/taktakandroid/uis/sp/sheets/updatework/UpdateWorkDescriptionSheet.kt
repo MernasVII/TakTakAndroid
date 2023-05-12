@@ -17,6 +17,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.STATE_EXPANDE
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import kotlinx.coroutines.launch
+import render.animations.Attention
+import render.animations.Render
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.SheetFragmentUpdateWorkDescriptionBinding
 import tn.esprit.taktakandroid.models.entities.User
@@ -34,15 +36,17 @@ class UpdateWorkDescriptionSheet (private val user: User) : SheetBaseFragment() 
 
     private lateinit var tosButtons: List<MaterialButton>
     private lateinit var workDaysButtons: List<MaterialButton>
+    private lateinit var render: Render
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         mainView = SheetFragmentUpdateWorkDescriptionBinding.inflate(layoutInflater, container, false)
         val userRepository = UserRepository()
         viewModel = ViewModelProvider(this,UpdateWorkDescriptionViewModelFactory(userRepository))[UpdateWorkDescriptionViewModel::class.java]
-
+        render=Render(requireContext())
         setupSheetBehavior()
         buttonsSetup()
         initGridButtons()
@@ -208,6 +212,8 @@ class UpdateWorkDescriptionSheet (private val user: User) : SheetBaseFragment() 
                 mainView.tlSpeciality.apply {
                     error = viewModel.specialityError.value
                     isErrorEnabled = true
+                    render.setAnimation(Attention.Shake(mainView.tlSpeciality))
+                    render.start()
                 }
             } else {
                 mainView.tlSpeciality.apply {
@@ -218,6 +224,8 @@ class UpdateWorkDescriptionSheet (private val user: User) : SheetBaseFragment() 
         viewModel.tosError.observe(this) { _errorTxt ->
             if (_errorTxt.isNotEmpty()) {
                 mainView.llTosError.visibility=View.VISIBLE
+                render.setAnimation(Attention.Shake(mainView.llTos))
+                render.start()
             }else{
                 mainView.llTosError.visibility=View.GONE
             }
@@ -225,6 +233,8 @@ class UpdateWorkDescriptionSheet (private val user: User) : SheetBaseFragment() 
         viewModel.workDaysError.observe(this) { _errorTxt ->
             if (_errorTxt.isNotEmpty()) {
                 mainView.llWorkError.visibility=View.VISIBLE
+                render.setAnimation(Attention.Shake(mainView.llWorkDays))
+                render.start()
             }else{
                 mainView.llWorkError.visibility=View.GONE
             }

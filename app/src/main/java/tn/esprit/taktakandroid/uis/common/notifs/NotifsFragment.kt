@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +25,7 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
+
 class NotifsFragment : BaseFragment() {
 
     lateinit var viewModel: NotifsViewModel
@@ -44,8 +44,9 @@ class NotifsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val notifRepository = NotifRepository()
-        viewModel = ViewModelProvider(this, NotifsViewModelFactory(notifRepository))[NotifsViewModel::class.java]
+
+        viewModel = ViewModelProvider(requireActivity())[NotifsViewModel::class.java]
+
 
         setupRecyclerView()
         swipeLayoutSetup()
@@ -149,6 +150,8 @@ class NotifsFragment : BaseFragment() {
                 mainView.searchView.clearFocus()
                 mainView.searchView.setQuery("", false)
                 viewModel.getNotifsList()
+
+                viewModel.countMyNotif()
             }
 
         }
