@@ -33,7 +33,7 @@ class OTPActivity : BaseActivity() {
         initOTPFields()
 
         val userRepository = UserRepository()
-        val viewModelProviderFactory = OtpViewModelProviderFactory(userRepository)
+        val viewModelProviderFactory = OtpViewModelProviderFactory(userRepository,application)
 
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[OtpViewModel::class.java]

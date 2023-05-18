@@ -1,13 +1,12 @@
 package tn.esprit.taktakandroid.uis.sp.sheets.updatework
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.requests.UpdateWorkDescRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
@@ -15,7 +14,7 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class UpdateWorkDescriptionViewModel (private val repository: UserRepository) : ViewModel(
+class UpdateWorkDescriptionViewModel (private val repository: UserRepository,private val application: Application) : AndroidViewModel(application
 ) {
     val updateWorkDescRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
 
@@ -75,7 +74,7 @@ class UpdateWorkDescriptionViewModel (private val repository: UserRepository) : 
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        updateWorkDescRes.postValue(Resource.Error("Server connection failed!"))
+        updateWorkDescRes.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
     }
 
     fun updateWorkDesc() = viewModelScope.launch {
@@ -97,7 +96,7 @@ class UpdateWorkDescriptionViewModel (private val repository: UserRepository) : 
                 }
 
             } catch (e: Exception) {
-                updateWorkDescRes.postValue(Resource.Error("Server connection failed!"))
+                updateWorkDescRes.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
             }
 
         }
@@ -125,14 +124,14 @@ class UpdateWorkDescriptionViewModel (private val repository: UserRepository) : 
 
     private fun isSpecialityValid(speciality: String?): Boolean {
         if (speciality.isNullOrEmpty()) {
-            _specialityError.postValue("Speciality cannot be empty!")
+            _specialityError.postValue(application.getString(R.string.specilality_cant_be_empty))
             return false
         }
         return true
     }
     private fun isTosValid(tos: ArrayList<String>?): Boolean {
         if (tos.isNullOrEmpty()) {
-            _tosError.postValue("Types of services cannot be empty!")
+            _tosError.postValue(application.getString(R.string.tos_cant_be_empty))
             return false
         }
         return true
@@ -140,7 +139,7 @@ class UpdateWorkDescriptionViewModel (private val repository: UserRepository) : 
 
     private fun isWorkDaysValid(workDays: ArrayList<String>?): Boolean {
         if (workDays.isNullOrEmpty()) {
-            _workDaysError.postValue("Working days cannot be empty!")
+            _workDaysError.postValue(application.getString(R.string.work_days_cannot_be_empty))
             return false
         }
         return true

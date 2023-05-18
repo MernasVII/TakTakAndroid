@@ -41,7 +41,7 @@ class ArchivedAptsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val aptRepository = AptRepository()
-        viewModel = ViewModelProvider(this, ArchivedAptsViewModelFactory(aptRepository))[ArchivedAptsViewModel::class.java]
+        viewModel = ViewModelProvider(this, ArchivedAptsViewModelFactory(aptRepository,requireActivity().application))[ArchivedAptsViewModel::class.java]
 
         lifecycleScope.launch {
             val cin = AppDataStore.readString(Constants.CIN)

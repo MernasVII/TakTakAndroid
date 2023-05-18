@@ -1,11 +1,10 @@
 package tn.esprit.taktakandroid.uis.customer.archivedRequests
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.Request
 import tn.esprit.taktakandroid.models.responses.UserArchivedReqResponse
 import tn.esprit.taktakandroid.models.responses.UserReqResponse
@@ -14,8 +13,8 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class MyArchivedRequestsViewModel(private val requestsRepository: RequestsRepository
-) : ViewModel() {
+class MyArchivedRequestsViewModel(private val requestsRepository: RequestsRepository,private val application: Application
+) : AndroidViewModel(application) {
 
     private val _getMyArchivedRequestsResult= MutableLiveData<Resource<UserArchivedReqResponse>>()
     val myArchivedRequestsResult: LiveData<Resource<UserArchivedReqResponse>>
@@ -45,7 +44,7 @@ class MyArchivedRequestsViewModel(private val requestsRepository: RequestsReposi
             val response = requestsRepository.getMyArchivedRequests("Bearer $token")
             _getMyArchivedRequestsResult.postValue(handleResponse(response))
         } catch (exception: Exception) {
-            _getMyArchivedRequestsResult.postValue(Resource.Error("Server connection failed!"))
+            _getMyArchivedRequestsResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
         }
     }
 

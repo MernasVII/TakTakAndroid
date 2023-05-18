@@ -1,29 +1,30 @@
 package tn.esprit.taktakandroid.uis.common.apts
 
+import android.app.Application
+import androidx.lifecycle.*
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.*
 import tn.esprit.taktakandroid.models.responses.AptsResponse
 import tn.esprit.taktakandroid.models.responses.GetAptResponse
 import tn.esprit.taktakandroid.models.responses.MessageResponse
-import tn.esprit.taktakandroid.models.responses.UserProfileResponse
 import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 import tn.esprit.taktakandroid.utils.SocketService
 
-class AptsViewModel  (private val aptRepository: AptRepository
-) : ViewModel() {
+class AptsViewModel  (private val aptRepository: AptRepository,private val app:Application
+) : AndroidViewModel(application = app) {
     private val TAG:String="AptsViewModel"
 
     var cin:String?=""
@@ -71,7 +72,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
             }
             _getAptsResult.postValue(handleAptResponse(response))
         } catch (exception: Exception) {
-            _getAptsResult.postValue(Resource.Error("Server connection failed!"))
+            _getAptsResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -84,7 +85,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
                     cancelAptRes.postValue(handleAptCancelResponse(response,spID))
                 }
             } catch (e: Exception) {
-                cancelAptRes.postValue(Resource.Error("Server connection failed!"))
+                cancelAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
             }
     }
 
@@ -97,7 +98,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
                 rateAptRes.postValue(handleRateAptResponse(response))
             }
         } catch (e: Exception) {
-            rateAptRes.postValue(Resource.Error("Server connection failed!"))
+            rateAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -111,7 +112,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
             }
 
         } catch (e: Exception) {
-            postponeAptRes.postValue(Resource.Error("Server connection failed!"))
+            postponeAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -124,7 +125,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
                 archiveAptRes.postValue(handleAptArchiveResponse(response))
             }
         } catch (e: Exception) {
-            archiveAptRes.postValue(Resource.Error("Server connection failed!"))
+            archiveAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -138,7 +139,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
             }
 
         } catch (e: Exception) {
-            updateStateAptRes.postValue(Resource.Error("Server connection failed!"))
+            updateStateAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -149,7 +150,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
             val response = aptRepository.getApt("Bearer $token",idBodyRequest)
             getAptRes.postValue(handleGetAptResponse(response))
         } catch (exception: Exception) {
-            getAptRes.postValue(Resource.Error("Server connection failed!"))
+            getAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -160,7 +161,7 @@ class AptsViewModel  (private val aptRepository: AptRepository
             val response = aptRepository.findApt("Bearer $token",findAptRequest)
             findAptRes.postValue(handleFindAptResponse(response))
         } catch (exception: Exception) {
-            findAptRes.postValue(Resource.Error("Server connection failed!"))
+            findAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -205,9 +206,9 @@ class AptsViewModel  (private val aptRepository: AptRepository
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        cancelAptRes.postValue(Resource.Error("Server connection failed!"))
-        postponeAptRes.postValue(Resource.Error("Server connection failed!"))
-        updateStateAptRes.postValue(Resource.Error("Server connection failed!"))
+        cancelAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
+        postponeAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
+        updateStateAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
     }
 
     private fun handleAptStateResponse(response: Response<MessageResponse>): Resource<MessageResponse> {

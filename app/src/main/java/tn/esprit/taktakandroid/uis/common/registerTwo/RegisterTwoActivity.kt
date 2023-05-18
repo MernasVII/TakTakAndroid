@@ -1,6 +1,8 @@
 package tn.esprit.taktakandroid.uis.common.registerTwo
 
+import android.Manifest
 import android.app.Activity
+import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -10,12 +12,15 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.util.SparseArray
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -33,7 +38,9 @@ import tn.esprit.taktakandroid.databinding.ActivityRegisterTwoBinding
 import tn.esprit.taktakandroid.databinding.LayoutDialogBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.BaseActivity
+import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
+import java.lang.Exception
 
 const val TAG = "RegisterTwoActivity"
 
@@ -54,7 +61,7 @@ class RegisterTwoActivity : BaseActivity() {
 
 
         val userRepository = UserRepository()
-        val viewModelProviderFactory = RegisterTwoViewModelProviderFactory(userRepository)
+        val viewModelProviderFactory = RegisterTwoViewModelProviderFactory(userRepository,application)
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[RegisterTwoViewModel::class.java]
         recognizer = TextRecognizer.Builder(this).build()
@@ -220,19 +227,39 @@ class RegisterTwoActivity : BaseActivity() {
     private fun processImage(bitmap: Bitmap?) {
         val frame = Frame.Builder().setBitmap(bitmap!!).build()
         val tb = recognizer.detect(frame) as SparseArray<TextBlock>
-        val result = StringBuilder();
-        for (i in 0 until tb.size()) {
+        try {
+            val cinNb=extractNumbersFromString(tb.valueAt(0).value.toString().trim())
+            Log.d(TAG, "processImage: ${extractNumbersFromString(tb.valueAt(0).value.toString().trim())}")
+            mainView.etCin.setText(extractNumbersFromString(tb.valueAt(0).value.toString().trim()))
+            viewModel.setCin(cinNb)
+
+        }catch (e:Exception){
+            Toast.makeText(this, getString(R.string.op_failed), Toast.LENGTH_SHORT).show()
+        }
+        //val result = StringBuilder()
+        /*for (i in 0 until tb.size()) {
             if (tb.valueAt(i).value.toString().trim().length == 8) {
                 result.append(tb.valueAt(i).value)
             } else {
                 Toast.makeText(this, getString(R.string.op_failed), Toast.LENGTH_SHORT).show()
-
             }
         }
         mainView.etCin.setText(result.toString())
-        viewModel.setCin(result.toString())
+        viewModel.setCin(result.toString())*/
 
     }
+
+    private fun extractNumbersFromString(input: String): String {
+        val regex = "\\d+".toRegex()
+        val matches = regex.findAll(input)
+        val numbers = StringBuilder()
+        for (match in matches) {
+            numbers.append(match.value)
+        }
+        return numbers.substring(0,8)
+    }
+
+
 
     private fun showGuideDialog() {
         val builder = AlertDialog.Builder(this)
@@ -245,7 +272,26 @@ class RegisterTwoActivity : BaseActivity() {
         binding.iv.visibility = View.VISIBLE
         binding.tvBtn.setOnClickListener {
             dialog.dismiss()
-            PermissionX.init(this).permissions(
+            if ((ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED) && ((ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED)
+                        )) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE),
+                    Constants.PROFILE_PIC_PERMISSION_CODE
+                )
+            }else{
+                ImagePicker.with(this).compress(1024).crop().createIntent {
+                    startForImageResult.launch(it)
+                }
+            }
+
+            /*PermissionX.init(this).permissions(
                 android.Manifest.permission.CAMERA,
                 android.Manifest.permission.READ_EXTERNAL_STORAGE
             ).request { allGranted, _, _ ->
@@ -254,7 +300,7 @@ class RegisterTwoActivity : BaseActivity() {
                         startForImageResult.launch(it)
                     }
                 }
-            }
+            }*/
         }
         dialog.show()
         dialog.setCanceledOnTouchOutside(false)

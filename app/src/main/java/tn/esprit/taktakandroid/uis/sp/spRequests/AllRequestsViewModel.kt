@@ -1,11 +1,10 @@
 package tn.esprit.taktakandroid.uis.sp.spRequests
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.Request
 import tn.esprit.taktakandroid.models.responses.AllReqResponse
 import tn.esprit.taktakandroid.repositories.RequestsRepository
@@ -16,8 +15,8 @@ import tn.esprit.taktakandroid.utils.Resource
 const val TAG = "AllRequestsViewModel"
 
 class AllRequestsViewModel(
-    private val requestsRepository: RequestsRepository
-) : ViewModel() {
+    private val requestsRepository: RequestsRepository,private val application: Application
+) : AndroidViewModel(application) {
 
     private val _getAllRequestsResult = MutableLiveData<Resource<AllReqResponse>>()
     val allRequestsResult: LiveData<Resource<AllReqResponse>>
@@ -45,7 +44,7 @@ class AllRequestsViewModel(
             val response = requestsRepository.getAllRequests("Bearer $token")
             _getAllRequestsResult.postValue(handleResponse(response))
         } catch (exception: Exception) {
-            _getAllRequestsResult.postValue(Resource.Error("Server connection failed!"))
+            _getAllRequestsResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
         }
     }
 

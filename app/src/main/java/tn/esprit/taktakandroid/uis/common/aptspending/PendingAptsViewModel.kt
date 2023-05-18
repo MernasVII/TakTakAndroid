@@ -1,13 +1,13 @@
 package tn.esprit.taktakandroid.uis.common.aptspending
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import android.content.Context
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.AcceptAptRequest
@@ -21,8 +21,9 @@ import tn.esprit.taktakandroid.utils.Resource
 import tn.esprit.taktakandroid.utils.SocketService
 
 class PendingAptsViewModel(
-    private val aptRepository: AptRepository
-) : ViewModel() {
+    private val aptRepository: AptRepository,
+    private val app: Application
+) : AndroidViewModel(application = app) {
     private val TAG: String = "PendingAptsViewModel"
 
     var cin: String? = ""
@@ -48,8 +49,8 @@ class PendingAptsViewModel(
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        acceptAptRes.postValue(Resource.Error("Server connection failed!"))
-        declineAptRes.postValue(Resource.Error("Server connection failed!"))
+        acceptAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
+        declineAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
     }
 
     fun getPendingAptsList() = viewModelScope.launch {
@@ -65,7 +66,7 @@ class PendingAptsViewModel(
             }
             _getAptsResult.postValue(handleAptResponse(response))
         } catch (exception: Exception) {
-            _getAptsResult.postValue(Resource.Error("Server connection failed!"))
+            _getAptsResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -78,7 +79,7 @@ class PendingAptsViewModel(
                 acceptAptRes.postValue(handleAcceptAptResponse(response, customerID))
             }
         } catch (e: Exception) {
-            acceptAptRes.postValue(Resource.Error("Server connection failed!"))
+            acceptAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -93,7 +94,7 @@ class PendingAptsViewModel(
                 }
 
             } catch (e: Exception) {
-                declineAptRes.postValue(Resource.Error("Server connection failed!"))
+                declineAptRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
             }
         }
     }

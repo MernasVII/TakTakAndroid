@@ -1,10 +1,13 @@
 package tn.esprit.taktakandroid.uis.common.userprofile
 
+import android.Manifest
 import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +15,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -61,7 +66,7 @@ class UserProfileFragment : BaseFragment() {
         val userRepository = UserRepository()
         viewModel = ViewModelProvider(
             this,
-            UserProfileViewModelFactory(userRepository)
+            UserProfileViewModelFactory(userRepository,requireActivity().application)
         )[UserProfileViewModel::class.java]
 
 
@@ -89,16 +94,41 @@ class UserProfileFragment : BaseFragment() {
         }
 
         mainView.ivAddPic.setOnClickListener {
-            PermissionX.init(this).permissions(
-                android.Manifest.permission.CAMERA,
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
+                if ((ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.CAMERA
+                    ) != PackageManager.PERMISSION_GRANTED) && ((ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) != PackageManager.PERMISSION_GRANTED)
+                )) {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE),
+                        Constants.PROFILE_PIC_PERMISSION_CODE
+                    )
+                }else{
+                    ImagePicker.with(this).compress(1024).crop().createIntent {
+                        startForImageResult.launch(it)
+                    }
+                }
+
+            /*PermissionX.init(this).permissions(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE
             ).request { allGranted, _, _ ->
                 if (allGranted) {
                     ImagePicker.with(this).compress(1024).crop().createIntent {
                         startForImageResult.launch(it)
                     }
+                }else{
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE),
+                        Constants.PROFILE_PIC_PERMISSION_CODE
+                    )
                 }
-            }
+            }*/
         }
 
         swipeLayoutSetup()

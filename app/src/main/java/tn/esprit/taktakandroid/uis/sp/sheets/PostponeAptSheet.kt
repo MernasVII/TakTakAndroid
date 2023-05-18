@@ -38,7 +38,7 @@ class PostponeAptSheet : SheetBaseFragment() {
     ): View? {
         mainView = SheetFragmentPostponeAptBinding.inflate(layoutInflater, container, false)
         val aptRepository = AptRepository()
-        viewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
+        viewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository,requireActivity().application))[AptsViewModel::class.java]
         val aptId = arguments?.getString("aptId")
         val customerID = arguments?.getString("customerID")
         setupPicker()

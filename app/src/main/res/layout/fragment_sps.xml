@@ -45,7 +45,6 @@
         android:background="@drawable/search_bg"
         android:iconifiedByDefault="false"
         android:queryBackground="@null"
-        android:queryHint="Search by name or speciality"
         android:theme="@style/CustomSearchViewStyle"
         app:closeIcon="@null"
         app:defaultQueryHint="@null"
@@ -56,7 +55,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
         app:layout_constraintBottom_toTopOf="@+id/swipe_refresh_layout"
         app:queryBackground="@null"
-        app:queryHint="Search by name or speciality"
+        app:queryHint="@string/search_by_name_or_spec"
         app:searchHintIcon="@null" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

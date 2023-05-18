@@ -45,7 +45,7 @@ class UpdateWorkDescriptionSheet (private val user: User) : SheetBaseFragment() 
 
         mainView = SheetFragmentUpdateWorkDescriptionBinding.inflate(layoutInflater, container, false)
         val userRepository = UserRepository()
-        viewModel = ViewModelProvider(this,UpdateWorkDescriptionViewModelFactory(userRepository))[UpdateWorkDescriptionViewModel::class.java]
+        viewModel = ViewModelProvider(this,UpdateWorkDescriptionViewModelFactory(userRepository,requireActivity().application))[UpdateWorkDescriptionViewModel::class.java]
         render=Render(requireContext())
         setupSheetBehavior()
         buttonsSetup()

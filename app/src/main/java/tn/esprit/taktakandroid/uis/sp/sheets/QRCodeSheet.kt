@@ -52,13 +52,14 @@ class QRCodeSheet : SheetBaseFragment() {
         val paymentRepository = PaymentRepository()
         viewModel = ViewModelProvider(
             this,
-            PaymentViewModelFactory(paymentRepository,apt)
+            PaymentViewModelFactory(paymentRepository,apt,requireActivity().application)
         )[PaymentViewModel::class.java]
 
         val aptRepository = AptRepository()
-        aptViewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
+        aptViewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository,requireActivity().application))[AptsViewModel::class.java]
 
         val payUrl = arguments?.getString("payUrl")
+        val paymentRef = arguments?.getString("paymentRef")
         //get string and pass to function
         generateQrCode(payUrl!!)
 
@@ -68,10 +69,10 @@ class QRCodeSheet : SheetBaseFragment() {
         observeSendLinkViewModel()
 
         mainView.btnCheck.setOnClickListener {
-            viewModel.paymentStatus(IdBodyRequest(paymentRef))
+            Log.d(TAG, "HEREEE!!!!: $paymentRef")
+            viewModel.paymentStatus(IdBodyRequest(paymentRef!!))
         }
 
-        observeInitPaymentViewModel()
         observePaymentStatusViewModel(apt)
 
     }
@@ -102,32 +103,11 @@ class QRCodeSheet : SheetBaseFragment() {
         })
     }
 
-    private fun observeInitPaymentViewModel() {
-        viewModel.initRes.observe(viewLifecycleOwner, Observer { result ->
-            when (result) {
-                is Resource.Success -> {
-                    progressBarVisibility(false, mainView.spinkitView)
-                    result.data?.let {
-                        paymentRef=it.paymentRef
-                    }
-                }
-                is Resource.Error -> {
-                    progressBarVisibility(false, mainView.spinkitView)
-                    result.message?.let { msg ->
-                        showDialog(msg)
-                    }
-                }
-                is Resource.Loading -> {
-                    progressBarVisibility(true, mainView.spinkitView)
-                }
-            }
-        })
-    }
-
     private fun observePaymentStatusViewModel(apt: Appointment) {
         viewModel.statusRes.observe(viewLifecycleOwner, Observer { result ->
             when (result) {
                 is Resource.Success -> {
+                    progressBarVisibility(false, mainView.spinkitView)
                     result.data?.let {
                         if(!it.isPending){
                             lifecycleScope.launch {
@@ -140,6 +120,12 @@ class QRCodeSheet : SheetBaseFragment() {
                                 parentFragmentManager.setFragmentResult(Constants.QRCODE_PAYMENT_RESULT, Bundle())
                                 dismiss()
                             }
+                        }else{
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.payment_is_pending),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
                     }
                 }

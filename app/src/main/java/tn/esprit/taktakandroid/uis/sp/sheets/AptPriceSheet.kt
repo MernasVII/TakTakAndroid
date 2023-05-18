@@ -43,7 +43,7 @@ class AptPriceSheet : SheetBaseFragment() {
     ): View? {
         mainView = SheetFragmentAptPriceBinding.inflate(layoutInflater, container, false)
         val aptRepository = AptRepository()
-        pendingAptsViewModel = ViewModelProvider(this, PendingAptsViewModelFactory(aptRepository))[PendingAptsViewModel::class.java]
+        pendingAptsViewModel = ViewModelProvider(this, PendingAptsViewModelFactory(aptRepository,requireActivity().application))[PendingAptsViewModel::class.java]
 
         val aptId = arguments?.getString("aptId")
         val customerID = arguments?.getString("customerID")

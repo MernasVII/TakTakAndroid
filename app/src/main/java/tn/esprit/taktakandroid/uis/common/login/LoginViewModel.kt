@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.requests.SignUpRequest
 import tn.esprit.taktakandroid.models.requests.LoginRequest
 import tn.esprit.taktakandroid.models.responses.LoginResponse
@@ -67,7 +68,7 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        _loginResult.postValue(Resource.Error("Failed to connect"))
+        _loginResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
     }
 
     fun login() {
@@ -83,7 +84,7 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
                     _loginResult.postValue(handleResponse(result))
                 }
             } catch (e: Exception) {
-                _loginResult.postValue(Resource.Error("Failed to connect"))
+                _loginResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
             }
         }
     }
@@ -106,7 +107,7 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
 
     private fun isEmailValid(email: String?): Boolean {
         if (email == null || !email.matches(Patterns.EMAIL_ADDRESS.toRegex())) {
-            _emailError.postValue("Invalid Email")
+            _emailError.postValue(app.getString(R.string.invalid_email))
             return false
         }
         return true
@@ -114,7 +115,7 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
 
     private fun isPwdValid(pwd: String?): Boolean {
         if (pwd == null || pwd.isEmpty() ) {
-            _passwordError.postValue("Password cannot be empty!")
+            _passwordError.postValue(app.getString(R.string.pwd_cannot_be_empty))
             return false
         }
         return true
@@ -129,6 +130,7 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
             .build()
 
         val mGoogleSignInClient = GoogleSignIn.getClient(app.applicationContext, gso)
+        Log.d(TAG, "testtttt: ${mGoogleSignInClient.signInIntent.data}")
         return mGoogleSignInClient.signInIntent
 
     }
@@ -148,10 +150,10 @@ class LoginViewModel(private val repository: UserRepository, private val app: Ap
                     _loginResult.postValue(handleResponse(result))
                 }
             } catch (e: Exception) {
-                _loginResult.postValue(Resource.Error("Failed to connect"))
+                _loginResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
             }
         } catch (e: Exception) {
-            Toast.makeText(app.applicationContext, "Couldn't sign in!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app.applicationContext, app.getString(R.string.cant_sign_in_google), Toast.LENGTH_SHORT).show()
         }
     }
 

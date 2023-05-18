@@ -1,11 +1,10 @@
 package tn.esprit.taktakandroid.uis.customer.spslist
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.responses.SPsResponse
 import tn.esprit.taktakandroid.repositories.UserRepository
@@ -13,8 +12,8 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class SPsViewModel(private val userRepository: UserRepository
-) : ViewModel() {
+class SPsViewModel(private val userRepository: UserRepository,private val application: Application
+) : AndroidViewModel(application) {
     private val TAG:String="SPsViewModel"
 
     private val _getSPsResult= MutableLiveData<Resource<SPsResponse>>()
@@ -43,7 +42,7 @@ class SPsViewModel(private val userRepository: UserRepository
             val response = userRepository.getSPsList("Bearer $token")
             _getSPsResult.postValue(handleSPsResponse(response))
         } catch (exception: Exception) {
-            _getSPsResult.postValue(Resource.Error("Server connection failed!"))
+            _getSPsResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
         }
     }
 

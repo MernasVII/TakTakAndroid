@@ -28,7 +28,7 @@ class ResetPwdActivity : BaseActivity() {
         render=Render(this)
 
         val userRepository = UserRepository()
-        val viewModelProviderFactory = ResetPwdViewModelProviderFactory(userRepository)
+        val viewModelProviderFactory = ResetPwdViewModelProviderFactory(userRepository,application)
 
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[ResetPwdViewModel::class.java]

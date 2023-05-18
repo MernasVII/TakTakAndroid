@@ -27,7 +27,7 @@ class EmailForgotPwdActivity : BaseActivity() {
         render=Render(this)
 
         val userRepository = UserRepository()
-        val viewModelProviderFactory = EmailForgotPwdViewModelProviderFactory(userRepository)
+        val viewModelProviderFactory = EmailForgotPwdViewModelProviderFactory(userRepository,application)
 
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[EmailForgotPwdViewModel::class.java]

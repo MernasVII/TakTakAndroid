@@ -1,19 +1,21 @@
 package tn.esprit.taktakandroid.uis.common.registerOne
 
+import android.app.Application
 import android.util.Patterns
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.requests.SignUpRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.Resource
 
 
-class RegisterOneViewModel(private val repository: UserRepository) :
-    ViewModel(
+class RegisterOneViewModel(private val repository: UserRepository,private val app: Application) :
+    AndroidViewModel(application = app
     ) {
 
 
@@ -103,7 +105,7 @@ class RegisterOneViewModel(private val repository: UserRepository) :
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        _signUpResult.postValue(Resource.Error("Failed to connect"))
+        _signUpResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
     }
 
 
@@ -132,7 +134,7 @@ class RegisterOneViewModel(private val repository: UserRepository) :
                 }
 
             } catch (e: java.lang.Exception) {
-                _signUpResult.postValue(Resource.Error("Failed to connect"))
+                _signUpResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
             }
 
         }
@@ -154,7 +156,7 @@ class RegisterOneViewModel(private val repository: UserRepository) :
 
     private fun isEmailValid(email: String?): Boolean {
         if (email == null || !email.matches(Patterns.EMAIL_ADDRESS.toRegex())) {
-            _emailError.postValue("Invalid Email")
+            _emailError.postValue(app.getString(R.string.invalid_email))
             return false
         }
         return true
@@ -162,7 +164,7 @@ class RegisterOneViewModel(private val repository: UserRepository) :
 
     private fun isFirstnameValid(firstname: String?): Boolean {
         if (firstname.isNullOrEmpty()) {
-            _firstnameError.postValue("First Name cannot be empty!")
+            _firstnameError.postValue(app.getString(R.string.first_name_cant_be_empty))
             return false
         }
         return true
@@ -170,7 +172,7 @@ class RegisterOneViewModel(private val repository: UserRepository) :
 
     private fun isLastnameValid(lastname: String?): Boolean {
         if (lastname.isNullOrEmpty()) {
-            _lastnameError.postValue("Last Name cannot be empty!")
+            _lastnameError.postValue(app.getString(R.string.last_name_cant_be_empty))
             return false
         }
         return true
@@ -178,7 +180,7 @@ class RegisterOneViewModel(private val repository: UserRepository) :
 
     private fun isAddressValid(address: String?): Boolean {
         if (address.isNullOrEmpty()) {
-            _addressError.postValue("Address cannot be empty!")
+            _addressError.postValue(app.getString(R.string.address_cant_be_empty))
             return false
         }
         return true
@@ -186,7 +188,7 @@ class RegisterOneViewModel(private val repository: UserRepository) :
 
     private fun isPwdValid(pwd: String?): Boolean {
         if (pwd == null || pwd.isEmpty() || !isAlphaNumericWithUppercase(pwd)) {
-            _passwordError.postValue("Password should be: 8+ chars, mix of letters/numbers, 1 uppercase")
+            _passwordError.postValue(app.getString(R.string.pwd_should_be_8cahars))
             return false
         }
         return true

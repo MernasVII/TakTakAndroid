@@ -1,11 +1,10 @@
 package tn.esprit.taktakandroid.uis.common.userprofile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.responses.UserProfileResponse
 import tn.esprit.taktakandroid.repositories.UserRepository
@@ -14,8 +13,8 @@ import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 import java.io.File
 
-class UserProfileViewModel(private val userRepository: UserRepository
-) : ViewModel() {
+class UserProfileViewModel(private val userRepository: UserRepository,private val application: Application
+) : AndroidViewModel(application) {
     val userProfileRes: MutableLiveData<Resource<UserProfileResponse>> = MutableLiveData()
     val updatePicRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
     private val _deleteUserStatus = MutableLiveData<DeleteUserStatus>()
@@ -32,7 +31,7 @@ class UserProfileViewModel(private val userRepository: UserRepository
             val response = userRepository.getUserProfile("Bearer $token")
             userProfileRes.postValue(handleUserProfileResponse(response))
         } catch (exception: Exception) {
-            userProfileRes.postValue(Resource.Error("Server connection failed!"))
+            userProfileRes.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -72,7 +71,7 @@ class UserProfileViewModel(private val userRepository: UserRepository
             val response = file?.let { userRepository.updatePic("Bearer $token", it) }
             updatePicRes.postValue(response?.let { handleUpdatePicResponse(it) })
         } catch (exception: Exception) {
-            updatePicRes.postValue(Resource.Error("Server connection failed!"))
+            updatePicRes.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
         }
     }
 

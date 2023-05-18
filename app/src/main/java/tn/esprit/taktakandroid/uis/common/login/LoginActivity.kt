@@ -6,16 +6,13 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import render.animations.*
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -29,11 +26,9 @@ import tn.esprit.taktakandroid.uis.BaseActivity
 import tn.esprit.taktakandroid.uis.common.emailForgotPwd.EmailForgotPwdActivity
 import tn.esprit.taktakandroid.uis.common.registerOne.RegisterOneActivity
 import tn.esprit.taktakandroid.uis.common.sheets.TermsAndConditionsSheet
-import tn.esprit.taktakandroid.uis.home.HomeActivity
-import tn.esprit.taktakandroid.utils.AppDataStore
+import tn.esprit.taktakandroid.uis.HomeActivity
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
-import java.util.*
 import kotlin.time.Duration.Companion.seconds
 
 
@@ -191,7 +186,6 @@ class LoginActivity : BaseActivity() {
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
-
             val task: Task<GoogleSignInAccount> =
                 GoogleSignIn.getSignedInAccountFromIntent(result.data)
             viewModel.handleGoogleSignInResult(task)

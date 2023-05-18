@@ -1,5 +1,7 @@
 package tn.esprit.taktakandroid.uis.common.payment
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +9,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.InitPaymentRequest
@@ -21,8 +24,9 @@ import tn.esprit.taktakandroid.utils.Resource
 
 class PaymentViewModel(
     private val repository: PaymentRepository,
-    private val appointment: Appointment?
-) : ViewModel(
+    private val appointment: Appointment?,
+    private val app: Application,
+) : AndroidViewModel(application = app
 ) {
     val initRes: MutableLiveData<Resource<InitPaymentResponse>> = MutableLiveData()
     val statusRes: MutableLiveData<Resource<PaymentStatusResponse>> = MutableLiveData()
@@ -33,9 +37,9 @@ class PaymentViewModel(
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        initRes.postValue(Resource.Error("Server connection failed!"))
-        statusRes.postValue(Resource.Error("Server connection failed!"))
-        sendLinkRes.postValue(Resource.Error("Server connection failed!"))
+        initRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
+        statusRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
+        sendLinkRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
     }
 
     fun initPayment() = viewModelScope.launch {
@@ -53,7 +57,7 @@ class PaymentViewModel(
             )
             initRes.postValue(handleInitResponse(response))
         } catch (e: Exception) {
-            initRes.postValue(Resource.Error("Server connection failed!"))
+            initRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -66,7 +70,7 @@ class PaymentViewModel(
             )
             statusRes.postValue(handleStatusResponse(response))
         } catch (e: Exception) {
-            statusRes.postValue(Resource.Error("Server connection failed!"))
+            statusRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
@@ -81,7 +85,7 @@ class PaymentViewModel(
             )
             sendLinkRes.postValue(handleSendLinkResponse(response))
         } catch (e: Exception) {
-            sendLinkRes.postValue(Resource.Error("Server connection failed!"))
+            sendLinkRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
 
         }
     }

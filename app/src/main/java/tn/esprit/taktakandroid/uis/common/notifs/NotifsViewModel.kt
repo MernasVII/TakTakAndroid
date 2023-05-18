@@ -1,14 +1,13 @@
 package tn.esprit.taktakandroid.uis.common.notifs
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.Notification
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.responses.CountNotifsResponse
@@ -19,8 +18,8 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class NotifsViewModel (private val notifRepository: NotifRepository
-) : ViewModel() {
+class NotifsViewModel (private val notifRepository: NotifRepository,private val app: Application
+) : AndroidViewModel(application = app) {
     private val TAG:String="NotifsViewModel"
     private val _countNotifResult = MutableLiveData<Resource<CountNotifsResponse>>()
     val countNotifResult: LiveData<Resource<CountNotifsResponse>>
@@ -65,10 +64,10 @@ class NotifsViewModel (private val notifRepository: NotifRepository
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        readNotifRes.postValue(Resource.Error("Server connection failed!"))
+        readNotifRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
     }
     private val countHandler = CoroutineExceptionHandler { _, _ ->
-        _countNotifResult.postValue(Resource.Error("Server connection failed!"))
+        _countNotifResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
 
     }
      fun countMyNotif() {
@@ -79,7 +78,7 @@ class NotifsViewModel (private val notifRepository: NotifRepository
                 val response = notifRepository.countNotifs("Bearer $token")
                 _countNotifResult.postValue(handleResponse(response))
             } catch (exception: Exception) {
-                _countNotifResult.postValue(Resource.Error("Server connection failed!"))
+                _countNotifResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
             }
         }
     }
@@ -104,7 +103,7 @@ class NotifsViewModel (private val notifRepository: NotifRepository
             }
 
         } catch (e: Exception) {
-            readNotifRes.postValue(Resource.Error("Server connection failed!"))
+            readNotifRes.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 

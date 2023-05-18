@@ -63,10 +63,10 @@ class AptDetailsFragment : BaseFragment() {
         mainView = FragmentAptDetailsBinding.inflate(layoutInflater)
         val aptRepository = AptRepository()
         viewModel =
-            ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
+            ViewModelProvider(this, AptsViewModelFactory(aptRepository,requireActivity().application))[AptsViewModel::class.java]
         pendingAptsViewModel = ViewModelProvider(
             this,
-            PendingAptsViewModelFactory(aptRepository)
+            PendingAptsViewModelFactory(aptRepository,requireActivity().application)
         )[PendingAptsViewModel::class.java]
         apt = arguments?.getParcelable<Appointment>("apt")!!
 
@@ -231,7 +231,7 @@ class AptDetailsFragment : BaseFragment() {
         val paymentRepository = PaymentRepository()
         paymentViewModel = ViewModelProvider(
             this,
-            PaymentViewModelFactory(paymentRepository, apt)
+            PaymentViewModelFactory(paymentRepository, apt,requireActivity().application)
         )[PaymentViewModel::class.java]
         paymentViewModel.initRes.observe(viewLifecycleOwner) { response ->
             when (response) {
@@ -240,6 +240,7 @@ class AptDetailsFragment : BaseFragment() {
                         val qrCodeSheet = QRCodeSheet()
                         val args = Bundle()
                         args.putString("payUrl", myRequestsResponse.payUrl)
+                        args.putString("paymentRef", myRequestsResponse.paymentRef)
                         args.putParcelable("apt", apt)
                         qrCodeSheet.arguments = args
                         qrCodeSheet.show(parentFragmentManager, "exampleBottomSheet")
@@ -538,6 +539,12 @@ class AptDetailsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        timer?.start()
         viewModel.getApt(IdBodyRequest(apt._id!!))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        timer?.cancel()
     }
 }

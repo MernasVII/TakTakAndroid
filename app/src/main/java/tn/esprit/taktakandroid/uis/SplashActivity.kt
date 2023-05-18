@@ -13,7 +13,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 import tn.esprit.taktakandroid.uis.common.login.LoginActivity
-import tn.esprit.taktakandroid.uis.home.HomeActivity
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Constants.AUTH_TOKEN
@@ -30,8 +29,6 @@ class SplashActivity : AppCompatActivity() {
 
 
         lifecycleScope.launch(Dispatchers.IO) {
-
-
             val langStored = AppDataStore.readString("LANG")
 
             if (!langStored.isNullOrEmpty()) {

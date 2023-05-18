@@ -127,7 +127,7 @@ class NotifsFragment : BaseFragment() {
             cin = AppDataStore.readString(Constants.CIN).toString()
         }
         val aptRepository = AptRepository()
-        val aptViewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
+        val aptViewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository,requireActivity().application))[AptsViewModel::class.java]
         val viewModelScope = CoroutineScope(viewModel.viewModelScope.coroutineContext + Dispatchers.Main)
         notifAdapter = NotifsListAdapter(cin,parentFragmentManager, viewModelScope,viewModel,
             mutableListOf(),aptViewModel,viewLifecycleOwner)

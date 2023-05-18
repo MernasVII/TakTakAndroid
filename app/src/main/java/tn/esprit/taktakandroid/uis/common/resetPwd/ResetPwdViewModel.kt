@@ -1,18 +1,20 @@
 package tn.esprit.taktakandroid.uis.common.resetPwd
 
+import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.requests.ResetPwdRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.Resource
 
 
-class ResetPwdViewModel(private val repository: UserRepository) :
-   ViewModel(
+class ResetPwdViewModel(private val repository: UserRepository,private val app: Application) :
+   AndroidViewModel(application = app
 
     ) {
 
@@ -47,7 +49,7 @@ class ResetPwdViewModel(private val repository: UserRepository) :
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        _resetPwdResult.postValue(Resource.Error("Failed to connect"))
+        _resetPwdResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
     }
     fun resetPwd() {
         val pwd = _password.value
@@ -62,7 +64,7 @@ class ResetPwdViewModel(private val repository: UserRepository) :
 
                 }
                 catch (e :java.lang.Exception){
-                    _resetPwdResult.postValue(Resource.Error("Failed to connect"))
+                    _resetPwdResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
                 }
 
             }
@@ -84,7 +86,7 @@ class ResetPwdViewModel(private val repository: UserRepository) :
 
     private fun isPwdValid(pwd: String?): Boolean {
         if (pwd == null || pwd.isEmpty() || pwd.length < 8) {
-            _passwordError.postValue("Password needs 8+ characters and a mix of letters and numbers for security")
+            _passwordError.postValue(app.getString(R.string.pwd_should_be_8cahars))
             return false
         }
         return true

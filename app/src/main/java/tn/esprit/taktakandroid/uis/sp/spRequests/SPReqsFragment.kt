@@ -35,7 +35,7 @@ class SPReqsFragment : BaseFragment() {
         val reqRepository = RequestsRepository()
         viewModel = ViewModelProvider(
             this,
-            AllRequestsViewModelFactory(reqRepository)
+            AllRequestsViewModelFactory(reqRepository,requireActivity().application)
         )[AllRequestsViewModel::class.java]
 
 

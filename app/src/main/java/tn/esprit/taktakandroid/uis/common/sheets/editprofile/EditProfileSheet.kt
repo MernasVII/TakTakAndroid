@@ -51,7 +51,7 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
         val userRepository = UserRepository()
         viewModel = ViewModelProvider(
             this,
-            EditProfileViewModelProviderFactory(userRepository)
+            EditProfileViewModelProviderFactory(userRepository,requireActivity().application)
         )[EditProfileViewModel::class.java]
         render=Render(requireContext())
 

@@ -1,11 +1,11 @@
 package tn.esprit.taktakandroid.uis.common.aptsarchived
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import android.content.Context
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.Appointment
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.responses.AptsResponse
@@ -14,8 +14,8 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class ArchivedAptsViewModel  (private val aptRepository: AptRepository
-) : ViewModel() {
+class ArchivedAptsViewModel  (private val aptRepository: AptRepository,private val app: Application
+) : AndroidViewModel(application = app) {
     private val TAG:String="ArchivedAptsViewModel"
 
     var cin:String?=""
@@ -49,7 +49,7 @@ class ArchivedAptsViewModel  (private val aptRepository: AptRepository
             }
             _getAptsResult.postValue(handleAptResponse(response))
         } catch (exception: Exception) {
-            _getAptsResult.postValue(Resource.Error("Server connection failed!"))
+            _getAptsResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
         }
     }
 
