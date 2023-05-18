@@ -139,5 +139,6 @@
     <string name="desc_atleast_3_charac">Description should at least contain 3 characters!</string>
     <string name="request_deleted">Request deleted!</string>
     <string name="cannot_delete_request">Cannot delete request!</string>
+    <string name="wallet_access_authentication">Authentication</string>
 
 </resources>

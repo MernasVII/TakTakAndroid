@@ -58,7 +58,6 @@ class PostponeAptSheet : SheetBaseFragment() {
                 is Resource.Success -> {
                     progressBarVisibility(false, mainView.spinkitView)
                     result.data?.let {
-
                         parentFragmentManager.setFragmentResult(POSTPONED_RESULT, Bundle())
                         dismiss()
                     }
@@ -85,10 +84,6 @@ class PostponeAptSheet : SheetBaseFragment() {
             value = 1
         }
     }
-
-
-
-
 }
 
 

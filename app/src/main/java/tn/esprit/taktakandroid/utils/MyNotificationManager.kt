@@ -49,7 +49,7 @@ object MyNotificationManager {
             .setLargeIcon(
                 BitmapFactory.decodeResource(
                     context.resources,
-                    R.drawable.logo
+                    R.mipmap.ic_logo
                 )
             )
             .setContentIntent(pendingIntent)

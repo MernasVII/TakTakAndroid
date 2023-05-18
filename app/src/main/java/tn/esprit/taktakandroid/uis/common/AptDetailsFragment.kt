@@ -71,11 +71,13 @@ class AptDetailsFragment : BaseFragment() {
         apt = arguments?.getParcelable<Appointment>("apt")!!
 
         setData(apt!!)
-        observeGetApt()
-        observePostponeApt()
+        observeGetAptViewModel()
+        observePostponeSheetApt()
         observeCancelAptViewModel()
         observeDeclineAptViewModel()
-        observeAcceptApt()
+        observeAcceptSheetApt()
+        observeQRCodeSheet()
+        observeRateSheetApt()
 
         mainView.profileLayout.ivChat.setOnClickListener {
             openChatSheet()
@@ -119,7 +121,12 @@ class AptDetailsFragment : BaseFragment() {
             }
         }
         mainView.btnScan.setOnClickListener {
-            openRateSheet()
+            Log.d(TAG, "testingg onCreateView: ${apt.rate}")
+            if(apt.rate == 0f){
+                openRateSheet()
+            }else{
+                scanQrCodeLauncher.launch(null)
+            }
         }
         swipeLayoutSetup()
 
@@ -151,7 +158,59 @@ class AptDetailsFragment : BaseFragment() {
         chatSheet.show(parentFragmentManager, "exampleBottomSheet")
     }
 
-    private fun observeAcceptApt() {
+    private fun observeRateSheetApt() {
+        parentFragmentManager.setFragmentResultListener(
+            Constants.RATED_APT_RESULT,
+            viewLifecycleOwner
+        ) { _, _ ->
+            viewModel.getApt(IdBodyRequest(apt._id!!))
+            scanQrCodeLauncher.launch(null)
+        }
+    }
+
+    private val scanQrCodeLauncher = registerForActivityResult(ScanQRCode()) { result ->
+        when (result) {
+            is QRResult.QRSuccess -> {
+                val url = result.content.rawValue
+                openLinkInBrowser(url)
+            }
+            is QRResult.QRUserCanceled -> {
+            }
+            is QRResult.QRMissingPermission -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Camera permission is required!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+            is QRResult.QRError -> {
+                Toast.makeText(
+                    requireContext(),
+                    "Error encountered when opening Scanner!",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
+    }
+
+    private fun openLinkInBrowser(url: String) {
+        val urlIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(url)
+        )
+        startActivity(urlIntent)
+    }
+
+    private fun observeQRCodeSheet() {
+        parentFragmentManager.setFragmentResultListener(
+            Constants.QRCODE_PAYMENT_RESULT,
+            viewLifecycleOwner
+        ) { _, _ ->
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+    }
+
+    private fun observeAcceptSheetApt() {
         parentFragmentManager.setFragmentResultListener(
             Constants.ACCEPTED_APT_RESULT,
             viewLifecycleOwner
@@ -160,7 +219,7 @@ class AptDetailsFragment : BaseFragment() {
         }
     }
 
-    private fun observePostponeApt() {
+    private fun observePostponeSheetApt() {
         parentFragmentManager.setFragmentResultListener(
             Constants.POSTPONED_RESULT,
             viewLifecycleOwner
@@ -380,7 +439,7 @@ class AptDetailsFragment : BaseFragment() {
         return "$dateStr at $timeStr"
     }
 
-    private fun observeGetApt() {
+    private fun observeGetAptViewModel() {
         viewModel.getAptRes.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
@@ -389,6 +448,7 @@ class AptDetailsFragment : BaseFragment() {
                     mainView.scrollView.visibility = View.VISIBLE
                     response.data?.let { getAptResponse ->
                         setData(getAptResponse.apt)
+                        apt=getAptResponse.apt
                     }
                 }
                 is Resource.Error -> {
@@ -473,9 +533,7 @@ class AptDetailsFragment : BaseFragment() {
                 viewModel.getApt(IdBodyRequest(apt._id!!))
             } else {
                 mainView.swipeRefreshLayout.isRefreshing = false
-
             }
-
         }
     }
 
@@ -483,6 +541,4 @@ class AptDetailsFragment : BaseFragment() {
         super.onResume()
         viewModel.getApt(IdBodyRequest(apt._id!!))
     }
-
-
 }

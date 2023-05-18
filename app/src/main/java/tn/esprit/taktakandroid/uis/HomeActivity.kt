@@ -185,31 +185,31 @@ class HomeActivity : BaseActivity() {
         mainView.bottomNavigation.tvProviders.setColorFilter(
             ContextCompat.getColor(
                 this,
-                if (imageView == mainView.bottomNavigation.tvProviders) R.color.yellow else R.color.white
+                if (imageView == mainView.bottomNavigation.tvProviders) R.color.nav_selected else R.color.white
             )
         )
         mainView.bottomNavigation.tvApts.setColorFilter(
             ContextCompat.getColor(
                 this,
-                if (imageView == mainView.bottomNavigation.tvApts) R.color.yellow else R.color.white
+                if (imageView == mainView.bottomNavigation.tvApts) R.color.nav_selected else R.color.white
             )
         )
         mainView.bottomNavigation.tvReqs.setColorFilter(
             ContextCompat.getColor(
                 this,
-                if (imageView == mainView.bottomNavigation.tvReqs) R.color.yellow else R.color.white
+                if (imageView == mainView.bottomNavigation.tvReqs) R.color.nav_selected else R.color.white
             )
         )
         mainView.bottomNavigation.tvNotifs.setColorFilter(
             ContextCompat.getColor(
                 this,
-                if (imageView == mainView.bottomNavigation.tvNotifs) R.color.yellow else R.color.white
+                if (imageView == mainView.bottomNavigation.tvNotifs) R.color.nav_selected else R.color.white
             )
         )
         mainView.bottomNavigation.tvProfile.setColorFilter(
             ContextCompat.getColor(
                 this,
-                if (imageView == mainView.bottomNavigation.tvProfile) R.color.yellow else R.color.white
+                if (imageView == mainView.bottomNavigation.tvProfile) R.color.nav_selected else R.color.white
             )
         )
     }

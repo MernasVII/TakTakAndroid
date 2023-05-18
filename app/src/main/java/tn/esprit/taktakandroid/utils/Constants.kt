@@ -25,5 +25,8 @@ object Constants {
     const val CHANNEL_NAME = "TAKTAK"
     const val POSTPONED_RESULT = "postponed"
     const val ACCEPTED_APT_RESULT = "accepted"
+    const val RATED_APT_RESULT = "rated"
+    const val QRCODE_PAYMENT_RESULT = "payed"
     const val NOTIF_PERMISSION_CODE = 7129
+
 }

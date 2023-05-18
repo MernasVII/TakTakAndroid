@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.adapters.NotifsListAdapter
 import tn.esprit.taktakandroid.databinding.FragmentNotifsBinding
@@ -19,6 +21,8 @@ import tn.esprit.taktakandroid.repositories.NotifRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
+import tn.esprit.taktakandroid.utils.AppDataStore
+import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 
@@ -118,10 +122,14 @@ class NotifsFragment : BaseFragment() {
     }
 
     private fun setupRecyclerView() {
+        var cin=""
+        lifecycleScope.launch {
+            cin = AppDataStore.readString(Constants.CIN).toString()
+        }
         val aptRepository = AptRepository()
         val aptViewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository,requireActivity().application))[AptsViewModel::class.java]
         val viewModelScope = CoroutineScope(viewModel.viewModelScope.coroutineContext + Dispatchers.Main)
-        notifAdapter = NotifsListAdapter(parentFragmentManager, viewModelScope,viewModel,
+        notifAdapter = NotifsListAdapter(cin,parentFragmentManager, viewModelScope,viewModel,
             mutableListOf(),aptViewModel,viewLifecycleOwner)
         mainView.rvNotifs.apply {
             adapter = notifAdapter

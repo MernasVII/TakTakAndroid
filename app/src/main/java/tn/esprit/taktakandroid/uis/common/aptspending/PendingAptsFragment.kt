@@ -229,7 +229,6 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
         args.putString("customerID", customerID)
         aptPriceSheet.arguments = args
         aptPriceSheet.show(parentFragmentManager, "exampleBottomSheet")
-
     }
 
     fun swipeLayoutSetup() {

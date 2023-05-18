@@ -20,6 +20,7 @@ import tn.esprit.taktakandroid.repositories.AptRepository
 import tn.esprit.taktakandroid.uis.SheetBaseFragment
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModel
 import tn.esprit.taktakandroid.uis.common.apts.AptsViewModelFactory
+import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 class RateSheet : SheetBaseFragment() {
@@ -29,39 +30,6 @@ class RateSheet : SheetBaseFragment() {
     private lateinit var mainView: SheetFragmentRateBinding
     lateinit var viewModel: AptsViewModel
 
-    private val scanQrCodeLauncher = registerForActivityResult(ScanQRCode()) { result ->
-        when (result) {
-            is QRResult.QRSuccess -> {
-                val url = result.content.rawValue
-                openLinkInBrowser(url)
-                dismiss()
-            }
-            is QRResult.QRUserCanceled -> {
-            }
-            is QRResult.QRMissingPermission -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Camera permission is required!",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-            is QRResult.QRError -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Error encountered when opening Scanner!",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        }
-    }
-
-    private fun openLinkInBrowser(url: String) {
-        val urlIntent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(url)
-        )
-        startActivity(urlIntent)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -87,8 +55,8 @@ class RateSheet : SheetBaseFragment() {
                 is Resource.Success -> {
                     progressBarVisibility(false, mainView.spinkitView)
                     result.data?.let {
-                        scanQrCodeLauncher.launch(null)
-                        //parentFragmentManager.setFragmentResult(Constants.POSTPONED_RESULT, Bundle())
+                        parentFragmentManager.setFragmentResult(Constants.RATED_APT_RESULT, Bundle())
+                        dismiss()
                     }
                 }
                 is Resource.Error -> {

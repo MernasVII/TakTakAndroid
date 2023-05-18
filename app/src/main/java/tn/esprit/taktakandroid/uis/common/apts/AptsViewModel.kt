@@ -1,8 +1,16 @@
 package tn.esprit.taktakandroid.uis.common.apts
 
+<<<<<<< HEAD
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.*
+=======
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+>>>>>>> a94bf974a85d70fb53b8dbae25c21981f14c240c
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
@@ -167,6 +175,7 @@ class AptsViewModel  (private val aptRepository: AptRepository,private val app:A
     private fun handleGetAptResponse(response: Response<GetAptResponse>): Resource<GetAptResponse> {
         if (response.isSuccessful) {
             response.body()?.let { resultResponse ->
+                Log.d(TAG, "handleGetAptResponse: ${resultResponse.apt.rate}")
                 return Resource.Success(resultResponse)
             }
         }
