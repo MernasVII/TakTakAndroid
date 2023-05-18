@@ -225,7 +225,7 @@ class RegisterTwoActivity : BaseActivity() {
             if (tb.valueAt(i).value.toString().trim().length == 8) {
                 result.append(tb.valueAt(i).value)
             } else {
-                Toast.makeText(this, "Operation Failed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.op_failed), Toast.LENGTH_SHORT).show()
 
             }
         }
@@ -240,8 +240,8 @@ class RegisterTwoActivity : BaseActivity() {
         builder.setView(binding.root)
         val dialog = builder.create()
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        binding.tvTitle.text = "Scan Guide"
-        binding.tvMessage.text = "Scan your CIN correctly by following this guide."
+        binding.tvTitle.text = getString(R.string.scan_guide)
+        binding.tvMessage.text = getString(R.string.scan_help_sentence)
         binding.iv.visibility = View.VISIBLE
         binding.tvBtn.setOnClickListener {
             dialog.dismiss()

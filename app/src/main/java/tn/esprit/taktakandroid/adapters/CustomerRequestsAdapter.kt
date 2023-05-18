@@ -33,9 +33,9 @@ class CustomerRequestsAdapter (private val fragmentManager: FragmentManager, var
     override fun onBindViewHolder(holder: MyRequestsViewHolder, position: Int) {
         var request=requests[position]
         holder.mainView.tvTitle.text=request.tos
-        holder.mainView.tvBidCount.text="Bids: ${countActiveBids(request.bids)}"
+        holder.mainView.tvBidCount.text=holder.itemView.context.getString(R.string.bids)+": ${countActiveBids(request.bids)}"
         holder.mainView.tvDesc.text=request.desc
-        holder.mainView.tvTimeLoc.text="${parseDate(request.date)} in ${request.location}"
+        holder.mainView.tvTimeLoc.text="${parseDate(request.date)} "+holder.itemView.context.getString(R.string.a)+" ${request.location}"
         if(!request.isClosed){
             holder.mainView.root.setOnClickListener {
                 navigateToBidsListFragment(request)

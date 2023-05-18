@@ -52,7 +52,7 @@ class AptPriceSheet : SheetBaseFragment() {
         mainView.btnProceed.setOnClickListener {
             if(mainView.etPrice.text.toString().isEmpty() || mainView.etPrice.text.toString().toFloat()==0f){
                 mainView.tlPrice.isErrorEnabled=true
-                mainView.tlPrice.error="Amount should be greater than 5TND"
+                mainView.tlPrice.error=requireContext().getString(R.string.amount_too_small)
             }else{
                 lifecycleScope.launch {
                     pendingAptsViewModel.acceptApt(AcceptAptRequest(aptId!!,mainView.etPrice.text.toString().toFloat()),customerID!!)

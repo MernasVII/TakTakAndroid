@@ -85,7 +85,7 @@ class UserProfileFragment : BaseFragment() {
         }
 
         mainView.flDeleteAcc.setOnClickListener {
-            showChoiceDialog("Are you sure you want to delete your account permanently?"){deleteAccountAndLogout()}
+            showChoiceDialog(requireContext().getString(R.string.delete_account_warning)){deleteAccountAndLogout()}
         }
 
         mainView.ivAddPic.setOnClickListener {

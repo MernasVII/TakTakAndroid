@@ -132,7 +132,7 @@ class AptsListAdapter(
                     response.message?.let { message ->
                         Toast.makeText(
                             context,
-                            "Failed to cancel appointment!",
+                            context.getString(R.string.failed_to_cancel_apt),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -161,7 +161,7 @@ class AptsListAdapter(
                     response.message?.let { message ->
                         Toast.makeText(
                             context,
-                            "Failed to cancel appointment!",
+                            context.getString(R.string.failed_to_cancel_apt),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -247,7 +247,7 @@ class AptsListAdapter(
         builder.setView(binding.root)
         val dialog = builder.create()
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        binding.tvContent.text = "Are you sure?"
+        binding.tvContent.text = context.getString(R.string.are_you_sure)
         binding.btnNo.setOnClickListener {
             dialog.dismiss()
         }

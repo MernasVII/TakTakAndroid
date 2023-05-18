@@ -174,9 +174,9 @@ class SettingsSheet : BottomSheetDialogFragment() {
                 builder.setView(binding.root)
                 val dialog = builder.create()
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                binding.tvTitle.text="Warning"
-                binding.tvBtn.text="Restart"
-                binding.tvMessage.text = "You should restart the app"
+                binding.tvTitle.text=requireContext().getString(R.string.warning)
+                binding.tvBtn.text=requireContext().getString(R.string.restart)
+                binding.tvMessage.text = requireContext().getString(R.string.should_restart)
                 binding.tvBtn.setOnClickListener {
                     saveThemeChoice(isChecked)
                 }

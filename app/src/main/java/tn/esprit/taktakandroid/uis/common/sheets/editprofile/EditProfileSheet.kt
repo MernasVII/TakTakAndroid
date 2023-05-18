@@ -89,7 +89,7 @@ class EditProfileSheet(private val user: User) : SheetBaseFragment() {
                         )
                     )
                 } else {
-                    Toast.makeText(requireContext(), "Please turn on location", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), requireContext().getString(R.string.turn_on_location), Toast.LENGTH_LONG).show()
                     runBlocking {
                         delay(500L)
                     }

@@ -96,7 +96,7 @@ class BookAptFragment : BaseFragment() {
                         )
                     )
                 } else {
-                    Toast.makeText(requireContext(), "Please turn on location", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), requireContext().getString(R.string.turn_on_location), Toast.LENGTH_LONG).show()
                     runBlocking {
                         delay(500L)
                     }
@@ -171,7 +171,7 @@ class BookAptFragment : BaseFragment() {
                     )
                     timePickerDialog.show()
                 } else {
-                    Toast.makeText(requireContext(), "Selected day is not a workday", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), requireContext().getString(R.string.not_work_day), Toast.LENGTH_SHORT).show()
                 }
             },
             year,

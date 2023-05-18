@@ -202,7 +202,7 @@ class CustomerReqsFragment : BaseFragment(), MyRequestTouchHelperListener {
 
     override fun onRequestSwiped(reqID: String) {
 
-        showChoiceDialog ("Are you sure you want to delete this request?"){ viewModel.deleteRequest(reqID) }
+        showChoiceDialog (requireContext().getString(R.string.are_you_sure)){ viewModel.deleteRequest(reqID) }
     }
 
 

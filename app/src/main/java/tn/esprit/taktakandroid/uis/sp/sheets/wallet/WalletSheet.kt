@@ -79,7 +79,7 @@ class WalletSheet : SheetBaseFragment() {
             val currentBalance = mainView.etBalance.text.toString().toFloat()
 
             if (currentBalance == 0.0f) {
-                showDialog("Cannot withdraw due to insufficient funds!")
+                showDialog(requireContext().getString(R.string.insufficient_funds))
             } else {
                 viewModel.withdrawMoney()
             }
@@ -138,7 +138,7 @@ class WalletSheet : SheetBaseFragment() {
                     progressBarVisibility(false,mainView.spinkitView)
                     result.data?.let {
                         mainView.etBalance.setText("0.0")
-                        Toast.makeText(requireContext(), "Successful withdrawal. Check email for details.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), requireContext().getString(R.string.withdraw_done), Toast.LENGTH_SHORT).show()
                     }
                 }
                 is Resource.Error -> {

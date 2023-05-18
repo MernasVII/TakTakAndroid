@@ -219,7 +219,7 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
 
     override fun onAptSwipedLeft(aptId: String,customerID:String) {
 
-        showChoiceDialog ("Are you sure you want to decline this appointment?"){ pendingAptsViewModel.declineApt(IdBodyRequest(aptId), customerID) }
+        showChoiceDialog (requireContext().getString(R.string.are_you_sure)){ pendingAptsViewModel.declineApt(IdBodyRequest(aptId), customerID) }
     }
 
     override fun onAptSwipedRight(aptId: String,customerID:String) {

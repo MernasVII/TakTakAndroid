@@ -95,11 +95,11 @@ class AptDetailsFragment : BaseFragment() {
             aptPriceSheet.show(parentFragmentManager, "exampleBottomSheet")
         }
         mainView.btnDecline.setOnClickListener {
-            showChoiceDialog ("Are you sure you want to decline this appointment?"){ pendingAptsViewModel.declineApt(IdBodyRequest(apt._id!!), apt.customer._id!!) }
+            showChoiceDialog (requireContext().getString(R.string.are_you_sure)){ pendingAptsViewModel.declineApt(IdBodyRequest(apt._id!!), apt.customer._id!!) }
         }
         mainView.btnCancel.setOnClickListener {
 
-            showChoiceDialog ("Are you sure you want to cancel this appointment?"){viewModel.cancelApt(IdBodyRequest(apt._id!!), apt.sp._id!!)}
+            showChoiceDialog (requireContext().getString(R.string.are_you_sure)){viewModel.cancelApt(IdBodyRequest(apt._id!!), apt.sp._id!!)}
 
         }
         mainView.btnPostpone.setOnClickListener {
@@ -121,7 +121,6 @@ class AptDetailsFragment : BaseFragment() {
             }
         }
         mainView.btnScan.setOnClickListener {
-            Log.d(TAG, "testingg onCreateView: ${apt.rate}")
             if(apt.rate == 0f){
                 openRateSheet()
             }else{
@@ -179,14 +178,14 @@ class AptDetailsFragment : BaseFragment() {
             is QRResult.QRMissingPermission -> {
                 Toast.makeText(
                     requireContext(),
-                    "Camera permission is required!",
+                    requireContext().getString(R.string.cam_permission_required),
                     Toast.LENGTH_LONG
                 ).show()
             }
             is QRResult.QRError -> {
                 Toast.makeText(
                     requireContext(),
-                    "Error encountered when opening Scanner!",
+                    requireContext().getString(R.string.error_opening_scanner),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -347,7 +346,7 @@ class AptDetailsFragment : BaseFragment() {
         val remainingMinutes = minutes % 60
         val remainingSeconds = seconds % 60
 
-        return "${days} Days, ${remainingHours} hours, ${remainingMinutes} minutes and ${remainingSeconds} seconds left"
+        return "${days} "+requireContext().getString(R.string.days)+", $remainingHours "+requireContext().getString(R.string.hours)+", $remainingMinutes "+requireContext().getString(R.string.mn)+" and $remainingSeconds "+requireContext().getString(R.string.seconds)+" "+requireContext().getString(R.string.left)
     }
 
     fun calculateTimeLeft(dateTimeString: String): Long? {

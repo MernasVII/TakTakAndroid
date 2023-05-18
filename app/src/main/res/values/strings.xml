@@ -50,7 +50,6 @@
     <string name="withdraw">Withdraw</string>
     <string name="minutes">Minutes</string>
     <string name="proceed">Proceed</string>
-    <string name="price">Price</string>
     <string name="save">Save</string>
     <string name="switch_to_pro">Switch to Pro</string>
     <string name="date_and_time">Date and Time</string>
@@ -114,5 +113,31 @@
     <string name="payment_succeeded">Payment succeeded!</string>
     <string name="rate">Rate service</string>
     <string name="wallet_access_authentication">Authentication</string>
+    <string name="failed_to_cancel_apt">Failed to cancel appointment!</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="price">Price</string>
+    <string name="dt">TND</string>
+    <string name="a">in</string>
+    <string name="request_closed">The related request is closed!</string>
+    <string name="request_deleted">The related request was deleted!</string>
+    <string name="apt_not_found">Appointment not found!</string>
+    <string name="turn_on_location">Please turn on your location!</string>
+    <string name="not_work_day">Selected day is not a workday!</string>
+    <string name="insufficient_funds">Cannot withdraw due to insufficient funds!</string>
+    <string name="withdraw_done">Successful withdrawal! Check email for details.</string>
+    <string name="amount_too_small">Amount should be greater than 5TND!</string>
+    <string name="op_failed">Operation Failed!</string>
+    <string name="scan_guide">Scan Guide</string>
+    <string name="scan_help_sentence">Scan your CIN correctly by following this guide.</string>
+    <string name="cam_permission_required">Camera permission is required!</string>
+    <string name="error_opening_scanner">Error encountered when opening Scanner!</string>
+    <string name="delete_account_warning">Are you sure you want to delete your account permanently?</string>
+    <string name="restart">Restart</string>
+    <string name="should_restart">You should restart the app</string>
+    <string name="days">days</string>
+    <string name="hours">hours</string>
+    <string name="mn">minutes</string>
+    <string name="seconds">seconds</string>
+    <string name="left">left</string>
 
 </resources>

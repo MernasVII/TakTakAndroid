@@ -43,7 +43,7 @@ class BidsCustomerAdapter (
                 R.id.iv_pic))
             holder.itemView.findViewById<TextView>(R.id.tv_name).text = sp.firstname+" "+sp.lastname
             val price = if (bid.price % 1 == 0f) bid.price.toInt() else bid.price
-            holder.itemView.findViewById<TextView>(R.id.tv_price).text = "Price: "+price+"DT"
+            holder.itemView.findViewById<TextView>(R.id.tv_price).text = holder.itemView.context.getString(R.string.price)+": "+price+holder.itemView.context.getString(R.string.dt)
 
             setOnClickListener {
                 navigateToSPProfileFragment(sp)

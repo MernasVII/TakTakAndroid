@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import render.animations.Attention
 import render.animations.Render
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ActivityRegisterOneBinding
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.BaseActivity
@@ -92,7 +93,7 @@ class RegisterOneActivity : BaseActivity() {
                             )
                         )
                     }else {
-                        Toast.makeText(this, "Please turn on location", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, getString(R.string.turn_on_location), Toast.LENGTH_LONG).show()
                         runBlocking {
                             delay(500L)
                         }

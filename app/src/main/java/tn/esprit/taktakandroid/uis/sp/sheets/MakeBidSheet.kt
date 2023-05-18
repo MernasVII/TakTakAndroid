@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.SheetFragmentMakeBidBinding
 import tn.esprit.taktakandroid.models.requests.IdBodyRequest
 import tn.esprit.taktakandroid.models.requests.MakeBidRequest
@@ -40,7 +41,7 @@ class MakeBidSheet : SheetBaseFragment() {
         mainView.btnSave.setOnClickListener {
             if(mainView.etBid.text.toString().isEmpty() || mainView.etBid.text.toString().toFloat()==0f){
                 mainView.tlBid.isErrorEnabled=true
-                mainView.tlBid.error="Amount should be greater than 5TND"
+                mainView.tlBid.error=requireContext().getString(R.string.amount_too_small)
             }else{
                 mainView.tlBid.isErrorEnabled=false
                 lifecycleScope.launch {

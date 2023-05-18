@@ -186,6 +186,6 @@ class SPBidsFragment : BaseFragment(), BidSPItemTouchHelperListener {
 
     override fun onBidSPSwiped(bidId: String) {
 
-        showChoiceDialog("Are you sure you want to delete this bid?"){ viewModel.deleteBid(IdBodyRequest(bidId))}
+        showChoiceDialog(requireContext().getString(R.string.are_you_sure)){ viewModel.deleteBid(IdBodyRequest(bidId))}
     }
 }

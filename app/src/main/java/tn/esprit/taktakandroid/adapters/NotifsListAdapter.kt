@@ -99,7 +99,7 @@ class NotifsListAdapter(
                 if(!notif.read){
                     item.setBackgroundResource(R.drawable.list_item_bg)
                 }
-                Toast.makeText(item.context, "The related request is closed!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(item.context, item.context.getString(R.string.request_closed), Toast.LENGTH_SHORT).show()
             }else{
                 if (!notif.bid.isAccepted) {
                     if (cin.isNullOrEmpty()) {
@@ -115,7 +115,7 @@ class NotifsListAdapter(
             if(!notif.read){
                 item.setBackgroundResource(R.drawable.list_item_bg)
             }
-            Toast.makeText(item.context, "The related request was deleted!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(item.context, item.context.getString(R.string.request_deleted), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -142,7 +142,7 @@ class NotifsListAdapter(
                 }
                 is Resource.Error -> {
                     response.message?.let { message ->
-                        Toast.makeText(context, "Appointment not found!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.apt_not_found), Toast.LENGTH_SHORT).show()
                     }
                 }
                 is Resource.Loading -> {
