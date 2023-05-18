@@ -113,7 +113,6 @@
     <string name="check_payment">Check payment</string>
     <string name="payment_succeeded">Payment succeeded!</string>
     <string name="rate">Rate service</string>
-    <string name="wallet_access_authentication">Wallet Access Authentication</string>
     <string name="server_connection_failed">Server connection failed!</string>
     <string name="bid_supprimé">Bid deleted!</string>
     <string name="bid_accepted_apt_created">Bid Accepted and appointment created!</string>
