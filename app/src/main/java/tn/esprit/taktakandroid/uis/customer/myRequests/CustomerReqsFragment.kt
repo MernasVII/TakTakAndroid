@@ -44,7 +44,7 @@ class CustomerReqsFragment : BaseFragment(), MyRequestTouchHelperListener {
         val reqRepository = RequestsRepository()
         viewModel = ViewModelProvider(
             this,
-            MyRequestsViewModelFactory(reqRepository)
+            MyRequestsViewModelFactory(reqRepository,requireActivity().application)
         )[MyRequestsViewModel::class.java]
 
         mainView.ivArchive.setOnClickListener {

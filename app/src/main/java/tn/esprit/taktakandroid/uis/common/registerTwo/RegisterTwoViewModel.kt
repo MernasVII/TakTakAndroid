@@ -1,17 +1,19 @@
 package tn.esprit.taktakandroid.uis.common.registerTwo
 
+import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.requests.SignUpRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.utils.Resource
 
 
-class RegisterTwoViewModel(private val repository: UserRepository) : ViewModel(
+class RegisterTwoViewModel(private val repository: UserRepository,private val app: Application) : AndroidViewModel(application = app
 ) {
 
     private val _email = MutableLiveData<String>()
@@ -136,7 +138,7 @@ class RegisterTwoViewModel(private val repository: UserRepository) : ViewModel(
 
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        _signUpResult.postValue(Resource.Error("Failed to connect"))
+        _signUpResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
     }
 
 
@@ -171,7 +173,7 @@ class RegisterTwoViewModel(private val repository: UserRepository) : ViewModel(
                     _signUpResult.postValue(handleResponse(result))
                 }
             } catch (e: java.lang.Exception) {
-                _signUpResult.postValue(Resource.Error("Failed to connect"))
+                _signUpResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
             }
         }
     }
@@ -189,7 +191,7 @@ class RegisterTwoViewModel(private val repository: UserRepository) : ViewModel(
 
     private fun isSpecialityValid(speciality: String?): Boolean {
         if (speciality.isNullOrEmpty()) {
-            _specialityError.postValue("Speciality cannot be empty!")
+            _specialityError.postValue(app.getString(R.string.specilality_cant_be_empty))
             return false
         }
         return true
@@ -197,7 +199,7 @@ class RegisterTwoViewModel(private val repository: UserRepository) : ViewModel(
 
     private fun isCinValid(cin: String?): Boolean {
         if (cin.isNullOrEmpty() || cin.length != 8) {
-            _cinError.postValue("Enter a valid CIN number!")
+            _cinError.postValue(app.getString(R.string.enter_valid_cin))
             return false
         }
         return true
@@ -205,7 +207,7 @@ class RegisterTwoViewModel(private val repository: UserRepository) : ViewModel(
 
     private fun isTosValid(tos: ArrayList<String>?): Boolean {
         if (tos.isNullOrEmpty()) {
-            _tosError.postValue("Types of services cannot be empty!")
+            _tosError.postValue(app.getString(R.string.tos_cant_be_empty))
             return false
         }
         return true
@@ -213,7 +215,7 @@ class RegisterTwoViewModel(private val repository: UserRepository) : ViewModel(
 
     private fun isWorkDaysValid(workDays: ArrayList<String>?): Boolean {
         if (workDays.isNullOrEmpty()) {
-            _workDaysError.postValue("Working days cannot be empty!")
+            _workDaysError.postValue(app.getString(R.string.working_days_cant_be_empty))
             return false
         }
         return true

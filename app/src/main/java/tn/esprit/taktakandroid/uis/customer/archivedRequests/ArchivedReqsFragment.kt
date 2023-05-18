@@ -37,7 +37,7 @@ class ArchivedReqsFragment : BaseFragment() {
         val reqRepository = RequestsRepository()
         viewModel = ViewModelProvider(
             this,
-            MyArchivedRequestsViewModelFactory(reqRepository)
+            MyArchivedRequestsViewModelFactory(reqRepository,requireActivity().application)
         )[MyArchivedRequestsViewModel::class.java]
 
 

@@ -1,13 +1,12 @@
 package tn.esprit.taktakandroid.uis.common.sheets.updatepwd
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.requests.UpdatePwdRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
@@ -15,8 +14,8 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class UpdatePasswordViewModel  (private val repository: UserRepository) :
-    ViewModel(){
+class UpdatePasswordViewModel  (private val repository: UserRepository,private val application: Application) :
+    AndroidViewModel(application){
     val updatePwdRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
 
     private val _oldPwd = MutableLiveData<String>()
@@ -53,7 +52,7 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        updatePwdRes.postValue(Resource.Error("Server connection failed!"))
+        updatePwdRes.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
     }
 
     fun updatePwd() = viewModelScope.launch {
@@ -73,7 +72,7 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
                 }
 
             } catch (e: Exception) {
-                updatePwdRes.postValue(Resource.Error("Server connection failed!"))
+                updatePwdRes.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
             }
 
         }
@@ -94,7 +93,7 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
 
     private fun isValidOldPwd(oldPwd: String?): Boolean {
         if (oldPwd.isNullOrEmpty()) {
-            _oldPwdError.postValue("Old password cannot be empty!")
+            _oldPwdError.postValue(application.getString(R.string.old_pwd_cant_be_empty))
             return false
         }
         return true
@@ -102,7 +101,7 @@ class UpdatePasswordViewModel  (private val repository: UserRepository) :
 
     private fun isValidNewPwd(newPwd: String?): Boolean {
         if (newPwd == null || newPwd.isEmpty() || newPwd.length < 8) {
-            _newPwdError.postValue("Password should contain 8 characters at least!")
+            _newPwdError.postValue(application.getString(R.string.pwd_should_be_8cahars))
             return false
         }
         return true

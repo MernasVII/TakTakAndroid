@@ -1,11 +1,13 @@
 package tn.esprit.taktakandroid.uis.common.emailForgotPwd
 
+import android.app.Application
 import android.util.Patterns
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.requests.SendOtpRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
@@ -14,9 +16,9 @@ import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 
-class EmailForgotPwdViewModel(private val repository: UserRepository) :
-    ViewModel(
-
+class EmailForgotPwdViewModel(private val repository: UserRepository,private val app: Application) :
+    AndroidViewModel(
+application = app
     ) {
 
     private val _email = MutableLiveData<String>()
@@ -40,7 +42,7 @@ class EmailForgotPwdViewModel(private val repository: UserRepository) :
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        _sendOtpResult.postValue(Resource.Error("Failed to connect"))
+        _sendOtpResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
     }
     fun sendOtp() {
         val email = _email.value
@@ -56,7 +58,7 @@ class EmailForgotPwdViewModel(private val repository: UserRepository) :
 
                 }
                 catch (e :java.lang.Exception){
-                    _sendOtpResult.postValue(Resource.Error("Failed to connect"))
+                    _sendOtpResult.postValue(Resource.Error(app.getString(R.string.server_connection_failed)))
                 }
 
             }
@@ -81,7 +83,7 @@ class EmailForgotPwdViewModel(private val repository: UserRepository) :
 
     private fun isEmailValid(email: String?): Boolean {
         if (email == null || !email.matches(Patterns.EMAIL_ADDRESS.toRegex())) {
-            _emailError.postValue("Invalid Email")
+            _emailError.postValue(app.getString(R.string.invalid_email))
             return false
         }
         return true

@@ -1,34 +1,22 @@
 package tn.esprit.taktakandroid.uis
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.permissionx.guolindev.PermissionX
-import io.socket.emitter.Emitter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 import tn.esprit.taktakandroid.uis.common.login.LoginActivity
-import tn.esprit.taktakandroid.uis.home.HomeActivity
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Constants.AUTH_TOKEN
-import tn.esprit.taktakandroid.utils.Constants.NOTIF_PERMISSION_CODE
-import tn.esprit.taktakandroid.utils.SocketService
-import kotlin.math.log
 import java.util.*
 
 

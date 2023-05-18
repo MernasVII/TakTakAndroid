@@ -10,10 +10,9 @@ import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.uis.home.HomeActivity
+import tn.esprit.taktakandroid.uis.HomeActivity
 import tn.esprit.taktakandroid.utils.Constants.CHANNEL_ID
 import tn.esprit.taktakandroid.utils.Constants.CHANNEL_NAME
 

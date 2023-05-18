@@ -25,7 +25,7 @@ import tn.esprit.taktakandroid.databinding.SheetFragmentSettingsBinding
 import tn.esprit.taktakandroid.uis.SplashActivity
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
-import tn.esprit.taktakandroid.uis.home.HomeActivity
+import tn.esprit.taktakandroid.uis.HomeActivity
 import java.util.Locale
 
 

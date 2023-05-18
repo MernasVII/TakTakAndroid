@@ -1,10 +1,12 @@
 package tn.esprit.taktakandroid.uis.common.sheets.editprofile
 
+import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.requests.UpdateProfileRequest
 import tn.esprit.taktakandroid.repositories.UserRepository
@@ -12,8 +14,8 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class EditProfileViewModel (private val repository: UserRepository) :
-    ViewModel(){
+class EditProfileViewModel (private val repository: UserRepository,private val application: Application) :
+    AndroidViewModel(application){
 
     val updateProfileRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
 
@@ -74,7 +76,7 @@ class EditProfileViewModel (private val repository: UserRepository) :
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        updateProfileRes.postValue(Resource.Error("Server connection failed!"))
+        updateProfileRes.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
     }
 
     fun updateProfile() = viewModelScope.launch {
@@ -96,7 +98,7 @@ class EditProfileViewModel (private val repository: UserRepository) :
                 }
 
             } catch (e: Exception) {
-                updateProfileRes.postValue(Resource.Error("Server connection failed!"))
+                updateProfileRes.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
             }
 
         }
@@ -115,7 +117,7 @@ class EditProfileViewModel (private val repository: UserRepository) :
 
     private fun isFirstnameValid(firstname: String?): Boolean {
         if (firstname.isNullOrEmpty()) {
-            _firstnameError.postValue("Firstname cannot be empty!")
+            _firstnameError.postValue(application.getString(R.string.firstname_empty))
             return false
         }
         return true
@@ -123,7 +125,7 @@ class EditProfileViewModel (private val repository: UserRepository) :
 
     private fun isLastnameValid(lastname: String?): Boolean {
         if (lastname.isNullOrEmpty()) {
-            _lastnameError.postValue("Lastname cannot be empty!")
+            _lastnameError.postValue(application.getString(R.string.lastname_empty))
             return false
         }
         return true
@@ -131,7 +133,7 @@ class EditProfileViewModel (private val repository: UserRepository) :
 
     private fun isAddressValid(address: String?): Boolean {
         if (address.isNullOrEmpty() || address.length<3) {
-            _addressError.postValue("Address should contain at least 3 characters!")
+            _addressError.postValue(application.getString(R.string.address_empty))
             return false
         }
         return true

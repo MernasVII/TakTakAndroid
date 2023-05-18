@@ -51,11 +51,11 @@ class QRCodeSheet : SheetBaseFragment() {
         val paymentRepository = PaymentRepository()
         viewModel = ViewModelProvider(
             this,
-            PaymentViewModelFactory(paymentRepository,apt)
+            PaymentViewModelFactory(paymentRepository,apt,requireActivity().application)
         )[PaymentViewModel::class.java]
 
         val aptRepository = AptRepository()
-        aptViewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
+        aptViewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository,requireActivity().application))[AptsViewModel::class.java]
 
         val payUrl = arguments?.getString("payUrl")
         //get string and pass to function

@@ -1,14 +1,13 @@
 package tn.esprit.taktakandroid.uis.customer.addRequest
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.Request
 import tn.esprit.taktakandroid.models.requests.AddReqRequest
 import tn.esprit.taktakandroid.models.responses.LoginResponse
@@ -20,8 +19,9 @@ import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
 class AddRequestViewModel(
-    private val requestsRepository: RequestsRepository
-) : ViewModel() {
+    private val requestsRepository: RequestsRepository,
+    private val application: Application
+) : AndroidViewModel(application) {
 
     private val _dateTime = MutableLiveData<String>()
     val dateTime: LiveData<String>
@@ -91,7 +91,7 @@ class AddRequestViewModel(
         _tosError.value = ""
     }
     private val handler = CoroutineExceptionHandler { _, _ ->
-        _addReqResult.postValue(Resource.Error("Failed to connect"))
+        _addReqResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
     }
 
     fun addRequest() {
@@ -114,7 +114,7 @@ class AddRequestViewModel(
                     _addReqResult.postValue(handleAddReqResponse(response))
                 }
             } catch (exception: Exception) {
-                _addReqResult.postValue(Resource.Error("Server connection failed!"))
+                _addReqResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
 
             }
         }
@@ -132,7 +132,7 @@ class AddRequestViewModel(
 
     private fun isDateTimeValid(dateTime: String?): Boolean {
         if (dateTime.isNullOrEmpty()) {
-            _dateTimeError.postValue("Date cannot be empty!")
+            _dateTimeError.postValue(application.getString(R.string.date_cannot_be_empty))
             return false
         }
         return true
@@ -140,7 +140,7 @@ class AddRequestViewModel(
 
     private fun isLocationValid(location: String?): Boolean {
         if (location.isNullOrEmpty()) {
-            _locationError.postValue("Location cannot be empty!")
+            _locationError.postValue(application.getString(R.string.location_cannot_be_empty))
             return false
         }
         return true
@@ -148,7 +148,7 @@ class AddRequestViewModel(
 
     private fun isDescValid(desc: String?): Boolean {
         if (desc.isNullOrEmpty() || desc.length < 5) {
-            _descError.postValue("Please enter a valid description!")
+            _descError.postValue(application.getString(R.string.please_enter_valid_desc))
             return false
         }
         return true
@@ -156,7 +156,7 @@ class AddRequestViewModel(
 
     private fun isTosValid(tos: String?): Boolean {
         if (tos.isNullOrEmpty()) {
-            _tosError.postValue("Types of services cannot be empty!")
+            _tosError.postValue(application.getString(R.string.tos_cant_be_empty))
             return false
         }
         return true

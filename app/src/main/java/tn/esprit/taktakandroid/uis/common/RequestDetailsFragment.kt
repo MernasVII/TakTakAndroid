@@ -36,7 +36,7 @@ class RequestDetailsFragment : BaseFragment() {
         mainView = FragmentRequestDetailsBinding.inflate(layoutInflater)
         val bidRepository = BidRepository()
         viewModel =
-            ViewModelProvider(this, BidViewModelFactory(bidRepository))[BidViewModel::class.java]
+            ViewModelProvider(this, BidViewModelFactory(bidRepository,requireActivity().application))[BidViewModel::class.java]
         request = arguments?.getParcelable<Request>("request")!!
 
         setData(request!!)

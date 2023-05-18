@@ -36,7 +36,7 @@ class UpdatePasswordSheet (user: User) : SheetBaseFragment() {
     ): View? {
         mainView = SheetFragmentUpdatePasswordBinding.inflate(layoutInflater, container, false)
         val userRepository = UserRepository()
-        viewModel = ViewModelProvider(this, UpdatePasswordViewModelFactory(userRepository))[UpdatePasswordViewModel::class.java]
+        viewModel = ViewModelProvider(this, UpdatePasswordViewModelFactory(userRepository,requireActivity().application))[UpdatePasswordViewModel::class.java]
         render=Render(requireContext())
 
         setUpEditTexts()

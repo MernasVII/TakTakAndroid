@@ -63,10 +63,10 @@ class AptDetailsFragment : BaseFragment() {
         mainView = FragmentAptDetailsBinding.inflate(layoutInflater)
         val aptRepository = AptRepository()
         viewModel =
-            ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
+            ViewModelProvider(this, AptsViewModelFactory(aptRepository,requireActivity().application))[AptsViewModel::class.java]
         pendingAptsViewModel = ViewModelProvider(
             this,
-            PendingAptsViewModelFactory(aptRepository)
+            PendingAptsViewModelFactory(aptRepository,requireActivity().application)
         )[PendingAptsViewModel::class.java]
         apt = arguments?.getParcelable<Appointment>("apt")!!
 
@@ -173,7 +173,7 @@ class AptDetailsFragment : BaseFragment() {
         val paymentRepository = PaymentRepository()
         paymentViewModel = ViewModelProvider(
             this,
-            PaymentViewModelFactory(paymentRepository, apt)
+            PaymentViewModelFactory(paymentRepository, apt,requireActivity().application)
         )[PaymentViewModel::class.java]
         paymentViewModel.initRes.observe(viewLifecycleOwner) { response ->
             when (response) {

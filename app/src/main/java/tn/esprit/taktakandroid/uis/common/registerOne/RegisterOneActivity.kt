@@ -40,7 +40,7 @@ class RegisterOneActivity : BaseActivity() {
         render=Render(this)
 
         val userRepository = UserRepository()
-        val viewModelProviderFactory = RegisterOneViewModelProviderFactory(userRepository)
+        val viewModelProviderFactory = RegisterOneViewModelProviderFactory(userRepository,application)
 
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[RegisterOneViewModel::class.java]

@@ -119,7 +119,7 @@ class NotifsFragment : BaseFragment() {
 
     private fun setupRecyclerView() {
         val aptRepository = AptRepository()
-        val aptViewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
+        val aptViewModel = ViewModelProvider(this, AptsViewModelFactory(aptRepository,requireActivity().application))[AptsViewModel::class.java]
         val viewModelScope = CoroutineScope(viewModel.viewModelScope.coroutineContext + Dispatchers.Main)
         notifAdapter = NotifsListAdapter(parentFragmentManager, viewModelScope,viewModel,
             mutableListOf(),aptViewModel,viewLifecycleOwner)

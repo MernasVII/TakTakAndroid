@@ -36,7 +36,7 @@
 
             android:exported="false" />
         <activity
-            android:name=".uis.home.HomeActivity"
+            android:name=".uis.HomeActivity"
             android:exported="false" />
         <activity
             android:name=".uis.common.resetPwd.ResetPwdActivity"

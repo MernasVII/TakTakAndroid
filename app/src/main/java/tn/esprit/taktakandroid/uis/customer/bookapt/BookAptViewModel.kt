@@ -1,14 +1,13 @@
 package tn.esprit.taktakandroid.uis.customer.bookapt
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.BookAptRequest
 import tn.esprit.taktakandroid.models.responses.MessageResponse
@@ -20,8 +19,9 @@ import tn.esprit.taktakandroid.utils.SocketService
 
 class BookAptViewModel(
     private val repository: AptRepository,
-    private val sp:User
-) : ViewModel() {
+    private val sp:User,
+    private val application: Application
+) : AndroidViewModel(application) {
     val bookAptRes: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
 
     private val _date = MutableLiveData<String>()
@@ -91,7 +91,7 @@ class BookAptViewModel(
     }
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        bookAptRes.postValue(Resource.Error("Server connection failed!"))
+        bookAptRes.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
     }
 
     fun bookApt() = viewModelScope.launch {
@@ -118,7 +118,7 @@ class BookAptViewModel(
                 }
 
             } catch (e: Exception) {
-                bookAptRes.postValue(Resource.Error("Server connection failed!"))
+                bookAptRes.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
             }
 
         }
@@ -153,7 +153,7 @@ class BookAptViewModel(
 
     private fun isDateValid(date: String?): Boolean {
         if (date.isNullOrEmpty()) {
-            _dateError.postValue("Date cannot be empty!")
+            _dateError.postValue(application.getString(R.string.date_cannot_be_empty))
             return false
         }
         return true
@@ -161,7 +161,7 @@ class BookAptViewModel(
 
     private fun isLocationValid(location: String?): Boolean {
         if (location.isNullOrEmpty()) {
-            _locationError.postValue("Location cannot be empty!")
+            _locationError.postValue(application.getString(R.string.location_cannot_be_empty))
             return false
         }
         return true
@@ -169,7 +169,7 @@ class BookAptViewModel(
 
     private fun isTosValid(tos: String?): Boolean {
         if (tos.isNullOrEmpty()) {
-            _tosError.postValue("Types of services cannot be empty!")
+            _tosError.postValue(application.getString(R.string.tos_cant_be_empty))
             return false
         }
         return true
@@ -177,7 +177,7 @@ class BookAptViewModel(
 
     private fun isDescValid(desc: String?): Boolean {
         if (desc.isNullOrEmpty() || desc.length < 3) {
-            _descError.postValue("Description should at least contain 3 characters!")
+            _descError.postValue(application.getString(R.string.desc_atleast_3_charac))
             return false
         }
         return true

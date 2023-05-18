@@ -34,7 +34,7 @@ class MakeBidSheet : SheetBaseFragment() {
     ): View? {
         mainView = SheetFragmentMakeBidFragmentBinding.inflate(layoutInflater, container, false)
         val bidRepository=BidRepository()
-        viewModel = ViewModelProvider(this, BidViewModelFactory(bidRepository))[BidViewModel::class.java]
+        viewModel = ViewModelProvider(this, BidViewModelFactory(bidRepository,requireActivity().application))[BidViewModel::class.java]
         reqId = arguments?.getString("reqId").toString()
         val customerID=arguments?.getString("customerID").toString()
 

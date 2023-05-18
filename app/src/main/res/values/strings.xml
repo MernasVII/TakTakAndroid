@@ -114,5 +114,30 @@
     <string name="payment_succeeded">Payment succeeded!</string>
     <string name="rate">Rate service</string>
     <string name="wallet_access_authentication">Wallet Access Authentication</string>
+    <string name="server_connection_failed">Server connection failed!</string>
+    <string name="bid_supprimé">Bid deleted!</string>
+    <string name="bid_accepted_apt_created">Bid Accepted and appointment created!</string>
+    <string name="bid_declined">Bid declined!</string>
+    <string name="invalid_email">Invalid Email</string>
+    <string name="pwd_cannot_be_empty">Password cannot be empty!</string>
+    <string name="cant_sign_in_google">Couldn\'t sign in!</string>
+    <string name="otp_sent_successfully">OTP sent successfully!</string>
+    <string name="wrong_otp">Wrong OTP!</string>
+    <string name="otp_cannot_be_empty">OTP cannot be empty!</string>
+    <string name="first_name_cant_be_empty">First Name cannot be empty!</string>
+    <string name="last_name_cant_be_empty">Last Name cannot be empty!</string>
+    <string name="address_cant_be_empty">Address cannot be empty!</string>
+    <string name="pwd_should_be_8cahars">Password should be: 8+ chars, mix of letters/numbers, 1 uppercase</string>
+    <string name="specilality_cant_be_empty">Speciality cannot be empty!</string>
+    <string name="enter_valid_cin">Enter a valid CIN number!</string>
+    <string name="tos_cant_be_empty">Types of services cannot be empty!</string>
+    <string name="working_days_cant_be_empty">Working days cannot be empty!</string>
+    <string name="old_pwd_cant_be_empty">Old password cannot be empty!</string>
+    <string name="date_cannot_be_empty">Date cannot be empty!</string>
+    <string name="location_cannot_be_empty">Location cannot be empty!</string>
+    <string name="please_enter_valid_desc">Please enter a valid description!</string>
+    <string name="desc_atleast_3_charac">Description should at least contain 3 characters!</string>
+    <string name="request_deleted">Request deleted!</string>
+    <string name="cannot_delete_request">Cannot delete request!</string>
 
 </resources>

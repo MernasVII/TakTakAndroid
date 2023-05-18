@@ -56,7 +56,7 @@ class BookAptFragment : BaseFragment() {
         mainView = FragmentBookAptBinding.inflate(layoutInflater)
         sp = arguments?.getParcelable("sp")!!
         val aptRepository = AptRepository()
-        viewModel = ViewModelProvider(this, BookAptViewModelFactory(aptRepository,sp))[BookAptViewModel::class.java]
+        viewModel = ViewModelProvider(this, BookAptViewModelFactory(aptRepository,sp,requireActivity().application))[BookAptViewModel::class.java]
         render=Render(requireContext())
      //   buttonsSetup()
         editTextsSetup()

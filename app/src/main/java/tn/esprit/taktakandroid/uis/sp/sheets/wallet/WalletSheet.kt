@@ -46,7 +46,7 @@ class WalletSheet : SheetBaseFragment() {
         val walletRepo = WalletRepository()
         viewModel = ViewModelProvider(
             this,
-            WalletViewModelFactory(userRepo, walletRepo)
+            WalletViewModelFactory(userRepo, walletRepo,requireActivity().application)
         )[WalletViewModel::class.java]
 
         mainView.etPassword.addTextChangedListener(object : TextWatcher {

@@ -53,10 +53,10 @@ class PendingAptsFragment : BaseFragment(), AptItemTouchHelperListener {
         val aptRepository = AptRepository()
         pendingAptsViewModel = ViewModelProvider(
             this,
-            PendingAptsViewModelFactory(aptRepository)
+            PendingAptsViewModelFactory(aptRepository,requireActivity().application)
         )[PendingAptsViewModel::class.java]
         aptsViewModel =
-            ViewModelProvider(this, AptsViewModelFactory(aptRepository))[AptsViewModel::class.java]
+            ViewModelProvider(this, AptsViewModelFactory(aptRepository,requireActivity().application))[AptsViewModel::class.java]
 
         lifecycleScope.launch {
             val cin = AppDataStore.readString(Constants.CIN)

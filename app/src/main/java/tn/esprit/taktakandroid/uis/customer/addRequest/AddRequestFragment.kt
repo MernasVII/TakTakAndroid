@@ -11,20 +11,13 @@ import android.os.Bundle
 import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.DatePicker
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.button.MaterialButton
 import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.*
@@ -35,14 +28,9 @@ import tn.esprit.taktakandroid.databinding.FragmentAddRequestBinding
 import tn.esprit.taktakandroid.repositories.RequestsRepository
 import tn.esprit.taktakandroid.uis.BaseFragment
 import tn.esprit.taktakandroid.uis.common.mapView.MapActivity
-import tn.esprit.taktakandroid.uis.customer.myRequests.MyRequestsViewModel
-import tn.esprit.taktakandroid.uis.customer.myRequests.MyRequestsViewModelFactory
-import tn.esprit.taktakandroid.uis.customer.myRequests.TAG
-import tn.esprit.taktakandroid.uis.home.HomeActivity
 import tn.esprit.taktakandroid.utils.Resource
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.time.Duration.Companion.seconds
 
 const val TAG ="AddRequestFragment"
 class AddRequestFragment : BaseFragment() {
@@ -70,7 +58,7 @@ class AddRequestFragment : BaseFragment() {
         val reqRepository = RequestsRepository()
         viewModel = ViewModelProvider(
             this,
-            AddRequestViewModelFactory(reqRepository)
+            AddRequestViewModelFactory(reqRepository,requireActivity().application)
         )[AddRequestViewModel::class.java]
         errorHandling()
         //   setupTosSpinner()

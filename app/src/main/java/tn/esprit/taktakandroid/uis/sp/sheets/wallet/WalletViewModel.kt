@@ -1,14 +1,13 @@
 package tn.esprit.taktakandroid.uis.sp.sheets.wallet
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.requests.CheckPwdRequest
 import tn.esprit.taktakandroid.models.responses.MessageResponse
 import tn.esprit.taktakandroid.models.requests.UpdateWorkDescRequest
@@ -19,7 +18,7 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class WalletViewModel(private val repository: UserRepository,private val walletRepository: WalletRepository) : ViewModel(
+class WalletViewModel(private val repository: UserRepository,private val walletRepository: WalletRepository,private val application: Application) : AndroidViewModel(application
 ) {
     val checkPWDResult: MutableLiveData<Resource<MessageResponse>> = MutableLiveData()
     val getMyBalanceResult: MutableLiveData<Resource<WalletReqResp>> = MutableLiveData()
@@ -48,13 +47,13 @@ class WalletViewModel(private val repository: UserRepository,private val walletR
 
 
     private val handler = CoroutineExceptionHandler { _, _ ->
-        checkPWDResult.postValue(Resource.Error("Server connection failed!"))
+        checkPWDResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
     }
     private val getMyBalanceResultHandler = CoroutineExceptionHandler { _, _ ->
-        getMyBalanceResult.postValue(Resource.Error("Server connection failed!"))
+        getMyBalanceResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
     }
     private val withdrawMoneyResultHandler = CoroutineExceptionHandler { _, _ ->
-        withdrawMoneyResult.postValue(Resource.Error("Server connection failed!"))
+        withdrawMoneyResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
     }
 
     fun verifyPassword() = viewModelScope.launch {
@@ -74,7 +73,7 @@ class WalletViewModel(private val repository: UserRepository,private val walletR
                 }
 
             } catch (e: Exception) {
-                checkPWDResult.postValue(Resource.Error("Server connection failed!"))
+                checkPWDResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
             }
 
         }
@@ -93,7 +92,7 @@ class WalletViewModel(private val repository: UserRepository,private val walletR
                     }
 
                 } catch (e: Exception) {
-                    getMyBalanceResult.postValue(Resource.Error("Server connection failed!"))
+                    getMyBalanceResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
                 }
         }
     }
@@ -111,7 +110,7 @@ class WalletViewModel(private val repository: UserRepository,private val walletR
                 }
 
             } catch (e: Exception) {
-                withdrawMoneyResult.postValue(Resource.Error("Server connection failed!"))
+                withdrawMoneyResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
             }
         }
     }
@@ -147,7 +146,7 @@ class WalletViewModel(private val repository: UserRepository,private val walletR
 
     private fun isPwdValid(pwd: String?): Boolean {
         if (pwd.isNullOrEmpty()) {
-            _pwdError.postValue("Password cannot be empty!")
+            _pwdError.postValue(application.getString(R.string.pwd_cannot_be_empty))
             return false
         }
         return true

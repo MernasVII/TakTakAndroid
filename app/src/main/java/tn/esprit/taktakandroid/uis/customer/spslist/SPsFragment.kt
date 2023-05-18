@@ -36,7 +36,7 @@ class SPsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val userRepository = UserRepository()
-        viewModel = ViewModelProvider(this, SPsViewModelFactory(userRepository)).get(
+        viewModel = ViewModelProvider(this, SPsViewModelFactory(userRepository,requireActivity().application)).get(
             SPsViewModel::class.java)
 
         setupRecyclerView()

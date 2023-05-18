@@ -61,7 +61,7 @@ class UserProfileFragment : BaseFragment() {
         val userRepository = UserRepository()
         viewModel = ViewModelProvider(
             this,
-            UserProfileViewModelFactory(userRepository)
+            UserProfileViewModelFactory(userRepository,requireActivity().application)
         )[UserProfileViewModel::class.java]
 
 

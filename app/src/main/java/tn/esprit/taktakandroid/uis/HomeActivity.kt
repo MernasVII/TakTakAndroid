@@ -1,49 +1,40 @@
-package tn.esprit.taktakandroid.uis.home
+package tn.esprit.taktakandroid.uis
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.fragment.app.Fragment
-import tn.esprit.taktakandroid.R
-import tn.esprit.taktakandroid.repositories.UserRepository
-import tn.esprit.taktakandroid.uis.customer.myRequests.CustomerReqsFragment
-import tn.esprit.taktakandroid.uis.sp.spRequests.SPReqsFragment
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
 import com.google.firebase.FirebaseApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.databinding.ActivityHomeBinding
 import tn.esprit.taktakandroid.repositories.NotifRepository
-import tn.esprit.taktakandroid.uis.BaseActivity
-import tn.esprit.taktakandroid.uis.BaseFragment
+import tn.esprit.taktakandroid.repositories.UserRepository
 import tn.esprit.taktakandroid.uis.common.apts.AptsFragment
-import tn.esprit.taktakandroid.uis.common.login.LoginActivity
 import tn.esprit.taktakandroid.uis.common.notifs.NotifsFragment
 import tn.esprit.taktakandroid.uis.common.notifs.NotifsViewModel
 import tn.esprit.taktakandroid.uis.common.notifs.NotifsViewModelFactory
 import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileFragment
 import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileViewModel
 import tn.esprit.taktakandroid.uis.common.userprofile.UserProfileViewModelFactory
+import tn.esprit.taktakandroid.uis.customer.myRequests.CustomerReqsFragment
 import tn.esprit.taktakandroid.uis.customer.spslist.SPsFragment
+import tn.esprit.taktakandroid.uis.sp.spRequests.SPReqsFragment
 import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 import tn.esprit.taktakandroid.utils.SocketService
 
-private const val TAG = "HomeActivity"
-
+private const val TAG="Home activity"
 class HomeActivity : BaseActivity() {
     private lateinit var mainView: ActivityHomeBinding
     private lateinit var initialFragment: BaseFragment
@@ -80,7 +71,7 @@ class HomeActivity : BaseActivity() {
         val userRepository = UserRepository()
         uservm = ViewModelProvider(
             this,
-            UserProfileViewModelFactory(userRepository)
+            UserProfileViewModelFactory(userRepository,application)
         )[UserProfileViewModel::class.java]
 
 
@@ -88,7 +79,7 @@ class HomeActivity : BaseActivity() {
         val notifsRepository = NotifRepository()
         notifvm = ViewModelProvider(
             this,
-            NotifsViewModelFactory(notifsRepository)
+            NotifsViewModelFactory(notifsRepository,application)
         )[NotifsViewModel::class.java]
         notifvm.countMyNotif()
 

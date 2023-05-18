@@ -1,13 +1,12 @@
 package tn.esprit.taktakandroid.uis.customer.myRequests
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import org.json.JSONObject
 import retrofit2.Response
+import tn.esprit.taktakandroid.R
 import tn.esprit.taktakandroid.models.entities.Request
 import tn.esprit.taktakandroid.models.entities.User
 import tn.esprit.taktakandroid.models.requests.DeleteReqRequest
@@ -21,8 +20,8 @@ import tn.esprit.taktakandroid.utils.AppDataStore
 import tn.esprit.taktakandroid.utils.Constants
 import tn.esprit.taktakandroid.utils.Resource
 
-class MyRequestsViewModel(private val requestsRepository: RequestsRepository
-) : ViewModel() {
+class MyRequestsViewModel(private val requestsRepository: RequestsRepository,private val application: Application
+) : AndroidViewModel(application) {
 
     private val _getMyRequestsResult= MutableLiveData<Resource<UserReqResponse>>()
     val myRequestsResult: LiveData<Resource<UserReqResponse>>
@@ -54,7 +53,7 @@ class MyRequestsViewModel(private val requestsRepository: RequestsRepository
             val response = requestsRepository.getMyRequests("Bearer $token")
             _getMyRequestsResult.postValue(handleGetResponse(response))
         } catch (exception: Exception) {
-            _getMyRequestsResult.postValue(Resource.Error("Server connection failed!"))
+            _getMyRequestsResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
         }
     }
     fun deleteRequest(id:String) = viewModelScope.launch {
@@ -65,15 +64,15 @@ class MyRequestsViewModel(private val requestsRepository: RequestsRepository
             val response = requestsRepository.deleteRequest("Bearer $token", DeleteReqRequest(id))
             _deleteReqResult.postValue(handleDeleteResponse(response))
        } catch (exception: Exception) {
-            _deleteReqResult.postValue(Resource.Error("Server connection failed!"))
+            _deleteReqResult.postValue(Resource.Error(application.getString(R.string.server_connection_failed)))
         }
     }
 
     private fun handleDeleteResponse(response: Response<MessageResponse>): Resource<MessageResponse> {
         return if (response.isSuccessful) {
-            Resource.Success(MessageResponse("Request deleted!"))
+            Resource.Success(MessageResponse(application.getString(R.string.request_deleted)))
         } else{
-            Resource.Error("Cannot delete request!")
+            Resource.Error(application.getString(R.string.cannot_delete_request))
         }
     }
     private fun handleGetResponse(response: Response<UserReqResponse>): Resource<UserReqResponse> {

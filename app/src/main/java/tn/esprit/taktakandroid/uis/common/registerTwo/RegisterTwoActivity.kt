@@ -54,7 +54,7 @@ class RegisterTwoActivity : BaseActivity() {
 
 
         val userRepository = UserRepository()
-        val viewModelProviderFactory = RegisterTwoViewModelProviderFactory(userRepository)
+        val viewModelProviderFactory = RegisterTwoViewModelProviderFactory(userRepository,application)
         viewModel =
             ViewModelProvider(this, viewModelProviderFactory)[RegisterTwoViewModel::class.java]
         recognizer = TextRecognizer.Builder(this).build()

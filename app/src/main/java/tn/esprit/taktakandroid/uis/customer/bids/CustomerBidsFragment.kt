@@ -67,7 +67,7 @@ class CustomerBidsFragment : BaseFragment(), BidCustomerItemTouchHelperListener 
         super.onViewCreated(view, savedInstanceState)
 
         val bidRepository= BidRepository()
-        viewModel = ViewModelProvider(this, BidViewModelFactory(bidRepository))[BidViewModel::class.java]
+        viewModel = ViewModelProvider(this, BidViewModelFactory(bidRepository,requireActivity().application))[BidViewModel::class.java]
 
         lifecycleScope.launch {
             setupRecyclerView()
